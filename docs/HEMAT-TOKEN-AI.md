@@ -21,6 +21,10 @@ AI hanya perlu: membaca `CLAUDE.md` + `src/templates/SocialMediaShort.ts` (±40 
 9. Validasi dengan `npm run typecheck` (murah) sebelum render (mahal).
 10. Minta AI membaca `src/scenes/types.ts` saja, bukan folder `components/`.
 
+## Storyboard dari AI lain
+
+Tulis naskah/storyboard di chat AI biasa (ChatGPT, Gemini, Claude.ai) dengan prompt di [`PROMPT-STORYBOARD.md`](PROMPT-STORYBOARD.md), lalu kirim hanya hasil final ke Claude Code.
+
 ## Template prompt
 
 ```

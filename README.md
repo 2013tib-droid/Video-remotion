@@ -73,6 +73,7 @@ Alur data: **Config → Tema → Timeline → Scene → Komponen → Primitif mo
 - [docs/ARSITEKTUR.md](docs/ARSITEKTUR.md) — lapisan sistem, token, sistem animasi
 - [docs/MEMPERLUAS.md](docs/MEMPERLUAS.md) — menambah tema, komponen, tipe scene, template
 - [docs/HEMAT-TOKEN-AI.md](docs/HEMAT-TOKEN-AI.md) — praktik terbaik memakai AI dengan biaya token minimal
+- [docs/PROMPT-STORYBOARD.md](docs/PROMPT-STORYBOARD.md) — prompt siap tempel untuk menulis storyboard di ChatGPT/Gemini
 - [CLAUDE.md](CLAUDE.md) — aturan kerja untuk asisten AI
 
 ## Aset besar (Git LFS)
