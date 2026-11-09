@@ -1,0 +1,28 @@
+# Memperluas Sistem
+
+Lakukan ini **jarang**. Sebagian besar kebutuhan bisa dipenuhi config.
+
+## Tema baru
+1. Salin `src/themes/ModernSaaS.ts` → `src/themes/NamaTema.ts`, ubah nilai.
+2. Daftarkan di `THEMES` pada `src/themes/index.ts`.
+3. Font baru: `npm i @fontsource/<font>` lalu import bobotnya di `src/config/fonts.ts` dan tambahkan ke `FONT_STACKS`.
+
+Catatan: `colors.primary` sebaiknya hex 6 digit (dipakai dengan suffix alpha, mis. `#6366f114`).
+
+## Komponen baru
+- Ambil semua warna/font/radius dari `useTheme()`; ukuran via `px()`/`type`/`space`.
+- Animasi via `<Reveal>`, `useSpring`, `useStagger` — jangan menulis angka spring.
+- Terima `delay` (detik) sebagai prop.
+- Ekspor dari `src/components/index.ts`.
+
+## Tipe scene baru
+1. Tambah interface `XScene extends SceneBase, SceneHeading { type: 'x'; ... }` di `src/scenes/types.ts` dan masukkan ke union `SceneConfig`.
+2. Buat `XSceneView` memakai `SceneLayout` + `SceneTitle` + komponen.
+3. Daftarkan di `REGISTRY` (`src/scenes/registry.tsx`) — TypeScript akan error bila terlewat.
+4. Tambah durasi default di `src/config/scenes.ts` dan baris di `docs/KATALOG-SCENE.md`.
+
+## Template baru
+Buat `src/templates/Nama.ts`: fungsi `(props) => VideoConfig` yang menyusun scene. Gunakan `baseConfig()` dan `compact()` dari `templates/types.ts`. Ekspor dari `templates/index.ts`.
+
+## Isi layar ponsel baru
+Tambah varian di `ScreenConfig` (`scenes/types.ts`), komponen di `components/screens/`, dan `case` di `Screen` (`scenes/DeviceScene.tsx`).
