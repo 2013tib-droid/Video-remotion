@@ -28,3 +28,8 @@ Repo ini adalah **framework animasi**, bukan satu video. Saat diminta membuat/me
 - `npm run studio` — pratinjau
 - `npx remotion render <ID> out/<ID>.mp4` — render
 - `npm run typecheck` — validasi config
+- `npm run render:list` — daftar video; `npm run render:all -- <filter> [--scale=0.5]` — render banyak sekaligus
+
+## Aset
+- Audio/video/file desain otomatis Git LFS (`.gitattributes`). Screenshot besar taruh di `public/brands/<brand>/media/`.
+- Jangan render kecuali diminta pengguna.

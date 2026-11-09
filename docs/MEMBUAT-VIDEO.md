@@ -89,11 +89,13 @@ export const square = { ...base, id: 'BrandX-Launch-Square', format: 'square' as
 - Taruh file di `public/brands/<brand>/`, rujuk dengan path relatif: `'brands/<brand>/logo.svg'`.
 - Ikon fitur boleh emoji (`'⚡'`) atau path gambar.
 - Screenshot aplikasi: `screen: { kind: 'image', src: 'brands/x/home.png' }` (rasio ±9:19.5).
-- Musik: `audio: { src: 'brands/x/music.mp3', volume: 0.6 }`.
+- Musik: `audio: { src: 'brands/x/music.mp3', volume: 0.6 }` (file `.mp3` otomatis lewat Git LFS).
+- Screenshot/foto besar: simpan di `public/brands/x/media/` agar disimpan via Git LFS.
 
 ## Render
 
 ```bash
+npm run render:all -- BrandX                                   # semua video BrandX
 npx remotion render BrandX-Promo out/brandx-promo.mp4
 npx remotion render BrandX-Promo out/preview.mp4 --scale=0.5   # pratinjau cepat
 npx remotion still BrandX-Promo out/thumb.png --frame=90       # thumbnail

@@ -25,7 +25,10 @@ export default socialMediaShort({
 ```bash
 npm install
 npm run studio                                       # pratinjau semua video
-npx remotion render PriceAtlas-Promo out/promo.mp4   # render
+npx remotion render PriceAtlas-Promo out/promo.mp4   # render satu video
+npm run render:list                                  # daftar semua video
+npm run render:all                                   # render semua → out/<ID>.mp4
+npm run render:all -- PriceAtlas --scale=0.5         # filter ID + pratinjau cepat
 npm run typecheck                                    # validasi config
 ```
 
@@ -71,6 +74,18 @@ Alur data: **Config → Tema → Timeline → Scene → Komponen → Primitif mo
 - [docs/MEMPERLUAS.md](docs/MEMPERLUAS.md) — menambah tema, komponen, tipe scene, template
 - [docs/HEMAT-TOKEN-AI.md](docs/HEMAT-TOKEN-AI.md) — praktik terbaik memakai AI dengan biaya token minimal
 - [CLAUDE.md](CLAUDE.md) — aturan kerja untuk asisten AI
+
+## Aset besar (Git LFS)
+
+Repo memakai **Git LFS** untuk audio, video, dan file desain (lihat `.gitattributes`): `mp3 wav m4a aac mp4 mov webm psd ai fig zip`, serta semua isi folder `public/**/media/`.
+
+```bash
+git lfs install          # sekali per komputer, sebelum clone/commit aset
+```
+
+- Logo/ikon SVG & PNG kecil → `public/brands/<brand>/` (biasa, tanpa LFS).
+- Screenshot/foto resolusi tinggi → `public/brands/<brand>/media/` (otomatis LFS).
+- Hasil render (`out/`) tidak pernah di-commit.
 
 ## Catatan
 - Font dibundel lokal via `@fontsource` — render tidak butuh internet.
