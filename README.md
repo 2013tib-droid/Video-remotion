@@ -39,7 +39,7 @@ src/
 ├── config/        Token desain: animasi (spring, easing, entrance), tipografi,
 │                  spasi, format (9:16, 16:9, 1:1, 4:5), transisi, font
 ├── themes/        ApplePremium · ModernSaaS · PlayfulKids · Corporate · IslamicWarm
-├── motion/        useSpring, useEntrance, <Reveal>, useStagger, useCountUp, useFloat
+├── motion/        useSpring, useEntrance, <Reveal>, useStagger, kamera/idle/keluar, teks kinetik
 ├── components/    Komponen visual reusable (LogoReveal, HeroSection, PhoneMockup, ...)
 ├── scenes/        Kontrak data scene (types.ts) + renderer per tipe scene
 ├── core/          MotionVideo (mesin), timeline, VideoConfig
@@ -65,6 +65,7 @@ Alur data: **Config → Tema → Timeline → Scene → Komponen → Primitif mo
 | `Demo-AppLaunch` | Corporate | Template AppLaunch |
 | `Demo-SaaS-Landscape` | ModernSaaS | Template SaaS, format 16:9 |
 | `Demo-MobileApp` | ModernSaaS | Template MobileAppPromo |
+| `Demo-Statement` | ModernDark | Scene `statement` (teks besar): stack, replace, typewriter |
 
 ## Dokumentasi
 
@@ -74,6 +75,7 @@ Alur data: **Config → Tema → Timeline → Scene → Komponen → Primitif mo
 - [docs/MEMPERLUAS.md](docs/MEMPERLUAS.md) — menambah tema, komponen, tipe scene, template
 - [docs/HEMAT-TOKEN-AI.md](docs/HEMAT-TOKEN-AI.md) — praktik terbaik memakai AI dengan biaya token minimal
 - [docs/PROMPT-STORYBOARD.md](docs/PROMPT-STORYBOARD.md) — prompt siap tempel untuk menulis storyboard di ChatGPT/Gemini
+- [docs/CHANGELOG.md](docs/CHANGELOG.md) — catatan perubahan framework
 - [CLAUDE.md](CLAUDE.md) — aturan kerja untuk asisten AI
 
 ## Aset besar (Git LFS)
