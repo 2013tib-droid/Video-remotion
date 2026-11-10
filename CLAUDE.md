@@ -8,8 +8,17 @@ Repo ini adalah **framework animasi**, bukan satu video. Saat diminta membuat/me
 3. `public/brands/<brand>/` — aset (logo, screenshot, musik).
 4. `themeOverrides` di config — untuk warna/font brand.
 
-## Yang TIDAK perlu dibaca/diubah
-`src/components`, `src/scenes/*View*`, `src/core`, `src/motion`. Animasi sudah selesai.
+## Yang TIDAK perlu dibaca/diubah (saat membuat video)
+`src/components`, `src/scenes/*View*`, `src/core`, `src/motion`. Untuk tugas membuat/mengubah video, cukup config.
+
+## Pengecualian: tugas meningkatkan animasi
+Bila pengguna meminta animasi/efek/transisi baru atau video "lebih hidup", framework **boleh** diubah:
+- Primitif gerak baru → `src/motion/` (hook/komponen) + preset di `src/config/animation.ts`.
+- Pasang di level framework (`SceneLayout`, `Background`, `Reveal`, komponen) agar **semua video ikut** tanpa mengubah config.
+- Bila perlu kontrol per video/scene, tambah properti **opsional** di `src/scenes/types.ts` / tema dengan default yang aman; config lama harus tetap valid.
+- Ikuti `docs/MEMPERLUAS.md` (warna dari `useTheme()`, ukuran via `px()`, tanpa angka spring mentah, waktu dalam detik).
+- Gerakan harus deterministik dari `useCurrentFrame()` (tanpa `Math.random()`/`Date`), halus, dan tidak mengganggu keterbacaan teks.
+- Perbarui `docs/KATALOG-SCENE.md` bila ada properti baru. Jalankan `npm run typecheck`.
 
 ## Alur kerja minimal (hemat token)
 1. Baca **hanya** `src/scenes/types.ts` (kontrak semua scene) — atau `docs/KATALOG-SCENE.md`.
