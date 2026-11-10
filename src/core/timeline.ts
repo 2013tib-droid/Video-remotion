@@ -5,6 +5,7 @@ import {
   FORMATS,
   MIN_SCENE_DURATION,
   getTransitionFrames,
+  resolveTransition,
   type TransitionName,
 } from '../config';
 import { resolveTheme } from '../themes';
@@ -43,7 +44,9 @@ export function computeTimeline(config: VideoConfig): Timeline {
     throw new Error(`Video "${config.id}" tidak punya scene.`);
   }
 
-  const transitions = config.scenes.map((s, i) => (i === 0 ? 'none' : s.transition ?? defaultTransition));
+  const transitions = config.scenes.map((s, i) =>
+    i === 0 ? 'none' : resolveTransition(s.transition ?? defaultTransition, i),
+  );
   const transitionFrames = transitions.map((t) => getTransitionFrames(t, fps));
   const overlap = transitionFrames.reduce((a, b) => a + b, 0);
 

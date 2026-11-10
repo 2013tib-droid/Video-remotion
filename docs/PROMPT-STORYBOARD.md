@@ -45,7 +45,7 @@ CTA selalu: {title, highlight?, button, subtitle?, badges?[], url?}
 highlight = potongan kata dari judul yang diberi warna gradien (harus persis ada di judul).
 
 === SCENE MANUAL (pakai hanya bila tidak ada template yang cocok) ===
-Properti dasar tiap scene: duration (detik), transition (fade|zoom|slideLeft|slideUp|wipe|none),
+Properti dasar tiap scene: duration (detik), transition (fade|zoom|slideLeft|slideRight|slideUp|slideDown|wipe|wipeUp|flip|flipUp|cube|clockWipe|iris|pushCut|mix|none),
 background (gradient|particles|pattern|solid). Banyak scene juga punya eyebrow, title, highlight, subtitle.
 - logo: name?, tagline?                          (default 3 dtk)
 - hero: title, button?                           (4)
