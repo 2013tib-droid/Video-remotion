@@ -1,0 +1,137 @@
+import { defineVideo } from '../../core';
+import { bps } from './brand';
+
+/** Pertumbuhan ekonomi Indonesia Q1–Q3 2026 menurut komponen pengeluaran, 9:16, 90 dtk. */
+export default defineVideo({
+  id: 'BPS-EkonomiQ32026',
+  brand: bps,
+  theme: 'Corporate',
+  format: 'vertical',
+  duration: 90,
+  scenes: [
+    {
+      type: 'hero',
+      title: 'Pertumbuhan Ekonomi Indonesia',
+      subtitle: 'Q1 – Q3 2026 Komponen PDB menurut Pengeluaran',
+      duration: 5,
+      transition: 'fade',
+      background: 'gradient',
+    },
+    {
+      type: 'stats',
+      eyebrow: 'Tren Pertumbuhan PDB yoy',
+      stats: [
+        { label: 'Q1 2026', value: 5.61, suffix: '%', decimals: 2 },
+        { label: 'Q2 2026', value: 5.29, suffix: '%', decimals: 2 },
+        { label: 'Q3 2026', value: 5.47, suffix: '%', decimals: 2 },
+      ],
+      duration: 7,
+      transition: 'slideUp',
+      background: 'pattern',
+    },
+    {
+      type: 'features',
+      title: 'Konsumsi Rumah Tangga',
+      subtitle: 'Pertumbuhan yoy',
+      features: [
+        { icon: '🛒', title: 'Q1 2026', description: '5.52%' },
+        { icon: '🛒', title: 'Q2 2026', description: '5.06%' },
+        { icon: '🛒', title: 'Q3 2026', description: '5.04%' },
+      ],
+      duration: 10,
+      transition: 'slideLeft',
+      background: 'solid',
+    },
+    {
+      type: 'stats',
+      eyebrow: 'Peran Konsumsi RT Q3',
+      stats: [
+        { label: 'Pangsa PDB', value: 51.97, suffix: '%', decimals: 2 },
+        { label: 'Sumber Pertumbuhan', value: 2.62, suffix: ' pp', decimals: 2 },
+      ],
+      duration: 8,
+      transition: 'zoom',
+      background: 'gradient',
+    },
+    {
+      type: 'features',
+      title: 'Konsumsi Pemerintah',
+      subtitle: 'Pertumbuhan yoy',
+      features: [
+        { icon: '🏛️', title: 'Q1 2026', description: '21.81%' },
+        { icon: '🏛️', title: 'Q2 2026', description: '15.97%' },
+        { icon: '🏛️', title: 'Q3 2026', description: '8.95%' },
+      ],
+      duration: 10,
+      transition: 'slideLeft',
+      background: 'solid',
+    },
+    {
+      type: 'stats',
+      eyebrow: 'Dampak Konsumsi Pemerintah Q3',
+      stats: [{ label: 'Sumber Pertumbuhan', value: 0.62, suffix: ' pp', decimals: 2 }],
+      duration: 7,
+      transition: 'fade',
+      background: 'pattern',
+    },
+    {
+      type: 'features',
+      title: 'PMTB (Investasi)',
+      subtitle: 'Pertumbuhan yoy',
+      features: [
+        { icon: '🏗️', title: 'Q1 2026', description: '5.96%' },
+        { icon: '🏗️', title: 'Q2 2026', description: '6.87%' },
+        { icon: '🏗️', title: 'Q3 2026', description: '6.06%' },
+      ],
+      duration: 10,
+      transition: 'slideLeft',
+      background: 'solid',
+    },
+    {
+      type: 'stats',
+      eyebrow: 'Peran PMTB / Investasi Q3',
+      stats: [
+        { label: 'Pangsa PDB', value: 30.81, suffix: '%', decimals: 2 },
+        { label: 'Sumber Pertumbuhan', value: 1.91, suffix: ' pp', decimals: 2 },
+      ],
+      duration: 8,
+      transition: 'zoom',
+      background: 'gradient',
+    },
+    {
+      type: 'comparison',
+      eyebrow: 'Perdagangan Luar Negeri',
+      title: 'Perbandingan Ekspor & Impor',
+      columns: ['Indikator', 'Q2 2026', 'Q3 2026'],
+      rows: [
+        { label: 'Ekspor', values: ['4.13%', '4.59%'] },
+        { label: 'Impor', values: ['8.82%', '7.31%'] },
+      ],
+      duration: 10,
+      transition: 'wipe',
+      background: 'solid',
+    },
+    {
+      type: 'timeline',
+      title: 'Rangkuman Q3 2026',
+      steps: [
+        { icon: '📈', title: 'PDB Membaik', description: 'Pertumbuhan capai 5.47% yoy' },
+        { icon: '🛍️', title: 'Konsumsi Dominan', description: 'Pangsa PDB capai 51.97%' },
+        { icon: '🏭', title: 'Investasi Kuat', description: 'Pangsa PMTB capai 30.81%' },
+      ],
+      duration: 8,
+      transition: 'slideUp',
+      background: 'pattern',
+    },
+    {
+      type: 'cta',
+      title: 'Laporan Ekonomi BPS 2026',
+      button: 'Lihat Detail Rilis',
+      url: 'bps.go.id',
+      badges: ['BPS 2026'],
+      duration: 7,
+      transition: 'fade',
+      background: 'gradient',
+    },
+  ],
+});
