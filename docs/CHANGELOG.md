@@ -2,6 +2,25 @@
 
 Perubahan framework yang memengaruhi semua video. Entri terbaru di atas.
 
+## 2026-11-10 — Seri + template konten harian & iklan proyek
+
+Tujuan: video baru = satu file berisi topik saja.
+
+### Baru
+- **Seri** (`defineSeries`, `src/templates/series.ts`) — brand, tema, suara (default Ardi HD +10%), transisi (default `mix`),
+  musik, penutup baku; ditulis sekali di `src/projects/<brand>/series.ts`.
+- **Template `kontenHarian`** — Hook → bagian (`angka` `poin` `langkah` `grafik` `banding` `kutipan` `teks` `kata` `foto` `peta`
+  `hitung` `scene`) → kesimpulan → penutup. `narasi` per bagian → otomatis bersuara + HUD + subtitle. Latar bergiliran per scene.
+- **Template `promoProyek`** — Hook → keluhan → solusi → tampilan produk → fitur → bukti → CTA; narasi opsional.
+- **Registry otomatis** — file `src/projects/<folder>/*.ts` ber-`export default` VideoConfig langsung terdaftar;
+  `<video>.narration.json` di sebelahnya otomatis dipasang (impor manual lama tetap jalan). ID ganda → galat.
+- **`npm run cek`** — typecheck + periksa isi: ID, aset di `public/`, cue `at`, `highlight`/`emphasis`, panjang teks, narasi belum dirender.
+- `npm run narasi -- <ID video>` — menerima ID (boleh sebagian) selain path file.
+- Contoh: `Harian-TipsGaji` (konten harian bernarasi), `PriceAtlas-Iklan30` (iklan proyek).
+
+### Dokumen
+- `CLAUDE.md` dirampingkan (87 → 50 baris); `PROMPT-STORYBOARD.md` ditulis ulang untuk dua template baru + narasi.
+
 ## 2026-11-10 — Efek suara + scene `words`, `broll`, `map`
 
 ### Baru

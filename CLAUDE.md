@@ -1,87 +1,50 @@
 # Motion Studio — Aturan untuk AI
 
-Repo ini adalah **framework animasi**, bukan satu video. Saat diminta membuat/mengubah video:
+Repo ini **framework animasi**, bukan satu video. Video baru = **satu file data**; jangan menulis kode animasi.
 
-## Yang BOLEH diubah (99% tugas)
-1. `src/projects/<brand>/*.ts` — config video (data saja).
-2. `src/projects/index.ts` — daftarkan config baru (1 baris import + 1 entri).
-3. `public/brands/<brand>/` — aset (logo, screenshot, musik).
-4. `themeOverrides` di config — untuk warna/font brand.
+## Membuat video (99% tugas) — alur hemat token
+1. Pilih template, baca **hanya** interface props-nya:
+   - Iklan sebuah proyek/aplikasi → `promoProyek` (`src/templates/PromoProyek.ts`), contoh `src/projects/price-atlas/iklan.ts`.
+   - Konten harian topik apa pun (keuangan, politik, sosial, tips, data) → `kontenHarian` (`src/templates/KontenHarian.ts`),
+     contoh `src/projects/harian/tips-gaji.ts`.
+   - Alur khusus → scene manual `defineVideo` (kontrak: `src/scenes/types.ts`; contoh `src/projects/soal-skd/bedah-analogi.ts`).
+2. Tulis `src/projects/<brand>/<video>.ts` yang `export default` hasil template. **Tidak perlu mendaftarkan** (registry otomatis)
+   dan **tidak perlu mengimpor** `*.narration.json` (dipasang otomatis).
+3. Brand baru: buat `src/projects/<brand>/series.ts` (`defineSeries`: brand, tema, penutup baku — salin dari `harian/series.ts`).
+   Semua yang sama antar video (tema, suara, transisi, CTA) tinggal di seri, bukan di file video.
+4. Bila ada `narasi`: `AZURE_SPEECH_KEY=proxy-injected npm run narasi -- <ID video>`, lalu commit
+   `public/narration/<ID>/` + `<video>.narration.json`. Tanpa langkah ini video bisu.
+5. `npm run cek` (typecheck + periksa isi: highlight, aset, cue, narasi). Selesai. **Jangan render kecuali diminta.**
 
-## Yang TIDAK perlu dibaca/diubah (saat membuat video)
-`src/components`, `src/scenes/*View*`, `src/core`, `src/motion`. Untuk tugas membuat/mengubah video, cukup config.
+Yang boleh diubah untuk tugas video: `src/projects/**`, `public/brands/<brand>/`. Jangan membaca `src/components`,
+`src/scenes/*Scene*`, `src/core`, `src/motion` — tidak diperlukan.
 
-## Pengecualian: tugas meningkatkan animasi
-Bila pengguna meminta animasi/efek/transisi baru atau video "lebih hidup", framework **boleh** diubah:
-- Primitif gerak baru → `src/motion/` (hook/komponen) + preset di `src/config/animation.ts`.
-- Pasang di level framework (`SceneLayout`, `Background`, `Reveal`, komponen) agar **semua video ikut** tanpa mengubah config.
-- Bila perlu kontrol per video/scene, tambah properti **opsional** di `src/scenes/types.ts` / tema dengan default yang aman; config lama harus tetap valid.
-- Ikuti `docs/MEMPERLUAS.md` (warna dari `useTheme()`, ukuran via `px()`, tanpa angka spring mentah, waktu dalam detik).
-- Gerakan harus deterministik dari `useCurrentFrame()` (tanpa `Math.random()`/`Date`), halus, dan tidak mengganggu keterbacaan teks.
-- Perbarui `docs/KATALOG-SCENE.md` bila ada properti baru. Jalankan `npm run typecheck`.
+## Aturan isi
+- Bahasa Indonesia kecuali diminta lain. Kalimat pendek: judul ≤ ±8 kata, deskripsi ≤ ±8 kata, maks 4 item per scene.
+- Hook ≤ 2–3 detik dan memancing; ganti-ganti jenis bagian (jangan tipe yang sama berturut-turut).
+- Angka/fakta harus dari pengguna atau sumber yang disebut; jangan mengarang.
+- `highlight` harus persis ada di judulnya. ID video: `Brand-Jenis`, unik (template seri: `<idPrefix>-<slug>`).
+- Ikon: emoji (otomatis jadi ikon garis beranimasi), `line:<nama>`, `draw:<file.svg>`, Lottie `.json`, atau path gambar.
+- Durasi: isi `duration` (detik); video bernarasi otomatis mengikuti panjang suara.
+- Suara default: `id-ID-Ardi:DragonHDLatestNeural`, rate `+10%` (sudah default di seri). `lexicon` untuk singkatan (PDB → "Pe De Be").
 
-## Gerak sepanjang scene (sudah ada)
-Semua video otomatis punya kamera pelan + parallax, idle (`<Reveal idle>`), dan animasi keluar bergiliran.
-Kekuatan: `energy` `calm`/`normal`/`lively` (default dari tema; explainer otomatis `calm`). Atur via
-`motion: { energy, camera, exit }` di config, atau `camera`/`exit` per scene. Detail: `docs/KATALOG-SCENE.md`.
-
-## Tipografi kinetik (sudah ada)
-Judul muncul kata per kata dengan gaya dari tema (`rise`/`pop`/`blur`/`typewriter`/`slam`), kata `highlight` mendapat
-punch + sapuan gradien + coretan bergiliran (marker → underline → circle), dan bila scene bernarasi kata judul muncul
-tepat saat diucapkan. Subtitle fade per baris. Per scene: `textAnimation`, `highlightStyle` (`mix`/`marker`/`underline`/
-`circle`/`punch`/`none`). Untuk teks besar ala Reels pakai scene `statement` (`lines[]`, `style: 'stack' | 'replace'`).
-Kode: `src/components/KineticText.tsx`, `src/motion/text.tsx`, preset di `src/config/animation.ts`.
-
-## Transisi antar scene (sudah ada)
-`transition` per scene atau di config: `fade` `zoom` `slideLeft`/`Right`/`Up`/`Down` `wipe` `wipeUp` `flip` `flipUp` `cube`
-`clockWipe` `iris` `pushCut` `none`, atau `mix` (bergiliran otomatis, deterministik). Default dari tema.
-Kode: `src/config/transitions.tsx`. Hindari presentasi shader (dissolve, film burn, ripple) — rawan gagal render.
-
-## Ikon & ilustrasi beranimasi (sudah ada)
-Emoji dikenal → ikon garis SVG yang tergambar (path draw) + isian duotone + idle khas; `line:<nama>`, `draw:<file.svg>`,
-dan Lottie `.json` (`@remotion/lottie`) di semua field ikon; `hero.illustration` untuk ilustrasi di atas judul.
-Matikan dengan `motion: { icons: 'emoji' }`. Kode: `src/components/icons/`, `src/motion/icon.ts`, preset `ICON_ANIMATION`.
-
-## Efek suara & scene media (sudah ada)
-SFX otomatis di semua video: whoosh saat transisi, pop saat kartu/ikon/badge muncul, "ting" saat angka selesai
-menghitung, tick per kata. Atur `sfx: false | { volume, transitions, elements, counters }` di config, `sfx: false` per scene.
-Scene `words` (satu kata per ketukan), `broll` (foto/video + gerak kamera Ken Burns), `map` (peta + pin + rute).
-Kode: `src/config/sfx.ts`, `src/motion/sfx.tsx`, `src/scenes/{Words,Broll,Map}Scene.tsx`. Detail: `docs/KATALOG-SCENE.md`.
-
-## Alur kerja minimal (hemat token)
-1. Baca **hanya** `src/scenes/types.ts` (kontrak semua scene) — atau `docs/KATALOG-SCENE.md`.
-2. Bila cocok, pakai template di `src/templates/*.ts` (baca interface props-nya saja).
-3. Salin pola dari `src/projects/price-atlas/reel.ts` (template) atau `promo.ts` (scene manual).
-4. Jalankan `npm run typecheck`. Selesai.
-
-## Aturan
-- Teks konten dalam Bahasa Indonesia kecuali diminta lain.
-- Durasi total: isi `duration` di config, jangan hitung frame manual.
-- Ikon: emoji (otomatis jadi ikon garis yang tergambar bila dikenal), `line:<nama>`, `draw:<file.svg>` (SVG tergambar),
-  file Lottie `.json`, atau path gambar di `public/`. Daftar & detail: `docs/KATALOG-SCENE.md` › Ikon.
-- Jangan menambah komponen baru bila scene yang ada bisa dipakai. Bila memang perlu tipe scene baru, ikuti `docs/MEMPERLUAS.md`.
-- ID video: `Brand-Jenis` (mis. `PriceAtlas-Reel20`), unik.
-
-## Perintah
-- `npm run studio` — pratinjau
-- `npx remotion render <ID> out/<ID>.mp4` — render
-- `npm run typecheck` — validasi config
-- `npm run narasi -- <config.ts>` — render suara narasi (video explainer, lihat `docs/EXPLAINER.md`)
-- `npm run render:list` — daftar video; `npm run render:all -- <filter> [--scale=0.5]` — render banyak sekaligus
-
-## Video bersuara (narasi / voice-over)
-Tanpa `audio` (musik) atau narasi, video hanya berisi efek suara (SFX). Bila pengguna ingin suara/narasi:
-1. Baca `docs/EXPLAINER.md`; contoh lengkap `src/projects/soal-skd/bedah-analogi.ts`.
-2. Isi `voice`, `narration` (impor `<video>.narration.json`), `overlay`, dan `narration` teks per scene.
-3. Render suara **sebelum** render video: `AZURE_SPEECH_KEY=proxy-injected npm run narasi -- <config.ts>`
-   (lalu commit `public/narration/<ID>/` + `<video>.narration.json`). Tanpa langkah ini video tetap bisu.
-- Suara default pilihan pengguna: **`id-ID-Ardi:DragonHDLatestNeural`, rate `+10%`**.
-- Key Azure (region `southeastasia`) tersimpan sebagai network secret di environment cloud **video-remotion**;
-  `proxy-injected` hanya placeholder, proxy yang menyuntikkan key. Di environment lain → 401: minta pengguna
-  pindah ke environment video-remotion (jangan minta key ditempel di chat).
-- Render di sesi cloud: tambahkan `--browser-executable=/opt/pw-browsers/chromium` (unduhan Chrome diblokir).
+## Narasi & render di sesi cloud
+- Key Azure (region `southeastasia`) adalah network secret di environment cloud **video-remotion**; `proxy-injected` hanya
+  placeholder. Di environment lain → 401: minta pengguna pindah environment (jangan minta key ditempel di chat).
+- Render: tambahkan `--browser-executable=/opt/pw-browsers/chromium` (unduhan Chrome diblokir).
 
 ## Aset
-- Audio/video/file desain otomatis Git LFS (`.gitattributes`). Screenshot besar taruh di `public/brands/<brand>/media/`.
-- Pengecualian: `public/narration/**` dan `public/sfx/**` disimpan sebagai file git biasa. Upload Git LFS diblokir dari sesi cloud, jadi aset kecil yang harus ikut push taruh di luar folder `media/`.
-- Jangan render kecuali diminta pengguna.
+- Audio/video/file desain dan isi `public/**/media/` otomatis Git LFS — **upload LFS diblokir dari sesi cloud**.
+  Aset kecil yang harus ikut push taruh di luar `media/`. `public/narration/**` dan `public/sfx/**` file git biasa.
+
+## Perintah
+`npm run cek` · `npm run typecheck` · `npm run narasi -- <ID|config.ts>` · `npm run studio` · `npm run render:list` ·
+`npm run render:all -- <filter> [--scale=0.5]` · `npx remotion render <ID> out/<ID>.mp4`
+
+## Mengubah framework (hanya bila diminta animasi/efek/scene/template baru)
+Framework sudah punya: kamera + idle + animasi keluar, tipografi kinetik, 15 transisi + `mix`, ikon tergambar/Lottie, SFX otomatis,
+18 tipe scene, narasi + subtitle. Sebelum menambah apa pun baca `docs/KATALOG-SCENE.md` (apa yang ada) dan `docs/MEMPERLUAS.md` (cara menambah).
+- Pasang di level framework agar semua video ikut; properti baru harus **opsional** dengan default aman (config lama tetap valid).
+- Warna dari `useTheme()`, ukuran via `px()`, tanpa angka spring mentah, waktu dalam detik, deterministik dari `useCurrentFrame()`
+  (tanpa `Math.random()`/`Date`), tidak mengganggu keterbacaan teks. Hindari transisi shader (rawan gagal render).
+- Template/scene/properti baru → perbarui `docs/KATALOG-SCENE.md`, `docs/PROMPT-STORYBOARD.md`, `docs/CHANGELOG.md`.

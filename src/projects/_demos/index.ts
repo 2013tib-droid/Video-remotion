@@ -171,3 +171,5 @@ export const iconDemo = defineVideo({
 });
 
 export const demoVideos = [appLaunchDemo, saasDemo, mobileDemo, statementDemo, iconDemo, sceneBaruDemo];
+
+export default demoVideos;

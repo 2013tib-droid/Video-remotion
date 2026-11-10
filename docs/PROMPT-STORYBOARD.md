@@ -1,128 +1,110 @@
 # Prompt Storyboard untuk AI Lain (ChatGPT / Gemini / Claude.ai)
 
-Tujuan: semua kerja **kreatif** (ide, naskah, revisi copy) dilakukan di chat AI biasa yang murah.
-Claude Code hanya menerima **hasil final** lalu menulis config dalam 1–2 giliran.
+Tujuan: semua kerja **kreatif** (ide, naskah, revisi) dilakukan di chat AI biasa yang murah.
+Claude Code hanya menerima **hasil final** lalu menulis satu file config.
 
 ## Alur
+1. Salin blok **Prompt** di bawah ke ChatGPT/Gemini, isi `BRIEF`.
+2. Revisi di chat itu sampai puas.
+3. Setelah bilang "FINAL", salin blok **HASIL UNTUK CLAUDE CODE** ke Claude Code. Selesai.
 
-1. Salin seluruh blok **Prompt** di bawah ke ChatGPT/Gemini, lalu isi bagian `BRIEF`.
-2. Revisi di chat itu sampai puas (hook, urutan scene, angka, CTA).
-3. Salin blok **HASIL UNTUK CLAUDE CODE** yang dihasilkan, tempel ke Claude Code. Selesai.
-
-Tips:
-- Jangan minta AI lain menulis kode TypeScript. Kodenya sering tidak lolos typecheck dan Claude Code jadi harus memperbaikinya berulang kali.
-- Kirim ke Claude Code **hanya versi final**. Revisi copy di Claude Code itu mahal.
-- Kalau brand sudah punya folder di `src/projects/<brand>/`, sebutkan di brief supaya tidak dibuat ulang.
+Tips: jangan minta AI lain menulis TypeScript; kirim ke Claude Code hanya versi final.
 
 ---
 
 ## Prompt (salin mulai dari sini)
 
 ````
-Kamu adalah penulis naskah video promosi pendek. Buat storyboard untuk framework
-animasi "Motion Studio" (berbasis Remotion). Framework ini HANYA mendukung scene,
-template, tema, dan format di bawah. JANGAN mengarang tipe scene, properti, atau
-efek di luar daftar ini (tidak ada voice-over, footage kamera, atau transisi lain).
+Kamu penulis naskah video pendek vertikal (Reels/TikTok/Shorts) untuk framework "Motion Studio".
+Framework HANYA mendukung dua template dan jenis bagian di bawah. JANGAN mengarang jenis lain.
+Video adalah motion graphic (teks, ikon, angka, grafik, mockup aplikasi) dengan narator suara AI + subtitle otomatis.
 
-=== FORMAT ===
-vertical (9:16, Reels/TikTok/Shorts) · landscape (16:9) · square (1:1) · portrait (4:5)
+=== TEMPLATE A: kontenHarian (topik bebas: keuangan, politik, sosial, tips, data) ===
+Alur: Hook → 3–6 bagian → Kesimpulan → Penutup (otomatis dari seri).
+Isian:
+- slug (untuk ID, mis. Inflasi-Okt26), topik (rubrik 1 kata, mis. "Keuangan")
+- hook (≤ 7 kata, memancing), highlight (kata di hook), hookNarasi (kalimat pembuka yang dibacakan)
+- bagian[]: tiap bagian = judul? + highlight? + narasi (1–2 kalimat yang dibacakan) + TEPAT SATU isi:
+  - angka: 1–3 angka besar {value, prefix?, suffix?, decimals?, label}
+  - poin: 2–4 poin {icon (emoji), title, description?}
+  - langkah: 2–4 langkah/kronologi {icon?, title, description?}
+  - grafik: 2–6 batang {label, value} (+ sorot: indeks batang, sorotLabel, prefix/suffix)
+  - banding: tabel {kolom[], baris[{label, values[]}]} (+ sorot: indeks kolom)
+  - kutipan: {teks, oleh, jabatan?}
+  - teks: 1–3 baris teks besar (tiap baris ≤ ±25 huruf)
+  - kata: satu kalimat ≤ 8 kata, tampil satu kata per ketukan
+  - peta: pin kota Indonesia/dunia [{place, label?, value?}]
+  - hitung: {baris[{label, value, negative?}], total{label, value}}
+  - foto: nama file foto/video yang akan saya siapkan
+- kesimpulan: 1–2 baris teks besar + narasi
+- sumber (bila ada data)
 
-=== TEMA ===
-ApplePremium · ModernSaaS · PlayfulKids · Corporate · IslamicWarm
-
-=== TEMPLATE (utamakan ini, paling hemat) ===
-- socialMediaShort: Hook → Poin (maks 3–4) → (Bukti angka 1–2) → CTA. Default 15 dtk, 9:16.
-  Isian: hook, highlight?, subtitle?, pointsTitle?, points[{icon,title,description}], proof?[{value,prefix?,suffix?,label}], cta
-- appLaunch: Logo → Hero → Fitur → (Statistik) → CTA.
-  Isian: tagline?, title, highlight?, subtitle?, featuresTitle?, features[], stats?[], cta
-- saasProductPromo: Hero → Dashboard → Fitur → (Tabel perbandingan) → CTA.
-  Isian: title, highlight?, subtitle?, dashboard{title?, kpis[], chart?[{label,value}], caption?}, features[], comparison?{title, columns[], rows[{label, values[]}], highlightColumn?}, cta
-- mobileAppPromo: Logo → Hero → Ponsel + notifikasi → Fitur → CTA.
-  Isian: title, highlight?, subtitle?, screen (lihat ISI LAYAR), screenTitle?, bullets?[], notifications?[{icon?,app?,title,body?,time?}], features[], cta
-- educationalProductPromo: Maskot → Kartu belajar → Kuis → (Statistik) → CTA.
-  Isian: mascot{name?, speech, title?}, lessonsTitle?, lessons[], quiz{title?, question, options[], correct (indeks mulai 0), reward?, caption?}, stats?[], cta
-CTA selalu: {title, highlight?, button, subtitle?, badges?[], url?}
-highlight = potongan kata dari judul yang diberi warna gradien (harus persis ada di judul).
-
-=== SCENE MANUAL (pakai hanya bila tidak ada template yang cocok) ===
-Properti dasar tiap scene: duration (detik), transition (fade|zoom|slideLeft|slideRight|slideUp|slideDown|wipe|wipeUp|flip|flipUp|cube|clockWipe|iris|pushCut|mix|none),
-background (gradient|particles|pattern|solid). Banyak scene juga punya eyebrow, title, highlight, subtitle.
-- logo: name?, tagline?                          (default 3 dtk)
-- hero: title, button?                           (4)
-- mascot: mascot (gambar), speech?, name?        (4)
-- features: features[{icon,title,description}], columns?  (5)
-- stats: stats[{value,prefix?,suffix?,decimals?,label}]  (4)
-- chart: data[{label,value}], highlightBar?, highlightLabel?, orientation?, prefix?, suffix?  (5)
-- comparison: columns[], rows[{label, values[] (✓/✕/teks)}], highlightColumn?  (5)
-- timeline: steps[{icon?,title,description?}]    (5)
-- device: screen, device? (ponsel/browser), bullets?, notifications?[], url?  (5)
-- calculation: lines[{label,value,negative?}], total{label,value}, prefix?, note?  (5)
-- testimonial: quote, author, role?, badges?     (4.5)
-- cta: title, button, url?, badges?, showLogo?   (4)
-
-=== ISI LAYAR (untuk device / mobileAppPromo) ===
-- image: src (screenshot asli; tulis nama file yang akan disiapkan)
-- receipt: store, items[{name,price}], scanning?
-- qr: merchant, amount?, caption?
-- list: items[{icon,title,subtitle,value}]
-- quiz: question, options[], correct
-- dashboard: kpis[], chart?[]
+=== TEMPLATE B: promoProyek (iklan aplikasi/website/proyek) ===
+Alur: Hook (masalah) → Keluhan → Solusi → Tampilan produk → Fitur → (Bukti) → CTA.
+Isian:
+- slug, hook (≤ 8 kata), highlight
+- masalah: 2–3 keluhan sangat singkat (≤ 4 kata)
+- solusi (≤ 6 kata) + solusiHighlight, tagline (1 kalimat)
+- layar: 1–3 tampilan {judul, highlight?, file screenshot yang akan saya siapkan, bullets?}
+- fitur: 3–4 {icon (emoji), title, description}
+- bukti?: 1–3 angka NYATA {value, suffix, label}; testimoni? {teks, oleh, jabatan?}
+- cta: {title, highlight?, button, url?}
+- narasi (opsional, bila ingin bersuara): kalimat untuk hook, masalah, solusi, tiap layar, fitur, bukti, cta
 
 === ATURAN ===
-- Bahasa Indonesia, kalimat pendek dan tajam. Judul maksimal ±8 kata, deskripsi maksimal ±8 kata.
-- Ikon = emoji (otomatis jadi ikon garis beranimasi) atau `line:<nama>` / file Lottie `.json`.
-- Angka harus nyata dari brief; kalau tidak ada, beri tanda [ISI ANGKA] dan jangan mengarang.
-- Total durasi scene harus sama dengan durasi target.
-- ID video: Brand-Jenis (contoh: PriceAtlas-Reel20).
+- Bahasa Indonesia sehari-hari, kalimat pendek. Judul ≤ ±8 kata, deskripsi ≤ ±8 kata.
+- Hook harus menghentikan scroll dalam 2 detik: pertanyaan, angka mengejutkan, atau pernyataan berani.
+- Jangan pakai jenis bagian yang sama dua kali berturut-turut.
+- Narasi total 60–110 kata untuk video 30–45 detik (±2,7 kata/detik). Tulis angka di narasi dengan cara dibaca
+  ("5,47 persen"). Singkatan yang dieja: daftar di "lexicon" (mis. PDB = Pe De Be).
+- Angka/fakta harus dari brief atau sumber yang saya sebut. Tidak ada → tulis [ISI ANGKA], jangan mengarang.
+- highlight harus persis ada di kalimatnya.
 
 === CARA KERJA ===
-1. Tulis dulu storyboard ringkas untuk saya review: tabel No | Scene | Durasi | Teks di layar.
-2. Saya akan merevisi. Setelah saya bilang "FINAL", keluarkan HANYA satu blok kode
-   berjudul "HASIL UNTUK CLAUDE CODE" dengan format persis seperti ini:
+1. Tulis storyboard ringkas untuk saya review: tabel No | Jenis bagian | Teks di layar | Narasi.
+2. Setelah saya bilang "FINAL", keluarkan HANYA satu blok kode berjudul "HASIL UNTUK CLAUDE CODE":
 
 Pakai Motion Studio (baca CLAUDE.md). Buat video:
-- ID: <Brand-Jenis>
-- Brand: <nama brand / "pakai src/projects/<brand>/brand.ts">
-- Tema: <tema>
-- Format: <format>, durasi <N> detik
-- Template: <nama template / "scene manual">
-- Konten (isi per field template, atau daftar scene berurutan untuk scene manual):
-  - <field>: <isi>
+- Template: <kontenHarian | promoProyek>
+- Seri: <src/projects/<brand>/series.ts | "buat seri baru: nama brand, tema, CTA baku">
+- Isi (per field template):
+  - slug: ...
+  - hook: ...
   - ...
-Hanya tulis config + daftarkan di src/projects/index.ts. Jalankan typecheck. Jangan render.
+- lexicon: ...
+Tulis satu file config, render narasi, jalankan npm run cek. Jangan render video.
 
 === BRIEF ===
-Brand / produk: ...
-Brand sudah ada di repo? (ya: nama folder / tidak): ...
-Tujuan video & target penonton: ...
-Platform / format: ...
+Jenis: (konten harian / iklan proyek)
+Brand / kanal (sudah ada di repo? nama folder): ...
+Topik / produk: ...
+Target penonton: ...
 Durasi: ...
-Pesan utama / fitur yang ingin disorot: ...
-Angka / bukti yang boleh dipakai: ...
-CTA & link: ...
-Tema yang diinginkan (opsional): ...
+Poin, data, sumber yang boleh dipakai: ...
+CTA: ...
 ````
 
 ---
 
-## Contoh hasil akhir yang ditempel ke Claude Code
+## Contoh hasil akhir
 
 ```
 Pakai Motion Studio (baca CLAUDE.md). Buat video:
-- ID: PriceAtlas-Reel20
-- Brand: pakai src/projects/price-atlas/brand.ts
-- Tema: ApplePremium
-- Format: vertical, durasi 20 detik
-- Template: socialMediaShort
-- Konten:
-  - hook: Masih bayar lebih mahal untuk barang yang sama?
-  - highlight: lebih mahal
-  - pointsTitle: 3 cara PriceAtlas bikin hemat
-  - points: 🔍 Bandingkan harga — Ratusan toko dalam satu pencarian; 🧾 Pindai struk — Catat belanja otomatis tanpa ketik; 🔔 Alert harga turun — Notifikasi saat barang incaran diskon
-  - proof: Rp 287.500 — rata-rata hemat per bulan
-  - cta: title "Belanja cerdas mulai sekarang.", highlight "cerdas", button "Unduh Gratis"
-Hanya tulis config + daftarkan di src/projects/index.ts. Jalankan typecheck. Jangan render.
+- Template: kontenHarian
+- Seri: src/projects/harian/series.ts
+- Isi:
+  - slug: TipsGaji
+  - topik: Keuangan
+  - hook: Gaji selalu numpang lewat? (highlight: numpang lewat)
+  - hookNarasi: Gaji kamu selalu cuma numpang lewat? Coba tiga kebiasaan kecil ini.
+  - bagian 1 (langkah) "Pisahkan di hari gajian": 💰 Gaji masuk; 🏦 Langsung sisihkan tabungan; 🛒 Sisanya baru dipakai
+    narasi: Pertama, begitu gaji masuk, langsung sisihkan tabungan. Sisanya, baru kamu pakai.
+  - bagian 2 (teks): Catat pengeluaran. / Sekecil apa pun.
+    narasi: Kedua, catat semua pengeluaran, sekecil apa pun.
+  - kesimpulan: Kecil, / tapi konsisten. — narasi: Kecil, tapi konsisten. Itu kuncinya.
+Tulis satu file config, render narasi, jalankan npm run cek. Jangan render video.
 ```
 
-> Bila menambah template/scene baru di repo, perbarui juga daftar di prompt ini
-> (sumber kebenaran: `src/scenes/types.ts` dan `src/templates/*.ts`).
+> Bila menambah template/jenis bagian di repo, perbarui prompt ini
+> (sumber kebenaran: `src/templates/KontenHarian.ts`, `src/templates/PromoProyek.ts`).
+> Scene manual & template lama (appLaunch, socialMediaShort, dst.): lihat `docs/MEMBUAT-VIDEO.md`.
