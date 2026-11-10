@@ -24,7 +24,19 @@ export interface SceneBase {
   transition?: TransitionName;
   /** Override background untuk scene ini. */
   background?: BackgroundKind;
+  /** Teks narasi (voice-over). Durasi scene otomatis mengikuti panjang suara. */
+  narration?: string;
+  /** Kata/frasa narasi yang disorot di subtitle. */
+  emphasis?: string[];
+  /** Header bab di lapisan explainer (kiri atas). */
+  chapter?: { label?: string; title: string; highlight?: string };
 }
+
+/**
+ * Waktu sebuah aksi: detik dari awal scene, atau kata di narasi scene ini
+ * ("higrometer", frasa "arah angin", atau kemunculan ke-n "angin#2").
+ */
+export type Cue = string | number;
 
 /** Judul standar scene (dipakai banyak scene). */
 export interface SceneHeading {
@@ -160,6 +172,40 @@ export interface CTAScene extends SceneBase, SceneHeading {
   showLogo?: boolean;
 }
 
+/** Kartu soal pilihan ganda dengan aksi berurutan (pilih, salah, coret, benar). */
+export interface QuestionScene extends SceneBase {
+  type: 'question';
+  /** Label kecil di atas soal, mis. "Soal 7". */
+  label?: string;
+  question: string;
+  options: string[];
+  /** Lingkaran hitung mundur (detik) di pojok kartu. */
+  countdown?: number;
+  /** Waktu mulai hitung mundur. Default 0.6 dtk. */
+  countdownAt?: Cue;
+  /** Keadaan awal (lanjutan dari scene sebelumnya). */
+  initial?: { struck?: number[]; wrong?: number[]; correct?: number; notes?: Record<number, string> };
+  /** Aksi berurutan; `at` = detik atau kata narasi. */
+  steps?: {
+    action: 'select' | 'wrong' | 'strike' | 'correct';
+    option: number;
+    /** Catatan kecil di sisi pilihan, mis. nama alat. */
+    note?: string;
+    at?: Cue;
+  }[];
+  /** Animasi masuk. Matikan untuk scene lanjutan agar kartu terlihat sama. Default true. */
+  enter?: boolean;
+}
+
+/** Hubungan "A —kata kerja→ B" (analogi, sebab-akibat), plus chip rumus. */
+export interface RelationScene extends SceneBase, SceneHeading {
+  type: 'relation';
+  rows: { left: string; verb: string; right: string; at?: Cue }[];
+  /** Chip rumus di bawah, mis. "ALAT : YANG DIUKUR". */
+  formula?: string;
+  formulaAt?: Cue;
+}
+
 export type SceneConfig =
   | LogoScene
   | HeroScene
@@ -172,6 +218,8 @@ export type SceneConfig =
   | DeviceScene
   | CalculationScene
   | TestimonialScene
-  | CTAScene;
+  | CTAScene
+  | QuestionScene
+  | RelationScene;
 
 export type SceneType = SceneConfig['type'];

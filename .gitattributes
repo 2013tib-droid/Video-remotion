@@ -13,3 +13,6 @@
 *.zip  filter=lfs diff=lfs merge=lfs -text
 # Screenshot/foto resolusi tinggi: taruh di folder `media/` agar ikut LFS.
 public/**/media/** filter=lfs diff=lfs merge=lfs -text
+# Narasi (voice-over) hasil `npm run narasi`: klip kecil (~50 KB) disimpan
+# sebagai file git biasa agar bisa dirender ulang tanpa Git LFS.
+public/narration/** -filter -diff -merge -text

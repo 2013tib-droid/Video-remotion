@@ -8,6 +8,7 @@ import {
   type TransitionName,
 } from '../config';
 import { resolveTheme } from '../themes';
+import { NARRATION_LEAD, NARRATION_TAIL, resolveClip } from './narration';
 import type { VideoConfig } from './types';
 
 export interface TimelineEntry {
@@ -16,6 +17,8 @@ export interface TimelineEntry {
   /** Transisi MASUK ke scene ini (scene pertama: none). */
   transition: TransitionName;
   transitionFrames: number;
+  /** Frame awal scene pada video. */
+  from: number;
 }
 
 export interface Timeline {
@@ -44,10 +47,19 @@ export function computeTimeline(config: VideoConfig): Timeline {
   const transitionFrames = transitions.map((t) => getTransitionFrames(t, fps));
   const overlap = transitionFrames.reduce((a, b) => a + b, 0);
 
-  const rawSec = config.scenes.map((s) => s.duration ?? DEFAULT_SCENE_DURATION[s.type] ?? 4);
+  // Scene bernarasi: durasi = jeda awal + suara + jeda akhir (minimal sepanjang transisi berikutnya).
+  const rawSec = config.scenes.map((s, i) => {
+    const base = s.duration ?? DEFAULT_SCENE_DURATION[s.type] ?? 4;
+    if (!s.narration) return base;
+    const clip = resolveClip(s.narration, config.narration, config.voice);
+    const tail = Math.max(NARRATION_TAIL, (transitionFrames[i + 1] ?? 0) / fps + 0.1);
+    return Math.max(s.duration ?? 0, NARRATION_LEAD + clip.duration + tail);
+  });
   let frames = rawSec.map((s) => Math.round(s * fps));
+  const narrated = config.scenes.some((s) => s.narration);
 
-  if (config.duration) {
+  // Video bernarasi: durasi mengikuti suara, `duration` diabaikan.
+  if (config.duration && !narrated) {
     const target = Math.round(config.duration * fps) + overlap;
     const sum = frames.reduce((a, b) => a + b, 0);
     const factor = target / sum;
@@ -62,11 +74,17 @@ export function computeTimeline(config: VideoConfig): Timeline {
   frames = frames.map((f, i) => Math.max(f, (transitionFrames[i] ?? 0) + (transitionFrames[i + 1] ?? 0) + 1));
 
   const durationInFrames = frames.reduce((a, b) => a + b, 0) - overlap;
+  const starts: number[] = [];
+  frames.reduce((acc, f, i) => {
+    const from = acc - (transitionFrames[i] ?? 0);
+    starts.push(from);
+    return from + f;
+  }, 0);
   return {
     fps,
     width,
     height,
     durationInFrames,
-    entries: frames.map((f, i) => ({ frames: f, transition: transitions[i], transitionFrames: transitionFrames[i] })),
+    entries: frames.map((f, i) => ({ frames: f, transition: transitions[i], transitionFrames: transitionFrames[i], from: starts[i] })),
   };
 }

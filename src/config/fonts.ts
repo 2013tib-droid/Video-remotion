@@ -16,6 +16,8 @@ import '@fontsource/ibm-plex-sans/600.css';
 import '@fontsource/ibm-plex-sans/700.css';
 import '@fontsource/lora/500.css';
 import '@fontsource/lora/700.css';
+import '@fontsource/jetbrains-mono/500.css';
+import '@fontsource/jetbrains-mono/700.css';
 
 export const FONT_STACKS = {
   inter: '"Inter", -apple-system, "SF Pro Display", "Helvetica Neue", Arial, sans-serif',
@@ -23,5 +25,5 @@ export const FONT_STACKS = {
   fredoka: '"Fredoka", "Nunito", "Comic Sans MS", sans-serif',
   plex: '"IBM Plex Sans", "Inter", Arial, sans-serif',
   lora: '"Lora", Georgia, "Times New Roman", serif',
-  mono: '"SF Mono", "JetBrains Mono", Menlo, Consolas, monospace',
+  mono: '"JetBrains Mono", "SF Mono", Menlo, Consolas, monospace',
 } as const;
