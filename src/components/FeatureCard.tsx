@@ -20,7 +20,7 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, descripti
   const { theme, type, px } = useTheme();
   const isRow = layout === 'row';
   return (
-    <Reveal delay={delay} style={{ width: '100%', height: '100%' }}>
+    <Reveal delay={delay} idle style={{ width: '100%', height: '100%' }}>
       <Surface
         padding={isRow ? 36 : 44}
         style={{

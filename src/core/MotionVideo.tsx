@@ -2,10 +2,10 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { AbsoluteFill, Html5Audio, Sequence, continueRender, delayRender, useVideoConfig } from 'remotion';
 import { TransitionSeries } from '@remotion/transitions';
 import '../config/fonts';
-import { DEFAULT_FORMAT, getPresentation, getTiming } from '../config';
+import { CAMERA_MOVES, DEFAULT_FORMAT, SCENE_MOTION_TIMING, getPresentation, getTiming } from '../config';
 import { resolveSrc } from '../components/primitives';
 import { SceneRenderer } from '../scenes/registry';
-import { CueProvider } from '../motion';
+import { CueProvider, SceneMotionProvider, type SceneMotion } from '../motion';
 import { ThemeProvider, resolveTheme, type Theme } from '../themes';
 import { ExplainerOverlay, OVERLAY_LAYOUT } from './ExplainerOverlay';
 import { NARRATION_LEAD, resolveClip } from './narration';
@@ -49,6 +49,24 @@ export const MotionVideo: React.FC<MotionVideoProps> = ({ config }) => {
     [config],
   );
   const lead = Math.round(NARRATION_LEAD * fps);
+  const sceneMotion = useMemo<SceneMotion[]>(() => {
+    const energy = config.motion?.energy ?? (config.overlay ? 'calm' : theme.motion.energy ?? 'normal');
+    return config.scenes.map((scene, i) => {
+      const entry = timeline.entries[i];
+      const next = timeline.entries[i + 1];
+      const cam = scene.camera ?? config.motion?.camera ?? theme.motion.camera ?? 'auto';
+      const exitOn = Boolean(next) && (scene.exit ?? config.motion?.exit ?? true);
+      const exitStart = entry.frames - (next?.transitionFrames ?? 0) - Math.round(SCENE_MOTION_TIMING.exitLead * fps);
+      return {
+        index: i,
+        frames: entry.frames,
+        // Scene terlalu pendek: lewati animasi keluar.
+        exitStart: exitOn && exitStart > fps ? exitStart : null,
+        energy,
+        camera: cam === 'auto' ? CAMERA_MOVES[i % CAMERA_MOVES.length] : cam,
+      };
+    });
+  }, [config, theme, timeline, fps]);
   useMemo(() => {
     const missing = clips.filter((c) => c?.estimated).length;
     if (missing) {
@@ -69,9 +87,11 @@ export const MotionVideo: React.FC<MotionVideoProps> = ({ config }) => {
             return (
               <React.Fragment key={i}>
                 <TransitionSeries.Sequence durationInFrames={entry.frames} name={`${i + 1}. ${scene.type}`}>
-                  <CueProvider words={(clips[i]?.words ?? []).map((w) => ({ ...w, start: w.start + NARRATION_LEAD, end: w.end + NARRATION_LEAD }))}>
-                    <SceneRenderer scene={scene} brand={config.brand} />
-                  </CueProvider>
+                  <SceneMotionProvider value={sceneMotion[i]}>
+                    <CueProvider words={(clips[i]?.words ?? []).map((w) => ({ ...w, start: w.start + NARRATION_LEAD, end: w.end + NARRATION_LEAD }))}>
+                      <SceneRenderer scene={scene} brand={config.brand} />
+                    </CueProvider>
+                  </SceneMotionProvider>
                 </TransitionSeries.Sequence>
                 {next && next.transitionFrames > 0 ? (
                   <TransitionSeries.Transition presentation={getPresentation(next.transition)} timing={getTiming(next.transition, fps)} />

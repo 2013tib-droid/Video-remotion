@@ -4,7 +4,7 @@
  *  membuat video baru. Semua scene murni data (JSON-serializable).
  * ============================================================
  */
-import type { TransitionName } from '../config';
+import type { CameraSetting, TransitionName } from '../config';
 import type { BackgroundKind } from '../themes';
 import type { ChartDatum } from '../components/ChartAnimation';
 import type { ComparisonRow } from '../components/ComparisonTable';
@@ -24,6 +24,10 @@ export interface SceneBase {
   transition?: TransitionName;
   /** Override background untuk scene ini. */
   background?: BackgroundKind;
+  /** Gerak kamera pelan sepanjang scene. Default `auto` (bergiliran zoom/geser). */
+  camera?: CameraSetting;
+  /** Elemen keluar bergiliran di akhir scene. Default true (scene terakhir tidak keluar). */
+  exit?: boolean;
   /** Teks narasi (voice-over). Durasi scene otomatis mengikuti panjang suara. */
   narration?: string;
   /** Kata/frasa narasi yang disorot di subtitle. */

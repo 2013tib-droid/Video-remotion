@@ -65,7 +65,7 @@ export const QuoteCard: React.FC<QuoteCardProps> = ({ quote, author, role, avata
       {badges.length ? (
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: px(16) }}>
           {badges.map((b, i) => (
-            <Reveal key={i} delay={stagger(i, delay + 0.6)} preset="pop" spring="snappy">
+            <Reveal key={i} delay={stagger(i, delay + 0.6)} preset="pop" spring="snappy" idle>
               <Pill>{b}</Pill>
             </Reveal>
           ))}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { AbsoluteFill } from 'remotion';
 import { Background, BodyText, Heading, Pill } from '../components';
-import { Reveal } from '../motion';
+import { Reveal, useCamera } from '../motion';
 import { type BackgroundKind, useTheme } from '../themes';
 import type { SceneHeading } from './types';
 
@@ -15,11 +15,15 @@ export const SceneLayout: React.FC<{
 }> = ({ children, background, split, style }) => {
   const { safe, space, isPortrait } = useTheme();
   const row = split && !isPortrait;
+  const camera = useCamera();
   return (
     <AbsoluteFill>
-      <Background kind={background} />
+      <AbsoluteFill style={{ transform: camera.background }}>
+        <Background kind={background} />
+      </AbsoluteFill>
       <AbsoluteFill
         style={{
+          transform: camera.content,
           padding: `${safe.top}px ${safe.x}px ${safe.bottom}px`,
           display: 'flex',
           flexDirection: row ? 'row' : 'column',

@@ -12,6 +12,7 @@ Catatan: `colors.primary` sebaiknya hex 6 digit (dipakai dengan suffix alpha, mi
 ## Komponen baru
 - Ambil semua warna/font/radius dari `useTheme()`; ukuran via `px()`/`type`/`space`.
 - Animasi via `<Reveal>`, `useSpring`, `useStagger` — jangan menulis angka spring.
+- Elemen non-teks (kartu, ikon, badge) beri `<Reveal idle>` agar tetap bergerak setelah muncul. `Reveal` otomatis ikut animasi keluar (matikan dengan `exit={false}`). Hook lain: `useIdle`, `useSceneExit`, `useCamera` (`src/motion/scene.tsx`).
 - Terima `delay` (detik) sebagai prop.
 - Ekspor dari `src/components/index.ts`.
 

@@ -36,6 +36,8 @@ export const EASINGS = {
   accelerate: Easing.bezier(0.4, 0, 1, 1),
   apple: Easing.bezier(0.25, 0.1, 0.25, 1),
   linear: Easing.linear,
+  /** Lambat-cepat-lambat seperti gerak kamera. */
+  drift: Easing.inOut(Easing.sin),
 } as const;
 
 export type EasingName = keyof typeof EASINGS;
@@ -77,3 +79,61 @@ export const ENTRANCES = {
 } satisfies Record<string, EntranceState>;
 
 export type EntrancePreset = keyof typeof ENTRANCES;
+
+/* ------------------------------------------------------------------
+ * Gerak sepanjang scene: kamera, idle, dan animasi keluar.
+ * ------------------------------------------------------------------ */
+
+/** Gerakan kamera per scene (seluruh isi scene bergerak pelan). */
+export const CAMERA_MOVES = ['zoomIn', 'panLeft', 'zoomOut', 'panRight'] as const;
+export type CameraMove = (typeof CAMERA_MOVES)[number];
+/** `auto` = bergiliran per scene; `none` = kamera diam. */
+export type CameraSetting = 'auto' | 'none' | CameraMove;
+
+/** Tingkat "energi" gerak. Tema memilih default; explainer otomatis `calm`. */
+export interface MotionEnergyPreset {
+  /** Kamera: tambahan skala maksimal & geser maksimal (px basis 1080). */
+  camera: { zoom: number; pan: number };
+  /** Background bergerak sebesar ini × gerak konten (parallax). */
+  parallax: number;
+  /** Idle: amplitudo melayang (px basis 1080), denyut skala, periode (detik). */
+  idle: { float: number; breathe: number; period: number };
+  /** Keluar: geser ke atas (px basis 1080) dan blur maksimal. */
+  exit: { y: number; blur: number };
+}
+
+export const MOTION_ENERGY = {
+  calm: {
+    camera: { zoom: 0.03, pan: 14 },
+    parallax: 0.4,
+    idle: { float: 4, breathe: 0.006, period: 5 },
+    exit: { y: 18, blur: 4 },
+  },
+  normal: {
+    camera: { zoom: 0.05, pan: 24 },
+    parallax: 0.45,
+    idle: { float: 6, breathe: 0.01, period: 4 },
+    exit: { y: 26, blur: 6 },
+  },
+  lively: {
+    camera: { zoom: 0.07, pan: 36 },
+    parallax: 0.5,
+    idle: { float: 10, breathe: 0.018, period: 3 },
+    exit: { y: 36, blur: 8 },
+  },
+} satisfies Record<string, MotionEnergyPreset>;
+
+export type MotionEnergy = keyof typeof MOTION_ENERGY;
+
+/** Waktu animasi keluar & idle (detik). */
+export const SCENE_MOTION_TIMING = {
+  /** Lama animasi keluar satu elemen. */
+  exitDuration: 0.35,
+  /** Jeda bergiliran maksimal antar elemen saat keluar. */
+  exitStaggerMax: 0.12,
+  /** Keluar dimulai sekian detik sebelum transisi keluar dimulai. */
+  exitLead: 0.1,
+  /** Idle mulai sekian detik setelah delay elemen, lalu menguat selama `idleRamp`. */
+  idleAfter: 0.7,
+  idleRamp: 0.8,
+} as const;

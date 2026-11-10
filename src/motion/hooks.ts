@@ -10,6 +10,7 @@ import {
   type StaggerName,
 } from '../config';
 import { useTheme } from '../themes';
+import { useIdle, useMotionEnergy, useSceneExit } from './scene';
 
 /** Konversi detik → frame sesuai fps aktif. */
 export function useSec(): (seconds: number) => number {
@@ -69,13 +70,35 @@ export function entranceStyle(
 export interface EntranceOptions extends SpringOptions {
   /** Preset entrance; default mengikuti tema. */
   preset?: EntrancePreset;
+  /** Setelah muncul, elemen tetap "bernapas" (melayang + denyut halus). Jangan untuk paragraf teks. */
+  idle?: boolean;
+  /** Ikut animasi keluar di akhir scene. Default true. */
+  exit?: boolean;
 }
 
-/** Style animasi masuk siap pakai. */
+/** Style animasi masuk siap pakai (+ idle opsional + keluar di akhir scene). */
 export function useEntrance(opts: EntranceOptions = {}): React.CSSProperties {
   const { theme, px } = useTheme();
   const progress = useSpring(opts);
-  return entranceStyle(progress, ENTRANCES[opts.preset ?? theme.motion.entrance], px);
+  const delay = opts.delay ?? 0;
+  const idle = useIdle(delay, opts.idle ?? false);
+  const exitP = useSceneExit(delay);
+  const energy = useMotionEnergy();
+  const base = entranceStyle(progress, ENTRANCES[opts.preset ?? theme.motion.entrance], px);
+  const out = opts.exit === false ? 0 : exitP;
+  if (out === 0 && idle.y === 0 && idle.scale === 1) return base;
+  const extra: string[] = [];
+  const y = idle.y - px(energy.exit.y) * out;
+  if (y !== 0) extra.push(`translate3d(0, ${y}px, 0)`);
+  if (idle.scale !== 1) extra.push(`scale(${idle.scale})`);
+  const blur = px(energy.exit.blur) * out;
+  const baseBlur = typeof base.filter === 'string' ? base.filter : '';
+  return {
+    ...base,
+    opacity: (base.opacity as number) * (1 - out),
+    transform: [...extra, base.transform].filter(Boolean).join(' '),
+    filter: blur > 0.05 ? `${baseBlur} blur(${blur}px)`.trim() : base.filter,
+  };
 }
 
 /** Delay (detik) untuk elemen ke-i dalam daftar berurutan. */

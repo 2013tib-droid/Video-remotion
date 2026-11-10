@@ -62,7 +62,7 @@ export const MascotSceneView: React.FC<SceneProps<MascotScene>> = ({ scene }) =>
       <SceneTitle {...scene} size="h1" />
       <Mascot src={scene.mascot} speech={scene.speech} delay={0.3} size={isPortrait ? 560 : 400} />
       {scene.name ? (
-        <Reveal delay={1.2} preset="pop" spring="bouncy">
+        <Reveal delay={1.2} preset="pop" spring="bouncy" idle>
           <Pill tone="primary">{scene.name}</Pill>
         </Reveal>
       ) : null}
@@ -145,7 +145,7 @@ export const CTASceneView: React.FC<SceneProps<CTAScene>> = ({ scene, brand }) =
   return (
     <SceneLayout background={scene.background}>
       {showLogo ? (
-        <Reveal delay={0.1} preset="pop" spring="gentle" style={{ display: 'flex', alignItems: 'center', gap: px(24) }}>
+        <Reveal delay={0.1} preset="pop" spring="gentle" idle style={{ display: 'flex', alignItems: 'center', gap: px(24) }}>
           <div
             style={{
               width: px(120),

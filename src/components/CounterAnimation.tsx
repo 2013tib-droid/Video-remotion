@@ -38,7 +38,7 @@ export const CounterAnimation: React.FC<CounterAnimationProps> = ({
     </>
   );
   return (
-    <Reveal delay={delay} style={{ display: 'flex', flexDirection: 'column', alignItems: align === 'center' ? 'center' : 'flex-start', gap: px(8) }}>
+    <Reveal delay={delay} idle style={{ display: 'flex', flexDirection: 'column', alignItems: align === 'center' ? 'center' : 'flex-start', gap: px(8) }}>
       <div
         style={{
           fontFamily: theme.fonts.heading,
