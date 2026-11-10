@@ -4,7 +4,7 @@ import { LINE_HEIGHT } from '../config';
 import { Reveal, useTextAnimation } from '../motion';
 import { useTheme } from '../themes';
 import { LineText, textRevealSpan, useTextLastStart } from './KineticText';
-import { Heading, Pill } from './primitives';
+import { Heading, Icon, Pill } from './primitives';
 
 export interface HeroSectionProps {
   eyebrow?: string;
@@ -17,6 +17,9 @@ export interface HeroSectionProps {
   delay?: number;
   /** Konten tambahan di bawah (CTA, mockup) — muncul setelah teks. */
   children?: React.ReactNode;
+  /** Ikon/ilustrasi beranimasi di atas judul (lihat `Icon`). */
+  illustration?: string;
+  illustrationSize?: number;
 }
 
 /** Blok judul utama: eyebrow → judul kata-per-kata → subjudul → konten. */
@@ -29,6 +32,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   titleSize = 'display',
   delay = 0,
   children,
+  illustration,
+  illustrationSize = 280,
 }) => {
   const { theme, type, space, px } = useTheme();
   const anim = useTextAnimation(titleSize);
@@ -46,6 +51,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         maxWidth: px(1500),
       }}
     >
+      {illustration ? (
+        <Reveal delay={delay} preset="pop" idle>
+          <Icon src={illustration} size={illustrationSize} />
+        </Reveal>
+      ) : null}
       {eyebrow ? (
         <Reveal delay={delay}>
           <Pill>{eyebrow}</Pill>

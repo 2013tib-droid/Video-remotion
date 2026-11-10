@@ -65,7 +65,7 @@ export const Mascot: React.FC<MascotProps> = ({ src, speech, size = 420, delay =
           filter: `drop-shadow(0 ${px(30)}px ${px(30)}px rgba(0,0,0,0.18))`,
         }}
       >
-        <Icon src={src} size={size} />
+        <Icon src={src} size={size} delay={delay + 0.2} />
       </div>
     </div>
   );

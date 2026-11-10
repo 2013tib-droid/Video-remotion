@@ -38,7 +38,11 @@ export interface MotionVideoProps {
  */
 export const MotionVideo: React.FC<MotionVideoProps> = ({ config }) => {
   const { fps, width, height } = useVideoConfig();
-  const theme = useMemo(() => resolveTheme(config.theme, config.themeOverrides), [config.theme, config.themeOverrides]);
+  const theme = useMemo(() => {
+    const t = resolveTheme(config.theme, config.themeOverrides);
+    const icons = config.motion?.icons;
+    return icons ? { ...t, motion: { ...t.motion, icons } } : t;
+  }, [config.theme, config.themeOverrides, config.motion?.icons]);
   const timeline = useMemo(() => computeTimeline(config), [config]);
   useFontsReady(theme);
   const insets = useMemo(

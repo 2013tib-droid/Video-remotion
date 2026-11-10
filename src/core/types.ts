@@ -1,4 +1,4 @@
-import type { CameraSetting, FormatName, MotionEnergy, TransitionName } from '../config';
+import type { CameraSetting, FormatName, IconStyle, MotionEnergy, TransitionName } from '../config';
 import type { ThemeName, ThemeOverrides } from '../themes';
 import type { SceneConfig } from '../scenes/types';
 import type { NarrationData, VoiceSettings } from './narration';
@@ -33,8 +33,9 @@ export interface VideoConfig {
   /**
    * Gerak sepanjang scene untuk seluruh video. Default dari tema;
    * video dengan `overlay` (explainer) otomatis `energy: 'calm'`.
+   * `icons`: `line` (default) = emoji dikenal jadi ikon garis yang tergambar; `emoji` = emoji asli.
    */
-  motion?: { energy?: MotionEnergy; camera?: CameraSetting; exit?: boolean };
+  motion?: { energy?: MotionEnergy; camera?: CameraSetting; exit?: boolean; icons?: IconStyle };
   /** Musik latar opsional (path di public/). */
   audio?: { src: string; volume?: number };
   /** Suara narasi (Azure). Wajib bila ada scene dengan `narration`. */

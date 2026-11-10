@@ -87,7 +87,7 @@ export const square = { ...base, id: 'BrandX-Launch-Square', format: 'square' as
 
 ## Aset
 - Taruh file di `public/brands/<brand>/`, rujuk dengan path relatif: `'brands/<brand>/logo.svg'`.
-- Ikon fitur boleh emoji (`'⚡'`) atau path gambar.
+- Ikon fitur boleh emoji (`'⚡'`, otomatis jadi ikon garis yang tergambar), `'line:rocket'`, `'draw:brands/x/ikon.svg'`, file Lottie `.json`, atau path gambar.
 - Screenshot aplikasi: `screen: { kind: 'image', src: 'brands/x/home.png' }` (rasio ±9:19.5).
 - Musik: `audio: { src: 'brands/x/music.mp3', volume: 0.6 }` (file `.mp3` otomatis lewat Git LFS).
 - Screenshot/foto besar: simpan di `public/brands/x/media/` agar disimpan via Git LFS.

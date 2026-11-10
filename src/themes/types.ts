@@ -1,4 +1,4 @@
-import type { CameraSetting, EntrancePreset, MotionEnergy, SpringPreset, StaggerName, TextAnimation, TransitionName } from '../config';
+import type { CameraSetting, EntrancePreset, IconStyle, MotionEnergy, SpringPreset, StaggerName, TextAnimation, TransitionName } from '../config';
 
 export type BackgroundKind = 'gradient' | 'particles' | 'pattern' | 'solid';
 
@@ -48,6 +48,8 @@ export interface Theme {
     camera?: CameraSetting;
     /** Gaya muncul kata pada judul (tipografi kinetik). Default `rise`. */
     text?: TextAnimation;
+    /** Emoji dikenal → ikon garis beranimasi (`line`, default) atau emoji asli (`emoji`). */
+    icons?: IconStyle;
   };
   background: {
     kind: BackgroundKind;

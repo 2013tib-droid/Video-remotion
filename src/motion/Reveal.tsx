@@ -1,5 +1,15 @@
-import React from 'react';
+import React, { createContext, useContext } from 'react';
 import { useEntrance, type EntranceOptions } from './hooks';
+
+const RevealDelayContext = createContext(0);
+
+/**
+ * Delay (detik) dari `<Reveal>` terdekat. Dipakai elemen di dalamnya (mis. ikon
+ * yang tergambar) agar animasinya mulai bersamaan dengan pembungkusnya.
+ */
+export function useRevealDelay(): number {
+  return useContext(RevealDelayContext);
+}
 
 export interface RevealProps extends EntranceOptions {
   children: React.ReactNode;
@@ -17,7 +27,7 @@ export const Reveal: React.FC<RevealProps> = ({ children, style, className, ...o
   const motion = useEntrance(opts);
   return (
     <div className={className} style={{ ...style, ...motion, transform: joinTransform(style?.transform, motion.transform) }}>
-      {children}
+      <RevealDelayContext.Provider value={opts.delay ?? 0}>{children}</RevealDelayContext.Provider>
     </div>
   );
 };

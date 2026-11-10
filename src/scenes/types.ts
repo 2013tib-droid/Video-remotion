@@ -83,6 +83,11 @@ export interface HeroScene extends SceneBase, SceneHeading {
   title: string;
   /** Label tombol opsional di bawah judul. */
   button?: string;
+  /**
+   * Ilustrasi beranimasi di atas judul: emoji / `line:<nama>` (ikon garis tergambar),
+   * `draw:<file.svg>` (SVG tergambar), atau file Lottie `.json`.
+   */
+  illustration?: string;
 }
 
 /** Karakter maskot + balon ucapan. */

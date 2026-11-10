@@ -126,4 +126,47 @@ export const statementDemo = defineVideo({
   ],
 });
 
-export const demoVideos = [appLaunchDemo, saasDemo, mobileDemo, statementDemo];
+/** Etalase ikon beranimasi: ikon garis tergambar, emoji → ikon, SVG tergambar, Lottie. */
+export const iconDemo = defineVideo({
+  id: 'Demo-Ikon',
+  brand: { name: 'Ikonik', logo: 'draw:brands/priceatlas/logo.svg' },
+  theme: 'ModernSaaS',
+  scenes: [
+    {
+      type: 'hero',
+      illustration: 'lottie/pulse.json',
+      eyebrow: 'Ikon beranimasi',
+      title: 'Ikon yang hidup, bukan emoji statis.',
+      highlight: 'hidup',
+      duration: 4,
+    },
+    {
+      type: 'features',
+      title: 'Emoji otomatis jadi ikon garis',
+      highlight: 'garis',
+      columns: 2,
+      features: [
+        { icon: '🛒', title: 'Keranjang' },
+        { icon: '🔔', title: 'Notifikasi' },
+        { icon: '📈', title: 'Pertumbuhan' },
+        { icon: '🔒', title: 'Keamanan' },
+        { icon: 'line:rocket', title: 'Peluncuran' },
+        { icon: 'line:settings', title: 'Pengaturan' },
+      ],
+      duration: 5,
+    },
+    {
+      type: 'timeline',
+      title: 'Cara kerjanya',
+      steps: [
+        { icon: '🔍', title: 'Cari', description: 'Temukan produk' },
+        { icon: '💡', title: 'Bandingkan', description: 'Lihat harga terbaik' },
+        { icon: '✅', title: 'Beli', description: 'Hemat setiap hari' },
+      ],
+      duration: 5,
+    },
+    { type: 'logo', tagline: 'SVG tergambar garis demi garis', duration: 3.5 },
+  ],
+});
+
+export const demoVideos = [appLaunchDemo, saasDemo, mobileDemo, statementDemo, iconDemo];

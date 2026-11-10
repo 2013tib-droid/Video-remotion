@@ -70,7 +70,7 @@ background (gradient|particles|pattern|solid). Banyak scene juga punya eyebrow, 
 
 === ATURAN ===
 - Bahasa Indonesia, kalimat pendek dan tajam. Judul maksimal ±8 kata, deskripsi maksimal ±8 kata.
-- Ikon = emoji.
+- Ikon = emoji (otomatis jadi ikon garis beranimasi) atau `line:<nama>` / file Lottie `.json`.
 - Angka harus nyata dari brief; kalau tidak ada, beri tanda [ISI ANGKA] dan jangan mengarang.
 - Total durasi scene harus sama dengan durasi target.
 - ID video: Brand-Jenis (contoh: PriceAtlas-Reel20).

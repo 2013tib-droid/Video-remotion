@@ -62,7 +62,7 @@ export const NotificationPopup: React.FC<NotificationPopupProps> = ({
           justifyContent: 'center',
         }}
       >
-        <Icon src={icon} size={50} />
+        <Icon src={icon} size={50} delay={delay + 0.1} color={theme.colors.onPrimary} />
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', color: theme.colors.muted, fontSize: type.label }}>

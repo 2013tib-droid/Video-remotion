@@ -48,6 +48,8 @@ export const HeroSceneView: React.FC<SceneProps<HeroScene>> = ({ scene }) => {
         subtitle={scene.subtitle}
         titleSize={isPortrait && scene.title.length > 28 ? 'h1' : 'display'}
         delay={0.15}
+        illustration={scene.illustration}
+        illustrationSize={isPortrait ? 300 : 220}
       >
         {scene.button ? <CTAButton label={scene.button} pulse={false} /> : undefined}
       </HeroSection>
