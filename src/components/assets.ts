@@ -14,3 +14,8 @@ export function isLottieSrc(src: string): boolean {
 export function resolveSrc(src: string): string {
   return /^(https?:|data:)/.test(src) ? src : staticFile(src.replace(/^\/+/, ''));
 }
+
+/** True bila string adalah file video (b-roll). */
+export function isVideoSrc(src: string): boolean {
+  return /\.(mp4|webm|mov|m4v|mkv)(\?.*)?$/i.test(src);
+}

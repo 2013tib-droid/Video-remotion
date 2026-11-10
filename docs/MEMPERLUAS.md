@@ -15,6 +15,7 @@ Catatan: `colors.primary` sebaiknya hex 6 digit (dipakai dengan suffix alpha, mi
 - Elemen non-teks (kartu, ikon, badge) beri `<Reveal idle>` agar tetap bergerak setelah muncul. `Reveal` otomatis ikut animasi keluar (matikan dengan `exit={false}`). Hook lain: `useIdle`, `useSceneExit`, `useCamera` (`src/motion/scene.tsx`).
 - Teks judul: pakai `<Heading>` (tipografi kinetik + aksen otomatis) atau `<KineticText>`; subtitle/paragraf: `<LineText>` (fade per baris). Jangan beri teks `idle`.
 - Ikon: pakai `<Icon src>` (emoji/`line:`/`draw:`/Lottie otomatis beranimasi). Di dalam `<Reveal>` ikon ikut delay pembungkus; di luar, beri `delay`. Ikon garis baru: tambah path 24×24 di `LINE_ICONS` (+ emoji di `EMOJI_ICONS`).
+- Suara: `<Reveal idle>` otomatis berbunyi `pop`; suara lain lewat `<Sfx name="ting" at={detik} />` (`src/motion/sfx.tsx`), volume dari `SFX_VOLUME`. File baru: tambah di `scripts/build-sfx.mjs` + `SFX_FILES`.
 - Terima `delay` (detik) sebagai prop.
 - Ekspor dari `src/components/index.ts`.
 

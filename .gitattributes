@@ -16,3 +16,7 @@ public/**/media/** filter=lfs diff=lfs merge=lfs -text
 # Narasi (voice-over) hasil `npm run narasi`: klip kecil (~50 KB) disimpan
 # sebagai file git biasa agar bisa dirender ulang tanpa Git LFS.
 public/narration/** -filter -diff -merge -text
+
+# Efek suara (SFX) sintetis kecil hasil `scripts/build-sfx.mjs`: file git biasa
+# (upload Git LFS diblokir dari sesi cloud; total < 0,5 MB).
+public/sfx/** -filter -diff -merge -text

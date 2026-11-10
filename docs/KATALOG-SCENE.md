@@ -11,6 +11,7 @@ Sumber kebenaran: `src/scenes/types.ts`. Semua scene menerima properti dasar:
 | `exit` | `false` = elemen tidak keluar bergiliran di akhir scene (default `true`; scene terakhir tidak pernah keluar) |
 | `textAnimation` | gaya muncul kata judul: `rise` `pop` `blur` `typewriter` `slam` (default dari tema) |
 | `highlightStyle` | aksen kata sorotan: `mix` (default) `marker` `underline` `circle` `punch` `none` |
+| `sfx` | `false` = scene ini tanpa efek suara elemen (pop/ting/tick/dentum). Whoosh transisi diatur `sfx` di config video |
 
 Sebagian besar scene juga menerima **judul standar**: `eyebrow`, `title`, `highlight` (kata bergradien), `subtitle`.
 
@@ -31,6 +32,9 @@ Sebagian besar scene juga menerima **judul standar**: `eyebrow`, `title`, `highl
 | `question` | `label?` `question` `options[]` `countdown?` `initial?` `steps[] {action: select/wrong/strike/correct, option, note?, at?}` `enter?` | Bedah soal pilihan ganda (explainer) |
 | `relation` | `rows[] {left, verb, right, at?}` `formula?` `formulaAt?` | Analogi / hubungan A → B |
 | `statement` | `lines[] {text, highlight?, at?}` `style?: 'stack' \| 'replace'` | Teks besar ala Reels/TikTok. `stack` = baris bertumpuk satu per satu; `replace` = satu frasa memenuhi layar lalu diganti berikutnya. Ukuran font otomatis pas di area aman. Tanpa eyebrow/title/subtitle. |
+| `words` | `words` (kalimat atau `[{text, highlight?, at?}]`) `accent?[]` `interval?` `flash?` `caption?` | **Satu kata per ketukan** memenuhi layar: menghentak masuk (skala + blur), dorongan pelan, dipotong kata berikutnya; kata sorotan (`accent`) bergradien + latar berkedip warna brand (`flash: false` = mati). Bernarasi → tiap kata muncul **tepat saat diucapkan** (otomatis dicocokkan). Default dibagi rata sepanjang `duration` (≈ 1 kata/dtk bila durasi = jumlah kata). Bunyi tick per kata, dentum untuk kata sorotan. |
+| `broll` | `src` atau `shots[] {src, move?, focus?, caption?, duration?, startFrom?}` `move?` `textPosition?` `dim?` `volume?` + judul standar | **Foto/video b-roll layar penuh** dengan gerak kamera Ken Burns: `zoomIn` `zoomOut` `panLeft` `panRight` `panUp` `panDown` `none` atau `auto` (bergiliran). `focus: [x, y]` (0..1) = titik pusat zoom. Beberapa `shots` = montase dengan crossfade + swipe. Judul putih di atas scrim gelap (`dim` 0..1, `textPosition` `bottom`/`center`/`top`); `caption` = label lokasi kiri atas. Video (mp4/webm/mov) senyap kecuali `volume`. |
+| `map` | `region?` `points[] {place? \| lat+lon, label?, value?, icon?, at?}` `routes[] {from, to, at?}` `countries?[]` `zoomToPoints?` + judul standar | **Peta beranimasi** (Natural Earth): daratan tersingkap melingkar, kamera terbang ke area pin, pin jatuh memantul + denyut, label (anti-tabrakan) dengan nilai, rute melengkung tergambar + titik mengalir. `region`: `indonesia` (default) `sumatra` `jawa` `kalimantan` `sulawesi` `bali-nusra` `maluku` `papua` `asean` `asia` `world` atau bbox `[barat, selatan, timur, utara]`. `place` = kota bawaan (±100: semua ibu kota provinsi & kota besar Indonesia, ASEAN, kota dunia — `src/components/map/places.ts`). `countries` = negara diwarnai (nama Inggris, mis. `'Malaysia'`); wilayah Indonesia otomatis menyorot Indonesia. |
 
 Semua scene juga menerima `narration` (teks voice-over), `emphasis[]` (kata disorot di subtitle) dan `chapter {label?, title, highlight?}` (header bab). `at` = detik **atau kata narasi** (mis. `'higrometer'`, `'alat#2'`). Lihat `docs/EXPLAINER.md`.
 
@@ -48,7 +52,23 @@ Semua scene juga menerima `narration` (teks voice-over), `emphasis[]` (kata diso
 `notifications[]`: `{ icon?, app?, title, body?, time? }` — muncul berurutan di atas perangkat.
 
 ## Durasi default (detik)
-logo 3 · hero 4 · mascot 4 · features 5 · stats 4 · chart 5 · comparison 5 · timeline 5 · device 5 · calculation 5 · testimonial 4.5 · cta 4 · question 5 · relation 5 · statement 5 (scene bernarasi: mengikuti panjang suara)
+logo 3 · hero 4 · mascot 4 · features 5 · stats 4 · chart 5 · comparison 5 · timeline 5 · device 5 · calculation 5 · testimonial 4.5 · cta 4 · question 5 · relation 5 · statement 5 · words 4 · broll 5 · map 6 (scene bernarasi: mengikuti panjang suara)
+
+## Efek suara (SFX)
+Semua video otomatis punya efek suara halus (file sintetis di `public/sfx/`, dibuat `node scripts/build-sfx.mjs`):
+
+| Kapan | Suara |
+|---|---|
+| Transisi antar scene | `whoosh` (slide/flip/cube/pushCut), `whooshSoft` (fade/zoom/iris), `swipe` (wipe/clockWipe); `none` senyap |
+| Kartu/ikon/badge/angka muncul (`<Reveal idle>`) | `pop` (3 nada bergiliran) |
+| Angka selesai menghitung (`stats`, `calculation`, KPI pertama dashboard) | `ting` |
+| Soal: pilih / salah / coret / benar | `tick` / `impact` / `swipe` / `ting` |
+| Baris `statement`, kata `words` | `tick` (gaya `slam` & kata sorotan: `impact`) |
+| Pin `map` jatuh / rute tergambar; ganti shot `broll` | `pop` / `swipe` |
+
+- Atur per video: `sfx: false` (senyap) atau `sfx: { volume: 0.7, transitions: true, elements: true, counters: true }`. Per scene: `sfx: false`.
+- Video bernarasi otomatis dikecilkan (×0,6) agar suara narator tetap jelas. Volume & pemetaan: `src/config/sfx.ts`.
+- Komponen baru: `<Sfx name="pop" at={detik} />` (`src/motion/sfx.tsx`), atau `<Reveal idle>` (otomatis pop) / `<Reveal sfx="tick">`.
 
 ## Gerak sepanjang scene
 Semua video otomatis punya: **kamera** (zoom/geser pelan + background parallax), **idle** (kartu, ikon, angka, badge "bernapas" setelah muncul) dan **keluar** (elemen memudar ke atas bergiliran sebelum transisi).

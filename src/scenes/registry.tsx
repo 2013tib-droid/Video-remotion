@@ -16,6 +16,9 @@ import { DeviceSceneView } from './DeviceScene';
 import { QuestionSceneView } from './QuestionScene';
 import { RelationSceneView } from './RelationScene';
 import { StatementSceneView } from './StatementScene';
+import { WordsSceneView } from './WordsScene';
+import { BrollSceneView } from './BrollScene';
+import { MapSceneView } from './MapScene';
 import type { SceneProps } from './registry-types';
 import type { SceneConfig, SceneType } from './types';
 
@@ -39,6 +42,9 @@ const REGISTRY: { [T in SceneType]: React.FC<SceneProps<Extract<SceneConfig, { t
   question: QuestionSceneView,
   relation: RelationSceneView,
   statement: StatementSceneView,
+  words: WordsSceneView,
+  broll: BrollSceneView,
+  map: MapSceneView,
 };
 
 export const SceneRenderer: React.FC<SceneProps> = ({ scene, brand }) => {

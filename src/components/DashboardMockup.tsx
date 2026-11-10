@@ -56,7 +56,7 @@ export const DashboardMockup: React.FC<DashboardMockupProps> = ({ title = 'Dashb
                 border: `${px(1.5)}px solid ${theme.colors.border}`,
               }}
             >
-              <CounterAnimation {...k} size="caption" align="left" delay={stagger(i, delay)} gradient={i === 0} />
+              <CounterAnimation {...k} size="caption" align="left" delay={stagger(i, delay)} gradient={i === 0} ting={i === 0} />
             </div>
           ))}
         </div>

@@ -2,11 +2,30 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { AbsoluteFill, Html5Audio, Sequence, continueRender, delayRender, useVideoConfig } from 'remotion';
 import { TransitionSeries } from '@remotion/transitions';
 import '../config/fonts';
-import { CAMERA_MOVES, DEFAULT_FORMAT, SCENE_MOTION_TIMING, getPresentation, getTiming } from '../config';
+import {
+  CAMERA_MOVES,
+  DEFAULT_FORMAT,
+  SCENE_MOTION_TIMING,
+  SFX_NARRATION_DUCK,
+  SFX_TIMING,
+  TRANSITION_SFX,
+  getPresentation,
+  getTiming,
+  resolveTransition,
+} from '../config';
 import { resolveSrc } from '../components/primitives';
 import { SceneRenderer } from '../scenes/registry';
 import { sceneAccentCount } from '../scenes/accents';
-import { CueProvider, SceneMotionProvider, SceneTextProvider, type SceneMotion, type SceneText } from '../motion';
+import {
+  CueProvider,
+  SceneMotionProvider,
+  SceneTextProvider,
+  Sfx,
+  SfxProvider,
+  type SceneMotion,
+  type SceneText,
+  type SfxState,
+} from '../motion';
 import { ThemeProvider, resolveTheme, type Theme } from '../themes';
 import { ExplainerOverlay, OVERLAY_LAYOUT } from './ExplainerOverlay';
 import { NARRATION_LEAD, resolveClip } from './narration';
@@ -85,6 +104,17 @@ export const MotionVideo: React.FC<MotionVideoProps> = ({ config }) => {
       return value;
     });
   }, [config]);
+  const sfx = useMemo<SfxState>(() => {
+    const opt = config.sfx === false ? null : config.sfx === true || !config.sfx ? {} : config.sfx;
+    if (!opt) return { volume: 0, transitions: false, elements: false, counters: false };
+    const narrated = config.scenes.some((sc) => sc.narration);
+    return {
+      volume: (opt.volume ?? 1) * (narrated ? SFX_NARRATION_DUCK : 1),
+      transitions: opt.transitions ?? true,
+      elements: opt.elements ?? true,
+      counters: opt.counters ?? true,
+    };
+  }, [config]);
   useMemo(() => {
     const missing = clips.filter((c) => c?.estimated).length;
     if (missing) {
@@ -98,6 +128,7 @@ export const MotionVideo: React.FC<MotionVideoProps> = ({ config }) => {
   return (
     <ThemeProvider theme={theme} format={config.format ?? DEFAULT_FORMAT} insets={insets}>
       <AbsoluteFill style={{ background: theme.colors.background }}>
+        <SfxProvider value={sfx}>
         <TransitionSeries>
           {config.scenes.map((scene, i) => {
             const entry = timeline.entries[i];
@@ -105,6 +136,7 @@ export const MotionVideo: React.FC<MotionVideoProps> = ({ config }) => {
             return (
               <React.Fragment key={i}>
                 <TransitionSeries.Sequence durationInFrames={entry.frames} name={`${i + 1}. ${scene.type}`}>
+                  <SfxProvider value={scene.sfx === false ? { ...sfx, elements: false, counters: false } : sfx}>
                   <SceneMotionProvider value={sceneMotion[i]}>
                     <SceneTextProvider value={sceneText[i]}>
                       <CueProvider words={(clips[i]?.words ?? []).map((w) => ({ ...w, start: w.start + NARRATION_LEAD, end: w.end + NARRATION_LEAD }))}>
@@ -112,6 +144,7 @@ export const MotionVideo: React.FC<MotionVideoProps> = ({ config }) => {
                       </CueProvider>
                     </SceneTextProvider>
                   </SceneMotionProvider>
+                  </SfxProvider>
                 </TransitionSeries.Sequence>
                 {next && next.transitionFrames > 0 ? (
                   <TransitionSeries.Transition presentation={getPresentation(next.transition, { width, height })} timing={getTiming(next.transition, fps)} />
@@ -120,6 +153,15 @@ export const MotionVideo: React.FC<MotionVideoProps> = ({ config }) => {
             );
           })}
         </TransitionSeries>
+        {timeline.entries.map((entry, i) => {
+          const name = entry.transitionFrames > 0 ? TRANSITION_SFX[resolveTransition(entry.transition, i)] : null;
+          return name ? (
+            <Sequence key={`sfx-${i}`} from={entry.from} layout="none" name={`Whoosh ${i + 1}`}>
+              <Sfx name={name} at={SFX_TIMING.transitionOffset} seed={i} />
+            </Sequence>
+          ) : null;
+        })}
+        </SfxProvider>
         {config.overlay ? <ExplainerOverlay config={config} timeline={timeline} /> : null}
         {clips.map((clip, i) =>
           clip && clip.src ? (

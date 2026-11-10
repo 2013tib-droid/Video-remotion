@@ -11,7 +11,7 @@ import { DrawSvg, LINE_ICONS, LineIcon, LottieIcon, isLineIconName, lineIconForE
 import { KineticText } from './KineticText';
 import { useTheme } from '../themes';
 
-export { isImageSrc, isLottieSrc, resolveSrc } from './assets';
+export { isImageSrc, isLottieSrc, isVideoSrc, resolveSrc } from './assets';
 
 export interface IconProps {
   /**

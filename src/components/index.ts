@@ -22,3 +22,4 @@ export * from './Mascot';
 export * from './QuoteCard';
 export * from './screens';
 export * from './explainer';
+export * from './map';

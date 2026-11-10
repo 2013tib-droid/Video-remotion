@@ -1,6 +1,7 @@
 import React from 'react';
 import { interpolate, useCurrentFrame, useVideoConfig } from 'remotion';
-import { Reveal, useCue, useStagger } from '../motion';
+import type { SfxName } from '../config';
+import { Reveal, Sfx, useCue, useStagger } from '../motion';
 import { useTheme } from '../themes';
 import type { SceneProps } from './registry-types';
 import { SceneLayout } from './SceneLayout';
@@ -17,6 +18,14 @@ interface OptionState {
 }
 
 const LETTERS = 'ABCDEFGH';
+
+/** Suara tiap aksi soal. */
+const STEP_SFX: Record<NonNullable<QuestionScene['steps']>[number]['action'], SfxName> = {
+  select: 'tick',
+  wrong: 'impact',
+  strike: 'swipe',
+  correct: 'ting',
+};
 
 /** Kartu soal pilihan ganda gaya aplikasi ujian, dengan aksi berurutan. */
 export const QuestionSceneView: React.FC<SceneProps<QuestionScene>> = ({ scene }) => {
@@ -93,8 +102,13 @@ export const QuestionSceneView: React.FC<SceneProps<QuestionScene>> = ({ scene }
     </div>
   );
 
+  const sounds = (scene.steps ?? []).map((step, k) => (
+    <Sfx key={`sfx-${k}`} name={STEP_SFX[step.action]} at={cue(step.at, 0.8 + k * 1.2)} volume={step.action === 'wrong' ? 0.6 : 1} />
+  ));
+
   return (
     <SceneLayout background={scene.background} style={{ justifyContent: 'center', gap: space.md }}>
+      {sounds}
       {enter ? <Reveal style={{ width: '100%' }}>{card}</Reveal> : card}
     </SceneLayout>
   );

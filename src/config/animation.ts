@@ -239,3 +239,61 @@ export const ICON_IDLE = {
   bob: { y: 0.05, period: 2.4 },
   nudge: { x: 0.06, period: 1.4 },
 } as const;
+
+/* ------------------------------------------------------------------
+ * Scene `words`, `broll`, `map`.
+ * ------------------------------------------------------------------ */
+
+/** Scene `words`: satu kata per ketukan (detik / faktor). */
+export const WORDS_TIMING = {
+  /** Kata pertama muncul sekian detik setelah scene mulai. */
+  lead: 0.15,
+  /** Sisakan sekian detik untuk kata terakhir & transisi keluar. */
+  tail: 0.6,
+  /** Jeda minimum antar kata. */
+  minInterval: 0.35,
+  /** Lama hentakan masuk. */
+  enter: 0.3,
+  /** Kata mulai dari skala ini (menghentak turun ke 1). */
+  fromScale: 1.35,
+  /** Blur awal (px basis 1080). */
+  fromBlur: 14,
+  /** Dorongan pelan selama kata tampil (tambahan skala). */
+  push: 0.06,
+  /** Kemiringan awal bergantian (derajat). */
+  tilt: 3,
+  /** Titik progres hanya bila kata ≤ sekian. */
+  maxDots: 14,
+} as const;
+
+/** Scene `broll`: gerak kamera Ken Burns & crossfade antar shot. */
+export const BROLL_MOTION = {
+  /** Tambahan skala zoom sepanjang shot. */
+  zoom: 0.16,
+  /** Geser maksimal (fraksi lebar/tinggi frame) untuk pan. */
+  pan: 0.07,
+  /** Skala dasar saat pan (overscan agar tepi tidak terlihat). */
+  panScale: 1.18,
+  /** Lama crossfade antar shot (detik). */
+  crossfade: 0.4,
+  /** Urutan gerak untuk `auto`. */
+  auto: ['zoomIn', 'panLeft', 'zoomOut', 'panRight', 'panUp'] as const,
+} as const;
+
+/** Scene `map`: waktu animasi peta (detik). */
+export const MAP_TIMING = {
+  /** Garis pantai tergambar selama ini. */
+  draw: 1.0,
+  /** Isian daratan memudar masuk mulai detik ke-. */
+  fillAt: 0.35,
+  /** Kamera terbang ke area pin: mulai & lama. */
+  flyAt: 0.7,
+  fly: 1.3,
+  /** Pin pertama jatuh (bila tanpa cue) & jeda antar pin. */
+  pinsAt: 1.6,
+  pinStagger: 0.35,
+  /** Rute tergambar selama ini. */
+  route: 0.9,
+  /** Drift kamera pelan setelah terbang (tambahan skala). */
+  drift: 0.04,
+} as const;
