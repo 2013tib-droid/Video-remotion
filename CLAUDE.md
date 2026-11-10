@@ -32,6 +32,11 @@ tepat saat diucapkan. Subtitle fade per baris. Per scene: `textAnimation`, `high
 `circle`/`punch`/`none`). Untuk teks besar ala Reels pakai scene `statement` (`lines[]`, `style: 'stack' | 'replace'`).
 Kode: `src/components/KineticText.tsx`, `src/motion/text.tsx`, preset di `src/config/animation.ts`.
 
+## Transisi antar scene (sudah ada)
+`transition` per scene atau di config: `fade` `zoom` `slideLeft`/`Right`/`Up`/`Down` `wipe` `wipeUp` `flip` `flipUp` `cube`
+`clockWipe` `iris` `pushCut` `none`, atau `mix` (bergiliran otomatis, deterministik). Default dari tema.
+Kode: `src/config/transitions.tsx`. Hindari presentasi shader (dissolve, film burn, ripple) — rawan gagal render.
+
 ## Alur kerja minimal (hemat token)
 1. Baca **hanya** `src/scenes/types.ts` (kontrak semua scene) — atau `docs/KATALOG-SCENE.md`.
 2. Bila cocok, pakai template di `src/templates/*.ts` (baca interface props-nya saja).

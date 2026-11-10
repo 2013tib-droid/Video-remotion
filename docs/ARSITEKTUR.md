@@ -33,7 +33,7 @@ Setiap lapisan hanya bergantung pada lapisan di bawahnya. Konten tidak pernah be
 | `typography.ts` | `TYPE_SCALE` (display → label), `LINE_HEIGHT`, `PORTRAIT_TYPE_BOOST` |
 | `spacing.ts` | `SPACING` xs → xxl |
 | `formats.ts` | `FORMATS` + `SAFE_AREA` per format |
-| `transitions.tsx` | Nama transisi → presentasi `@remotion/transitions` |
+| `transitions.tsx` | Nama transisi → presentasi `@remotion/transitions` (fade, zoom, slide, wipe, flip, cube, clockWipe, iris, pushCut) + `mix` bergiliran (`resolveTransition`) |
 | `scenes.ts` | Durasi default per tipe scene |
 | `fonts.ts` | Font lokal (@fontsource) |
 
@@ -59,7 +59,7 @@ Prinsip: animasi masuk ditangani `<Reveal>` (teks judul: `<Heading>`), animasi k
 
 `computeTimeline(config)`:
 1. Durasi tiap scene = `scene.duration` ?? default tipe.
-2. Transisi masuk tiap scene (kecuali pertama) tumpang tindih dengan scene sebelumnya.
+2. Transisi masuk tiap scene (kecuali pertama) tumpang tindih dengan scene sebelumnya. `mix` di-resolve dulu menjadi transisi konkret per indeks scene.
 3. Bila `config.duration` diisi, semua scene diskalakan proporsional (min 1,5 dtk) dan sisa pembulatan diserap scene terpanjang → total **tepat** sesuai target.
 
 `Root.tsx` mendaftarkan semua config dari `src/projects/index.ts` sebagai `<Composition>`, dengan `calculateMetadata` agar perubahan props di Studio langsung memperbarui durasi.
