@@ -30,12 +30,15 @@ function scaleRecord<K extends string>(rec: Record<K, number>, s: number): Recor
 export const ThemeProvider: React.FC<{
   theme: Theme;
   format: FormatName;
+  /** Ruang tambahan area aman (px basis 1080), mis. untuk lapisan header/subtitle. */
+  insets?: { top?: number; bottom?: number };
   children: React.ReactNode;
-}> = ({ theme, format, children }) => {
+}> = ({ theme, format, insets, children }) => {
   const { width, height } = useVideoConfig();
   const value = useMemo<ThemeContextValue>(() => {
     const scale = Math.min(width, height) / 1080;
-    const safe = SAFE_AREA[format];
+    const base = SAFE_AREA[format];
+    const safe = { ...base, top: base.top + (insets?.top ?? 0), bottom: base.bottom + (insets?.bottom ?? 0) };
     const portrait = height > width;
     // Video vertikal ditonton di layar ponsel: teks sedikit diperbesar.
     const typeScale = scale * (portrait ? PORTRAIT_TYPE_BOOST : 1);
@@ -49,7 +52,7 @@ export const ThemeProvider: React.FC<{
       safe: scaleRecord(safe, scale),
       px: (n: number) => n * scale,
     };
-  }, [theme, format, width, height]);
+  }, [theme, format, width, height, insets?.top, insets?.bottom]);
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 };
 

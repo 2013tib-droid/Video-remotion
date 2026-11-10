@@ -1,6 +1,7 @@
 import { ApplePremium } from './ApplePremium';
 import { Corporate } from './Corporate';
 import { IslamicWarm } from './IslamicWarm';
+import { ModernDark } from './ModernDark';
 import { ModernSaaS } from './ModernSaaS';
 import { PlayfulKids } from './PlayfulKids';
 import type { Theme, ThemeOverrides } from './types';
@@ -9,6 +10,7 @@ import type { Theme, ThemeOverrides } from './types';
 export const THEMES = {
   ApplePremium,
   ModernSaaS,
+  ModernDark,
   PlayfulKids,
   Corporate,
   IslamicWarm,

@@ -1,6 +1,7 @@
 import type { FormatName, TransitionName } from '../config';
 import type { ThemeName, ThemeOverrides } from '../themes';
 import type { SceneConfig } from '../scenes/types';
+import type { NarrationData, VoiceSettings } from './narration';
 
 export interface Brand {
   name: string;
@@ -31,5 +32,25 @@ export interface VideoConfig {
   transition?: TransitionName;
   /** Musik latar opsional (path di public/). */
   audio?: { src: string; volume?: number };
+  /** Suara narasi (Azure). Wajib bila ada scene dengan `narration`. */
+  voice?: VoiceSettings;
+  /** Hasil `npm run narasi` — impor dari `<config>.narration.json`. */
+  narration?: NarrationData;
+  /** Lapisan tetap gaya explainer (header bab, HUD, subtitle). */
+  overlay?: OverlayConfig;
   scenes: SceneConfig[];
+}
+
+/** Lapisan tetap di atas semua scene (gaya video explainer). */
+export interface OverlayConfig {
+  /** Widget status kanan atas, mis. { label: "TIU 7/20", timer: "00:18:42" }. */
+  hud?: {
+    label?: string;
+    /** Timer awal "HH:MM:SS"; berjalan mundur sepanjang video. */
+    timer?: string;
+  };
+  /** Tampilkan nama/logo brand di HUD. Default true. */
+  brand?: boolean;
+  /** Subtitle per kata dari narasi. Default true. */
+  captions?: boolean;
 }
