@@ -5,7 +5,7 @@ Sumber kebenaran: `src/scenes/types.ts`. Semua scene menerima properti dasar:
 | Properti | Keterangan |
 |---|---|
 | `duration` | detik; default per tipe (lihat `src/config/scenes.ts`) |
-| `transition` | transisi masuk: `fade` `zoom` `slideLeft` `slideUp` `wipe` `none` |
+| `transition` | transisi masuk: `fade` `zoom` `slideLeft` `slideRight` `slideUp` `slideDown` `wipe` `wipeUp` `flip` `flipUp` `cube` `clockWipe` `iris` `pushCut` `mix` `none`. `mix` = bergiliran otomatis per scene (deterministik); bisa dipasang sekali di config `transition: 'mix'` |
 | `background` | `gradient` `particles` `pattern` `solid` |
 | `camera` | gerak kamera pelan sepanjang scene: `auto` (default, bergiliran) `zoomIn` `zoomOut` `panLeft` `panRight` `none` |
 | `exit` | `false` = elemen tidak keluar bergiliran di akhir scene (default `true`; scene terakhir tidak pernah keluar) |

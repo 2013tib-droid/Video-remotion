@@ -37,7 +37,7 @@ export interface MotionVideoProps {
  * Tidak perlu diubah saat membuat video baru.
  */
 export const MotionVideo: React.FC<MotionVideoProps> = ({ config }) => {
-  const { fps } = useVideoConfig();
+  const { fps, width, height } = useVideoConfig();
   const theme = useMemo(() => resolveTheme(config.theme, config.themeOverrides), [config.theme, config.themeOverrides]);
   const timeline = useMemo(() => computeTimeline(config), [config]);
   useFontsReady(theme);
@@ -110,7 +110,7 @@ export const MotionVideo: React.FC<MotionVideoProps> = ({ config }) => {
                   </SceneMotionProvider>
                 </TransitionSeries.Sequence>
                 {next && next.transitionFrames > 0 ? (
-                  <TransitionSeries.Transition presentation={getPresentation(next.transition)} timing={getTiming(next.transition, fps)} />
+                  <TransitionSeries.Transition presentation={getPresentation(next.transition, { width, height })} timing={getTiming(next.transition, fps)} />
                 ) : null}
               </React.Fragment>
             );
