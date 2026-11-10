@@ -1,3 +1,1125 @@
 {
-  "clips": {}
+ "clips": {
+  "894c78fa": {
+   "src": "narration/BPS-EkonomiQ32026/894c78fa.mp3",
+   "duration": 8.784,
+   "words": [
+    {
+     "w": "Bagaimana",
+     "start": 0.08,
+     "end": 0.559
+    },
+    {
+     "w": "kondisi",
+     "start": 0.559,
+     "end": 0.917
+    },
+    {
+     "w": "ekonomi",
+     "start": 0.917,
+     "end": 1.396
+    },
+    {
+     "w": "Indonesia",
+     "start": 1.396,
+     "end": 1.994
+    },
+    {
+     "w": "sepanjang",
+     "start": 1.994,
+     "end": 2.353
+    },
+    {
+     "w": "2026?",
+     "start": 2.353,
+     "end": 3.31
+    },
+    {
+     "w": "Yuk,",
+     "start": 3.88,
+     "end": 4.01
+    },
+    {
+     "w": "kita",
+     "start": 4.3,
+     "end": 4.554
+    },
+    {
+     "w": "bedah",
+     "start": 4.554,
+     "end": 4.807
+    },
+    {
+     "w": "komponen",
+     "start": 4.807,
+     "end": 5.187
+    },
+    {
+     "w": "PDB",
+     "start": 5.187,
+     "end": 5.568
+    },
+    {
+     "w": "menurut",
+     "start": 5.568,
+     "end": 5.948
+    },
+    {
+     "w": "pengeluaran,",
+     "start": 5.948,
+     "end": 6.582
+    },
+    {
+     "w": "dari",
+     "start": 6.582,
+     "end": 6.835
+    },
+    {
+     "w": "kuartal",
+     "start": 6.835,
+     "end": 7.216
+    },
+    {
+     "w": "pertama",
+     "start": 7.216,
+     "end": 7.596
+    },
+    {
+     "w": "sampai",
+     "start": 7.596,
+     "end": 7.849
+    },
+    {
+     "w": "kuartal",
+     "start": 7.849,
+     "end": 8.23
+    },
+    {
+     "w": "ketiga.",
+     "start": 8.23,
+     "end": 8.61
+    }
+   ]
+  },
+  "da5dbb02": {
+   "src": "narration/BPS-EkonomiQ32026/da5dbb02.mp3",
+   "duration": 8.328,
+   "words": [
+    {
+     "w": "Ekonomi",
+     "start": 0.07,
+     "end": 0.556
+    },
+    {
+     "w": "tumbuh",
+     "start": 0.556,
+     "end": 0.799
+    },
+    {
+     "w": "5,61",
+     "start": 0.799,
+     "end": 1.527
+    },
+    {
+     "w": "persen",
+     "start": 1.527,
+     "end": 1.77
+    },
+    {
+     "w": "di",
+     "start": 1.77,
+     "end": 1.891
+    },
+    {
+     "w": "kuartal",
+     "start": 1.891,
+     "end": 2.256
+    },
+    {
+     "w": "pertama,",
+     "start": 2.256,
+     "end": 2.62
+    },
+    {
+     "w": "melambat",
+     "start": 2.8,
+     "end": 3.187
+    },
+    {
+     "w": "ke",
+     "start": 3.187,
+     "end": 3.316
+    },
+    {
+     "w": "5,29",
+     "start": 3.316,
+     "end": 4.089
+    },
+    {
+     "w": "persen",
+     "start": 4.089,
+     "end": 4.347
+    },
+    {
+     "w": "di",
+     "start": 4.347,
+     "end": 4.476
+    },
+    {
+     "w": "kuartal",
+     "start": 4.476,
+     "end": 4.863
+    },
+    {
+     "w": "kedua,",
+     "start": 4.863,
+     "end": 5.25
+    },
+    {
+     "w": "lalu",
+     "start": 5.47,
+     "end": 5.723
+    },
+    {
+     "w": "naik",
+     "start": 5.723,
+     "end": 5.85
+    },
+    {
+     "w": "lagi",
+     "start": 5.85,
+     "end": 6.103
+    },
+    {
+     "w": "ke",
+     "start": 6.103,
+     "end": 6.23
+    },
+    {
+     "w": "5,47",
+     "start": 6.23,
+     "end": 6.99
+    },
+    {
+     "w": "persen",
+     "start": 6.99,
+     "end": 7.243
+    },
+    {
+     "w": "di",
+     "start": 7.243,
+     "end": 7.37
+    },
+    {
+     "w": "kuartal",
+     "start": 7.37,
+     "end": 7.75
+    },
+    {
+     "w": "ketiga.",
+     "start": 7.75,
+     "end": 8.13
+    }
+   ]
+  },
+  "8f5df7ea": {
+   "src": "narration/BPS-EkonomiQ32026/8f5df7ea.mp3",
+   "duration": 8.76,
+   "words": [
+    {
+     "w": "Konsumsi",
+     "start": 0.07,
+     "end": 0.481
+    },
+    {
+     "w": "rumah",
+     "start": 0.481,
+     "end": 0.755
+    },
+    {
+     "w": "tangga",
+     "start": 0.755,
+     "end": 1.03
+    },
+    {
+     "w": "tumbuh",
+     "start": 1.03,
+     "end": 1.304
+    },
+    {
+     "w": "5,52",
+     "start": 1.304,
+     "end": 2.126
+    },
+    {
+     "w": "persen",
+     "start": 2.126,
+     "end": 2.4
+    },
+    {
+     "w": "di",
+     "start": 2.4,
+     "end": 2.538
+    },
+    {
+     "w": "kuartal",
+     "start": 2.538,
+     "end": 2.949
+    },
+    {
+     "w": "pertama,",
+     "start": 2.949,
+     "end": 3.36
+    },
+    {
+     "w": "lalu",
+     "start": 3.75,
+     "end": 4.017
+    },
+    {
+     "w": "5,06",
+     "start": 4.017,
+     "end": 4.818
+    },
+    {
+     "w": "persen",
+     "start": 4.818,
+     "end": 5.085
+    },
+    {
+     "w": "di",
+     "start": 5.085,
+     "end": 5.219
+    },
+    {
+     "w": "kuartal",
+     "start": 5.219,
+     "end": 5.619
+    },
+    {
+     "w": "kedua,",
+     "start": 5.619,
+     "end": 6.02
+    },
+    {
+     "w": "dan",
+     "start": 6.33,
+     "end": 6.473
+    },
+    {
+     "w": "5,04",
+     "start": 6.473,
+     "end": 7.327
+    },
+    {
+     "w": "persen",
+     "start": 7.327,
+     "end": 7.612
+    },
+    {
+     "w": "di",
+     "start": 7.612,
+     "end": 7.755
+    },
+    {
+     "w": "kuartal",
+     "start": 7.755,
+     "end": 8.182
+    },
+    {
+     "w": "ketiga.",
+     "start": 8.182,
+     "end": 8.61
+    }
+   ]
+  },
+  "88a1b71f": {
+   "src": "narration/BPS-EkonomiQ32026/88a1b71f.mp3",
+   "duration": 9.96,
+   "words": [
+    {
+     "w": "Meski",
+     "start": 0.07,
+     "end": 0.349
+    },
+    {
+     "w": "melambat,",
+     "start": 0.349,
+     "end": 0.768
+    },
+    {
+     "w": "konsumsi",
+     "start": 0.768,
+     "end": 1.186
+    },
+    {
+     "w": "rumah",
+     "start": 1.186,
+     "end": 1.465
+    },
+    {
+     "w": "tangga",
+     "start": 1.465,
+     "end": 1.745
+    },
+    {
+     "w": "tetap",
+     "start": 1.745,
+     "end": 2.024
+    },
+    {
+     "w": "jadi",
+     "start": 2.024,
+     "end": 2.303
+    },
+    {
+     "w": "penopang",
+     "start": 2.303,
+     "end": 2.721
+    },
+    {
+     "w": "utama.",
+     "start": 2.721,
+     "end": 3.14
+    },
+    {
+     "w": "Pangsanya",
+     "start": 3.91,
+     "end": 4.397
+    },
+    {
+     "w": "51,97",
+     "start": 4.397,
+     "end": 5.694
+    },
+    {
+     "w": "persen",
+     "start": 5.694,
+     "end": 6.019
+    },
+    {
+     "w": "dari",
+     "start": 6.019,
+     "end": 6.343
+    },
+    {
+     "w": "PDB,",
+     "start": 6.343,
+     "end": 6.83
+    },
+    {
+     "w": "dengan",
+     "start": 7.31,
+     "end": 7.586
+    },
+    {
+     "w": "sumbangan",
+     "start": 7.586,
+     "end": 7.999
+    },
+    {
+     "w": "pertumbuhan",
+     "start": 7.999,
+     "end": 8.55
+    },
+    {
+     "w": "2,62",
+     "start": 8.55,
+     "end": 9.377
+    },
+    {
+     "w": "poin",
+     "start": 9.377,
+     "end": 9.514
+    },
+    {
+     "w": "persen.",
+     "start": 9.514,
+     "end": 9.79
+    }
+   ]
+  },
+  "d491f03e": {
+   "src": "narration/BPS-EkonomiQ32026/d491f03e.mp3",
+   "duration": 9.264,
+   "words": [
+    {
+     "w": "Konsumsi",
+     "start": 0.07,
+     "end": 0.505
+    },
+    {
+     "w": "pemerintah",
+     "start": 0.505,
+     "end": 1.085
+    },
+    {
+     "w": "tumbuh",
+     "start": 1.085,
+     "end": 1.375
+    },
+    {
+     "w": "21,81",
+     "start": 1.375,
+     "end": 2.535
+    },
+    {
+     "w": "persen",
+     "start": 2.535,
+     "end": 2.825
+    },
+    {
+     "w": "di",
+     "start": 2.825,
+     "end": 2.97
+    },
+    {
+     "w": "kuartal",
+     "start": 2.97,
+     "end": 3.405
+    },
+    {
+     "w": "pertama,",
+     "start": 3.405,
+     "end": 3.84
+    },
+    {
+     "w": "lalu",
+     "start": 4.07,
+     "end": 4.332
+    },
+    {
+     "w": "15,97",
+     "start": 4.332,
+     "end": 5.381
+    },
+    {
+     "w": "persen",
+     "start": 5.381,
+     "end": 5.643
+    },
+    {
+     "w": "di",
+     "start": 5.643,
+     "end": 5.774
+    },
+    {
+     "w": "kuartal",
+     "start": 5.774,
+     "end": 6.167
+    },
+    {
+     "w": "kedua,",
+     "start": 6.167,
+     "end": 6.56
+    },
+    {
+     "w": "dan",
+     "start": 6.66,
+     "end": 6.813
+    },
+    {
+     "w": "8,95",
+     "start": 6.813,
+     "end": 7.732
+    },
+    {
+     "w": "persen",
+     "start": 7.732,
+     "end": 8.038
+    },
+    {
+     "w": "di",
+     "start": 8.038,
+     "end": 8.191
+    },
+    {
+     "w": "kuartal",
+     "start": 8.191,
+     "end": 8.651
+    },
+    {
+     "w": "ketiga.",
+     "start": 8.651,
+     "end": 9.11
+    }
+   ]
+  },
+  "a96a3067": {
+   "src": "narration/BPS-EkonomiQ32026/a96a3067.mp3",
+   "duration": 5.64,
+   "words": [
+    {
+     "w": "Di",
+     "start": 0.07,
+     "end": 0.216
+    },
+    {
+     "w": "kuartal",
+     "start": 0.216,
+     "end": 0.654
+    },
+    {
+     "w": "ketiga,",
+     "start": 0.654,
+     "end": 1.092
+    },
+    {
+     "w": "konsumsi",
+     "start": 1.092,
+     "end": 1.529
+    },
+    {
+     "w": "pemerintah",
+     "start": 1.529,
+     "end": 2.113
+    },
+    {
+     "w": "menyumbang",
+     "start": 2.113,
+     "end": 2.551
+    },
+    {
+     "w": "0,62",
+     "start": 2.551,
+     "end": 3.427
+    },
+    {
+     "w": "poin",
+     "start": 3.427,
+     "end": 3.573
+    },
+    {
+     "w": "persen",
+     "start": 3.573,
+     "end": 3.865
+    },
+    {
+     "w": "terhadap",
+     "start": 3.865,
+     "end": 4.302
+    },
+    {
+     "w": "pertumbuhan",
+     "start": 4.302,
+     "end": 4.886
+    },
+    {
+     "w": "ekonomi.",
+     "start": 4.886,
+     "end": 5.47
+    }
+   ]
+  },
+  "95ff5c01": {
+   "src": "narration/BPS-EkonomiQ32026/95ff5c01.mp3",
+   "duration": 9.408,
+   "words": [
+    {
+     "w": "Investasi",
+     "start": 0.07,
+     "end": 0.634
+    },
+    {
+     "w": "atau",
+     "start": 0.634,
+     "end": 0.917
+    },
+    {
+     "w": "PMTB",
+     "start": 0.917,
+     "end": 1.481
+    },
+    {
+     "w": "tumbuh",
+     "start": 1.481,
+     "end": 1.763
+    },
+    {
+     "w": "5,96",
+     "start": 1.763,
+     "end": 2.61
+    },
+    {
+     "w": "persen",
+     "start": 2.61,
+     "end": 2.892
+    },
+    {
+     "w": "di",
+     "start": 2.892,
+     "end": 3.033
+    },
+    {
+     "w": "kuartal",
+     "start": 3.033,
+     "end": 3.457
+    },
+    {
+     "w": "pertama,",
+     "start": 3.457,
+     "end": 3.88
+    },
+    {
+     "w": "naik",
+     "start": 4.27,
+     "end": 4.413
+    },
+    {
+     "w": "ke",
+     "start": 4.413,
+     "end": 4.556
+    },
+    {
+     "w": "6,87",
+     "start": 4.556,
+     "end": 5.414
+    },
+    {
+     "w": "persen",
+     "start": 5.414,
+     "end": 5.699
+    },
+    {
+     "w": "di",
+     "start": 5.699,
+     "end": 5.842
+    },
+    {
+     "w": "kuartal",
+     "start": 5.842,
+     "end": 6.271
+    },
+    {
+     "w": "kedua,",
+     "start": 6.271,
+     "end": 6.7
+    },
+    {
+     "w": "lalu",
+     "start": 7.05,
+     "end": 7.308
+    },
+    {
+     "w": "6,06",
+     "start": 7.308,
+     "end": 8.081
+    },
+    {
+     "w": "persen",
+     "start": 8.081,
+     "end": 8.338
+    },
+    {
+     "w": "di",
+     "start": 8.338,
+     "end": 8.467
+    },
+    {
+     "w": "kuartal",
+     "start": 8.467,
+     "end": 8.854
+    },
+    {
+     "w": "ketiga.",
+     "start": 8.854,
+     "end": 9.24
+    }
+   ]
+  },
+  "8e2e5dc6": {
+   "src": "narration/BPS-EkonomiQ32026/8e2e5dc6.mp3",
+   "duration": 7.488,
+   "words": [
+    {
+     "w": "PMTB",
+     "start": 0.07,
+     "end": 0.683
+    },
+    {
+     "w": "menyumbang",
+     "start": 0.683,
+     "end": 1.142
+    },
+    {
+     "w": "30,81",
+     "start": 1.142,
+     "end": 2.368
+    },
+    {
+     "w": "persen",
+     "start": 2.368,
+     "end": 2.674
+    },
+    {
+     "w": "dari",
+     "start": 2.674,
+     "end": 2.98
+    },
+    {
+     "w": "PDB,",
+     "start": 2.98,
+     "end": 3.44
+    },
+    {
+     "w": "dengan",
+     "start": 3.72,
+     "end": 4.01
+    },
+    {
+     "w": "sumbangan",
+     "start": 4.01,
+     "end": 4.444
+    },
+    {
+     "w": "pertumbuhan",
+     "start": 4.444,
+     "end": 5.023
+    },
+    {
+     "w": "1,91",
+     "start": 5.023,
+     "end": 5.892
+    },
+    {
+     "w": "poin",
+     "start": 5.892,
+     "end": 6.037
+    },
+    {
+     "w": "persen",
+     "start": 6.037,
+     "end": 6.326
+    },
+    {
+     "w": "di",
+     "start": 6.326,
+     "end": 6.471
+    },
+    {
+     "w": "kuartal",
+     "start": 6.471,
+     "end": 6.906
+    },
+    {
+     "w": "ketiga.",
+     "start": 6.906,
+     "end": 7.34
+    }
+   ]
+  },
+  "c560d1bc": {
+   "src": "narration/BPS-EkonomiQ32026/c560d1bc.mp3",
+   "duration": 11.736,
+   "words": [
+    {
+     "w": "Untuk",
+     "start": 0.07,
+     "end": 0.323
+    },
+    {
+     "w": "perdagangan",
+     "start": 0.323,
+     "end": 0.828
+    },
+    {
+     "w": "luar",
+     "start": 0.828,
+     "end": 1.081
+    },
+    {
+     "w": "negeri,",
+     "start": 1.081,
+     "end": 1.46
+    },
+    {
+     "w": "ekspor",
+     "start": 1.73,
+     "end": 2.04
+    },
+    {
+     "w": "tumbuh",
+     "start": 2.04,
+     "end": 2.349
+    },
+    {
+     "w": "4,13",
+     "start": 2.349,
+     "end": 3.279
+    },
+    {
+     "w": "persen",
+     "start": 3.279,
+     "end": 3.588
+    },
+    {
+     "w": "di",
+     "start": 3.588,
+     "end": 3.743
+    },
+    {
+     "w": "kuartal",
+     "start": 3.743,
+     "end": 4.208
+    },
+    {
+     "w": "kedua",
+     "start": 4.208,
+     "end": 4.672
+    },
+    {
+     "w": "dan",
+     "start": 4.672,
+     "end": 4.827
+    },
+    {
+     "w": "4,59",
+     "start": 4.827,
+     "end": 5.756
+    },
+    {
+     "w": "persen",
+     "start": 5.756,
+     "end": 6.066
+    },
+    {
+     "w": "di",
+     "start": 6.066,
+     "end": 6.221
+    },
+    {
+     "w": "kuartal",
+     "start": 6.221,
+     "end": 6.685
+    },
+    {
+     "w": "ketiga.",
+     "start": 6.685,
+     "end": 7.15
+    },
+    {
+     "w": "Impor",
+     "start": 7.77,
+     "end": 8.118
+    },
+    {
+     "w": "tumbuh",
+     "start": 8.118,
+     "end": 8.467
+    },
+    {
+     "w": "8,82",
+     "start": 8.467,
+     "end": 9.512
+    },
+    {
+     "w": "persen,",
+     "start": 9.512,
+     "end": 9.86
+    },
+    {
+     "w": "lalu",
+     "start": 10.03,
+     "end": 10.336
+    },
+    {
+     "w": "7,31",
+     "start": 10.336,
+     "end": 11.254
+    },
+    {
+     "w": "persen.",
+     "start": 11.254,
+     "end": 11.56
+    }
+   ]
+  },
+  "b61b3fec": {
+   "src": "narration/BPS-EkonomiQ32026/b61b3fec.mp3",
+   "duration": 12.552,
+   "words": [
+    {
+     "w": "Jadi,",
+     "start": 0.07,
+     "end": 0.349
+    },
+    {
+     "w": "di",
+     "start": 0.349,
+     "end": 0.488
+    },
+    {
+     "w": "kuartal",
+     "start": 0.488,
+     "end": 0.906
+    },
+    {
+     "w": "ketiga",
+     "start": 0.906,
+     "end": 1.325
+    },
+    {
+     "w": "2026,",
+     "start": 1.325,
+     "end": 2.44
+    },
+    {
+     "w": "PDB",
+     "start": 2.54,
+     "end": 3.038
+    },
+    {
+     "w": "tumbuh",
+     "start": 3.038,
+     "end": 3.371
+    },
+    {
+     "w": "5,47",
+     "start": 3.371,
+     "end": 4.368
+    },
+    {
+     "w": "persen.",
+     "start": 4.368,
+     "end": 4.7
+    },
+    {
+     "w": "Konsumsi",
+     "start": 5.26,
+     "end": 5.769
+    },
+    {
+     "w": "tetap",
+     "start": 5.769,
+     "end": 6.108
+    },
+    {
+     "w": "dominan",
+     "start": 6.108,
+     "end": 6.616
+    },
+    {
+     "w": "dengan",
+     "start": 6.616,
+     "end": 6.955
+    },
+    {
+     "w": "pangsa",
+     "start": 6.955,
+     "end": 7.295
+    },
+    {
+     "w": "51,97",
+     "start": 7.295,
+     "end": 8.651
+    },
+    {
+     "w": "persen,",
+     "start": 8.651,
+     "end": 8.99
+    },
+    {
+     "w": "dan",
+     "start": 9.09,
+     "end": 9.246
+    },
+    {
+     "w": "investasi",
+     "start": 9.246,
+     "end": 9.869
+    },
+    {
+     "w": "kuat",
+     "start": 9.869,
+     "end": 10.18
+    },
+    {
+     "w": "dengan",
+     "start": 10.18,
+     "end": 10.491
+    },
+    {
+     "w": "pangsa",
+     "start": 10.491,
+     "end": 10.803
+    },
+    {
+     "w": "30,81",
+     "start": 10.803,
+     "end": 12.049
+    },
+    {
+     "w": "persen.",
+     "start": 12.049,
+     "end": 12.36
+    }
+   ]
+  },
+  "6fde5fd4": {
+   "src": "narration/BPS-EkonomiQ32026/6fde5fd4.mp3",
+   "duration": 5.04,
+   "words": [
+    {
+     "w": "Data",
+     "start": 0.08,
+     "end": 0.409
+    },
+    {
+     "w": "lengkapnya",
+     "start": 0.409,
+     "end": 0.903
+    },
+    {
+     "w": "ada",
+     "start": 0.903,
+     "end": 1.233
+    },
+    {
+     "w": "di",
+     "start": 1.233,
+     "end": 1.397
+    },
+    {
+     "w": "rilis",
+     "start": 1.397,
+     "end": 1.727
+    },
+    {
+     "w": "resmi",
+     "start": 1.727,
+     "end": 2.056
+    },
+    {
+     "w": "BPS.",
+     "start": 2.056,
+     "end": 2.55
+    },
+    {
+     "w": "Kunjungi",
+     "start": 2.93,
+     "end": 3.375
+    },
+    {
+     "w": "situs",
+     "start": 3.375,
+     "end": 3.672
+    },
+    {
+     "w": "BPS",
+     "start": 3.672,
+     "end": 4.118
+    },
+    {
+     "w": "untuk",
+     "start": 4.118,
+     "end": 4.415
+    },
+    {
+     "w": "detailnya.",
+     "start": 4.415,
+     "end": 4.86
+    }
+   ]
+  }
+ }
 }
