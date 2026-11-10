@@ -2,7 +2,10 @@
 
 Perubahan framework yang memengaruhi semua video. Entri terbaru di atas.
 
-## 2026-11-10 — Efek suara + scene `words`, `broll`, `map`
+## 2026-11-10 — Efek suara + scene `words`, `broll`, `map` (PR #12)
+
+Digabung ke branch utama lewat PR #12. Video lama otomatis mendapat SFX (matikan dengan `sfx: false`);
+config lama tetap valid tanpa perubahan.
 
 ### Baru
 - **Efek suara (SFX) otomatis di semua video** — whoosh saat transisi (jenis suara mengikuti transisi), pop saat
@@ -18,7 +21,16 @@ Perubahan framework yang memengaruhi semua video. Entri terbaru di atas.
   pin jatuh + denyut, label anti-tabrakan, rute melengkung tergambar. ±100 kota bawaan, wilayah bawaan, negara diwarnai.
   Data: `src/components/map/geo-data.ts` (dibangun `scripts/build-geo.mjs`).
 - `ThemeColors` — ganti sebagian warna tema untuk sub-pohon (teks putih di atas foto).
-- Video etalase `Demo-SceneBaru`.
+- Video etalase `Demo-SceneBaru` (foto b-roll masih placeholder — ganti dengan foto/video brand).
+
+### Berubah
+- `.gitattributes`: `public/sfx/**` dikecualikan dari Git LFS (seperti `public/narration/**`).
+- `CounterAnimation` punya prop `ting` (default true); di dashboard hanya KPI pertama yang berbunyi.
+- `Reveal` punya prop `sfx` (default `pop` bila `idle`, senyap untuk teks).
+
+### Batasan
+- Peta hanya batas negara (belum ada batas provinsi). Data peta ±318 KB di bundle.
+- Media b-roll besar di `media/` ikut Git LFS → unggah dari komputer lokal, bukan dari sesi cloud.
 
 ## 2026-11-10 — Ikon & ilustrasi beranimasi
 

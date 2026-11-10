@@ -39,7 +39,7 @@ src/
 ├── config/        Token desain: animasi (spring, easing, entrance), tipografi,
 │                  spasi, format (9:16, 16:9, 1:1, 4:5), transisi, font
 ├── themes/        ApplePremium · ModernSaaS · PlayfulKids · Corporate · IslamicWarm
-├── motion/        useSpring, useEntrance, <Reveal>, useStagger, kamera/idle/keluar, teks kinetik
+├── motion/        useSpring, useEntrance, <Reveal>, useStagger, kamera/idle/keluar, teks kinetik, <Sfx>
 ├── components/    Komponen visual reusable (LogoReveal, HeroSection, PhoneMockup, ...)
 ├── scenes/        Kontrak data scene (types.ts) + renderer per tipe scene
 ├── core/          MotionVideo (mesin), timeline, VideoConfig
@@ -54,6 +54,9 @@ src/
 
 Alur data: **Config → Tema → Timeline → Scene → Komponen → Primitif motion → Token**.
 
+**Efek suara otomatis:** whoosh saat transisi, pop saat kartu/ikon muncul, "ting" saat angka selesai menghitung
+(`public/sfx/`, disintesis `scripts/build-sfx.mjs`). Matikan dengan `sfx: false` di config.
+
 ## Contoh yang disertakan
 
 | ID | Tema | Isi |
@@ -66,6 +69,7 @@ Alur data: **Config → Tema → Timeline → Scene → Komponen → Primitif mo
 | `Demo-SaaS-Landscape` | ModernSaaS | Template SaaS, format 16:9 |
 | `Demo-MobileApp` | ModernSaaS | Template MobileAppPromo |
 | `Demo-Statement` | ModernDark | Scene `statement` (teks besar): stack, replace, typewriter |
+| `Demo-SceneBaru` | ModernDark | Scene `words` (satu kata per ketukan), `broll` (Ken Burns), `map` (pin + rute) + efek suara |
 
 ## Dokumentasi
 
@@ -88,6 +92,7 @@ git lfs install          # sekali per komputer, sebelum clone/commit aset
 
 - Logo/ikon SVG & PNG kecil → `public/brands/<brand>/` (biasa, tanpa LFS).
 - Screenshot/foto resolusi tinggi → `public/brands/<brand>/media/` (otomatis LFS).
+- Pengecualian (file git biasa): `public/narration/**` (narasi) dan `public/sfx/**` (efek suara).
 - Hasil render (`out/`) tidak pernah di-commit.
 
 ## Catatan
