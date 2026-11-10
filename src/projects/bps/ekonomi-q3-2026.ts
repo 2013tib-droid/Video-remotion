@@ -102,7 +102,7 @@ export default defineVideo({
       type: 'comparison',
       eyebrow: 'Perdagangan Luar Negeri',
       title: 'Perbandingan Ekspor & Impor',
-      columns: ['Indikator', 'Q2 2026', 'Q3 2026'],
+      columns: ['Q2 2026', 'Q3 2026'],
       rows: [
         { label: 'Ekspor', values: ['4.13%', '4.59%'] },
         { label: 'Impor', values: ['8.82%', '7.31%'] },
