@@ -20,6 +20,11 @@ Bila pengguna meminta animasi/efek/transisi baru atau video "lebih hidup", frame
 - Gerakan harus deterministik dari `useCurrentFrame()` (tanpa `Math.random()`/`Date`), halus, dan tidak mengganggu keterbacaan teks.
 - Perbarui `docs/KATALOG-SCENE.md` bila ada properti baru. Jalankan `npm run typecheck`.
 
+## Gerak sepanjang scene (sudah ada)
+Semua video otomatis punya kamera pelan + parallax, idle (`<Reveal idle>`), dan animasi keluar bergiliran.
+Kekuatan: `energy` `calm`/`normal`/`lively` (default dari tema; explainer otomatis `calm`). Atur via
+`motion: { energy, camera, exit }` di config, atau `camera`/`exit` per scene. Detail: `docs/KATALOG-SCENE.md`.
+
 ## Alur kerja minimal (hemat token)
 1. Baca **hanya** `src/scenes/types.ts` (kontrak semua scene) — atau `docs/KATALOG-SCENE.md`.
 2. Bila cocok, pakai template di `src/templates/*.ts` (baca interface props-nya saja).
