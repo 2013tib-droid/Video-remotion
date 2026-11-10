@@ -49,6 +49,15 @@ export const MotionVideo: React.FC<MotionVideoProps> = ({ config }) => {
     [config],
   );
   const lead = Math.round(NARRATION_LEAD * fps);
+  useMemo(() => {
+    const missing = clips.filter((c) => c?.estimated).length;
+    if (missing) {
+      console.warn(
+        `[${config.id}] ${missing} klip narasi belum dirender — video akan BISU di bagian itu. ` +
+          `Jalankan: npm run narasi -- <config.ts> (lihat docs/EXPLAINER.md).`,
+      );
+    }
+  }, [clips, config.id]);
 
   return (
     <ThemeProvider theme={theme} format={config.format ?? DEFAULT_FORMAT} insets={insets}>
