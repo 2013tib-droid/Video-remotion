@@ -197,3 +197,45 @@ export const ACCENT_TIMING = {
   /** Lama coretan tergambar. */
   draw: 0.5,
 } as const;
+
+/* ------------------------------------------------------------------
+ * Ikon & ilustrasi beranimasi.
+ * ------------------------------------------------------------------ */
+
+/**
+ * Gaya ikon untuk emoji di config:
+ * - `line`  = emoji yang dikenal diganti ikon garis yang "tergambar" (SVG path draw); default.
+ * - `emoji` = emoji asli (tetap diberi gerak idle).
+ */
+export type IconStyle = 'line' | 'emoji';
+
+/** Gerak idle khas ikon setelah selesai tergambar. */
+export type IconIdle = 'tilt' | 'swing' | 'beat' | 'spin' | 'bob' | 'nudge' | 'none';
+
+/** Waktu gambar ikon (detik, relatif terhadap delay elemen). */
+export const ICON_ANIMATION = {
+  /** Lama satu garis tergambar. */
+  draw: 0.6,
+  /** Jeda bergiliran antar garis dalam satu ikon. */
+  stagger: 0.09,
+  /** Lama isian (duotone) memudar masuk setelah garisnya selesai. */
+  fill: 0.35,
+  /** Opacity isian duotone. */
+  fillOpacity: 0.18,
+  /** Ikon membesar dari skala ini saat mulai digambar. */
+  popFrom: 0.82,
+  /** Idle menguat selama sekian detik setelah ikon selesai tergambar. */
+  idleRamp: 0.6,
+  /** File SVG (`draw:`): tebal garis sketsa = ukuran viewBox × nilai ini. */
+  sketchStroke: 0.012,
+} as const;
+
+/** Amplitudo idle ikon pada energi `normal` (dikali rasio energi). */
+export const ICON_IDLE = {
+  tilt: { deg: 4, period: 3.2 },
+  swing: { deg: 10, period: 1.6 },
+  beat: { scale: 0.07, period: 1.2 },
+  spin: { degPerSec: 24 },
+  bob: { y: 0.05, period: 2.4 },
+  nudge: { x: 0.06, period: 1.4 },
+} as const;

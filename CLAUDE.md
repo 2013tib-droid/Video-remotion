@@ -37,6 +37,11 @@ Kode: `src/components/KineticText.tsx`, `src/motion/text.tsx`, preset di `src/co
 `clockWipe` `iris` `pushCut` `none`, atau `mix` (bergiliran otomatis, deterministik). Default dari tema.
 Kode: `src/config/transitions.tsx`. Hindari presentasi shader (dissolve, film burn, ripple) — rawan gagal render.
 
+## Ikon & ilustrasi beranimasi (sudah ada)
+Emoji dikenal → ikon garis SVG yang tergambar (path draw) + isian duotone + idle khas; `line:<nama>`, `draw:<file.svg>`,
+dan Lottie `.json` (`@remotion/lottie`) di semua field ikon; `hero.illustration` untuk ilustrasi di atas judul.
+Matikan dengan `motion: { icons: 'emoji' }`. Kode: `src/components/icons/`, `src/motion/icon.ts`, preset `ICON_ANIMATION`.
+
 ## Alur kerja minimal (hemat token)
 1. Baca **hanya** `src/scenes/types.ts` (kontrak semua scene) — atau `docs/KATALOG-SCENE.md`.
 2. Bila cocok, pakai template di `src/templates/*.ts` (baca interface props-nya saja).
@@ -46,7 +51,8 @@ Kode: `src/config/transitions.tsx`. Hindari presentasi shader (dissolve, film bu
 ## Aturan
 - Teks konten dalam Bahasa Indonesia kecuali diminta lain.
 - Durasi total: isi `duration` di config, jangan hitung frame manual.
-- Ikon: emoji, atau path di `public/` (mis. `brands/x/icon.svg`).
+- Ikon: emoji (otomatis jadi ikon garis yang tergambar bila dikenal), `line:<nama>`, `draw:<file.svg>` (SVG tergambar),
+  file Lottie `.json`, atau path gambar di `public/`. Daftar & detail: `docs/KATALOG-SCENE.md` › Ikon.
 - Jangan menambah komponen baru bila scene yang ada bisa dipakai. Bila memang perlu tipe scene baru, ikuti `docs/MEMPERLUAS.md`.
 - ID video: `Brand-Jenis` (mis. `PriceAtlas-Reel20`), unik.
 

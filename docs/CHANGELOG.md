@@ -2,6 +2,23 @@
 
 Perubahan framework yang memengaruhi semua video. Entri terbaru di atas.
 
+## 2026-11-10 — Ikon & ilustrasi beranimasi
+
+Ikon tidak lagi emoji statis. Berlaku otomatis untuk semua video tanpa mengubah config.
+
+### Baru
+- **Ikon garis tergambar (SVG path draw)** — pustaka ±75 ikon garis 24×24 (`src/components/icons/library.ts`).
+  Ikon digambar garis demi garis, lalu isian duotone tipis memudar masuk, lalu gerak idle khas per ikon
+  (`tilt` `swing` `beat` `spin` `bob` `nudge`), amplitudo ikut `energy`.
+- **Emoji → ikon garis otomatis** — emoji yang dikenal (🛒 🔔 📈 🔒 ✅ 💡 …) dipetakan ke ikon garis.
+  Emoji lain tetap tampil, kini dengan goyang halus. Matikan: `motion: { icons: 'emoji' }` (config) atau tema.
+- **`line:<nama>`** — pakai ikon garis langsung di field ikon mana pun.
+- **`draw:<file.svg>`** — file SVG di `public/` tergambar: garis digambar berurutan, bentuk berisi disketsa lalu diisi.
+- **Lottie** — file `.json` (atau `lottie:...`) di field ikon/maskot/ilustrasi diputar via `@remotion/lottie`.
+- **`hero.illustration`** — ikon/ilustrasi beranimasi di atas judul hero.
+- Ikon di dalam `<Reveal>` otomatis mulai bersamaan dengan pembungkusnya (`useRevealDelay`).
+- Video etalase `Demo-Ikon`; contoh Lottie `public/lottie/pulse.json`.
+
 ## 2026-11-10 — Transisi bervariasi (PR #9)
 
 Pilihan transisi antar scene diperluas dengan efek dari `@remotion/transitions`. Video lama **tidak berubah**

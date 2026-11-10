@@ -3,43 +3,80 @@
  * Semua komponen lain dibangun dari sini.
  */
 import React from 'react';
-import { Img, staticFile } from 'remotion';
+import { Img } from 'remotion';
 import { type TextAnimation, type TypeSize, LINE_HEIGHT } from '../config';
-import { useTextAnimation } from '../motion';
+import { useIconIdle, useRevealDelay, useTextAnimation } from '../motion';
+import { isImageSrc, isLottieSrc, resolveSrc } from './assets';
+import { DrawSvg, LINE_ICONS, LineIcon, LottieIcon, isLineIconName, lineIconForEmoji } from './icons';
 import { KineticText } from './KineticText';
 import { useTheme } from '../themes';
 
-/** True bila string adalah path/URL gambar (bukan emoji/teks). */
-export function isImageSrc(src: string): boolean {
-  return /^(https?:|data:)/.test(src) || /\.(png|jpe?g|svg|webp|gif|avif)$/i.test(src);
+export { isImageSrc, isLottieSrc, resolveSrc } from './assets';
+
+export interface IconProps {
+  /**
+   * - emoji (`'🛒'`): emoji dikenal → ikon garis yang tergambar (tema `motion.icons: 'line'`, default);
+   *   lainnya tetap emoji + gerak idle.
+   * - `'line:cart'`: ikon garis dari pustaka (lihat `LINE_ICONS`).
+   * - `'draw:brands/x/ikon.svg'`: file SVG yang tergambar garis demi garis.
+   * - `'brands/x/anim.json'` / `'lottie:...'`: animasi Lottie.
+   * - path/URL gambar lain: gambar biasa.
+   */
+  src: string;
+  size: number;
+  /** Mulai animasi (detik). Default: delay `<Reveal>` pembungkus. */
+  delay?: number;
+  /** Matikan animasi gambar/idle (tampil statis). */
+  animate?: boolean;
+  /** Warna ikon garis (mis. di atas latar gradien); default gradien tema. */
+  color?: string;
+  style?: React.CSSProperties;
 }
 
-/** Path relatif → file di folder public/. URL absolut dibiarkan. */
-export function resolveSrc(src: string): string {
-  return /^(https?:|data:)/.test(src) ? src : staticFile(src.replace(/^\/+/, ''));
-}
-
-/** Ikon: emoji/teks pendek ATAU gambar (path di public/ atau URL). */
-export const Icon: React.FC<{ src: string; size: number; style?: React.CSSProperties }> = ({ src, size, style }) => {
-  const { px } = useTheme();
+/** Ikon: emoji, ikon garis beranimasi, SVG tergambar, Lottie, atau gambar. */
+export const Icon: React.FC<IconProps> = ({ src, size, delay, animate = true, color, style }) => {
+  const { theme, px } = useTheme();
   const s = px(size);
+  if (src.startsWith('line:')) {
+    const name = src.slice(5).trim();
+    if (isLineIconName(name)) return <LineIcon name={name} size={size} delay={animate ? delay : -100} color={color} style={style} />;
+    console.warn(`[Icon] ikon garis "${name}" tidak ada. Pilihan: ${Object.keys(LINE_ICONS).join(', ')}`);
+  }
+  if (src.startsWith('draw:')) return <DrawSvg src={src.slice(5).trim()} size={size} delay={animate ? delay : -100} style={style} />;
+  if (isLottieSrc(src)) return <LottieIcon src={src.replace(/^lottie:/, '').trim()} size={size} delay={delay} style={style} />;
   if (isImageSrc(src)) {
     return <Img src={resolveSrc(src)} style={{ width: s, height: s, objectFit: 'contain', ...style }} />;
   }
+  const mapped = (theme.motion.icons ?? 'line') === 'line' ? lineIconForEmoji(src) : undefined;
+  if (mapped) return <LineIcon name={mapped} size={size} delay={animate ? delay : -100} color={color} style={style} />;
+  return <EmojiIcon text={src} size={s} delay={delay} animate={animate} style={style} />;
+};
+
+/** Emoji/teks pendek: tetap diberi gerak idle halus agar tidak statis. */
+const EmojiIcon: React.FC<{ text: string; size: number; delay?: number; animate: boolean; style?: React.CSSProperties }> = ({
+  text,
+  size,
+  delay,
+  animate,
+  style,
+}) => {
+  const revealDelay = useRevealDelay();
+  const idle = useIconIdle(animate ? 'tilt' : 'none', (delay ?? revealDelay) + 0.6, text.length);
   return (
     <span
       style={{
-        width: s,
-        height: s,
-        fontSize: s * 0.78,
+        width: size,
+        height: size,
+        fontSize: size * 0.78,
         lineHeight: 1,
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
+        transform: idle,
         ...style,
       }}
     >
-      {src}
+      {text}
     </span>
   );
 };

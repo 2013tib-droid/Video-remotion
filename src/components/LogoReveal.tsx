@@ -53,7 +53,7 @@ export const LogoReveal: React.FC<LogoRevealProps> = ({ name, logo, tagline, del
           }}
         >
           {logo ? (
-            <Icon src={logo} size={size * 0.62} />
+            <Icon src={logo} size={size * 0.62} delay={delay + 0.1} />
           ) : (
             <span
               style={{

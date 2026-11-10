@@ -1,4 +1,5 @@
 export * from './primitives';
+export * from './icons';
 export * from './KineticText';
 export * from './Background';
 export * from './GradientBackground';
