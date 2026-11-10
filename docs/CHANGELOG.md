@@ -2,6 +2,35 @@
 
 Perubahan framework yang memengaruhi semua video. Entri terbaru di atas.
 
+## 2026-11-10 — Transisi bervariasi (PR #9)
+
+Pilihan transisi antar scene diperluas dengan efek dari `@remotion/transitions`. Video lama **tidak berubah**
+(default tema tetap); variasi baru dipakai bila dipilih di config.
+
+### Baru
+- **Transisi baru** untuk properti `transition` (per scene, atau sekali di config video):
+  - `flip` / `flipUp` — balik halaman 3D dari kanan / dari bawah.
+  - `cube` — dua scene berputar sebagai sisi kubus 3D.
+  - `clockWipe` — scene baru tersapu masuk seperti jarum jam.
+  - `iris` — lingkaran membesar dari tengah.
+  - `pushCut` — dorongan zoom + kilatan singkat.
+  - `slideRight`, `slideDown`, `wipeUp` — arah tambahan untuk slide/wipe.
+- **Mode `mix`** — transisi bergiliran otomatis per scene, deterministik dari indeks scene:
+  slideLeft → iris → fade → flip → zoom → clockWipe → wipe → cube → pushCut (lalu ulang).
+  Efek besar diselingi efek ringan agar tidak berlebihan. Contoh: `transition: 'mix'` di config.
+- Durasi `flip`/`flipUp`/`cube`/`clockWipe`/`iris` ±35% lebih lama dari transisi biasa (±0,8 dtk vs 0,6 dtk)
+  agar gerakannya terbaca.
+
+### Kode
+- `src/config/transitions.tsx` — `TRANSITION_NAMES`, `TRANSITION_MIX`, `resolveTransition()`, `getPresentation(name, { width, height })`.
+- `src/core/timeline.ts` — `mix` di-resolve menjadi transisi konkret per scene sebelum durasi dihitung.
+- `src/core/MotionVideo.tsx` — meneruskan ukuran video (dibutuhkan `clockWipe` & `iris`).
+
+### Catatan
+- Efek berbasis shader (dissolve, film burn, ripple, cross zoom, dll.) sengaja **tidak** dipakai: masih
+  eksperimental di Remotion dan rawan gagal saat render.
+- Dokumentasi: `docs/KATALOG-SCENE.md`, `docs/PROMPT-STORYBOARD.md`, `CLAUDE.md`.
+
 ## 2026-11-10 — Tipografi kinetik (PR #7)
 
 Teks yang "bicara", bukan sekadar muncul. Semua video lama ikut otomatis tanpa mengubah config.
