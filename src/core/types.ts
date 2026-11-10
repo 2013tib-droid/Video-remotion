@@ -1,4 +1,4 @@
-import type { FormatName, TransitionName } from '../config';
+import type { CameraSetting, FormatName, MotionEnergy, TransitionName } from '../config';
 import type { ThemeName, ThemeOverrides } from '../themes';
 import type { SceneConfig } from '../scenes/types';
 import type { NarrationData, VoiceSettings } from './narration';
@@ -30,6 +30,11 @@ export interface VideoConfig {
   duration?: number;
   /** Transisi default antar scene. Default: dari tema. */
   transition?: TransitionName;
+  /**
+   * Gerak sepanjang scene untuk seluruh video. Default dari tema;
+   * video dengan `overlay` (explainer) otomatis `energy: 'calm'`.
+   */
+  motion?: { energy?: MotionEnergy; camera?: CameraSetting; exit?: boolean };
   /** Musik latar opsional (path di public/). */
   audio?: { src: string; volume?: number };
   /** Suara narasi (Azure). Wajib bila ada scene dengan `narration`. */

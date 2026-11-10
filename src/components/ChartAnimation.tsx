@@ -120,7 +120,7 @@ export const ChartAnimation: React.FC<ChartAnimationProps> = (props) => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: props.compact ? px(14) : space.md }}>{bars}</div>
       )}
       {highlight !== undefined && highlightLabel ? (
-        <Reveal delay={lastDelay + 0.3} preset="pop" spring="bouncy" style={{ display: 'flex', justifyContent: 'center', marginTop: space.md }}>
+        <Reveal delay={lastDelay + 0.3} preset="pop" spring="bouncy" idle style={{ display: 'flex', justifyContent: 'center', marginTop: space.md }}>
           <div
             style={{
               padding: `${px(14)}px ${px(30)}px`,

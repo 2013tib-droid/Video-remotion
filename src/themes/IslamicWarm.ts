@@ -30,6 +30,6 @@ export const IslamicWarm: Theme = {
     card: '0 12px 40px rgba(59,47,47,0.08)',
     elevated: '0 30px 80px rgba(15,118,110,0.18)',
   },
-  motion: { spring: 'gentle', entrance: 'fadeUp', stagger: 'relaxed', transition: 'fade' },
+  motion: { spring: 'gentle', entrance: 'fadeUp', stagger: 'relaxed', transition: 'fade', energy: 'calm' },
   background: { kind: 'pattern', intensity: 0.5 },
 };

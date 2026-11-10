@@ -30,6 +30,6 @@ export const ModernDark: Theme = {
     card: '0 12px 40px rgba(0,0,0,0.45)',
     elevated: '0 30px 80px rgba(110,158,246,0.18)',
   },
-  motion: { spring: 'snappy', entrance: 'fadeUp', stagger: 'tight', transition: 'fade' },
+  motion: { spring: 'snappy', entrance: 'fadeUp', stagger: 'tight', transition: 'fade', energy: 'normal' },
   background: { kind: 'solid', intensity: 0.4 },
 };

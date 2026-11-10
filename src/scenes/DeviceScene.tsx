@@ -69,7 +69,7 @@ export const DeviceSceneView: React.FC<SceneProps<DeviceScene>> = ({ scene, bran
           {scene.bullets?.length ? (
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: px(14), justifyContent: isPortrait ? 'center' : 'flex-start' }}>
               {scene.bullets.map((b, i) => (
-                <Reveal key={i} delay={stagger(i, 0.9)} preset="pop" spring="snappy">
+                <Reveal key={i} delay={stagger(i, 0.9)} preset="pop" spring="snappy" idle>
                   <Pill>✓ {b}</Pill>
                 </Reveal>
               ))}

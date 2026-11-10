@@ -30,6 +30,6 @@ export const ApplePremium: Theme = {
     card: '0 20px 60px rgba(0,0,0,0.5)',
     elevated: '0 40px 120px rgba(10,132,255,0.25)',
   },
-  motion: { spring: 'smooth', entrance: 'blurUp', stagger: 'normal', transition: 'zoom' },
+  motion: { spring: 'smooth', entrance: 'blurUp', stagger: 'normal', transition: 'zoom', energy: 'calm' },
   background: { kind: 'gradient', intensity: 0.6 },
 };

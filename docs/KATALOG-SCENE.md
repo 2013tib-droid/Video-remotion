@@ -7,6 +7,8 @@ Sumber kebenaran: `src/scenes/types.ts`. Semua scene menerima properti dasar:
 | `duration` | detik; default per tipe (lihat `src/config/scenes.ts`) |
 | `transition` | transisi masuk: `fade` `zoom` `slideLeft` `slideUp` `wipe` `none` |
 | `background` | `gradient` `particles` `pattern` `solid` |
+| `camera` | gerak kamera pelan sepanjang scene: `auto` (default, bergiliran) `zoomIn` `zoomOut` `panLeft` `panRight` `none` |
+| `exit` | `false` = elemen tidak keluar bergiliran di akhir scene (default `true`; scene terakhir tidak pernah keluar) |
 
 Sebagian besar scene juga menerima **judul standar**: `eyebrow`, `title`, `highlight` (kata bergradien), `subtitle`.
 
@@ -44,3 +46,9 @@ Semua scene juga menerima `narration` (teks voice-over), `emphasis[]` (kata diso
 
 ## Durasi default (detik)
 logo 3 · hero 4 · mascot 4 · features 5 · stats 4 · chart 5 · comparison 5 · timeline 5 · device 5 · calculation 5 · testimonial 4.5 · cta 4 · question 5 · relation 5 (scene bernarasi: mengikuti panjang suara)
+
+## Gerak sepanjang scene
+Semua video otomatis punya: **kamera** (zoom/geser pelan + background parallax), **idle** (kartu, ikon, angka, badge "bernapas" setelah muncul) dan **keluar** (elemen memudar ke atas bergiliran sebelum transisi).
+- Kekuatan diatur `energy`: `calm` · `normal` · `lively`. Default dari tema (ApplePremium/Corporate/IslamicWarm = calm, ModernDark/ModernSaaS = normal, PlayfulKids = lively); video dengan `overlay` (explainer) otomatis `calm`.
+- Per video: `motion: { energy?, camera?, exit? }` di config. Per tema: `themeOverrides: { motion: { energy: 'lively' } }`. Per scene: `camera`, `exit`.
+- Angka preset: `MOTION_ENERGY` & `SCENE_MOTION_TIMING` di `src/config/animation.ts`.

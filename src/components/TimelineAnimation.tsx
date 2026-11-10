@@ -35,7 +35,7 @@ export const TimelineAnimation: React.FC<TimelineAnimationProps> = ({ steps, del
       />
       {steps.map((s, i) => (
         <div key={i} style={{ display: 'flex', alignItems: 'center', gap: px(36), position: 'relative' }}>
-          <Reveal delay={stagger(i, delay)} preset="pop" spring="snappy">
+          <Reveal delay={stagger(i, delay)} preset="pop" spring="snappy" idle>
             <div
               style={{
                 width: node,

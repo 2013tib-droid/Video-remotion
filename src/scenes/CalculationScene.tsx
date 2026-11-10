@@ -47,7 +47,7 @@ export const CalculationSceneView: React.FC<SceneProps<CalculationScene>> = ({ s
         </Surface>
       </Reveal>
       {scene.note ? (
-        <Reveal delay={totalDelay + 0.9} preset="pop" spring="bouncy" style={{ marginTop: -space.sm }}>
+        <Reveal delay={totalDelay + 0.9} preset="pop" spring="bouncy" idle style={{ marginTop: -space.sm }}>
           <Pill tone="primary" style={{ fontSize: type.body }}>
             {scene.note}
           </Pill>

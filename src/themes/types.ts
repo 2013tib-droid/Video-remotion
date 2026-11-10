@@ -1,4 +1,4 @@
-import type { EntrancePreset, SpringPreset, StaggerName, TransitionName } from '../config';
+import type { CameraSetting, EntrancePreset, MotionEnergy, SpringPreset, StaggerName, TransitionName } from '../config';
 
 export type BackgroundKind = 'gradient' | 'particles' | 'pattern' | 'solid';
 
@@ -42,6 +42,10 @@ export interface Theme {
     entrance: EntrancePreset;
     stagger: StaggerName;
     transition: TransitionName;
+    /** Seberapa banyak gerak sepanjang scene (kamera, idle, keluar). Default `normal`. */
+    energy?: MotionEnergy;
+    /** Kamera default. Default `auto`. */
+    camera?: CameraSetting;
   };
   background: {
     kind: BackgroundKind;
