@@ -1,0 +1,551 @@
+{
+ "clips": {
+  "0619a34d": {
+   "src": "narration/SoalSKD-BedahAnalogi/0619a34d.mp3",
+   "duration": 4.224,
+   "words": [
+    {
+     "w": "Soal",
+     "start": 0.09,
+     "end": 0.342
+    },
+    {
+     "w": "analogi",
+     "start": 0.342,
+     "end": 0.847
+    },
+    {
+     "w": "kayak",
+     "start": 0.847,
+     "end": 1.099
+    },
+    {
+     "w": "gini",
+     "start": 1.099,
+     "end": 1.351
+    },
+    {
+     "w": "sering",
+     "start": 1.351,
+     "end": 1.603
+    },
+    {
+     "w": "banget",
+     "start": 1.603,
+     "end": 1.856
+    },
+    {
+     "w": "bikin",
+     "start": 1.856,
+     "end": 2.108
+    },
+    {
+     "w": "salah.",
+     "start": 2.108,
+     "end": 2.36
+    },
+    {
+     "w": "Coba",
+     "start": 2.84,
+     "end": 3.078
+    },
+    {
+     "w": "jawab",
+     "start": 3.078,
+     "end": 3.316
+    },
+    {
+     "w": "dalam",
+     "start": 3.316,
+     "end": 3.554
+    },
+    {
+     "w": "lima",
+     "start": 3.554,
+     "end": 3.792
+    },
+    {
+     "w": "detik.",
+     "start": 3.792,
+     "end": 4.03
+    }
+   ]
+  },
+  "0af1d60d": {
+   "src": "narration/SoalSKD-BedahAnalogi/0af1d60d.mp3",
+   "duration": 5.04,
+   "words": [
+    {
+     "w": "Banyak",
+     "start": 0.07,
+     "end": 0.405
+    },
+    {
+     "w": "yang",
+     "start": 0.405,
+     "end": 0.572
+    },
+    {
+     "w": "langsung",
+     "start": 0.572,
+     "end": 0.906
+    },
+    {
+     "w": "pilih",
+     "start": 0.906,
+     "end": 1.241
+    },
+    {
+     "w": "arah",
+     "start": 1.241,
+     "end": 1.575
+    },
+    {
+     "w": "angin.",
+     "start": 1.575,
+     "end": 1.91
+    },
+    {
+     "w": "Kedengarannya",
+     "start": 2.32,
+     "end": 2.976
+    },
+    {
+     "w": "cocok,",
+     "start": 2.976,
+     "end": 3.239
+    },
+    {
+     "w": "kan?",
+     "start": 3.239,
+     "end": 3.37
+    },
+    {
+     "w": "Sama-sama",
+     "start": 3.82,
+     "end": 4.34
+    },
+    {
+     "w": "soal",
+     "start": 4.34,
+     "end": 4.6
+    },
+    {
+     "w": "angin.",
+     "start": 4.6,
+     "end": 4.86
+    }
+   ]
+  },
+  "fa0abe1a": {
+   "src": "narration/SoalSKD-BedahAnalogi/fa0abe1a.mp3",
+   "duration": 8.064,
+   "words": [
+    {
+     "w": "Triknya:",
+     "start": 0.07,
+     "end": 0.47
+    },
+    {
+     "w": "cari",
+     "start": 0.88,
+     "end": 1.145
+    },
+    {
+     "w": "dulu",
+     "start": 1.145,
+     "end": 1.409
+    },
+    {
+     "w": "hubungan",
+     "start": 1.409,
+     "end": 1.806
+    },
+    {
+     "w": "pasangan",
+     "start": 1.806,
+     "end": 2.203
+    },
+    {
+     "w": "pertama.",
+     "start": 2.203,
+     "end": 2.6
+    },
+    {
+     "w": "Barometer",
+     "start": 3.02,
+     "end": 3.534
+    },
+    {
+     "w": "itu",
+     "start": 3.534,
+     "end": 3.791
+    },
+    {
+     "w": "alat",
+     "start": 3.791,
+     "end": 4.047
+    },
+    {
+     "w": "untuk",
+     "start": 4.047,
+     "end": 4.304
+    },
+    {
+     "w": "mengukur",
+     "start": 4.304,
+     "end": 4.689
+    },
+    {
+     "w": "tekanan",
+     "start": 4.689,
+     "end": 5.075
+    },
+    {
+     "w": "udara.",
+     "start": 5.075,
+     "end": 5.46
+    },
+    {
+     "w": "Jadi",
+     "start": 5.85,
+     "end": 6.122
+    },
+    {
+     "w": "polanya:",
+     "start": 6.122,
+     "end": 6.53
+    },
+    {
+     "w": "alat,",
+     "start": 6.8,
+     "end": 7.04
+    },
+    {
+     "w": "dan",
+     "start": 7.14,
+     "end": 7.292
+    },
+    {
+     "w": "yang",
+     "start": 7.292,
+     "end": 7.444
+    },
+    {
+     "w": "diukur.",
+     "start": 7.444,
+     "end": 7.9
+    }
+   ]
+  },
+  "bd4e1a02": {
+   "src": "narration/SoalSKD-BedahAnalogi/bd4e1a02.mp3",
+   "duration": 11.256,
+   "words": [
+    {
+     "w": "Sekarang",
+     "start": 0.08,
+     "end": 0.52
+    },
+    {
+     "w": "cek",
+     "start": 0.52,
+     "end": 0.667
+    },
+    {
+     "w": "anemometer.",
+     "start": 0.667,
+     "end": 1.4
+    },
+    {
+     "w": "Arah",
+     "start": 2.28,
+     "end": 2.575
+    },
+    {
+     "w": "angin?",
+     "start": 2.575,
+     "end": 2.87
+    },
+    {
+     "w": "Itu",
+     "start": 3.7,
+     "end": 3.985
+    },
+    {
+     "w": "tugas",
+     "start": 3.985,
+     "end": 4.271
+    },
+    {
+     "w": "penunjuk",
+     "start": 4.271,
+     "end": 4.699
+    },
+    {
+     "w": "arah",
+     "start": 4.699,
+     "end": 4.985
+    },
+    {
+     "w": "angin.",
+     "start": 4.985,
+     "end": 5.27
+    },
+    {
+     "w": "Kelembapan,",
+     "start": 5.47,
+     "end": 6.134
+    },
+    {
+     "w": "pakai",
+     "start": 6.134,
+     "end": 6.466
+    },
+    {
+     "w": "higrometer.",
+     "start": 6.466,
+     "end": 7.13
+    },
+    {
+     "w": "Curah",
+     "start": 7.3,
+     "end": 7.604
+    },
+    {
+     "w": "hujan,",
+     "start": 7.604,
+     "end": 7.908
+    },
+    {
+     "w": "pakai",
+     "start": 7.908,
+     "end": 8.212
+    },
+    {
+     "w": "ombrometer.",
+     "start": 8.212,
+     "end": 8.82
+    },
+    {
+     "w": "Cahaya",
+     "start": 9.35,
+     "end": 9.725
+    },
+    {
+     "w": "matahari,",
+     "start": 9.725,
+     "end": 10.225
+    },
+    {
+     "w": "pakai",
+     "start": 10.225,
+     "end": 10.475
+    },
+    {
+     "w": "solarimeter.",
+     "start": 10.475,
+     "end": 11.1
+    }
+   ]
+  },
+  "2fc5ce82": {
+   "src": "narration/SoalSKD-BedahAnalogi/2fc5ce82.mp3",
+   "duration": 6.192,
+   "words": [
+    {
+     "w": "Yang",
+     "start": 0.07,
+     "end": 0.245
+    },
+    {
+     "w": "tersisa:",
+     "start": 0.245,
+     "end": 0.77
+    },
+    {
+     "w": "kecepatan",
+     "start": 1.14,
+     "end": 1.673
+    },
+    {
+     "w": "angin.",
+     "start": 1.673,
+     "end": 1.94
+    },
+    {
+     "w": "Anemometer",
+     "start": 3.01,
+     "end": 3.653
+    },
+    {
+     "w": "mengukur",
+     "start": 3.653,
+     "end": 4.039
+    },
+    {
+     "w": "kecepatan",
+     "start": 4.039,
+     "end": 4.553
+    },
+    {
+     "w": "angin.",
+     "start": 4.553,
+     "end": 4.81
+    },
+    {
+     "w": "Jawabannya,",
+     "start": 5.24,
+     "end": 5.864
+    },
+    {
+     "w": "D.",
+     "start": 5.864,
+     "end": 6.02
+    }
+   ]
+  },
+  "ddf870c0": {
+   "src": "narration/SoalSKD-BedahAnalogi/ddf870c0.mp3",
+   "duration": 4.392,
+   "words": [
+    {
+     "w": "Jadi,",
+     "start": 0.07,
+     "end": 0.334
+    },
+    {
+     "w": "kunci",
+     "start": 0.334,
+     "end": 0.598
+    },
+    {
+     "w": "soal",
+     "start": 0.598,
+     "end": 0.862
+    },
+    {
+     "w": "analogi:",
+     "start": 0.862,
+     "end": 1.39
+    },
+    {
+     "w": "temukan",
+     "start": 1.92,
+     "end": 2.26
+    },
+    {
+     "w": "hubungannya",
+     "start": 2.26,
+     "end": 2.713
+    },
+    {
+     "w": "dulu,",
+     "start": 2.713,
+     "end": 2.94
+    },
+    {
+     "w": "baru",
+     "start": 3.12,
+     "end": 3.371
+    },
+    {
+     "w": "cocokkan",
+     "start": 3.371,
+     "end": 3.748
+    },
+    {
+     "w": "pilihannya.",
+     "start": 3.748,
+     "end": 4.25
+    }
+   ]
+  },
+  "c0aa8daa": {
+   "src": "narration/SoalSKD-BedahAnalogi/c0aa8daa.mp3",
+   "duration": 5.904,
+   "words": [
+    {
+     "w": "Mau",
+     "start": 0.07,
+     "end": 0.203
+    },
+    {
+     "w": "latihan",
+     "start": 0.203,
+     "end": 0.601
+    },
+    {
+     "w": "tiga",
+     "start": 0.601,
+     "end": 0.867
+    },
+    {
+     "w": "ratus",
+     "start": 0.867,
+     "end": 1.132
+    },
+    {
+     "w": "tiga",
+     "start": 1.132,
+     "end": 1.398
+    },
+    {
+     "w": "puluh",
+     "start": 1.398,
+     "end": 1.663
+    },
+    {
+     "w": "soal",
+     "start": 1.663,
+     "end": 1.929
+    },
+    {
+     "w": "kayak",
+     "start": 1.929,
+     "end": 2.194
+    },
+    {
+     "w": "gini,",
+     "start": 2.194,
+     "end": 2.46
+    },
+    {
+     "w": "lengkap",
+     "start": 2.74,
+     "end": 2.991
+    },
+    {
+     "w": "sama",
+     "start": 2.991,
+     "end": 3.242
+    },
+    {
+     "w": "pembahasannya?",
+     "start": 3.242,
+     "end": 3.87
+    },
+    {
+     "w": "Coba",
+     "start": 4.25,
+     "end": 4.542
+    },
+    {
+     "w": "tryout",
+     "start": 4.542,
+     "end": 4.834
+    },
+    {
+     "w": "di",
+     "start": 4.834,
+     "end": 4.98
+    },
+    {
+     "w": "SoalSKD.",
+     "start": 4.98,
+     "end": 5.71
+    }
+   ]
+  }
+ }
+}

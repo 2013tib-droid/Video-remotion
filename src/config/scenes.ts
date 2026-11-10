@@ -12,6 +12,8 @@ export const DEFAULT_SCENE_DURATION: Record<string, number> = {
   calculation: 5,
   testimonial: 4.5,
   cta: 4,
+  question: 5,
+  relation: 5,
 };
 
 /** Durasi minimum satu scene (detik) setelah penskalaan durasi total. */

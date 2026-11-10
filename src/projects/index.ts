@@ -10,6 +10,7 @@ import bpsEkonomiQ32026 from './bps/ekonomi-q3-2026';
 import petualanganPintarPromo from './petualangan-pintar/promo';
 import priceAtlasPromo from './price-atlas/promo';
 import priceAtlasReel from './price-atlas/reel';
+import soalSkdBedahAnalogi from './soal-skd/bedah-analogi';
 import soalSkdReel from './soal-skd/reel';
 import wadahQrisPromo from './wadah-qris/promo';
 
@@ -17,7 +18,7 @@ export const PROJECTS: Record<string, VideoConfig[]> = {
   BPS: [bpsEkonomiQ32026],
   PriceAtlas: [priceAtlasPromo, priceAtlasReel],
   PetualanganPintar: [petualanganPintarPromo],
-  SoalSKD: [soalSkdReel],
+  SoalSKD: [soalSkdReel, soalSkdBedahAnalogi],
   WadahQRIS: [wadahQrisPromo],
   TemplateDemos: demoVideos,
 };

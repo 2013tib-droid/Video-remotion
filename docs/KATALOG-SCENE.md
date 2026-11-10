@@ -24,6 +24,10 @@ Sebagian besar scene juga menerima **judul standar**: `eyebrow`, `title`, `highl
 | `calculation` | `lines[] {label,value,negative?}` `total {label,value}` `prefix?` `note?` | Kalkulasi hemat/ROI |
 | `testimonial` | `quote` `author` `role?` `avatar?` `badges?` | Bukti sosial & kepercayaan |
 | `cta` | `title` `button` `url?` `badges?` `showLogo?` | Penutup |
+| `question` | `label?` `question` `options[]` `countdown?` `initial?` `steps[] {action: select/wrong/strike/correct, option, note?, at?}` `enter?` | Bedah soal pilihan ganda (explainer) |
+| `relation` | `rows[] {left, verb, right, at?}` `formula?` `formulaAt?` | Analogi / hubungan A → B |
+
+Semua scene juga menerima `narration` (teks voice-over), `emphasis[]` (kata disorot di subtitle) dan `chapter {label?, title, highlight?}` (header bab). `at` = detik **atau kata narasi** (mis. `'higrometer'`, `'alat#2'`). Lihat `docs/EXPLAINER.md`.
 
 ## Isi layar (`device.screen`)
 
@@ -39,4 +43,4 @@ Sebagian besar scene juga menerima **judul standar**: `eyebrow`, `title`, `highl
 `notifications[]`: `{ icon?, app?, title, body?, time? }` — muncul berurutan di atas perangkat.
 
 ## Durasi default (detik)
-logo 3 · hero 4 · mascot 4 · features 5 · stats 4 · chart 5 · comparison 5 · timeline 5 · device 5 · calculation 5 · testimonial 4.5 · cta 4
+logo 3 · hero 4 · mascot 4 · features 5 · stats 4 · chart 5 · comparison 5 · timeline 5 · device 5 · calculation 5 · testimonial 4.5 · cta 4 · question 5 · relation 5 (scene bernarasi: mengikuti panjang suara)

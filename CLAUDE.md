@@ -28,8 +28,22 @@ Repo ini adalah **framework animasi**, bukan satu video. Saat diminta membuat/me
 - `npm run studio` — pratinjau
 - `npx remotion render <ID> out/<ID>.mp4` — render
 - `npm run typecheck` — validasi config
+- `npm run narasi -- <config.ts>` — render suara narasi (video explainer, lihat `docs/EXPLAINER.md`)
 - `npm run render:list` — daftar video; `npm run render:all -- <filter> [--scale=0.5]` — render banyak sekaligus
+
+## Video bersuara (narasi / voice-over)
+Video **tidak bersuara** kecuali config punya `audio` (musik) atau narasi. Bila pengguna ingin suara/narasi:
+1. Baca `docs/EXPLAINER.md`; contoh lengkap `src/projects/soal-skd/bedah-analogi.ts`.
+2. Isi `voice`, `narration` (impor `<video>.narration.json`), `overlay`, dan `narration` teks per scene.
+3. Render suara **sebelum** render video: `AZURE_SPEECH_KEY=proxy-injected npm run narasi -- <config.ts>`
+   (lalu commit `public/narration/<ID>/` + `<video>.narration.json`). Tanpa langkah ini video tetap bisu.
+- Suara default pilihan pengguna: **`id-ID-Ardi:DragonHDLatestNeural`, rate `+10%`**.
+- Key Azure (region `southeastasia`) tersimpan sebagai network secret di environment cloud **video-remotion**;
+  `proxy-injected` hanya placeholder, proxy yang menyuntikkan key. Di environment lain → 401: minta pengguna
+  pindah ke environment video-remotion (jangan minta key ditempel di chat).
+- Render di sesi cloud: tambahkan `--browser-executable=/opt/pw-browsers/chromium` (unduhan Chrome diblokir).
 
 ## Aset
 - Audio/video/file desain otomatis Git LFS (`.gitattributes`). Screenshot besar taruh di `public/brands/<brand>/media/`.
+- Pengecualian: `public/narration/**` disimpan sebagai file git biasa. Upload Git LFS diblokir dari sesi cloud, jadi aset kecil yang harus ikut push taruh di luar folder `media/`.
 - Jangan render kecuali diminta pengguna.
