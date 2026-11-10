@@ -2,14 +2,14 @@ import React from 'react';
 import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from 'remotion';
 import { KineticText } from '../components';
 import { EASINGS } from '../config';
-import { countAccents, measureText, useCue, useFontReady, useSceneMotion, useSceneText, useTextAnimation } from '../motion';
+import { Sfx, countAccents, measureText, useCue, useFontReady, useSceneMotion, useSceneText, useTextAnimation } from '../motion';
 import { useTheme } from '../themes';
 import type { SceneProps } from './registry-types';
 import { SceneLayout } from './SceneLayout';
 import type { StatementScene } from './types';
 
 /** Tinggi baris teks statement (em). */
-const LH = 1.08;
+export const LH = 1.08;
 /** Sisakan ruang untuk punch (8%) dan coretan; `slam` (mulai 1,3×) butuh lebih. */
 const HEADROOM = 0.88;
 const HEADROOM_SLAM = 0.8;
@@ -20,7 +20,7 @@ const GAP = 0.26;
  * Ukuran font terbesar agar `text` muat di kotak maxW × maxH:
  * tiap kata ≤ lebar, dan jumlah baris hasil bungkus × tinggi baris ≤ tinggi.
  */
-function fitFontSize(
+export function fitFontSize(
   text: string,
   font: (size: number) => string,
   tracking: number,
@@ -135,9 +135,13 @@ export const StatementSceneView: React.FC<SceneProps<StatementScene>> = ({ scene
     />
   );
 
+  // Ketukan tiap baris muncul; `slam` → dentum.
+  const sounds = times.map((at, i) => <Sfx key={`sfx-${i}`} name={anim === 'slam' ? 'impact' : 'tick'} at={at} volume={anim === 'slam' ? 0.55 : 0.8} />);
+
   if (mode === 'stack') {
     return (
       <SceneLayout background={scene.background} style={{ gap: space.md }}>
+        {sounds}
         {lines.map((_, i) => lineEl(i))}
       </SceneLayout>
     );
@@ -145,6 +149,7 @@ export const StatementSceneView: React.FC<SceneProps<StatementScene>> = ({ scene
 
   return (
     <SceneLayout background={scene.background}>
+      {sounds}
       {lines.map((_, i) => {
         const start = times[i];
         const next = times[i + 1];

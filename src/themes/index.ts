@@ -41,4 +41,4 @@ export function resolveTheme(name: ThemeName, overrides?: ThemeOverrides): Theme
 }
 
 export type { Theme, ThemeOverrides, BackgroundKind } from './types';
-export { ThemeProvider, useTheme } from './ThemeProvider';
+export { ThemeColors, ThemeProvider, useTheme } from './ThemeProvider';

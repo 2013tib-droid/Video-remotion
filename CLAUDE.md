@@ -42,6 +42,12 @@ Emoji dikenal → ikon garis SVG yang tergambar (path draw) + isian duotone + id
 dan Lottie `.json` (`@remotion/lottie`) di semua field ikon; `hero.illustration` untuk ilustrasi di atas judul.
 Matikan dengan `motion: { icons: 'emoji' }`. Kode: `src/components/icons/`, `src/motion/icon.ts`, preset `ICON_ANIMATION`.
 
+## Efek suara & scene media (sudah ada)
+SFX otomatis di semua video: whoosh saat transisi, pop saat kartu/ikon/badge muncul, "ting" saat angka selesai
+menghitung, tick per kata. Atur `sfx: false | { volume, transitions, elements, counters }` di config, `sfx: false` per scene.
+Scene `words` (satu kata per ketukan), `broll` (foto/video + gerak kamera Ken Burns), `map` (peta + pin + rute).
+Kode: `src/config/sfx.ts`, `src/motion/sfx.tsx`, `src/scenes/{Words,Broll,Map}Scene.tsx`. Detail: `docs/KATALOG-SCENE.md`.
+
 ## Alur kerja minimal (hemat token)
 1. Baca **hanya** `src/scenes/types.ts` (kontrak semua scene) — atau `docs/KATALOG-SCENE.md`.
 2. Bila cocok, pakai template di `src/templates/*.ts` (baca interface props-nya saja).
@@ -64,7 +70,7 @@ Matikan dengan `motion: { icons: 'emoji' }`. Kode: `src/components/icons/`, `src
 - `npm run render:list` — daftar video; `npm run render:all -- <filter> [--scale=0.5]` — render banyak sekaligus
 
 ## Video bersuara (narasi / voice-over)
-Video **tidak bersuara** kecuali config punya `audio` (musik) atau narasi. Bila pengguna ingin suara/narasi:
+Tanpa `audio` (musik) atau narasi, video hanya berisi efek suara (SFX). Bila pengguna ingin suara/narasi:
 1. Baca `docs/EXPLAINER.md`; contoh lengkap `src/projects/soal-skd/bedah-analogi.ts`.
 2. Isi `voice`, `narration` (impor `<video>.narration.json`), `overlay`, dan `narration` teks per scene.
 3. Render suara **sebelum** render video: `AZURE_SPEECH_KEY=proxy-injected npm run narasi -- <config.ts>`
@@ -77,5 +83,5 @@ Video **tidak bersuara** kecuali config punya `audio` (musik) atau narasi. Bila 
 
 ## Aset
 - Audio/video/file desain otomatis Git LFS (`.gitattributes`). Screenshot besar taruh di `public/brands/<brand>/media/`.
-- Pengecualian: `public/narration/**` disimpan sebagai file git biasa. Upload Git LFS diblokir dari sesi cloud, jadi aset kecil yang harus ikut push taruh di luar folder `media/`.
+- Pengecualian: `public/narration/**` dan `public/sfx/**` disimpan sebagai file git biasa. Upload Git LFS diblokir dari sesi cloud, jadi aset kecil yang harus ikut push taruh di luar folder `media/`.
 - Jangan render kecuali diminta pengguna.

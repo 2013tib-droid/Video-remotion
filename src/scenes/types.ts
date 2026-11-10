@@ -41,6 +41,8 @@ export interface SceneBase {
    * punch + coretan bergiliran marker → underline → circle. Lainnya: marker | underline | circle | punch | none.
    */
   highlightStyle?: HighlightStyle;
+  /** `false` = scene ini tanpa efek suara elemen (pop/ting/tick). Whoosh transisi diatur config `sfx`. */
+  sfx?: boolean;
 }
 
 /**
@@ -231,6 +233,103 @@ export interface StatementScene extends SceneBase {
   style?: 'stack' | 'replace';
 }
 
+/**
+ * Teks besar SATU KATA (atau frasa pendek) per ketukan, memenuhi layar — gaya Reels/iklan.
+ * Bila scene bernarasi, tiap kata muncul tepat saat diucapkan.
+ */
+export interface WordsScene extends SceneBase {
+  type: 'words';
+  /** Kalimat (dipecah per kata) atau daftar kata/frasa pendek. */
+  words: string | (string | { text: string; /** Disorot (gradien/latar berkedip). */ highlight?: boolean; at?: Cue })[];
+  /** Kata yang disorot (bila `words` berupa kalimat). */
+  accent?: string[];
+  /** Detik per kata. Default: durasi scene dibagi rata (min 0,35 dtk), atau mengikuti narasi. */
+  interval?: number;
+  /** Latar berkedip warna brand saat kata sorotan muncul. Default true. */
+  flash?: boolean;
+  /** Teks kecil tetap di bawah (sumber, handle, CTA singkat). */
+  caption?: string;
+}
+
+/** Gerak kamera pada foto/video b-roll (efek Ken Burns). */
+export type BrollMove = 'auto' | 'zoomIn' | 'zoomOut' | 'panLeft' | 'panRight' | 'panUp' | 'panDown' | 'none';
+
+export interface BrollShot {
+  /** Foto (jpg/png/webp) atau video (mp4/webm/mov) di public/ atau URL. */
+  src: string;
+  /** Default: dari scene, `auto` = bergiliran per shot. */
+  move?: BrollMove;
+  /** Titik fokus zoom [x, y] 0..1 (mis. [0.5, 0.3] = wajah di atas tengah). Default tengah. */
+  focus?: [number, number];
+  /** Label kecil kiri bawah, mis. "📍 Pasar Beringharjo". */
+  caption?: string;
+  /** Durasi shot (detik). Default: durasi scene dibagi rata. */
+  duration?: number;
+  /** Video: mulai dari detik ke-. */
+  startFrom?: number;
+}
+
+/** Foto/video b-roll layar penuh dengan gerak kamera, scrim, dan judul di atasnya. */
+export interface BrollScene extends SceneBase, SceneHeading {
+  type: 'broll';
+  /** Satu media (singkat untuk `shots: [{ src }]`). */
+  src?: string;
+  /** Beberapa shot berurutan (montase, crossfade antar shot). */
+  shots?: BrollShot[];
+  /** Gerak kamera default semua shot. Default `auto`. */
+  move?: BrollMove;
+  /** Posisi judul. Default `bottom`. */
+  textPosition?: 'top' | 'center' | 'bottom';
+  /** Kegelapan scrim di belakang teks 0..1. Default 0.6. */
+  dim?: number;
+  /** Volume suara asli video 0..1. Default 0 (senyap). */
+  volume?: number;
+}
+
+/** Wilayah peta bawaan, atau bbox `[bujurBarat, lintangSelatan, bujurTimur, lintangUtara]`. */
+export type MapRegion =
+  | 'world'
+  | 'asia'
+  | 'asean'
+  | 'indonesia'
+  | 'sumatra'
+  | 'jawa'
+  | 'kalimantan'
+  | 'sulawesi'
+  | 'bali-nusra'
+  | 'maluku'
+  | 'papua'
+  | [number, number, number, number];
+
+export interface MapPoint {
+  /** Nama kota bawaan (lihat MAP_PLACES di docs), mis. "Jakarta". Atau isi `lat`/`lon`. */
+  place?: string;
+  lat?: number;
+  lon?: number;
+  /** Label pin. Default: nama `place`. */
+  label?: string;
+  /** Angka/keterangan di bawah label, mis. "Rp 12,4 T" atau "+5,2%". */
+  value?: string;
+  /** Emoji/ikon di dalam pin (default titik). */
+  icon?: string;
+  /** Waktu jatuh pin (detik atau kata narasi). Default bergiliran. */
+  at?: Cue;
+}
+
+/** Peta beranimasi: peta tergambar, kamera terbang ke area, pin jatuh, rute tergambar. */
+export interface MapScene extends SceneBase, SceneHeading {
+  type: 'map';
+  /** Area awal. Default `indonesia` (atau `world` bila ada titik di luar Asia Tenggara). */
+  region?: MapRegion;
+  points?: MapPoint[];
+  /** Garis rute melengkung antar titik (indeks `points`), tergambar + titik berjalan. */
+  routes?: { from: number; to: number; at?: Cue }[];
+  /** Negara yang diwarnai (nama Inggris Natural Earth, mis. "Indonesia", "Malaysia"). */
+  countries?: string[];
+  /** Kamera terbang dari `region` ke area pin. Default true bila ada pin. */
+  zoomToPoints?: boolean;
+}
+
 export type SceneConfig =
   | LogoScene
   | HeroScene
@@ -246,6 +345,9 @@ export type SceneConfig =
   | CTAScene
   | QuestionScene
   | RelationScene
-  | StatementScene;
+  | StatementScene
+  | WordsScene
+  | BrollScene
+  | MapScene;
 
 export type SceneType = SceneConfig['type'];

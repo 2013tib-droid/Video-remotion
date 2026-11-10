@@ -4,6 +4,7 @@
  */
 import { defineVideo } from '../../core';
 import { appLaunch, mobileAppPromo, saasProductPromo } from '../../templates';
+import { sceneBaruDemo } from './scene-baru';
 
 export const appLaunchDemo = appLaunch({
   id: 'Demo-AppLaunch',
@@ -169,4 +170,4 @@ export const iconDemo = defineVideo({
   ],
 });
 
-export const demoVideos = [appLaunchDemo, saasDemo, mobileDemo, statementDemo, iconDemo];
+export const demoVideos = [appLaunchDemo, saasDemo, mobileDemo, statementDemo, iconDemo, sceneBaruDemo];

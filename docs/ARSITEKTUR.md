@@ -55,6 +55,13 @@ Tema = objek `Theme`: warna, gradien, font, bobot, tracking, radius, bayangan, *
 
 Prinsip: animasi masuk ditangani `<Reveal>` (teks judul: `<Heading>`), animasi keluar ditangani `useSceneExit` lalu **transisi scene** — sehingga semua scene keluar dengan cara yang sama. Riwayat perubahan: `docs/CHANGELOG.md`.
 
+## Efek suara
+
+`MotionVideo` membungkus semua scene dengan `SfxProvider` (pengaturan `sfx` video, dikecilkan bila bernarasi; per scene
+bisa dimatikan). Whoosh transisi dirender di `MotionVideo` pada frame awal tiap transisi (`TRANSITION_SFX`). Suara elemen
+datang dari komponen: `<Reveal idle>` → pop, `CounterAnimation` → ting, scene → `<Sfx>`. Semua `<Sfx>` adalah
+`<Sequence>` + `<Html5Audio>` pendek dari `public/sfx/`, jadi waktunya deterministik dan ikut animasi.
+
 ## Timeline
 
 `computeTimeline(config)`:

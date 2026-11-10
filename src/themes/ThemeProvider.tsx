@@ -61,3 +61,20 @@ export function useTheme(): ThemeContextValue {
   if (!ctx) throw new Error('useTheme() harus dipakai di dalam <ThemeProvider>.');
   return ctx;
 }
+
+/**
+ * Ganti sebagian warna tema untuk sub-pohon (mis. teks putih di atas foto b-roll),
+ * tanpa mengubah format/area aman.
+ */
+export const ThemeColors: React.FC<{ colors: Partial<Theme['colors']>; gradient?: string; children: React.ReactNode }> = ({
+  colors,
+  gradient,
+  children,
+}) => {
+  const ctx = useTheme();
+  const value = useMemo<ThemeContextValue>(
+    () => ({ ...ctx, theme: { ...ctx.theme, colors: { ...ctx.theme.colors, ...colors }, gradient: gradient ?? ctx.theme.gradient } }),
+    [ctx, colors, gradient],
+  );
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+};

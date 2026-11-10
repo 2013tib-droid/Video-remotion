@@ -2,6 +2,24 @@
 
 Perubahan framework yang memengaruhi semua video. Entri terbaru di atas.
 
+## 2026-11-10 — Efek suara + scene `words`, `broll`, `map`
+
+### Baru
+- **Efek suara (SFX) otomatis di semua video** — whoosh saat transisi (jenis suara mengikuti transisi), pop saat
+  elemen `<Reveal idle>` muncul (3 nada bergiliran), "ting" saat angka selesai menghitung, tick/dentum untuk
+  `statement`, suara aksi soal (pilih/salah/coret/benar). Video bernarasi otomatis dikecilkan (×0,6).
+  Atur: `sfx: false | { volume, transitions, elements, counters }` (config), `sfx: false` (scene).
+  File disintesis dari nol (`scripts/build-sfx.mjs`, deterministik, tanpa lisensi pihak ketiga) → `public/sfx/` (git biasa, < 0,5 MB).
+- **Scene `words`** — satu kata per ketukan memenuhi layar (hentakan skala + blur, latar berkedip untuk kata sorotan,
+  titik progres). Sinkron otomatis dengan narasi.
+- **Scene `broll`** — foto/video layar penuh dengan gerak kamera Ken Burns (zoom/pan + titik fokus), montase beberapa
+  shot dengan crossfade, judul putih di atas scrim, label lokasi.
+- **Scene `map`** — peta Natural Earth (detail 1:50m untuk Asia Tenggara): daratan tersingkap, kamera terbang ke area pin,
+  pin jatuh + denyut, label anti-tabrakan, rute melengkung tergambar. ±100 kota bawaan, wilayah bawaan, negara diwarnai.
+  Data: `src/components/map/geo-data.ts` (dibangun `scripts/build-geo.mjs`).
+- `ThemeColors` — ganti sebagian warna tema untuk sub-pohon (teks putih di atas foto).
+- Video etalase `Demo-SceneBaru`.
+
 ## 2026-11-10 — Ikon & ilustrasi beranimasi
 
 Ikon tidak lagi emoji statis. Berlaku otomatis untuk semua video tanpa mengubah config.

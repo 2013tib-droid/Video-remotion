@@ -1,6 +1,6 @@
 import React from 'react';
-import { type TypeSize } from '../config';
-import { Reveal, formatNumber, useCountUp } from '../motion';
+import { SFX_TIMING, type TypeSize } from '../config';
+import { Reveal, Sfx, formatNumber, useCountUp } from '../motion';
 import { useTheme } from '../themes';
 import { BodyText, GradientText } from './primitives';
 
@@ -14,6 +14,8 @@ export interface CounterAnimationProps {
   size?: TypeSize;
   gradient?: boolean;
   align?: 'left' | 'center';
+  /** Bunyi "ting" saat angka selesai menghitung. Default true. */
+  ting?: boolean;
 }
 
 /** Angka yang menghitung naik dengan spring, diformat gaya Indonesia (1.250.000). */
@@ -27,6 +29,7 @@ export const CounterAnimation: React.FC<CounterAnimationProps> = ({
   size = 'h1',
   gradient = true,
   align = 'center',
+  ting = true,
 }) => {
   const { theme, type, px } = useTheme();
   const current = useCountUp(value, { delay });
@@ -52,6 +55,7 @@ export const CounterAnimation: React.FC<CounterAnimationProps> = ({
       >
         {gradient ? <GradientText>{text}</GradientText> : text}
       </div>
+      {ting ? <Sfx name="ting" at={delay + SFX_TIMING.counterDone} /> : null}
       {label ? (
         <BodyText size="caption" align={align}>
           {label}

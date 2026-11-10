@@ -1,4 +1,4 @@
-import type { CameraSetting, FormatName, IconStyle, MotionEnergy, TransitionName } from '../config';
+import type { CameraSetting, FormatName, IconStyle, MotionEnergy, SfxSetting, TransitionName } from '../config';
 import type { ThemeName, ThemeOverrides } from '../themes';
 import type { SceneConfig } from '../scenes/types';
 import type { NarrationData, VoiceSettings } from './narration';
@@ -36,6 +36,13 @@ export interface VideoConfig {
    * `icons`: `line` (default) = emoji dikenal jadi ikon garis yang tergambar; `emoji` = emoji asli.
    */
   motion?: { energy?: MotionEnergy; camera?: CameraSetting; exit?: boolean; icons?: IconStyle };
+  /**
+   * Efek suara: whoosh saat transisi, pop saat kartu/ikon/badge muncul, "ting" saat angka
+   * selesai menghitung, tick per kata (scene `words`), dentum pin (scene `map`).
+   * Default aktif. `false` = senyap; `{ volume: 0.6, transitions: false }` = atur sebagian.
+   * Video bernarasi otomatis dikecilkan (SFX_NARRATION_DUCK).
+   */
+  sfx?: SfxSetting;
   /** Musik latar opsional (path di public/). */
   audio?: { src: string; volume?: number };
   /** Suara narasi (Azure). Wajib bila ada scene dengan `narration`. */
