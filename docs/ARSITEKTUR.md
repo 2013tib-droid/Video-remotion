@@ -29,7 +29,7 @@ Setiap lapisan hanya bergantung pada lapisan di bawahnya. Konten tidak pernah be
 
 | File | Isi |
 |---|---|
-| `animation.ts` | `SPRINGS` (smooth, gentle, snappy, bouncy, heavy), `DURATIONS` (fast/normal/slow), `EASINGS`, `STAGGER`, `ENTRANCES` (fadeUp, blurUp, pop, ...) |
+| `animation.ts` | `SPRINGS` (smooth, gentle, snappy, bouncy, heavy), `DURATIONS` (fast/normal/slow), `EASINGS`, `STAGGER`, `ENTRANCES` (fadeUp, blurUp, pop, ...), `ICON_ANIMATION` & `ICON_IDLE` (ikon tergambar) |
 | `typography.ts` | `TYPE_SCALE` (display → label), `LINE_HEIGHT`, `PORTRAIT_TYPE_BOOST` |
 | `spacing.ts` | `SPACING` xs → xxl |
 | `formats.ts` | `FORMATS` + `SAFE_AREA` per format |
@@ -41,7 +41,7 @@ Semua ukuran ditulis dalam **px basis 1080** (sisi terpendek). `ThemeProvider` m
 
 ## Tema (`src/themes`)
 
-Tema = objek `Theme`: warna, gradien, font, bobot, tracking, radius, bayangan, **kepribadian gerak** (`motion.spring`, `motion.entrance`, `motion.stagger`, `motion.transition`), dan jenis background. Karena gerak juga bagian tema, mengganti `ApplePremium` → `PlayfulKids` mengubah tampilan **dan** rasa animasi (halus → memantul) tanpa menyentuh komponen.
+Tema = objek `Theme`: warna, gradien, font, bobot, tracking, radius, bayangan, **kepribadian gerak** (`motion.spring`, `motion.entrance`, `motion.stagger`, `motion.transition`, `motion.icons`), dan jenis background. Karena gerak juga bagian tema, mengganti `ApplePremium` → `PlayfulKids` mengubah tampilan **dan** rasa animasi (halus → memantul) tanpa menyentuh komponen.
 
 ## Sistem animasi (`src/motion`)
 
@@ -52,6 +52,24 @@ Tema = objek `Theme`: warna, gradien, font, bobot, tracking, radius, bayangan, *
 - `useCamera`, `useIdle`, `useSceneExit` (`scene.tsx`) → kamera pelan, idle, dan animasi keluar bergiliran sepanjang scene.
 - `useTextAnimation`, `SceneTextProvider` (`text.tsx`) + `<KineticText>`/`<LineText>` (`src/components/KineticText.tsx`) →
   tipografi kinetik: gaya muncul kata, aksen kata sorotan, sinkron cue narasi (`useCue`, `useCueWords`).
+- `useIconDraw`, `useIconIdle` (`icon.ts`) + `useRevealDelay` (`Reveal.tsx`) → ikon tergambar: jadwal gambar garis
+  (`stroke-dashoffset` dengan `pathLength=1`), isian duotone, lalu idle khas per ikon. Ikon di dalam `<Reveal>` otomatis
+  memakai delay pembungkusnya.
+
+## Ikon (`src/components/icons`)
+
+`<Icon src>` (`primitives.tsx`) memilih renderer dari nilai `src`:
+
+| `src` | Renderer |
+|---|---|
+| emoji dikenal (tema `motion.icons: 'line'`, default) | `LineIcon` — pemetaan `EMOJI_ICONS` → `LINE_ICONS` |
+| `line:<nama>` | `LineIcon` (pustaka 75 ikon garis 24×24) |
+| `draw:<file.svg>` | `DrawSvg` — SVG di-fetch & disisipkan, tiap bentuk digambar; bentuk berisi disketsa lalu diisi |
+| `.json` / `lottie:` | `LottieIcon` — `@remotion/lottie`, diputar dalam `<Sequence>` mulai saat delay |
+| path/URL gambar | `<Img>` |
+| emoji lain | emoji + idle `tilt` |
+
+File (`draw:`/Lottie) dimuat dengan `delayRender` agar render menunggu aset. Semua gerak deterministik dari frame.
 
 Prinsip: animasi masuk ditangani `<Reveal>` (teks judul: `<Heading>`), animasi keluar ditangani `useSceneExit` lalu **transisi scene** — sehingga semua scene keluar dengan cara yang sama. Riwayat perubahan: `docs/CHANGELOG.md`.
 

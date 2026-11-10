@@ -39,8 +39,10 @@ src/
 ├── config/        Token desain: animasi (spring, easing, entrance), tipografi,
 │                  spasi, format (9:16, 16:9, 1:1, 4:5), transisi, font
 ├── themes/        ApplePremium · ModernSaaS · PlayfulKids · Corporate · IslamicWarm
-├── motion/        useSpring, useEntrance, <Reveal>, useStagger, kamera/idle/keluar, teks kinetik
+├── motion/        useSpring, useEntrance, <Reveal>, useStagger, kamera/idle/keluar, teks kinetik,
+│                  ikon tergambar (useIconDraw/useIconIdle)
 ├── components/    Komponen visual reusable (LogoReveal, HeroSection, PhoneMockup, ...)
+│   └── icons/     Ikon garis tergambar (75 ikon), SVG tergambar, Lottie
 ├── scenes/        Kontrak data scene (types.ts) + renderer per tipe scene
 ├── core/          MotionVideo (mesin), timeline, VideoConfig
 ├── templates/     AppLaunch · SaaSProductPromo · MobileAppPromo ·
@@ -66,6 +68,14 @@ Alur data: **Config → Tema → Timeline → Scene → Komponen → Primitif mo
 | `Demo-SaaS-Landscape` | ModernSaaS | Template SaaS, format 16:9 |
 | `Demo-MobileApp` | ModernSaaS | Template MobileAppPromo |
 | `Demo-Statement` | ModernDark | Scene `statement` (teks besar): stack, replace, typewriter |
+| `Demo-Ikon` | ModernSaaS | Ikon beranimasi: emoji → ikon garis tergambar, `line:`, SVG tergambar (`draw:`), Lottie |
+
+## Ikon beranimasi
+
+Ikon tidak statis: emoji yang dikenal (🛒 🔔 📈 🔒 ✅ …) otomatis menjadi **ikon garis yang tergambar** garis demi garis,
+lalu terisi warna tipis dan terus bergerak halus (berayun, berdenyut, berputar). Field ikon juga menerima
+`'line:rocket'`, `'draw:brands/x/ikon.svg'` (SVG tergambar), dan animasi **Lottie** `.json`. Scene `hero` punya
+`illustration`. Kembali ke emoji asli: `motion: { icons: 'emoji' }`. Detail: [docs/KATALOG-SCENE.md](docs/KATALOG-SCENE.md).
 
 ## Dokumentasi
 
