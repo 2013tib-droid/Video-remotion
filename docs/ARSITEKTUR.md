@@ -49,8 +49,11 @@ Tema = objek `Theme`: warna, gradien, font, bobot, tracking, radius, bayangan, *
 - `useEntrance({ preset, delay })` / `<Reveal>` → animasi masuk konsisten dari preset.
 - `useStagger()` → delay berurutan sesuai tema.
 - `useCountUp`, `useFloat`, `useProgress`, `useSec` → kebutuhan umum lainnya.
+- `useCamera`, `useIdle`, `useSceneExit` (`scene.tsx`) → kamera pelan, idle, dan animasi keluar bergiliran sepanjang scene.
+- `useTextAnimation`, `SceneTextProvider` (`text.tsx`) + `<KineticText>`/`<LineText>` (`src/components/KineticText.tsx`) →
+  tipografi kinetik: gaya muncul kata, aksen kata sorotan, sinkron cue narasi (`useCue`, `useCueWords`).
 
-Prinsip: animasi masuk ditangani `<Reveal>`, animasi keluar ditangani **transisi scene** — sehingga semua scene keluar dengan cara yang sama.
+Prinsip: animasi masuk ditangani `<Reveal>` (teks judul: `<Heading>`), animasi keluar ditangani `useSceneExit` lalu **transisi scene** — sehingga semua scene keluar dengan cara yang sama. Riwayat perubahan: `docs/CHANGELOG.md`.
 
 ## Timeline
 
