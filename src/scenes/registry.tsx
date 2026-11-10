@@ -15,6 +15,7 @@ import { CalculationSceneView } from './CalculationScene';
 import { DeviceSceneView } from './DeviceScene';
 import { QuestionSceneView } from './QuestionScene';
 import { RelationSceneView } from './RelationScene';
+import { StatementSceneView } from './StatementScene';
 import type { SceneProps } from './registry-types';
 import type { SceneConfig, SceneType } from './types';
 
@@ -37,6 +38,7 @@ const REGISTRY: { [T in SceneType]: React.FC<SceneProps<Extract<SceneConfig, { t
   cta: CTASceneView,
   question: QuestionSceneView,
   relation: RelationSceneView,
+  statement: StatementSceneView,
 };
 
 export const SceneRenderer: React.FC<SceneProps> = ({ scene, brand }) => {

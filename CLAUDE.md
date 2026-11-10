@@ -25,6 +25,13 @@ Semua video otomatis punya kamera pelan + parallax, idle (`<Reveal idle>`), dan 
 Kekuatan: `energy` `calm`/`normal`/`lively` (default dari tema; explainer otomatis `calm`). Atur via
 `motion: { energy, camera, exit }` di config, atau `camera`/`exit` per scene. Detail: `docs/KATALOG-SCENE.md`.
 
+## Tipografi kinetik (sudah ada)
+Judul muncul kata per kata dengan gaya dari tema (`rise`/`pop`/`blur`/`typewriter`/`slam`), kata `highlight` mendapat
+punch + sapuan gradien + coretan bergiliran (marker → underline → circle), dan bila scene bernarasi kata judul muncul
+tepat saat diucapkan. Subtitle fade per baris. Per scene: `textAnimation`, `highlightStyle` (`mix`/`marker`/`underline`/
+`circle`/`punch`/`none`). Untuk teks besar ala Reels pakai scene `statement` (`lines[]`, `style: 'stack' | 'replace'`).
+Kode: `src/components/KineticText.tsx`, `src/motion/text.tsx`, preset di `src/config/animation.ts`.
+
 ## Alur kerja minimal (hemat token)
 1. Baca **hanya** `src/scenes/types.ts` (kontrak semua scene) — atau `docs/KATALOG-SCENE.md`.
 2. Bila cocok, pakai template di `src/templates/*.ts` (baca interface props-nya saja).

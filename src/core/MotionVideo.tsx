@@ -5,7 +5,8 @@ import '../config/fonts';
 import { CAMERA_MOVES, DEFAULT_FORMAT, SCENE_MOTION_TIMING, getPresentation, getTiming } from '../config';
 import { resolveSrc } from '../components/primitives';
 import { SceneRenderer } from '../scenes/registry';
-import { CueProvider, SceneMotionProvider, type SceneMotion } from '../motion';
+import { sceneAccentCount } from '../scenes/accents';
+import { CueProvider, SceneMotionProvider, SceneTextProvider, type SceneMotion, type SceneText } from '../motion';
 import { ThemeProvider, resolveTheme, type Theme } from '../themes';
 import { ExplainerOverlay, OVERLAY_LAYOUT } from './ExplainerOverlay';
 import { NARRATION_LEAD, resolveClip } from './narration';
@@ -67,6 +68,19 @@ export const MotionVideo: React.FC<MotionVideoProps> = ({ config }) => {
       };
     });
   }, [config, theme, timeline, fps]);
+  const sceneText = useMemo<SceneText[]>(() => {
+    let base = 0;
+    return config.scenes.map((scene) => {
+      const value: SceneText = {
+        textAnimation: scene.textAnimation,
+        highlightStyle: scene.highlightStyle ?? 'mix',
+        emphasis: scene.emphasis ?? [],
+        accentBase: base,
+      };
+      base += sceneAccentCount(scene);
+      return value;
+    });
+  }, [config]);
   useMemo(() => {
     const missing = clips.filter((c) => c?.estimated).length;
     if (missing) {
@@ -88,9 +102,11 @@ export const MotionVideo: React.FC<MotionVideoProps> = ({ config }) => {
               <React.Fragment key={i}>
                 <TransitionSeries.Sequence durationInFrames={entry.frames} name={`${i + 1}. ${scene.type}`}>
                   <SceneMotionProvider value={sceneMotion[i]}>
-                    <CueProvider words={(clips[i]?.words ?? []).map((w) => ({ ...w, start: w.start + NARRATION_LEAD, end: w.end + NARRATION_LEAD }))}>
-                      <SceneRenderer scene={scene} brand={config.brand} />
-                    </CueProvider>
+                    <SceneTextProvider value={sceneText[i]}>
+                      <CueProvider words={(clips[i]?.words ?? []).map((w) => ({ ...w, start: w.start + NARRATION_LEAD, end: w.end + NARRATION_LEAD }))}>
+                        <SceneRenderer scene={scene} brand={config.brand} />
+                      </CueProvider>
+                    </SceneTextProvider>
                   </SceneMotionProvider>
                 </TransitionSeries.Sequence>
                 {next && next.transitionFrames > 0 ? (

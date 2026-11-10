@@ -30,6 +30,6 @@ export const PlayfulKids: Theme = {
     card: '0 10px 0 rgba(45,48,71,0.08), 0 20px 40px rgba(255,107,107,0.15)',
     elevated: '0 16px 0 rgba(45,48,71,0.08), 0 30px 60px rgba(255,107,107,0.25)',
   },
-  motion: { spring: 'bouncy', entrance: 'pop', stagger: 'normal', transition: 'slideUp', energy: 'lively' },
+  motion: { spring: 'bouncy', entrance: 'pop', stagger: 'normal', transition: 'slideUp', energy: 'lively', text: 'pop' },
   background: { kind: 'particles', intensity: 0.8 },
 };

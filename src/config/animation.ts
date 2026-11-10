@@ -137,3 +137,63 @@ export const SCENE_MOTION_TIMING = {
   idleAfter: 0.7,
   idleRamp: 0.8,
 } as const;
+
+/* ------------------------------------------------------------------
+ * Tipografi kinetik: gaya muncul kata & aksen kata kunci.
+ * ------------------------------------------------------------------ */
+
+/** Gaya muncul kata pada judul. `fade` = kalem per baris (subtitle/paragraf). */
+export type TextAnimation = 'rise' | 'pop' | 'blur' | 'typewriter' | 'slam' | 'fade';
+
+export interface TextAnimationPreset {
+  /** Keadaan awal; y & blur dalam em (ikut ukuran font). Keadaan akhir selalu netral. */
+  from: { opacity?: number; y?: number; scale?: number; blur?: number };
+  spring: SpringPreset;
+  /** Lama sampai kata diam penuh (detik). Maks 0,5 agar teks cepat terbaca. */
+  duration: number;
+  /** Jeda bergiliran antar kata (detik). */
+  stagger: number;
+  /** Opacity mencapai 1 pada progres ini (0..1). */
+  opacityRamp: number;
+  /** Kata terpotong garis bawah (naik dari balik garis). */
+  mask?: boolean;
+}
+
+export const TEXT_ANIMATIONS = {
+  /** Naik dari balik garis, seperti terpotong di bawah. */
+  rise: { from: { y: 1.1 }, spring: 'smooth', duration: 0.45, stagger: 0.08, opacityRamp: 0.01, mask: true },
+  /** Membesar sedikit melewati ukuran akhir lalu kembali. */
+  pop: { from: { opacity: 0, scale: 0.55 }, spring: 'bouncy', duration: 0.45, stagger: 0.09, opacityRamp: 0.35 },
+  /** Muncul dari kabur. */
+  blur: { from: { opacity: 0, blur: 0.22, scale: 1.06 }, spring: 'smooth', duration: 0.45, stagger: 0.09, opacityRamp: 0.6 },
+  /** Huruf per huruf dengan kursor berkedip (lihat TYPEWRITER). */
+  typewriter: { from: {}, spring: 'smooth', duration: 0, stagger: 0, opacityRamp: 0 },
+  /** Turun dari ukuran besar lalu menghentak. */
+  slam: { from: { opacity: 0, scale: 1.3, y: -0.08 }, spring: 'snappy', duration: 0.4, stagger: 0.15, opacityRamp: 0.3 },
+  /** Kalem: fade naik. Dipakai subtitle & paragraf (per baris). */
+  fade: { from: { opacity: 0, y: 0.45 }, spring: 'smooth', duration: 0.5, stagger: 0.12, opacityRamp: 1 },
+} satisfies Record<TextAnimation, TextAnimationPreset>;
+
+/** Mesin ketik: detik per huruf, kedip kursor, kursor hilang sekian detik setelah selesai. */
+export const TYPEWRITER = { charStep: 0.04, blink: 0.5, cursorLinger: 1.2 } as const;
+
+/** Gaya aksen kata sorotan. `mix` = punch + coretan bergiliran marker → underline → circle. */
+export type HighlightStyle = 'mix' | 'marker' | 'underline' | 'circle' | 'punch' | 'none';
+export type AccentStroke = 'marker' | 'underline' | 'circle';
+export const ACCENT_ROTATION: readonly AccentStroke[] = ['marker', 'underline', 'circle'];
+
+/** Waktu aksen (detik) relatif terhadap saat kata muncul. */
+export const ACCENT_TIMING = {
+  /** Punch dimulai sekian detik setelah kata muncul. */
+  after: 0.26,
+  /** Kata diucapkan di narasi: aksen dimulai sekian detik setelah cue kata. */
+  afterCue: 0.08,
+  /** Lama punch (membesar lalu kembali); berakhir ≤ 0,5 dtk setelah muncul. */
+  punch: 0.22,
+  /** Skala puncak punch. */
+  punchScale: 0.08,
+  /** Lama sapuan warna gradien. */
+  sweep: 0.45,
+  /** Lama coretan tergambar. */
+  draw: 0.5,
+} as const;

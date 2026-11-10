@@ -1,7 +1,8 @@
 import React from 'react';
 import { AbsoluteFill } from 'remotion';
-import { Background, BodyText, Heading, Pill } from '../components';
-import { Reveal, useCamera } from '../motion';
+import { Background, Heading, LineText, Pill, textRevealSpan, useTextLastStart } from '../components';
+import { LINE_HEIGHT } from '../config';
+import { Reveal, useCamera, useTextAnimation } from '../motion';
 import { type BackgroundKind, useTheme } from '../themes';
 import type { SceneHeading } from './types';
 
@@ -49,8 +50,14 @@ export const SceneTitle: React.FC<SceneHeading & { align?: 'left' | 'center'; de
   delay = 0,
   size = 'h2',
 }) => {
-  const { space, px } = useTheme();
+  const { theme, type, space, px } = useTheme();
+  const anim = useTextAnimation(size);
+  const lastWord = useTextLastStart(title ?? '', anim, delay + 0.1);
   if (!title && !eyebrow && !subtitle) return null;
+  const subDelay = Math.max(
+    delay + 0.1 + (title ? Math.min(0.9, Math.max(0.25, textRevealSpan(title, anim) * 0.7)) : 0.15),
+    title ? lastWord + 0.25 : 0,
+  );
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: align === 'center' ? 'center' : 'flex-start', gap: space.sm, maxWidth: px(1400) }}>
       {eyebrow ? (
@@ -60,11 +67,14 @@ export const SceneTitle: React.FC<SceneHeading & { align?: 'left' | 'center'; de
       ) : null}
       {title ? <Heading text={title} highlight={highlight} size={size} align={align} delay={delay + 0.1} /> : null}
       {subtitle ? (
-        <Reveal delay={delay + 0.35}>
-          <BodyText size="body" align={align}>
-            {subtitle}
-          </BodyText>
-        </Reveal>
+        <LineText
+          text={subtitle}
+          delay={subDelay}
+          fontFamily={theme.fonts.body}
+          fontWeight={theme.fontWeights.body}
+          fontSize={type.body}
+          style={{ lineHeight: LINE_HEIGHT.body, color: theme.colors.muted, textAlign: align }}
+        />
       ) : null}
     </div>
   );
