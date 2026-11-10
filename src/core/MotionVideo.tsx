@@ -28,6 +28,8 @@ import {
 } from '../motion';
 import { ThemeProvider, resolveTheme, type Theme } from '../themes';
 import { ExplainerOverlay, OVERLAY_LAYOUT } from './ExplainerOverlay';
+import { Music } from './Music';
+import { Watermark } from './Watermark';
 import { NARRATION_LEAD, resolveClip } from './narration';
 import { computeTimeline } from './timeline';
 import type { VideoConfig } from './types';
@@ -163,6 +165,7 @@ export const MotionVideo: React.FC<MotionVideoProps> = ({ config }) => {
         })}
         </SfxProvider>
         {config.overlay ? <ExplainerOverlay config={config} timeline={timeline} /> : null}
+        <Watermark config={config} timeline={timeline} />
         {clips.map((clip, i) =>
           clip && clip.src ? (
             <Sequence key={`vo-${i}`} from={timeline.entries[i].from + lead} name={`Narasi ${i + 1}`} layout="none">
@@ -170,7 +173,7 @@ export const MotionVideo: React.FC<MotionVideoProps> = ({ config }) => {
             </Sequence>
           ) : null,
         )}
-        {config.audio ? <Html5Audio src={resolveSrc(config.audio.src)} volume={config.audio.volume ?? 0.8} /> : null}
+        <Music audio={config.audio} narrated={config.scenes.some((sc) => sc.narration)} />
       </AbsoluteFill>
     </ThemeProvider>
   );

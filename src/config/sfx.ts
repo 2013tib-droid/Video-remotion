@@ -18,7 +18,7 @@ export const SFX_FILES = {
 
 export type SfxName = keyof typeof SFX_FILES;
 
-/** Volume dasar tiap suara (dikali volume video). Disetel agar di bawah narasi/musik. */
+/** Volume dasar tiap suara (dikali volume video). Disetel agar di bawah narasi. */
 export const SFX_VOLUME: Record<SfxName, number> = {
   whoosh: 0.45,
   whooshSoft: 0.34,

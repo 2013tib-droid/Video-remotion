@@ -19,6 +19,10 @@ Catatan: `colors.primary` sebaiknya hex 6 digit (dipakai dengan suffix alpha, mi
 - Terima `delay` (detik) sebagai prop.
 - Ekspor dari `src/components/index.ts`.
 
+## Trek musik baru
+Tambah fungsi trek di `scripts/build-music.mjs` (nota ditulis melingkar agar loop mulus), jalankan skripnya, lalu
+daftarkan di `MUSIC_TRACKS` (`src/config/music.ts`) dengan `length` yang sama persis dan kelipatan frame (30 fps).
+
 ## Tipe scene baru
 1. Tambah interface `XScene extends SceneBase, SceneHeading { type: 'x'; ... }` di `src/scenes/types.ts` dan masukkan ke union `SceneConfig`.
 2. Buat `XSceneView` memakai `SceneLayout` + `SceneTitle` + komponen.

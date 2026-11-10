@@ -5,5 +5,7 @@ import { priceAtlas } from './brand';
 export const priceAtlasSeries = defineSeries({
   brand: priceAtlas,
   theme: 'ApplePremium',
+  audio: 'semangat',
+  watermark: true,
   outro: { title: 'Belanja cerdas mulai sekarang.', highlight: 'cerdas', button: 'Unduh Gratis' },
 });

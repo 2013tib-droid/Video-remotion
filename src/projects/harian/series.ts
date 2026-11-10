@@ -8,6 +8,9 @@ export const harian = defineSeries({
   brand: { name: 'Harian', logo: '📰' },
   idPrefix: 'Harian',
   theme: 'ModernDark',
+  audio: 'tenang',
+  // Ganti dengan handle kanal, mis. '@namakanal'.
+  watermark: true,
   outro: {
     title: 'Follow biar nggak ketinggalan.',
     highlight: 'Follow',

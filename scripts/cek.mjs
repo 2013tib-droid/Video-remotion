@@ -5,7 +5,7 @@
  *   npm run cek                 # semua video
  *   npm run cek -- Harian       # ID yang mengandung "Harian" (atau path file)
  *
- * ✗ galat (exit 1): ID ganda/tidak valid, aset tidak ada di public/, cue `at` tidak ada di narasi,
+ * ✗ galat (exit 1): ID ganda/tidak valid, aset/musik tidak ada di public/, cue `at` tidak ada di narasi,
  *   scene bernarasi tanpa `voice`.
  * ! peringatan: `highlight`/`emphasis` tidak ditemukan di teksnya, teks terlalu panjang,
  *   narasi belum dirender, scene tanpa narasi di video bernarasi, terlalu banyak item.
@@ -61,6 +61,12 @@ for (const file of files) {
       const path = v.replace(/^(draw|lottie):/, '');
       if (ASSET.test(path) && !/\s/.test(path) && !existsSync(join('public', path))) err.push(`aset tidak ada: public/${path}`);
     });
+
+    // Musik: nama trek bawaan (public/music/<nama>.wav) atau path file.
+    const music = typeof config.audio === 'string' ? config.audio : config.audio ? config.audio.src : null;
+    if (music && !/^https?:/.test(music) && !ASSET.test(music) && !existsSync(join('public', 'music', `${music}.wav`))) {
+      err.push(`musik "${music}" tidak dikenal (trek bawaan: tenang, semangat, korporat; atau path file di public/)`);
+    }
 
     const narrated = config.scenes.some((s) => s.narration);
     if (narrated && !config.voice) err.push('ada scene bernarasi tetapi `voice` kosong');
