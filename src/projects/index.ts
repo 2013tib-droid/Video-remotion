@@ -9,11 +9,13 @@ import { demoVideos } from './_demos';
 import petualanganPintarPromo from './petualangan-pintar/promo';
 import priceAtlasPromo from './price-atlas/promo';
 import priceAtlasReel from './price-atlas/reel';
+import soalSkdReel from './soal-skd/reel';
 import wadahQrisPromo from './wadah-qris/promo';
 
 export const PROJECTS: Record<string, VideoConfig[]> = {
   PriceAtlas: [priceAtlasPromo, priceAtlasReel],
   PetualanganPintar: [petualanganPintarPromo],
+  SoalSKD: [soalSkdReel],
   WadahQRIS: [wadahQrisPromo],
   TemplateDemos: demoVideos,
 };
