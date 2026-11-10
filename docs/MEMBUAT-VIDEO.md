@@ -1,8 +1,61 @@
 # Membuat Video Baru
 
-Setiap video adalah satu objek `VideoConfig`. Ada dua cara menulisnya.
+Setiap video adalah satu file di `src/projects/<brand>/` yang `export default` sebuah `VideoConfig`.
+File itu **otomatis terdaftar** (tidak ada daftar yang perlu diedit).
 
-## Cara A — Pakai template (paling cepat)
+## Cara cepat — Seri + template (disarankan)
+
+**Seri** (`src/projects/<brand>/series.ts`) menyimpan semua yang sama di tiap video: brand, tema, suara, transisi, penutup.
+Ditulis sekali per brand/kanal:
+
+```ts
+import { defineSeries } from '../../templates';
+
+export const harian = defineSeries({
+  brand: { name: 'Harian', logo: '📰' },
+  theme: 'ModernDark',
+  outro: { title: 'Follow biar nggak ketinggalan.', highlight: 'Follow', button: 'Follow', narasi: 'Follow untuk bahasan lainnya.' },
+});
+```
+
+Opsi seri lain: `idPrefix`, `themeOverrides`, `format`, `transition` (default `mix`), `motion`, `sfx`, `audio` (musik),
+`voice` (default Ardi HD +10%; `lexicon` berlaku semua video), `overlay: false` (tanpa HUD/subtitle), `backgrounds`.
+
+Lalu video baru hanya berisi topik:
+
+| Template | Untuk | Alur |
+|---|---|---|
+| `kontenHarian(seri, {...})` | Konten harian topik apa pun | Hook → bagian-bagian → (Kesimpulan) → Penutup seri |
+| `promoProyek(seri, {...})` | Iklan aplikasi/website/proyek | Hook → (Keluhan) → Solusi → Tampilan produk → Fitur → (Bukti) → CTA |
+
+```ts
+// src/projects/harian/inflasi-okt26.ts  →  ID: Harian-Inflasi-Okt26
+import { kontenHarian } from '../../templates';
+import { harian } from './series';
+
+export default kontenHarian(harian, {
+  slug: 'Inflasi-Okt26',
+  topik: 'Ekonomi',
+  hook: 'Harga naik lagi?',
+  highlight: 'naik lagi',
+  bagian: [
+    { judul: 'Inflasi Oktober', angka: [{ value: 0, suffix: '%', decimals: 2, label: 'yoy' }], narasi: '...' },
+    { judul: 'Penyumbang terbesar', poin: [{ icon: '🍚', title: 'Beras' }, { icon: '⛽', title: 'BBM' }], narasi: '...' },
+    { teks: ['Dampaknya ke', 'dompet kamu?'], narasi: '...' },
+  ],
+  kesimpulan: 'Pantau terus harganya.',
+  sumber: 'BPS',
+});
+```
+
+Jenis isi `bagian` (tepat satu per bagian): `angka` · `poin` · `langkah` · `grafik` · `banding` · `kutipan` · `teks` · `kata` ·
+`foto` · `peta` · `hitung` · `scene` (scene mentah apa pun). Detail field: `src/templates/KontenHarian.ts`.
+Contoh lengkap: `src/projects/harian/tips-gaji.ts` (bernarasi), `src/projects/price-atlas/iklan.ts` (iklan).
+
+- **Bersuara**: isi `narasi` → `AZURE_SPEECH_KEY=proxy-injected npm run narasi -- Harian-Inflasi-Okt26`. Subtitle & HUD otomatis.
+- **Periksa**: `npm run cek` (typecheck + highlight, aset, cue, narasi yang belum dirender, teks kepanjangan).
+
+## Cara A — Template promo lama
 
 Cocok bila struktur video standar. Pilih template:
 
@@ -53,19 +106,6 @@ export default defineVideo({
   ],
 });
 ```
-
-## Daftarkan
-
-```ts
-// src/projects/index.ts
-import brandXPromo from './brand-x/promo';
-export const PROJECTS = {
-  // ...
-  BrandX: [brandXPromo],
-};
-```
-
-Lalu `npm run typecheck` dan `npm run studio`.
 
 ## Menyesuaikan brand tanpa tema baru
 

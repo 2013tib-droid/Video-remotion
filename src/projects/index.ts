@@ -1,24 +1,41 @@
 /**
- * REGISTRY VIDEO — setiap video yang terdaftar di sini muncul di Remotion Studio
- * dan bisa dirender dengan ID-nya.
+ * REGISTRY VIDEO — OTOMATIS. Tidak perlu diubah saat menambah video.
  *
- * Menambah video baru = buat file config di folder proyek, lalu tambahkan di bawah.
+ * Setiap file `src/projects/<folder>/<nama>.ts` yang `export default` sebuah VideoConfig
+ * (atau array VideoConfig) langsung terdaftar di Remotion Studio, dikelompokkan per folder.
+ * File tanpa default export (brand.ts, series.ts) dilewati.
+ *
+ * Narasi: `<nama>.narration.json` di sebelah config (hasil `npm run narasi`) otomatis
+ * dipasang ke `config.narration` — tidak perlu diimpor manual.
  */
-import type { VideoConfig } from '../core';
-import { demoVideos } from './_demos';
-import bpsEkonomiQ32026 from './bps/ekonomi-q3-2026';
-import petualanganPintarPromo from './petualangan-pintar/promo';
-import priceAtlasPromo from './price-atlas/promo';
-import priceAtlasReel from './price-atlas/reel';
-import soalSkdBedahAnalogi from './soal-skd/bedah-analogi';
-import soalSkdReel from './soal-skd/reel';
-import wadahQrisPromo from './wadah-qris/promo';
+import type { NarrationData, VideoConfig } from '../core';
 
-export const PROJECTS: Record<string, VideoConfig[]> = {
-  BPS: [bpsEkonomiQ32026],
-  PriceAtlas: [priceAtlasPromo, priceAtlasReel],
-  PetualanganPintar: [petualanganPintarPromo],
-  SoalSKD: [soalSkdReel, soalSkdBedahAnalogi],
-  WadahQRIS: [wadahQrisPromo],
-  TemplateDemos: demoVideos,
-};
+const configs = require.context('./', true, /^\.\/[^/]+\/[^/]+\.ts$/);
+const narrations = require.context('./', true, /^\.\/[^/]+\/[^/]+\.narration\.json$/);
+
+const isVideo = (v: unknown): v is VideoConfig =>
+  Boolean(v) && typeof v === 'object' && typeof (v as VideoConfig).id === 'string' && Array.isArray((v as VideoConfig).scenes);
+
+const pascal = (folder: string) =>
+  folder
+    .split(/[-_]/)
+    .filter(Boolean)
+    .map((w) => w[0].toUpperCase() + w.slice(1))
+    .join('');
+
+export const PROJECTS: Record<string, VideoConfig[]> = {};
+const seen = new Map<string, string>();
+
+for (const key of configs.keys().sort()) {
+  const def = (configs(key) as { default?: unknown }).default;
+  const list = (Array.isArray(def) ? def : [def]).filter(isVideo);
+  if (!list.length) continue;
+  const jsonKey = key.replace(/\.ts$/, '.narration.json');
+  const data = narrations.keys().includes(jsonKey) ? (narrations(jsonKey) as NarrationData & { default?: NarrationData }) : undefined;
+  const folder = pascal(key.split('/')[1]);
+  for (const config of list) {
+    if (seen.has(config.id)) throw new Error(`ID video ganda "${config.id}": ${seen.get(config.id)} dan ${key}`);
+    seen.set(config.id, key);
+    (PROJECTS[folder] ??= []).push(config.narration || !data ? config : { ...config, narration: data.default ?? data });
+  }
+}

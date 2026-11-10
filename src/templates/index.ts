@@ -4,4 +4,7 @@ export * from './SaaSProductPromo';
 export * from './MobileAppPromo';
 export * from './EducationalProductPromo';
 export * from './SocialMediaShort';
+export * from './series';
+export * from './KontenHarian';
+export * from './PromoProyek';
 export * from './components';

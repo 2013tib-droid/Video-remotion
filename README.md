@@ -5,20 +5,20 @@ Design system animasi berbasis **React + TypeScript + Remotion** untuk video pro
 > Video baru = **file config**, bukan kode animasi baru.
 
 ```ts
-// src/projects/price-atlas/reel.ts
-export default socialMediaShort({
-  id: 'PriceAtlas-Reel20',
-  brand: priceAtlas,
-  theme: 'ApplePremium',
-  duration: 20,
-  hook: 'Masih bayar lebih mahal untuk barang yang sama?',
-  points: [
-    { icon: '🔍', title: 'Bandingkan harga', description: 'Ratusan toko dalam satu pencarian' },
-    // ...
+// src/projects/harian/tips-gaji.ts — otomatis terdaftar sebagai "Harian-TipsGaji"
+export default kontenHarian(harian, {
+  slug: 'TipsGaji',
+  topik: 'Keuangan',
+  hook: 'Gaji selalu numpang lewat?',
+  bagian: [
+    { judul: 'Pisahkan di hari gajian', langkah: [...], narasi: 'Pertama, ...' },
+    { teks: ['Catat pengeluaran.', 'Sekecil apa pun.'], narasi: 'Kedua, ...' },
   ],
-  cta: { title: 'Belanja cerdas mulai sekarang.', button: 'Unduh Gratis' },
+  kesimpulan: 'Kecil, tapi konsisten.',
 });
 ```
+
+Tema, suara narator, transisi, subtitle, dan penutup datang dari **seri** (`series.ts`) milik brand — ditulis sekali.
 
 ## Mulai cepat
 
@@ -29,7 +29,8 @@ npx remotion render PriceAtlas-Promo out/promo.mp4   # render satu video
 npm run render:list                                  # daftar semua video
 npm run render:all                                   # render semua → out/<ID>.mp4
 npm run render:all -- PriceAtlas --scale=0.5         # filter ID + pratinjau cepat
-npm run typecheck                                    # validasi config
+npm run cek                                          # typecheck + periksa isi semua video
+npm run narasi -- <ID video>                         # render suara narasi (Azure)
 ```
 
 ## Arsitektur singkat
@@ -38,14 +39,15 @@ npm run typecheck                                    # validasi config
 src/
 ├── config/        Token desain: animasi (spring, easing, entrance), tipografi,
 │                  spasi, format (9:16, 16:9, 1:1, 4:5), transisi, font
-├── themes/        ApplePremium · ModernSaaS · PlayfulKids · Corporate · IslamicWarm
+├── themes/        ApplePremium · ModernSaaS · ModernDark · PlayfulKids · Corporate · IslamicWarm
 ├── motion/        useSpring, useEntrance, <Reveal>, useStagger, kamera/idle/keluar, teks kinetik
 ├── components/    Komponen visual reusable (LogoReveal, HeroSection, PhoneMockup, ...)
 ├── scenes/        Kontrak data scene (types.ts) + renderer per tipe scene
 ├── core/          MotionVideo (mesin), timeline, VideoConfig
-├── templates/     AppLaunch · SaaSProductPromo · MobileAppPromo ·
-│                  EducationalProductPromo · SocialMediaShort
-└── projects/      ← SATU-SATUNYA tempat menulis video baru
+├── templates/     Seri (defineSeries) + kontenHarian · promoProyek ·
+│                  AppLaunch · SaaSProductPromo · MobileAppPromo · EducationalProductPromo · SocialMediaShort
+└── projects/      ← SATU-SATUNYA tempat menulis video baru (registry otomatis)
+    ├── harian/               (seri konten harian — contoh kontenHarian bernarasi)
     ├── price-atlas/          (ApplePremium — premium technology)
     ├── petualangan-pintar/   (PlayfulKids — edukasi ceria)
     ├── wadah-qris/           (IslamicWarm — dampak sosial)
@@ -58,6 +60,8 @@ Alur data: **Config → Tema → Timeline → Scene → Komponen → Primitif mo
 
 | ID | Tema | Isi |
 |---|---|---|
+| `Harian-TipsGaji` | ModernDark | Template `kontenHarian`: konten harian bernarasi + subtitle |
+| `PriceAtlas-Iklan30` | ApplePremium | Template `promoProyek`: iklan proyek 30 detik |
 | `PriceAtlas-Promo` | ApplePremium | Hero → perbandingan harga → pindai struk → kalkulasi hemat → CTA |
 | `PriceAtlas-Reel20` | ApplePremium | Reel 20 detik dari template `socialMediaShort` |
 | `PetualanganPintar-Promo` | PlayfulKids | Maskot → kartu belajar → game kuis → CTA |

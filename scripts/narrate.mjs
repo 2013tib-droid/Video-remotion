@@ -3,6 +3,7 @@
  * Render narasi (voice-over) video jadi MP3 + waktu tiap kata (Azure Speech).
  *
  *   npm run narasi -- src/projects/soal-skd/bedah-analogi.ts
+ *   npm run narasi -- Harian-TipsGaji          # atau cukup ID video (boleh sebagian)
  *   npm run narasi -- <config.ts> --dry-run     # lihat apa yang akan dirender
  *   npm run narasi -- <config.ts> --redo        # render ulang semua klip
  *   npm run narasi -- <config.ts> --retime      # hitung ulang waktu kata saja (tanpa Azure)
@@ -10,7 +11,7 @@
  * Yang dibaca dari config: `id`, `voice` ({ name, rate, lexicon }) dan
  * `scene.narration` setiap scene. Hasil:
  *   - public/narration/<id>/<kunci>.mp3        (satu klip per scene)
- *   - <config>.narration.json                  (diimpor config ke `narration`)
+ *   - <config>.narration.json                  (otomatis dipasang registry ke `narration`)
  * Klip yang teksnya tidak berubah dilewati (kunci = hash teks + suara).
  *
  * KREDENSIAL: AZURE_SPEECH_KEY + AZURE_SPEECH_REGION (default southeastasia),
@@ -23,8 +24,8 @@
  */
 import { spawnSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync, readdirSync } from 'node:fs';
-import { basename, join, resolve } from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { join } from 'node:path';
+import { loadConfigFile, resolveTargets } from './lib/configs.mjs';
 
 // fetch bawaan Node baru memakai HTTPS_PROXY bila NODE_USE_ENV_PROXY=1.
 if ((process.env.HTTPS_PROXY || process.env.https_proxy) && !process.env.NODE_USE_ENV_PROXY) {
@@ -37,9 +38,9 @@ if ((process.env.HTTPS_PROXY || process.env.https_proxy) && !process.env.NODE_US
 
 const args = process.argv.slice(2);
 const has = (f) => args.includes(`--${f}`);
-const files = args.filter((a) => !a.startsWith('--'));
-if (!files.length) {
-  console.error('Pakai: npm run narasi -- <path config.ts> [--dry-run] [--redo]');
+const targets = args.filter((a) => !a.startsWith('--'));
+if (!targets.length) {
+  console.error('Pakai: npm run narasi -- <path config.ts | ID video> [--dry-run] [--redo]');
   process.exit(1);
 }
 
@@ -53,37 +54,6 @@ const KEY = process.env.AZURE_SPEECH_KEY ?? '';
 const REGION = process.env.AZURE_SPEECH_REGION || 'southeastasia';
 /** Jeda antar permintaan: tier gratis F0 = 20 permintaan/menit. */
 const GAP_MS = Number(process.env.AZURE_TTS_GAP_MS ?? 3200);
-
-/* ---------- Muat config TS lewat esbuild (sudah terpasang bersama Remotion) ---------- */
-
-async function loadConfig(file) {
-  const { build } = await import('esbuild');
-  const abs = resolve(file);
-  const jsonPath = abs.replace(/\.tsx?$/, '.narration.json');
-  if (!existsSync(jsonPath)) writeFileSync(jsonPath, '{\n  "clips": {}\n}\n');
-  const entry = `export { default as config } from ${JSON.stringify(abs)};
-export { narrationKey, splitWords } from ${JSON.stringify(resolve('src/core/narration.ts'))};`;
-  const out = await build({
-    stdin: { contents: entry, resolveDir: process.cwd(), loader: 'ts' },
-    bundle: true,
-    format: 'esm',
-    platform: 'node',
-    write: false,
-    logLevel: 'silent',
-    external: ['remotion', '@remotion/*', 'react', 'react-dom', 'react/*'],
-    loader: { '.css': 'empty', '.woff': 'empty', '.woff2': 'empty', '.png': 'empty', '.svg': 'empty', '.jpg': 'empty' },
-  });
-  const cache = join('node_modules', '.cache');
-  mkdirSync(cache, { recursive: true });
-  const tmp = resolve(cache, `narasi-${process.pid}-${basename(file)}.mjs`);
-  writeFileSync(tmp, out.outputFiles[0].text);
-  try {
-    const mod = await import(pathToFileURL(tmp).href);
-    return { ...mod, jsonPath };
-  } finally {
-    rmSync(tmp, { force: true });
-  }
-}
 
 /* ---------- Azure ---------- */
 
@@ -264,12 +234,19 @@ function wordTimings(words, samples, rate, lexicon) {
 /* ---------- Utama ---------- */
 
 let requests = 0;
+const files = await resolveTargets(targets);
+if (!files.length) {
+  console.error(`Tidak ada config yang cocok dengan: ${targets.join(', ')}`);
+  process.exit(1);
+}
 for (const file of files) {
-  const { config, narrationKey, splitWords, jsonPath } = await loadConfig(file);
+  const { configs, narrationKey, splitWords, jsonPath } = await loadConfigFile(file);
+  const config = configs[0];
   if (!config?.voice) {
-    console.error(`${file}: config tidak punya \`voice\` — lewati.`);
+    console.error(`${file}: config tidak punya \`voice\` (tidak ada scene bernarasi) — lewati.`);
     continue;
   }
+  if (!existsSync(jsonPath)) writeFileSync(jsonPath, '{\n  "clips": {}\n}\n');
   const data = JSON.parse(readFileSync(jsonPath, 'utf8'));
   const outDir = join('public', 'narration', config.id);
   mkdirSync(outDir, { recursive: true });

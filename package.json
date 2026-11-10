@@ -8,6 +8,7 @@
     "render": "remotion render",
     "still": "remotion still",
     "typecheck": "tsc --noEmit",
+    "cek": "tsc --noEmit && node scripts/cek.mjs",
     "lint": "tsc --noEmit",
     "render:all": "node scripts/render-all.mjs",
     "render:list": "node scripts/render-all.mjs --list",

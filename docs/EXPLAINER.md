@@ -7,13 +7,10 @@ header bab di kiri atas, dan HUD tetap. Contoh lengkap:
 ## Config
 
 ```ts
-import narration from './nama-video.narration.json';
-
 defineVideo({
   id: 'Brand-Explainer',
   theme: 'ModernDark',
   voice: { name: 'id-ID-Ardi:DragonHDLatestNeural', rate: '+10%', lexicon: { SKD: 'Es Ka De' } },
-  narration,                                   // hasil npm run narasi
   overlay: { hud: { label: 'TIU 7/20', timer: '00:18:42' } },
   scenes: [
     { type: 'question', ..., chapter: { label: 'Jebakan', title: 'Jawaban yang menjebak', highlight: 'menjebak' },
@@ -23,6 +20,8 @@ defineVideo({
 });
 ```
 
+- **Narasi** hasil `npm run narasi` (`<video>.narration.json` di sebelah config) dipasang otomatis oleh registry — tidak perlu diimpor.
+  Untuk konten harian biasa, pakai template `kontenHarian` (lihat `docs/MEMBUAT-VIDEO.md`); halaman ini untuk scene manual.
 - **Durasi scene** = panjang suara + jeda (tidak perlu `duration`). `duration` hanya batas minimum.
 - **`at` / cue**: animasi mengikuti kata narasi — `'higrometer'`, frasa `'arah angin'`, kemunculan ke-n `'alat#2'`, atau angka detik.
 - **`lexicon`**: ejaan khusus untuk mesin suara saja; subtitle tetap ejaan asli.
@@ -31,7 +30,7 @@ defineVideo({
 ## Merender suara
 
 ```
-AZURE_SPEECH_KEY=... npm run narasi -- src/projects/<brand>/<video>.ts
+AZURE_SPEECH_KEY=... npm run narasi -- src/projects/<brand>/<video>.ts   # atau ID video: npm run narasi -- Harian-TipsGaji
 ```
 
 - Key dari portal.azure.com → resource Speech → Keys and Endpoint (atau `.env`). Region default `southeastasia`.
