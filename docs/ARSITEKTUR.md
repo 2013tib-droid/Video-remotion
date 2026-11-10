@@ -62,6 +62,13 @@ bisa dimatikan). Whoosh transisi dirender di `MotionVideo` pada frame awal tiap 
 datang dari komponen: `<Reveal idle>` → pop, `CounterAnimation` → ting, scene → `<Sfx>`. Semua `<Sfx>` adalah
 `<Sequence>` + `<Html5Audio>` pendek dari `public/sfx/`, jadi waktunya deterministik dan ikut animasi.
 
+## Musik & watermark
+
+`<Music>` (`src/core/Music.tsx`) memutar `config.audio`: trek bawaan (`MUSIC_TRACKS`) dipasang sebagai deretan
+`<Sequence>` sepanjang trek sehingga loop tepat per frame; volume dihitung dari frame absolut (fade masuk/keluar,
+dikecilkan bila bernarasi). `<Watermark>` (`src/core/Watermark.tsx`) adalah lapisan tetap di atas scene, ditempatkan
+di luar `SAFE_AREA` konten sehingga tidak bertabrakan dengan teks, HUD, atau subtitle.
+
 ## Timeline
 
 `computeTimeline(config)`:

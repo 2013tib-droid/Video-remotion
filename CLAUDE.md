@@ -11,7 +11,8 @@ Repo ini **framework animasi**, bukan satu video. Video baru = **satu file data*
 2. Tulis `src/projects/<brand>/<video>.ts` yang `export default` hasil template. **Tidak perlu mendaftarkan** (registry otomatis)
    dan **tidak perlu mengimpor** `*.narration.json` (dipasang otomatis).
 3. Brand baru: buat `src/projects/<brand>/series.ts` (`defineSeries`: brand, tema, penutup baku — salin dari `harian/series.ts`).
-   Semua yang sama antar video (tema, suara, transisi, CTA) tinggal di seri, bukan di file video.
+   Semua yang sama antar video (tema, suara, transisi, CTA, musik `audio: 'tenang'|'semangat'|'korporat'`,
+   `watermark: true|'@kanal'`) tinggal di seri, bukan di file video.
 4. Bila ada `narasi`: `AZURE_SPEECH_KEY=proxy-injected npm run narasi -- <ID video>`, lalu commit
    `public/narration/<ID>/` + `<video>.narration.json`. Tanpa langkah ini video bisu.
 5. `npm run cek` (typecheck + periksa isi: highlight, aset, cue, narasi). Selesai. **Jangan render kecuali diminta.**
@@ -35,14 +36,14 @@ Yang boleh diubah untuk tugas video: `src/projects/**`, `public/brands/<brand>/`
 
 ## Aset
 - Audio/video/file desain dan isi `public/**/media/` otomatis Git LFS — **upload LFS diblokir dari sesi cloud**.
-  Aset kecil yang harus ikut push taruh di luar `media/`. `public/narration/**` dan `public/sfx/**` file git biasa.
+  Aset kecil yang harus ikut push taruh di luar `media/`. `public/narration/**`, `public/sfx/**`, `public/music/**` file git biasa.
 
 ## Perintah
 `npm run cek` · `npm run typecheck` · `npm run narasi -- <ID|config.ts>` · `npm run studio` · `npm run render:list` ·
 `npm run render:all -- <filter> [--scale=0.5]` · `npx remotion render <ID> out/<ID>.mp4`
 
 ## Mengubah framework (hanya bila diminta animasi/efek/scene/template baru)
-Framework sudah punya: kamera + idle + animasi keluar, tipografi kinetik, 15 transisi + `mix`, ikon tergambar/Lottie, SFX otomatis,
+Framework sudah punya: kamera + idle + animasi keluar, tipografi kinetik, 15 transisi + `mix`, ikon tergambar/Lottie, SFX otomatis, musik latar, watermark,
 18 tipe scene, narasi + subtitle. Sebelum menambah apa pun baca `docs/KATALOG-SCENE.md` (apa yang ada) dan `docs/MEMPERLUAS.md` (cara menambah).
 - Pasang di level framework agar semua video ikut; properti baru harus **opsional** dengan default aman (config lama tetap valid).
 - Warna dari `useTheme()`, ukuran via `px()`, tanpa angka spring mentah, waktu dalam detik, deterministik dari `useCurrentFrame()`

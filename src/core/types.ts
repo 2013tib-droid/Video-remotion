@@ -1,4 +1,4 @@
-import type { CameraSetting, FormatName, IconStyle, MotionEnergy, SfxSetting, TransitionName } from '../config';
+import type { CameraSetting, FormatName, IconStyle, MotionEnergy, MusicSetting, SfxSetting, TransitionName } from '../config';
 import type { ThemeName, ThemeOverrides } from '../themes';
 import type { SceneConfig } from '../scenes/types';
 import type { NarrationData, VoiceSettings } from './narration';
@@ -43,8 +43,17 @@ export interface VideoConfig {
    * Video bernarasi otomatis dikecilkan (SFX_NARRATION_DUCK).
    */
   sfx?: SfxSetting;
-  /** Musik latar opsional (path di public/). */
-  audio?: { src: string; volume?: number };
+  /**
+   * Musik latar opsional: trek bawaan `'tenang'` · `'semangat'` · `'korporat'` (loop mulus), atau
+   * `{ src: 'brands/x/musik.mp3', volume?, loop?, fadeIn?, fadeOut? }`. Memudar masuk/keluar otomatis;
+   * video bernarasi otomatis dikecilkan (MUSIC_NARRATION_DUCK).
+   */
+  audio?: MusicSetting;
+  /**
+   * Watermark brand kecil yang tetap di pojok sepanjang video. `true` = logo + nama brand,
+   * string = teks sendiri (mis. `'@harian.id'`), atau objek opsi. Default mati.
+   */
+  watermark?: WatermarkSetting;
   /** Suara narasi (Azure). Wajib bila ada scene dengan `narration`. */
   voice?: VoiceSettings;
   /** Hasil `npm run narasi` — impor dari `<config>.narration.json`. */
@@ -53,6 +62,22 @@ export interface VideoConfig {
   overlay?: OverlayConfig;
   scenes: SceneConfig[];
 }
+
+export type WatermarkPosition = 'top-left' | 'top' | 'top-right' | 'bottom-left' | 'bottom' | 'bottom-right';
+
+export interface WatermarkOptions {
+  /** Teks watermark. Default: nama brand. */
+  text?: string;
+  /** Tampilkan logo brand di samping teks. Default true. */
+  logo?: boolean;
+  /** Default `top-right`; video dengan `overlay` (HUD di atas) → `bottom`. */
+  position?: WatermarkPosition;
+  /** 0–1. Default 0,72. */
+  opacity?: number;
+  /** Tetap tampil di scene penutup `cta`. Default false (brand sudah tampil besar di sana). */
+  outro?: boolean;
+}
+export type WatermarkSetting = boolean | string | WatermarkOptions;
 
 /** Lapisan tetap di atas semua scene (gaya video explainer). */
 export interface OverlayConfig {

@@ -70,6 +70,29 @@ Semua video otomatis punya efek suara halus (file sintetis di `public/sfx/`, dib
 - Video bernarasi otomatis dikecilkan (×0,6) agar suara narator tetap jelas. Volume & pemetaan: `src/config/sfx.ts`.
 - Komponen baru: `<Sfx name="pop" at={detik} />` (`src/motion/sfx.tsx`), atau `<Reveal idle>` (otomatis pop) / `<Reveal sfx="tick">`.
 
+## Musik latar
+Opsional, lewat `audio` di seri (semua video ikut) atau di config video. Trek bawaan disintesis dari nol
+(`node scripts/build-music.mjs` → `public/music/`, tanpa lisensi pihak ketiga) dan di-loop mulus sepanjang video:
+
+| Nama | Karakter | Cocok untuk |
+|---|---|---|
+| `tenang` | Pad hangat + arpeggio pelan, 60 bpm | Penjelasan, edukasi, data |
+| `semangat` | Ketukan ringan + bass + pluck, 120 bpm | Iklan, tips cepat, promo |
+| `korporat` | Petikan redam + pad, 100 bpm | Profil produk, laporan |
+
+- `audio: 'tenang'` atau `audio: { src: 'tenang', volume: 0.4 }`. File sendiri: `audio: { src: 'brands/x/musik.mp3', volume?, loop? }`.
+- Otomatis memudar masuk (0,5 dtk) dan keluar (1,5 dtk terakhir); atur dengan `fadeIn`/`fadeOut`.
+- Video bernarasi otomatis dikecilkan (×0,35) agar suara narator tetap jelas. Preset: `src/config/music.ts`.
+- Template seri: `audio: false` di file video = video itu tanpa musik.
+
+## Watermark
+Opsional, lewat `watermark` di seri atau config video: pil kecil logo + nama brand yang tetap di luar area konten.
+- `watermark: true` (logo + nama brand) · `watermark: '@namakanal'` (teks sendiri) ·
+  `watermark: { text?, logo?, position?, opacity?, outro? }`.
+- `position`: `top-left` `top` `top-right` `bottom-left` `bottom` `bottom-right`. Default `top-right`; video dengan
+  `overlay` (HUD di atas) → `bottom` (di bawah subtitle).
+- Memudar masuk di awal dan hilang di scene penutup `cta` (kecuali `outro: true`). Template seri: `watermark: false` per video.
+
 ## Gerak sepanjang scene
 Semua video otomatis punya: **kamera** (zoom/geser pelan + background parallax), **idle** (kartu, ikon, angka, badge "bernapas" setelah muncul) dan **keluar** (elemen memudar ke atas bergiliran sebelum transisi).
 - Kekuatan diatur `energy`: `calm` · `normal` · `lively`. Default dari tema (ApplePremium/Corporate/IslamicWarm = calm, ModernDark/ModernSaaS = normal, PlayfulKids = lively); video dengan `overlay` (explainer) otomatis `calm`.

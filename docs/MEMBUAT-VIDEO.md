@@ -18,7 +18,8 @@ export const harian = defineSeries({
 });
 ```
 
-Opsi seri lain: `idPrefix`, `themeOverrides`, `format`, `transition` (default `mix`), `motion`, `sfx`, `audio` (musik),
+Opsi seri lain: `idPrefix`, `themeOverrides`, `format`, `transition` (default `mix`), `motion`, `sfx`, `audio` (musik: `'tenang'` · `'semangat'` · `'korporat'`),
+`watermark` (`true` atau teks seperti `'@namakanal'`),
 `voice` (default Ardi HD +10%; `lexicon` berlaku semua video), `overlay: false` (tanpa HUD/subtitle), `backgrounds`.
 
 Lalu video baru hanya berisi topik:
@@ -129,7 +130,9 @@ export const square = { ...base, id: 'BrandX-Launch-Square', format: 'square' as
 - Taruh file di `public/brands/<brand>/`, rujuk dengan path relatif: `'brands/<brand>/logo.svg'`.
 - Ikon fitur boleh emoji (`'⚡'`, otomatis jadi ikon garis yang tergambar), `'line:rocket'`, `'draw:brands/x/ikon.svg'`, file Lottie `.json`, atau path gambar.
 - Screenshot aplikasi: `screen: { kind: 'image', src: 'brands/x/home.png' }` (rasio ±9:19.5).
-- Musik: `audio: { src: 'brands/x/music.mp3', volume: 0.6 }` (file `.mp3` otomatis lewat Git LFS).
+- Musik: trek bawaan `audio: 'tenang'` (juga `'semangat'`, `'korporat'`), atau file sendiri
+  `audio: { src: 'brands/x/music.mp3', volume: 0.6, loop: true }` (file `.mp3` otomatis lewat Git LFS).
+- Watermark: `watermark: true` (logo + nama brand) atau `watermark: '@namakanal'`. Lihat `docs/KATALOG-SCENE.md`.
 - Screenshot/foto besar: simpan di `public/brands/x/media/` agar disimpan via Git LFS.
 
 ## Render

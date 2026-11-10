@@ -66,7 +66,8 @@ Isian:
 
 Pakai Motion Studio (baca CLAUDE.md). Buat video:
 - Template: <kontenHarian | promoProyek>
-- Seri: <src/projects/<brand>/series.ts | "buat seri baru: nama brand, tema, CTA baku">
+- Seri: <src/projects/<brand>/series.ts | "buat seri baru: nama brand, tema, CTA baku,
+  musik (tenang/semangat/korporat/tanpa), watermark (nama brand/@handle/tanpa)">
 - Isi (per field template):
   - slug: ...
   - hook: ...

@@ -20,3 +20,6 @@ public/narration/** -filter -diff -merge -text
 # Efek suara (SFX) sintetis kecil hasil `scripts/build-sfx.mjs`: file git biasa
 # (upload Git LFS diblokir dari sesi cloud; total < 0,5 MB).
 public/sfx/** -filter -diff -merge -text
+
+# Musik latar sintetis hasil `scripts/build-music.mjs`: file git biasa (alasan sama dengan SFX; total ~2,3 MB).
+public/music/** -filter -diff -merge -text

@@ -2,6 +2,21 @@
 
 Perubahan framework yang memengaruhi semua video. Entri terbaru di atas.
 
+## 2026-11-10 — Musik latar + watermark
+
+### Baru
+- **Musik latar bawaan** — `audio: 'tenang' | 'semangat' | 'korporat'` (seri atau config). Trek disintesis dari nol
+  (`scripts/build-music.mjs` → `public/music/`, git biasa, ±2,2 MB), loop mulus sepanjang video, memudar masuk/keluar,
+  otomatis dikecilkan ×0,35 bila bernarasi. File sendiri: `audio: { src, volume?, loop?, fadeIn?, fadeOut? }`.
+- **Watermark** — `watermark: true | '@teks' | { text, logo, position, opacity, outro }`: pil logo + nama brand di luar
+  area konten; default kanan atas (video ber-HUD: bawah), hilang di scene penutup `cta`.
+- Seri: properti `audio` & `watermark`; per video bisa diganti atau dimatikan (`false`).
+- `npm run cek` — nama musik yang tidak dikenal menjadi galat.
+- Seri `harian` (musik `tenang`) dan `price-atlas` (musik `semangat`) kini bermusik dan ber-watermark.
+
+### Berubah
+- `audio` dengan file sendiri kini ikut memudar masuk/keluar dan dikecilkan bila bernarasi (config lama tetap valid).
+
 ## 2026-11-10 — Seri + template konten harian & iklan proyek
 
 Tujuan: video baru = satu file berisi topik saja.

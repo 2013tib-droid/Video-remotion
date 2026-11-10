@@ -37,8 +37,10 @@ export interface Series {
   transition?: TransitionName;
   motion?: { energy?: MotionEnergy; camera?: CameraSetting; exit?: boolean; icons?: IconStyle };
   sfx?: SfxSetting;
-  /** Musik latar semua video seri ini. */
+  /** Musik latar semua video seri ini: `'tenang'` · `'semangat'` · `'korporat'` atau `{ src, volume }`. */
   audio?: VideoConfig['audio'];
+  /** Watermark semua video seri ini: `true` (logo + nama brand) atau teks, mis. `'@harian.id'`. */
+  watermark?: VideoConfig['watermark'];
   /** Suara narasi. Default Ardi HD +10%. `lexicon` di sini berlaku untuk semua video. */
   voice?: VoiceSettings;
   /** Lapisan explainer (HUD brand + subtitle karaoke) pada video bernarasi. Default true. */
@@ -63,6 +65,10 @@ export interface SeriesVideoBase {
   /** Durasi total target (detik). Diabaikan bila video bernarasi (mengikuti suara). */
   duration?: number;
   transition?: TransitionName;
+  /** Ganti musik seri untuk video ini (`false` = tanpa musik). */
+  audio?: VideoConfig['audio'];
+  /** Ganti watermark seri untuk video ini (`false` = tanpa watermark). */
+  watermark?: VideoConfig['watermark'];
   /** Tambahan ejaan lafal khusus video ini, mis. { PDB: 'Pe De Be' }. */
   lexicon?: Record<string, string>;
 }
@@ -90,7 +96,8 @@ export function seriesConfig(
     transition: p.transition ?? series.transition ?? 'mix',
     motion: series.motion,
     sfx: series.sfx,
-    audio: series.audio,
+    audio: p.audio ?? series.audio,
+    watermark: p.watermark ?? series.watermark,
     voice: narrated ? { ...voice, lexicon: { ...voice.lexicon, ...p.lexicon } } : undefined,
     overlay: narrated && series.overlay !== false ? { hud: opts.hudLabel ? { label: opts.hudLabel } : undefined } : undefined,
     // b-roll & peta punya latar sendiri; scene dengan `background` eksplisit tidak ditimpa.
