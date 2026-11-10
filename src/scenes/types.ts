@@ -4,7 +4,7 @@
  *  membuat video baru. Semua scene murni data (JSON-serializable).
  * ============================================================
  */
-import type { CameraSetting, TransitionName } from '../config';
+import type { CameraSetting, HighlightStyle, TextAnimation, TransitionName } from '../config';
 import type { BackgroundKind } from '../themes';
 import type { ChartDatum } from '../components/ChartAnimation';
 import type { ComparisonRow } from '../components/ComparisonTable';
@@ -34,6 +34,13 @@ export interface SceneBase {
   emphasis?: string[];
   /** Header bab di lapisan explainer (kiri atas). */
   chapter?: { label?: string; title: string; highlight?: string };
+  /** Gaya muncul kata judul: rise | pop | blur | typewriter | slam. Default dari tema. */
+  textAnimation?: TextAnimation;
+  /**
+   * Aksen kata sorotan (highlight & emphasis di judul). Default `mix`:
+   * punch + coretan bergiliran marker → underline → circle. Lainnya: marker | underline | circle | punch | none.
+   */
+  highlightStyle?: HighlightStyle;
 }
 
 /**
@@ -210,6 +217,15 @@ export interface RelationScene extends SceneBase, SceneHeading {
   formulaAt?: Cue;
 }
 
+/** Teks besar ala Reels/TikTok: frasa bertumpuk (`stack`) atau berganti memenuhi layar (`replace`). */
+export interface StatementScene extends SceneBase {
+  type: 'statement';
+  /** Ukuran font otomatis menyesuaikan panjang teks. `at` = detik atau kata narasi. */
+  lines: { text: string; /** Kata/frasa yang disorot (aksen). */ highlight?: string; at?: Cue }[];
+  /** Default `stack`. */
+  style?: 'stack' | 'replace';
+}
+
 export type SceneConfig =
   | LogoScene
   | HeroScene
@@ -224,6 +240,7 @@ export type SceneConfig =
   | TestimonialScene
   | CTAScene
   | QuestionScene
-  | RelationScene;
+  | RelationScene
+  | StatementScene;
 
 export type SceneType = SceneConfig['type'];

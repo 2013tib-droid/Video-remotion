@@ -4,8 +4,9 @@
  */
 import React from 'react';
 import { Img, staticFile } from 'remotion';
-import { type TypeSize, LINE_HEIGHT } from '../config';
-import { Reveal, useStagger } from '../motion';
+import { type TextAnimation, type TypeSize, LINE_HEIGHT } from '../config';
+import { useTextAnimation } from '../motion';
+import { KineticText } from './KineticText';
 import { useTheme } from '../themes';
 
 /** True bila string adalah path/URL gambar (bukan emoji/teks). */
@@ -64,19 +65,23 @@ export const GradientText: React.FC<{ children: React.ReactNode; style?: React.C
 export interface HeadingProps {
   text: string;
   size?: TypeSize;
-  /** Kata/frasa yang diberi warna gradien. */
+  /** Kata/frasa sorotan: sapuan gradien + punch + coretan (lihat highlightStyle scene). */
   highlight?: string;
   align?: 'left' | 'center';
   /** Animasi kata demi kata. */
   animate?: boolean;
   delay?: number;
   color?: string;
+  /** Gaya muncul kata; default scene.textAnimation → tema. */
+  animation?: TextAnimation;
+  /** Urutan kata sorotan pertama di antara judul lain dalam scene yang sama. */
+  accentOffset?: number;
   style?: React.CSSProperties;
 }
 
 const clean = (w: string) => w.toLowerCase().replace(/[^\p{L}\p{N}]/gu, '');
 
-/** Judul dengan reveal kata-per-kata dan highlight gradien opsional. */
+/** Judul dengan tipografi kinetik (kata per kata) dan aksen kata sorotan. */
 export const Heading: React.FC<HeadingProps> = ({
   text,
   size = 'h1',
@@ -85,39 +90,45 @@ export const Heading: React.FC<HeadingProps> = ({
   animate = true,
   delay = 0,
   color,
+  animation,
+  accentOffset,
   style,
 }) => {
   const { theme, type } = useTheme();
-  const stagger = useStagger('tight');
+  const anim = useTextAnimation(size, animation);
+  const typo: React.CSSProperties = {
+    fontFamily: theme.fonts.heading,
+    fontWeight: theme.fontWeights.heading,
+    fontSize: type[size],
+    lineHeight: LINE_HEIGHT.heading,
+    letterSpacing: `${theme.headingTracking}em`,
+    textAlign: align,
+    justifyContent: align === 'center' ? 'center' : 'flex-start',
+    ...style,
+  };
+  if (animate) {
+    return (
+      <KineticText
+        text={text}
+        highlight={highlight}
+        animation={anim}
+        delay={delay}
+        fontSize={type[size]}
+        accentOffset={accentOffset}
+        color={color ?? theme.colors.text}
+        style={typo}
+      />
+    );
+  }
   const hl = new Set((highlight ?? '').split(/\s+/).map(clean).filter(Boolean));
-  const words = text.split(/\s+/).filter(Boolean);
   return (
-    <div
-      style={{
-        fontFamily: theme.fonts.heading,
-        fontWeight: theme.fontWeights.heading,
-        fontSize: type[size],
-        lineHeight: LINE_HEIGHT.heading,
-        letterSpacing: `${theme.headingTracking}em`,
-        color: color ?? theme.colors.text,
-        textAlign: align,
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: align === 'center' ? 'center' : 'flex-start',
-        columnGap: '0.26em',
-        ...style,
-      }}
-    >
-      {words.map((w, i) => {
-        const content = hl.has(clean(w)) ? <GradientText>{w}</GradientText> : w;
-        return animate ? (
-          <Reveal key={i} delay={stagger(i, delay)} style={{ display: 'inline-block' }}>
-            {content}
-          </Reveal>
-        ) : (
-          <span key={i}>{content}</span>
-        );
-      })}
+    <div style={{ display: 'flex', flexWrap: 'wrap', columnGap: '0.26em', color: color ?? theme.colors.text, ...typo }}>
+      {text
+        .split(/\s+/)
+        .filter(Boolean)
+        .map((w, i) => (
+          <span key={i}>{hl.has(clean(w)) ? <GradientText>{w}</GradientText> : w}</span>
+        ))}
     </div>
   );
 };

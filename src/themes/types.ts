@@ -1,4 +1,4 @@
-import type { CameraSetting, EntrancePreset, MotionEnergy, SpringPreset, StaggerName, TransitionName } from '../config';
+import type { CameraSetting, EntrancePreset, MotionEnergy, SpringPreset, StaggerName, TextAnimation, TransitionName } from '../config';
 
 export type BackgroundKind = 'gradient' | 'particles' | 'pattern' | 'solid';
 
@@ -46,6 +46,8 @@ export interface Theme {
     energy?: MotionEnergy;
     /** Kamera default. Default `auto`. */
     camera?: CameraSetting;
+    /** Gaya muncul kata pada judul (tipografi kinetik). Default `rise`. */
+    text?: TextAnimation;
   };
   background: {
     kind: BackgroundKind;

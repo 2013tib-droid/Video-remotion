@@ -2,6 +2,7 @@
  * Demo setiap template dengan brand fiktif — untuk pratinjau di Studio
  * dan sebagai contoh props. Aman untuk diabaikan.
  */
+import { defineVideo } from '../../core';
 import { appLaunch, mobileAppPromo, saasProductPromo } from '../../templates';
 
 export const appLaunchDemo = appLaunch({
@@ -87,4 +88,42 @@ export const mobileDemo = mobileAppPromo({
   cta: { title: 'Kendalikan keuanganmu.', button: 'Unduh Gratis' },
 });
 
-export const demoVideos = [appLaunchDemo, saasDemo, mobileDemo];
+/** Contoh scene `statement` (teks besar ala Reels): gaya stack & replace + aksen kata kunci. */
+export const statementDemo = defineVideo({
+  id: 'Demo-Statement',
+  brand: { name: 'Kinetik', url: 'kinetik.id' },
+  theme: 'ModernDark',
+  format: 'vertical',
+  scenes: [
+    {
+      type: 'statement',
+      style: 'stack',
+      duration: 5,
+      lines: [
+        { text: 'Teks yang' },
+        { text: 'benar-benar bicara', highlight: 'bicara' },
+        { text: 'bukan sekadar muncul.', highlight: 'muncul' },
+      ],
+    },
+    {
+      type: 'statement',
+      style: 'replace',
+      duration: 6,
+      lines: [
+        { text: 'Satu frasa.', highlight: 'Satu' },
+        { text: 'Memenuhi layar.', highlight: 'layar' },
+        { text: 'Lalu berganti dengan frasa berikutnya yang lebih panjang.', highlight: 'berganti' },
+      ],
+    },
+    {
+      type: 'statement',
+      style: 'stack',
+      textAnimation: 'typewriter',
+      highlightStyle: 'circle',
+      duration: 5,
+      lines: [{ text: 'Ketik huruf demi huruf,' }, { text: 'lalu lingkari kata kunci.', highlight: 'kunci' }],
+    },
+  ],
+});
+
+export const demoVideos = [appLaunchDemo, saasDemo, mobileDemo, statementDemo];

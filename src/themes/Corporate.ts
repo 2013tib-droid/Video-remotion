@@ -30,6 +30,6 @@ export const Corporate: Theme = {
     card: '0 8px 30px rgba(13,27,42,0.08)',
     elevated: '0 24px 60px rgba(11,61,145,0.18)',
   },
-  motion: { spring: 'smooth', entrance: 'fadeUp', stagger: 'normal', transition: 'fade', energy: 'calm' },
+  motion: { spring: 'smooth', entrance: 'fadeUp', stagger: 'normal', transition: 'fade', energy: 'calm', text: 'rise' },
   background: { kind: 'solid', intensity: 0.3 },
 };

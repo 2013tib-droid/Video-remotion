@@ -13,7 +13,12 @@ export const CueProvider: React.FC<{ words: CueWord[]; children: React.ReactNode
   <CueContext.Provider value={words}>{children}</CueContext.Provider>
 );
 
-const norm = (w: string) => w.toLowerCase().replace(/[^\p{L}\p{N}]/gu, '');
+/** Kata narasi scene ini (detik relatif awal scene). Kosong bila scene tidak bernarasi. */
+export function useCueWords(): CueWord[] {
+  return useContext(CueContext);
+}
+
+export const normWord = (w: string) => w.toLowerCase().replace(/[^\p{L}\p{N}]/gu, '');
 
 /**
  * Waktu (detik dari awal scene) sebuah cue.
@@ -29,10 +34,10 @@ export function useCue(): (at: string | number | undefined, fallback: number) =>
       if (typeof at === 'number') return at;
       if (!at) return fallback;
       const [phrase, nth] = at.split('#');
-      const target = phrase.split(/\s+/).map(norm).filter(Boolean);
+      const target = phrase.split(/\s+/).map(normWord).filter(Boolean);
       let seen = 0;
       for (let i = 0; i < words.length; i++) {
-        if (target.every((t, k) => words[i + k] && norm(words[i + k].w) === t)) {
+        if (target.every((t, k) => words[i + k] && normWord(words[i + k].w) === t)) {
           seen++;
           if (seen === Number(nth ?? 1)) return words[i].start;
         }

@@ -30,6 +30,6 @@ export const ModernSaaS: Theme = {
     card: '0 12px 40px rgba(15,23,42,0.08)',
     elevated: '0 30px 80px rgba(99,102,241,0.22)',
   },
-  motion: { spring: 'gentle', entrance: 'fadeUp', stagger: 'normal', transition: 'slideLeft', energy: 'normal' },
+  motion: { spring: 'gentle', entrance: 'fadeUp', stagger: 'normal', transition: 'slideLeft', energy: 'normal', text: 'rise' },
   background: { kind: 'gradient', intensity: 0.5 },
 };

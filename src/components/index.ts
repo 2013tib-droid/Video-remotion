@@ -1,4 +1,5 @@
 export * from './primitives';
+export * from './KineticText';
 export * from './Background';
 export * from './GradientBackground';
 export * from './ParticleBackground';
