@@ -2,6 +2,19 @@
 
 Perubahan framework yang memengaruhi semua video. Entri terbaru di atas.
 
+## Status merge — dunia 3D (2026-11-11)
+
+Seluruh pekerjaan dunia 3D sudah masuk branch default lewat tiga PR:
+
+| PR | Isi |
+|---|---|
+| #15 | Scene `world`: dunia 3D, kamera terbang, tembus pandang, label menempel |
+| #16 | Model `.glb` + pengaturan per bagian + model bawaan `car-concept.glb` |
+| #17 | Template `bedah3D`, kit dunia `jalanRaya()`, acuan bernarasi, dokumentasi |
+
+Pekerjaan lanjutan (belum dikerjakan): render `Demo-Bedah3D` utuh, mempercepat render model `.glb`, kit dunia selain
+jalan raya, HUD khusus topik, model mobil harian. Rincian: `docs/KATALOG-SCENE.md` → *Status & catatan*.
+
 ## 2026-11-11 — Template `bedah3D` + kit dunia
 
 Tujuan: video penjelasan 3D 1–2 menit = satu file data, tanpa menyusun scene `world` satu per satu.

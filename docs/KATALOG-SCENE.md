@@ -190,8 +190,12 @@ dalam meter (mobil ±4,5); model otomatis ditaruh di tengah dengan alas di lanta
   `npx remotion still <ID> out/x.jpg --frame=<n> --scale=0.5` (±15 dtk per frame).
 
 ### Status & catatan (2026-11-11)
+- **Sudah di-merge** ke branch default (PR #15 scene `world`, #16 model `.glb`, #17 template `bedah3D` + kit dunia).
+- Template `bedah3D`: perubahan antar-adegan terbukti terbawa (diperiksa di config + dua frame uji); `Demo-Bedah3D` belum pernah
+  dirender sebagai video utuh.
 - Sudah terbukti di `Demo-Dunia3D`: kamera terbang, tembus pandang dengan bagian `solid`, ganti cat lewat `material`,
   gerak bagian (`move` kap), label + kartu, dan **cue kata narasi** untuk `shots[].at`, `labels[].at`, `cards[].at`, `parts[].motion[].at`.
 - Belum diuji: `spin` pada bagian model (roda), `turn` pada bagian yang pivotnya di titik asal model (kap `car-concept` — pakai `move`).
 - Label hanya bisa menunjuk `id` objek atau koordinat; untuk bagian model beri anak `group` ber-`id` sebagai jangkar.
-- Belum ada: HUD khusus topik (mis. indikator P-R-N-D), model mobil harian, pengecilan model.
+- Belum ada: HUD khusus topik (mis. indikator P-R-N-D), model mobil harian, pengecilan model, kit dunia selain `jalanRaya()`.
+- Percobaan mempercepat render dengan `--concurrency=4` gagal (timeout 33 dtk saat memuat model) — jangan dipakai untuk scene ber-model.
