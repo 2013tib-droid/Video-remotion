@@ -18,7 +18,7 @@ const args = process.argv.slice(2).filter((a) => !a.startsWith('--'));
 const files = args.length ? await resolveTargets(args) : listConfigFiles();
 
 const LIMIT = { title: 70, subtitle: 110, itemTitle: 34, itemDescription: 60, items: 4, statementLine: 28 };
-const ASSET = /\.(png|jpe?g|webp|gif|svg|mp4|webm|mov|mp3|wav|m4a|json)$/i;
+const ASSET = /\.(png|jpe?g|webp|gif|svg|mp4|webm|mov|mp3|wav|m4a|json|glb)$/i;
 const norm = (w) => w.toLowerCase().replace(/[^\p{L}\p{N}]/gu, '');
 const words = (t) => t.split(/\s+/).map(norm).filter(Boolean);
 const hasPhrase = (text, phrase) => {

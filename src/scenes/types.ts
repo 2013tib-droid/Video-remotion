@@ -395,7 +395,38 @@ export type WorldObject = WorldObjectBase &
     | { shape: 'tree' }
     | { shape: 'person' }
     | { shape: 'coins'; count?: number }
+    | {
+        /** Model 3D `.glb` (glTF biner) di `public/`, mis. `models/car-concept.glb`. Draco/KTX2 tidak didukung. */
+        shape: 'model';
+        src: string;
+        /** Panjang sisi terpanjang setelah diskalakan (meter), mis. mobil 4.5. Default: satuan asli model. */
+        size?: number;
+        /** `false` = pakai titik asal model apa adanya. Default: tengah model di x/z, alas di y = 0. */
+        ground?: boolean;
+        /** Atur bagian model (nama dari `npm run model -- <file.glb>`): warnai, sembunyikan, buka kap, putar roda. */
+        parts?: WorldModelPart[];
+      }
   );
+
+/**
+ * Pengaturan satu/sekelompok bagian model `.glb`. Cocokkan lewat `name` (nama node; anak-anaknya ikut) dan/atau
+ * `material` (nama material). `*` = bebas, mis. `'Wheel*'`, `'Paint 1*'`. Entri belakang menimpa entri depan.
+ */
+export interface WorldModelPart {
+  name?: string;
+  material?: string;
+  color?: WorldColor;
+  /** 0..1. */
+  opacity?: number;
+  hidden?: boolean;
+  /** Tetap utuh saat model ini di-`xray` (mis. mesin di balik bodi). */
+  solid?: boolean;
+  /**
+   * Gerak bagian (hanya untuk `name`): `turn`/`move`/`scale` relatif posisi aslinya dalam satuan model
+   * (mis. kap terbuka: `{ type: 'turn', to: [-50, 0, 0], at: 'kap' }`), `spin`, `fade`, `color`.
+   */
+  motion?: WorldMotion[];
+}
 
 /** Sudut pandang kamera 3D (mengorbit `target`). */
 export interface WorldView {

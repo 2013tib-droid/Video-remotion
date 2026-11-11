@@ -143,6 +143,7 @@ Contoh lengkap: `src/projects/_demos/dunia.ts` (video `Demo-Dunia3D`). Satuan **
 | `road` | `length` `lanes?` `laneWidth?` `curb?` | memanjang sumbu z, trotoar bergaris |
 | `trafficLight` | `light?` `changes?[] {to, at}` | lampu berganti saat cue |
 | `building` `house` `tree` `person` `coins` | `size` (building) · `count?` (coins) | ukuran nyata; atur dengan `scale` |
+| `model` | `src` (`.glb` di `public/`) `size?` `ground?` `parts?[]` | **model 3D nyata** — lihat *Model `.glb`* di bawah |
 | `group` | — | hanya pembungkus `children` |
 
 - **`motion[]`** — `spin {axis?, speed? (putaran/dtk), at?, stopAt?}` · `bob {amount?, period?}` · dan perubahan saat cue:
@@ -157,4 +158,19 @@ Contoh lengkap: `src/projects/_demos/dunia.ts` (video `Demo-Dunia3D`). Satuan **
   scene dengan `transition: 'none'`, dan mulai tiap scene dari `view` terakhir scene sebelumnya. Putaran/aliran tanpa `at` tetap mulus.
 - Suara otomatis: `whooshSoft` saat kamera terbang, `pop` per label, `tick` per kartu.
 - Render memakai WebGL perangkat lunak (`swangle`, sudah diatur): ±3–4× lebih lambat dari scene 2D. Mesin ber-GPU: `REMOTION_GL=angle`.
-- Batas saat ini: benda dirakit dari bentuk dasar/objek jadi (belum memuat model `.glb`). Tema terang paling cocok.
+- Tema terang paling cocok.
+
+### Model `.glb`
+`{ shape: 'model', src: 'models/car-concept.glb', size: 4.5 }` — benda nyata dari file glTF biner. `size` = sisi terpanjang
+dalam meter (mobil ±4,5); model otomatis ditaruh di tengah dengan alas di lantai (`ground: false` = titik asal asli).
+- **Model bawaan**: `models/car-concept.glb` (mobil konsep, depan = +z, CC BY 4.0 — kredit di `public/models/CREDITS.md`).
+- **Lihat isi model**: `npm run model -- public/models/<file>.glb` → nama bagian (node) + material, dan peringatan bila
+  memakai kompresi yang tidak didukung (Draco, KTX2). Meshopt didukung.
+- **`parts[]`** — atur bagian lewat `name` (nama node, anak ikut) dan/atau `material` (nama material); `*` = bebas:
+  `{ material: 'Paint 1*', color: '#3d5a80' }` ganti cat · `{ name: 'License Plate', hidden: true }` ·
+  `{ name: 'Engine', solid: true }` tetap utuh saat model di-`xray` · `opacity` ·
+  `motion` per bagian: `{ name: 'BodyHood', motion: [{ type: 'move', to: [0, 0.55, 0], at: 'kap' }] }` (`move`/`turn`/`scale`
+  relatif posisi asli dalam satuan model; juga `spin` `fade` `color`). Entri belakang menimpa entri depan.
+- Label/kamera ke bagian model: beri anak `{ id: 'mesin', shape: 'group', pos: [...] }` sebagai jangkar.
+- Kaca `transmission` dirender sebagai transparansi biasa. File masuk git biasa (jangan di `media/`); model besar memperlambat
+  render (3 mobil ±11 MB: ±2× lebih lambat dari objek kotak). Model baru: catat sumber & lisensi di `public/models/CREDITS.md`.

@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import * as THREE from 'three';
 import type { Vec3, WorldObject } from '../../scenes/types';
 import type { WorldNode } from './evaluate';
+import { ModelView } from './Model';
 
 /** Warna dunia 3D yang diturunkan dari tema (diisi di luar kanvas — konteks tema tidak menembus kanvas). */
 export interface WorldPalette {
@@ -434,6 +435,8 @@ const SHAPES: { [S in WorldObject['shape']]: React.FC<ShapeProps<S>> | null } = 
   tree: Tree,
   person: Person,
   coins: Coins,
+  // Model `.glb` dirender langsung di WorldNodeView (butuh nilai xray mentah).
+  model: null,
 };
 
 /** Satu objek + anak-anaknya. `xray` hanya menembuskan badan objek itu sendiri, bukan anaknya. */
@@ -448,6 +451,17 @@ export const WorldNodeView: React.FC<{ node: WorldNode; pal: WorldPalette; xray:
   const opacity = node.opacity * (1 + (xrayOpacity - 1) * x);
   return (
     <group position={node.position} rotation={node.rotation} scale={node.scale}>
+      {node.object.shape === 'model' ? (
+        <ModelView
+          src={node.object.src}
+          size={node.object.size}
+          ground={node.object.ground}
+          opacity={node.opacity}
+          xray={x}
+          xrayOpacity={xrayOpacity}
+          parts={node.extra.parts ?? []}
+        />
+      ) : null}
       {Shape ? <Shape o={node.object} color={node.color} opacity={opacity} pal={pal} extra={node.extra} /> : null}
       {node.children.map((c) => (
         <WorldNodeView key={c.key} node={c} pal={pal} xray={xray} xrayOpacity={xrayOpacity} />

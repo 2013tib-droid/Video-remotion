@@ -2,6 +2,16 @@
 
 Perubahan framework yang memengaruhi semua video. Entri terbaru di atas.
 
+## 2026-11-11 — Model `.glb` di scene `world`
+
+### Baru
+- **`shape: 'model'`** — memuat model 3D glTF biner (`src`, `size`, `ground`); dinormalkan ke meter, berbayang, ikut `xray`.
+- **`parts[]`** — atur bagian model lewat nama node/material: warna, opasitas, sembunyikan, `solid` (tetap utuh saat xray),
+  dan `motion` per bagian (kap terbuka, roda berputar) yang bisa dipicu kata narasi.
+- **Model bawaan** `public/models/car-concept.glb` (CC BY 4.0, kredit di `public/models/CREDITS.md`).
+- `npm run model -- <file.glb>` — daftar nama bagian & material; `npm run cek` memeriksa file `.glb` ada.
+- Pantulan lingkungan netral di semua scene `world` agar bahan mengilap tidak tampak hitam.
+
 ## 2026-11-11 — Scene `world`: dunia 3D
 
 Tujuan: visual mendekati nyata untuk penjelasan "cara kerja" — kamera masuk ke dalam benda, bukan kartu berganti.
