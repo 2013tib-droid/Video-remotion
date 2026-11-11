@@ -173,4 +173,4 @@ dalam meter (mobil ±4,5); model otomatis ditaruh di tengah dengan alas di lanta
   relatif posisi asli dalam satuan model; juga `spin` `fade` `color`). Entri belakang menimpa entri depan.
 - Label/kamera ke bagian model: beri anak `{ id: 'mesin', shape: 'group', pos: [...] }` sebagai jangkar.
 - Kaca `transmission` dirender sebagai transparansi biasa. File masuk git biasa (jangan di `media/`); model besar memperlambat
-  render (3 mobil ±11 MB: ±2× lebih lambat dari objek kotak). Model baru: catat sumber & lisensi di `public/models/CREDITS.md`.
+  render (terukur di sesi cloud tanpa GPU: demo 14,5 dtk dengan 3 mobil ±11 MB = 27 menit pada skala 0,5, ±9× lebih lambat dari objek kotak; pakai satu model detail dan objek sederhana untuk latar). Model baru: catat sumber & lisensi di `public/models/CREDITS.md`.

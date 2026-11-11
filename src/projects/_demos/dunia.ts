@@ -84,7 +84,7 @@ export default defineVideo({
       // Bagian model bisa digerakkan per scene: kap terangkat saat kamera masuk.
       objects: withHood,
       labels: [
-        { target: 'roda-gigi', text: 'Bagian berputar', at: 2.6 },
+        { target: 'mesin', text: 'Mesin', at: 2.6 },
         { target: [-1.15, 0.45, 1.2], text: 'Aliran', at: 3.4, color: 'danger' },
       ],
       cards: [{ tag: 'Demo', text: 'Label menempel pada objek, ikut gerak kamera.', source: 'contoh · bukan data', at: 4.4 }],
