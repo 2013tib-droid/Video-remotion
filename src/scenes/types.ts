@@ -475,7 +475,89 @@ export interface WorldCard {
   text: string;
   /** Sumber kecil di bawah teks. */
   source?: string;
+  /** Daftar putusan di bawah teks: `ok: true` = ✓ hijau, `false` = ✕ merah, kosong = titik. Muncul bergiliran (atau saat `at`). */
+  points?: { text: string; ok?: boolean; at?: Cue }[];
   color?: WorldColor;
+  at?: Cue;
+  hideAt?: Cue;
+}
+
+/** Jenis bukti sebuah angka — menentukan warna lencana sumber: data pihak lain, ilustrasi, atau hitungan/asumsi sendiri. */
+export type WorldSourceTone = 'data' | 'ilustrasi' | 'hitungan';
+
+/**
+ * Strip data di bawah judul: angka/teks huruf mesin tik di kiri + lencana sumber di kanan
+ * (mis. `8.000 km` · `PABRIKAN BUSI`). `value` + `to` = angka menghitung (odometer) saat `at`.
+ */
+export interface WorldReadout {
+  /** Teks tetap (mis. "celah busi 0,8–0,9 mm"). Diabaikan bila `value` diisi. */
+  text?: string;
+  value?: number;
+  /** Angka akhir: menghitung dari `value` ke `to` mulai `at`. */
+  to?: number;
+  prefix?: string;
+  suffix?: string;
+  decimals?: number;
+  /** Lencana sumber di kanan, mis. "Pabrikan busi", "Uji dyno · 2023", "Ilustrasi · dipercepat". */
+  source?: string;
+  /** Warna lencana. Default `data`. */
+  tone?: WorldSourceTone;
+  /** Kapan angka mulai menghitung. Default awal scene. */
+  at?: Cue;
+  /** Lama menghitung (detik). Default sampai ±akhir scene. */
+  duration?: number;
+}
+
+/** Satu batang ukur. `value`/`to` dalam satuan `max` panelnya. */
+export interface WorldMeterRow {
+  label: string;
+  value: number;
+  /** Nilai akhir: batang bergerak dari `value` ke `to` saat `at`. */
+  to?: number;
+  at?: Cue;
+  /** Lama batang bergerak (detik). Default 0,9. */
+  duration?: number;
+  /** Nilai tertulis di kanan batang, mis. "5,64 L". */
+  text?: string;
+  color?: WorldColor;
+  /** Baris baru muncul saat cue ini (mis. pembanding yang disebut belakangan). */
+  showAt?: Cue;
+}
+
+/** Panel batang ukur (HUD) di bawah judul: satu besaran yang naik-turun, atau 2–3 batang pembanding. */
+export interface WorldMeter {
+  /** Judul kecil panel, mis. "Tegangan yang dibutuhkan". */
+  title?: string;
+  /** Lencana jenis bukti di samping judul, mis. "Ilustrasi". */
+  tag?: string;
+  tone?: WorldSourceTone;
+  /** Nilai batang penuh. Default 1. */
+  max?: number;
+  rows: WorldMeterRow[];
+  /** Keterangan kecil di bawah batang, mis. "per 100 km · kata pabrik, bukan tes kami". */
+  note?: string;
+  at?: Cue;
+  hideAt?: Cue;
+}
+
+/** Penanda ukuran antara dua titik 3D (garis berujung + teks), mis. celah "0,8 mm". */
+export interface WorldMeasure {
+  from: string | Vec3;
+  to: string | Vec3;
+  text: string;
+  color?: WorldColor;
+  at?: Cue;
+  hideAt?: Cue;
+}
+
+/** Cap putusan: satu–dua kata besar miring yang menghentak masuk (mis. "IMPAS", "MITOS"). */
+export interface WorldStamp {
+  text: string;
+  /** Menempel di objek/titik 3D. Default tengah layar. */
+  target?: string | Vec3;
+  color?: WorldColor;
+  /** Kemiringan (derajat). Default -6. */
+  rotate?: number;
   at?: Cue;
   hideAt?: Cue;
 }
@@ -494,6 +576,14 @@ export interface WorldScene extends SceneBase, SceneHeading {
   shots: WorldShot[];
   labels?: WorldLabel[];
   cards?: WorldCard[];
+  /** Strip data di bawah judul: angka (bisa menghitung) + lencana sumber. */
+  readout?: WorldReadout;
+  /** Panel batang ukur (HUD). */
+  meters?: WorldMeter[];
+  /** Penanda ukuran antara dua titik 3D. */
+  measures?: WorldMeasure[];
+  /** Cap putusan besar. */
+  stamp?: WorldStamp;
   /** Lantai: `true` (default, warna tema), `false`, atau warna. */
   ground?: boolean | WorldColor;
   /** Warna langit/latar. Default background tema. */

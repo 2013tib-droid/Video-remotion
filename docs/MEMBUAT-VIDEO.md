@@ -79,10 +79,13 @@ export default bedah3D(seri, {
 ```
 
 - **Per adegan**: `narasi` (wajib) · `bab` · `emphasis` · `kamera` (nama view / `{ view, at }` / beberapa) · `xray` · `label` (`tetap: true`
-  = bertahan; `labelBersih` menghapus) · `kartu` · `gerak` (per id objek) · `bagian` (bagian model `.glb`) · `muncul` / `hilang` ·
+  = bertahan; `labelBersih` menghapus) · `kartu` (+ `points` ✓/✕) · `data` (strip angka + lencana sumber) · `meter` (panel batang) ·
+  `ukur` (penanda ukuran) · `cap` (cap putusan) · `gerak` (per id objek) · `bagian` (bagian model `.glb`) · `muncul` / `hilang` ·
   `lampu` · `ubah` · `catatan`. Detail: `src/templates/Bedah3D.ts`.
 - **Semua perubahan menetap**: mobil yang maju tetap di posisi barunya, kap yang terbuka tetap terbuka, lampu tetap hijau, kamera
   mulai dari posisi terakhir. Tidak perlu mengulang apa pun di adegan berikutnya.
+- **`data` dan `meter` bertahan** ke adegan berikutnya di nilai akhirnya sampai diganti; `data: false` / `meter: false` menghapus.
+  Tiap angka beri `source` + `tone` (`data` · `ilustrasi` · `hitungan`). Pola pemakaian: `docs/REFERENSI.md`.
 - **Durasi** (terukur): satu adegan ≈ 4 detik → **1 menit ≈ 15 adegan, 2 menit ≈ 30 adegan**. Adegan pertama = hook (≤ 2–3 detik).
 - **Selingan**: `{ sisip: { type: 'chart', ... } }` menyisipkan scene biasa (grafik, angka, teks besar) di antara adegan 3D.
 - **Kit dunia** (`src/worlds/`): `jalanRaya({ mobil?, warna?, antrean?, lampu?, kota?, tambahan?, isiMobil? })` — id `mobil` `lampu` `orang`,

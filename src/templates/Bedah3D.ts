@@ -4,11 +4,15 @@ import type {
   SceneConfig,
   WorldCard,
   WorldLabel,
+  WorldMeasure,
+  WorldMeter,
   WorldModelPart,
   WorldMotion,
   WorldObject,
+  WorldReadout,
   WorldScene,
   WorldShot,
+  WorldStamp,
   WorldView,
 } from '../scenes/types';
 import { outroScene, seriesConfig, type Series, type SeriesOutro, type SeriesVideoBase } from './series';
@@ -51,6 +55,17 @@ export interface Adegan {
   labelBersih?: boolean;
   /** Kartu keterangan/sumber (hanya di adegan ini). */
   kartu?: WorldCard[];
+  /**
+   * Strip data di bawah bab: angka/teks + lencana sumber. BERTAHAN ke adegan berikutnya (angka yang menghitung
+   * berhenti di nilai akhirnya) sampai diganti; `false` = hapus.
+   */
+  data?: WorldReadout | false;
+  /** Panel batang ukur (HUD). BERTAHAN ke adegan berikutnya di nilai akhirnya sampai diganti; `false` = hapus. */
+  meter?: WorldMeter | WorldMeter[] | false;
+  /** Penanda ukuran antara dua titik (mis. celah "0,8 mm"). `tetap: true` = bertahan; `labelBersih` menghapusnya. */
+  ukur?: (WorldMeasure & { tetap?: boolean })[];
+  /** Cap putusan besar (mis. "IMPAS") — hanya di adegan ini. */
+  cap?: WorldStamp;
   /** Gerak objek per id: `{ mobil: [{ type: 'move', to: [0, 0, 8], at: 'maju' }] }`. Hasil akhirnya menetap. */
   gerak?: Record<string, WorldMotion[]>;
   /** Atur bagian model `.glb` per id model: `{ mobil: [{ name: 'BodyHood', motion: [...] }] }`. Menetap. */
@@ -149,6 +164,9 @@ export function bedah3D(series: Series, p: Bedah3DProps): VideoConfig {
   let camera: WorldShot | null = null;
   let xray: string[] = [];
   let sticky: WorldLabel[] = [];
+  let stickyMeasures: WorldMeasure[] = [];
+  let readout: WorldReadout | undefined;
+  let meters: WorldMeter[] = [];
   let chapter: SceneConfig['chapter'];
   let afterInsert = false;
   const scenes: SceneConfig[] = [];
@@ -160,7 +178,12 @@ export function bedah3D(series: Series, p: Bedah3DProps): VideoConfig {
       return;
     }
     if (a.xray) xray = a.xray;
-    if (a.labelBersih) sticky = [];
+    if (a.labelBersih) {
+      sticky = [];
+      stickyMeasures = [];
+    }
+    if (a.data !== undefined) readout = a.data || undefined;
+    if (a.meter !== undefined) meters = a.meter ? (Array.isArray(a.meter) ? a.meter : [a.meter]) : [];
     if (a.bab) chapter = typeof a.bab === 'string' ? { title: a.bab } : { label: a.bab.label, title: a.bab.judul, highlight: a.bab.highlight };
 
     // Objek: keadaan akhir adegan sebelumnya + perubahan adegan ini.
@@ -213,12 +236,25 @@ export function bedah3D(series: Series, p: Bedah3DProps): VideoConfig {
       shots,
       labels: [...sticky.map((l) => ({ ...l, at: DONE })), ...(a.label ?? []).map(({ tetap: _tetap, ...l }) => l)],
       cards: a.kartu,
+      readout,
+      meters: meters.length ? meters : undefined,
+      measures: [...stickyMeasures.map((m) => ({ ...m, at: DONE })), ...(a.ukur ?? []).map(({ tetap: _tetap, ...m }) => m)],
+      stamp: a.cap,
       ground: p.dunia.ground,
       sky: p.dunia.sky,
       note: a.catatan ?? p.catatan,
     });
     afterInsert = false;
     sticky = [...sticky, ...(a.label ?? []).filter((l) => l.tetap).map(({ tetap: _tetap, ...l }) => l)];
+    stickyMeasures = [...stickyMeasures, ...(a.ukur ?? []).filter((m) => m.tetap).map(({ tetap: _tetap, ...m }) => m)];
+    // HUD yang bertahan: adegan berikutnya mulai dari keadaan akhirnya (tanpa animasi masuk ulang).
+    if (readout?.value !== undefined && readout.to !== undefined) readout = { ...readout, value: readout.to, to: undefined };
+    if (readout) readout = { ...readout, at: DONE };
+    meters = meters.map((m) => ({
+      ...m,
+      at: DONE,
+      rows: m.rows.map(({ to, at: _at, showAt: _showAt, ...r }) => ({ ...r, value: to ?? r.value })),
+    }));
     objects = carry(objects);
   });
 
