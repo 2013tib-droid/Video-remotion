@@ -61,7 +61,12 @@ Isian:
   - kamera?: melihat apa (jalan / lampu / mobil / depan / samping / mesin / kabin / atas) dan saat kata apa pindahnya
   - kejadian?: apa yang berubah dan saat kata apa (lampu berganti, mobil maju, kap terbuka, bodi tembus pandang, benda muncul)
   - label?: teks ≤ 3 kata yang menempel di benda, saat kata apa
-  - kartu?: angka/kutipan + SUMBER (hanya dari brief)
+  - kartu?: angka/kutipan + SUMBER (hanya dari brief); boleh berisi daftar putusan ✓/✕ (untuk kesimpulan)
+  - data?: strip angka di bawah bab + lencana jenis bukti: DATA (sumber + tahun) / ILUSTRASI / HITUNGAN KAMI (tulis asumsinya).
+    Boleh menghitung (mis. 400 → 8.000 km) saat kata apa. Bertahan sampai diganti.
+  - meter?: panel 1–3 batang (naik/turun atau A vs B) + nilai tertulis + catatan; saat kata apa bergerak
+  - ukur?: penanda ukuran di benda (mis. "0,8 mm"), dari titik mana ke mana
+  - cap?: cap putusan ≤ 2 kata (mis. IMPAS, MITOS), saat kata apa
   - selingan?: grafik/angka/teks besar di antara adegan 3D
 - cta: {title, highlight?, button, url?}
 - narasi (opsional, bila ingin bersuara): kalimat untuk hook, masalah, solusi, tiap layar, fitur, bukti, cta
@@ -74,6 +79,9 @@ Isian:
   ("5,47 persen"). Singkatan yang dieja: daftar di "lexicon" (mis. PDB = Pe De Be).
 - Angka/fakta harus dari brief atau sumber yang saya sebut. Tidak ada → tulis [ISI ANGKA], jangan mengarang.
 - highlight harus persis ada di kalimatnya.
+- Khusus bedah3D (gaya acuan: docs/REFERENSI.md): tiap kalimat harus mengubah gambar (kamera / benda / data);
+  bab = kesimpulan bab itu (≤ 4 kata), label kecil bab = jenis buktinya; urutan pertanyaan → cara kerja → klaim diuji →
+  dihitung dalam rupiah → pengecualian → putusan satu kalimat; adegan terakhir boleh kembali ke gambar pembuka (loop).
 
 === CARA KERJA ===
 1. Tulis storyboard ringkas untuk saya review: tabel No | Jenis bagian | Teks di layar | Narasi.

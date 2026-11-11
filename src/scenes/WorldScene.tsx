@@ -6,6 +6,7 @@ import { useThree } from '@react-three/fiber';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { SPRINGS } from '../config';
 import { WORLD_TIMING, cameraAt, cameraPosition, evaluateWorld, type CameraPose } from '../components/world/evaluate';
+import { WorldCardPoints, WorldMeasureView, WorldMeterView, WorldReadoutView, WorldStampView } from '../components/world/Hud';
 import { WorldNodeView, type WorldPalette } from '../components/world/shapes';
 import { Sfx, useCue, useSceneExit, useSceneMotion } from '../motion';
 import { useTheme } from '../themes';
@@ -108,7 +109,7 @@ export const WorldSceneView: React.FC<SceneProps<WorldScene>> = ({ scene }) => {
     (cam as THREE.PerspectiveCamera & { manual?: boolean }).manual = true;
     return cam;
   }, []);
-  const hasTop = Boolean(scene.title || scene.eyebrow || scene.cards?.length);
+  const hasTop = Boolean(scene.title || scene.eyebrow || scene.cards?.length || scene.readout || scene.meters?.length);
   camera.fov = pose.fov;
   camera.aspect = W / H;
   camera.near = Math.max(0.02, pose.distance * 0.02);
@@ -147,6 +148,10 @@ export const WorldSceneView: React.FC<SceneProps<WorldScene>> = ({ scene }) => {
     const outP = Number.isFinite(end) ? interpolate(t, [end, end + 0.3], [0, 1], clamp) : 0;
     return { card, i, start, p: Math.max(0, inP * (1 - outP) * (1 - exit)), gone: t > end + 0.3 || t < start };
   });
+
+  const meters = scene.meters ?? [];
+  const measures = scene.measures ?? [];
+  const stampStart = scene.stamp ? cue(scene.stamp.at, 1) : 0;
 
   const pillH = px(64);
   const lift = px(120);
@@ -212,6 +217,10 @@ export const WorldSceneView: React.FC<SceneProps<WorldScene>> = ({ scene }) => {
         );
       })}
 
+      {measures.map((m, i) => (
+        <WorldMeasureView key={i} measure={m} index={i} exit={exit} project={project} color={color} W={W} H={H} />
+      ))}
+
       {/* Sapuan warna langit di belakang judul agar teks tetap terbaca */}
       {hasTop ? (
         <AbsoluteFill style={{ background: `linear-gradient(180deg, ${sky} 0%, ${sky}e6 ${Math.round((safe.top / H) * 100) + 4}%, ${sky}00 ${Math.round((safe.top / H) * 100) + 24}%)` }} />
@@ -219,7 +228,11 @@ export const WorldSceneView: React.FC<SceneProps<WorldScene>> = ({ scene }) => {
       {/* Judul + kartu keterangan */}
       <AbsoluteFill style={{ padding: `${safe.top}px ${safe.x}px 0`, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: space.sm }}>
         <SceneTitle eyebrow={scene.eyebrow} title={scene.title} highlight={scene.highlight} subtitle={scene.subtitle} align="left" />
-        {cards.map(({ card, i, p, gone }) =>
+        {scene.readout ? <WorldReadoutView readout={scene.readout} sceneSec={sceneSec} exit={exit} /> : null}
+        {meters.map((m, i) => (
+          <WorldMeterView key={i} meter={m} index={i} exit={exit} color={color} />
+        ))}
+        {cards.map(({ card, i, p, start, gone }) =>
           gone ? null : (
             <div
               key={i}
@@ -244,6 +257,7 @@ export const WorldSceneView: React.FC<SceneProps<WorldScene>> = ({ scene }) => {
               ) : null}
               <div style={{ display: 'flex', flexDirection: 'column', gap: px(6) }}>
                 <div style={{ fontFamily: theme.fonts.body, fontWeight: theme.fontWeights.strong, fontSize: type.caption, lineHeight: 1.3, color: c.text }}>{card.text}</div>
+                {card.points ? <WorldCardPoints points={card.points} cardStart={start} /> : null}
                 {card.source ? (
                   <div style={{ fontFamily: theme.fonts.mono, fontSize: type.label * 0.8, color: c.muted }}>{card.source}</div>
                 ) : null}
@@ -252,6 +266,8 @@ export const WorldSceneView: React.FC<SceneProps<WorldScene>> = ({ scene }) => {
           ),
         )}
       </AbsoluteFill>
+
+      {scene.stamp ? <WorldStampView stamp={scene.stamp} exit={exit} project={project} color={color} W={W} H={H} start={stampStart} /> : null}
 
       {scene.note ? (
         <div
@@ -291,6 +307,14 @@ export const WorldSceneView: React.FC<SceneProps<WorldScene>> = ({ scene }) => {
       {cards.map(({ i, start }) => (
         <Sfx key={`card-${i}`} name="tick" at={start} seed={i} />
       ))}
+      {meters.map((m, i) => {
+        const start = cue(m.at, 0.3 + i * 0.4);
+        return start >= 0 ? <Sfx key={`meter-${i}`} name="tick" at={start} seed={i + 3} /> : null;
+      })}
+      {measures.map((m, i) => (
+        <Sfx key={`measure-${i}`} name="pop" at={cue(m.at, 0.8 + i * 0.4)} seed={i + 5} />
+      ))}
+      {scene.stamp && stampStart >= 0 ? <Sfx name="impact" at={stampStart} /> : null}
     </AbsoluteFill>
   );
 };

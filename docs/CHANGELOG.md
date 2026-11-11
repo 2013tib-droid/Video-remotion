@@ -2,6 +2,21 @@
 
 Perubahan framework yang memengaruhi semua video. Entri terbaru di atas.
 
+## 2026-11-11 — Referensi gaya + HUD data di dunia 3D
+
+Sumber: bedah video referensi "busi standar atau iridium?" (`docs/REFERENSI.md`, R1).
+
+### Baru
+- **`docs/REFERENSI.md`** — video referensi dibedah jadi pola + cara membuatnya di sini + daftar yang belum ada.
+- Scene `world` (semua opsional, config lama tetap valid):
+  - **`readout`** — strip data: teks/angka (bisa menghitung saat cue) + lencana sumber ber-`tone` (`data` · `ilustrasi` · `hitungan`).
+  - **`meters[]`** — panel batang ukur; batang bergerak `value` → `to` saat cue, baris pembanding lewat `showAt`.
+  - **`measures[]`** — penanda ukuran antara dua titik 3D.
+  - **`stamp`** — cap putusan besar.
+  - **`cards[].points`** — daftar putusan ✓/✕ di dalam kartu.
+- Template `bedah3D`: `data`, `meter` (keduanya bertahan lintas adegan di nilai akhirnya; `false` menghapus), `ukur` (bisa `tetap`), `cap`.
+- Komponen: `src/components/world/Hud.tsx` (angka waktu: `WORLD_HUD_TIMING`). Acuan `Demo-Bedah3D` memakai semuanya (narasi tidak berubah).
+
 ## Status merge — dunia 3D (2026-11-11)
 
 Seluruh pekerjaan dunia 3D sudah masuk branch default lewat tiga PR:

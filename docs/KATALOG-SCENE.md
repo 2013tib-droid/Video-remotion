@@ -35,7 +35,7 @@ Sebagian besar scene juga menerima **judul standar**: `eyebrow`, `title`, `highl
 | `words` | `words` (kalimat atau `[{text, highlight?, at?}]`) `accent?[]` `interval?` `flash?` `caption?` | **Satu kata per ketukan** memenuhi layar: menghentak masuk (skala + blur), dorongan pelan, dipotong kata berikutnya; kata sorotan (`accent`) bergradien + latar berkedip warna brand (`flash: false` = mati). Bernarasi → tiap kata muncul **tepat saat diucapkan** (otomatis dicocokkan). Default dibagi rata sepanjang `duration` (≈ 1 kata/dtk bila durasi = jumlah kata). Bunyi tick per kata, dentum untuk kata sorotan. |
 | `broll` | `src` atau `shots[] {src, move?, focus?, caption?, duration?, startFrom?}` `move?` `textPosition?` `dim?` `volume?` + judul standar | **Foto/video b-roll layar penuh** dengan gerak kamera Ken Burns: `zoomIn` `zoomOut` `panLeft` `panRight` `panUp` `panDown` `none` atau `auto` (bergiliran). `focus: [x, y]` (0..1) = titik pusat zoom. Beberapa `shots` = montase dengan crossfade + swipe. Judul putih di atas scrim gelap (`dim` 0..1, `textPosition` `bottom`/`center`/`top`); `caption` = label lokasi kiri atas. Video (mp4/webm/mov) senyap kecuali `volume`. |
 | `map` | `region?` `points[] {place? \| lat+lon, label?, value?, icon?, at?}` `routes[] {from, to, at?}` `countries?[]` `zoomToPoints?` + judul standar | **Peta beranimasi** (Natural Earth): daratan tersingkap melingkar, kamera terbang ke area pin, pin jatuh memantul + denyut, label (anti-tabrakan) dengan nilai, rute melengkung tergambar + titik mengalir. `region`: `indonesia` (default) `sumatra` `jawa` `kalimantan` `sulawesi` `bali-nusra` `maluku` `papua` `asean` `asia` `world` atau bbox `[barat, selatan, timur, utara]`. `place` = kota bawaan (±100: semua ibu kota provinsi & kota besar Indonesia, ASEAN, kota dunia — `src/components/map/places.ts`). `countries` = negara diwarnai (nama Inggris, mis. `'Malaysia'`); wilayah Indonesia otomatis menyorot Indonesia. |
-| `world` | `objects[]` `views?` `shots[]` `labels?[]` `cards?[]` `ground?` `sky?` `note?` + judul standar | **Dunia 3D** (WebGL): objek nyata + kamera yang terbang antar sudut pandang, tembus pandang ke dalam objek, bagian bergerak, label menempel. Lihat bagian *Dunia 3D* di bawah. |
+| `world` | `objects[]` `views?` `shots[]` `labels?[]` `cards?[]` `readout?` `meters?[]` `measures?[]` `stamp?` `ground?` `sky?` `note?` + judul standar | **Dunia 3D** (WebGL): objek nyata + kamera yang terbang antar sudut pandang, tembus pandang ke dalam objek, bagian bergerak, label menempel. Lihat bagian *Dunia 3D* di bawah. |
 
 Semua scene juga menerima `narration` (teks voice-over), `emphasis[]` (kata disorot di subtitle) dan `chapter {label?, title, highlight?}` (header bab). `at` = detik **atau kata narasi** (mis. `'higrometer'`, `'alat#2'`). Lihat `docs/EXPLAINER.md`.
 
@@ -154,11 +154,20 @@ Contoh lengkap bernarasi: `src/projects/_demos/dunia.ts` (video `Demo-Dunia3D`).
   Shot pertama = posisi awal; shot berikutnya kamera **terbang** saat `at` (`duration?` 1,2 dtk, blur gerak otomatis).
   `drift?` = ayunan orbit pelan (default 7°, bersambung lintas scene). `xray: ['id']` = badan objek itu tembus pandang selama shot (anaknya tetap utuh).
 - **`labels[]`** — `{ target, text, color?, at?, hideAt?, side? }`: pil + garis penunjuk yang menempel di objek dan ikut kamera.
-- **`cards[]`** — `{ tag?, text, source?, color?, at?, hideAt? }`: kartu keterangan/sumber di bawah judul.
+- **`cards[]`** — `{ tag?, text, source?, points?, color?, at?, hideAt? }`: kartu keterangan/sumber di bawah judul.
+  `points: [{ text, ok?, at? }]` = daftar putusan di dalam kartu (`ok: true` ✓ hijau, `false` ✕ merah), muncul bergiliran.
+- **`readout`** — strip data di bawah judul: teks/angka huruf mesin tik di kiri + lencana sumber di kanan.
+  `{ text }` atau `{ value, to?, prefix?, suffix?, decimals?, at?, duration? }` (angka **menghitung** dari `value` ke `to` saat `at`),
+  `source?` + `tone?`: `data` (pihak lain, warna primary) · `ilustrasi` (kuning) · `hitungan` (hitungan/asumsi sendiri, netral).
+- **`meters[]`** — panel batang ukur (HUD): `{ title?, tag?, tone?, max?, rows[], note?, at?, hideAt? }`,
+  `rows: [{ label, value, to?, at?, duration?, text?, color?, showAt? }]` — batang bergerak dari `value` ke `to` saat `at`;
+  `showAt` = baris pembanding yang muncul belakangan; `text` = nilai tertulis di kanan.
+- **`measures[]`** — `{ from, to, text, color?, at?, hideAt? }`: penanda ukuran (garis berujung + teks) antara dua titik 3D, ikut kamera.
+- **`stamp`** — `{ text, target?, color?, rotate?, at?, hideAt? }`: cap putusan besar miring yang menghentak masuk (≤ 2 kata).
 - `ground` (`true`/`false`/warna), `sky` (warna latar), `note` (strip kecil, mis. "Ilustrasi · bukan skala").
 - **Dunia bersambung lintas scene** (tiap scene satu kalimat narasi): simpan `objects` + `views` di satu konstanta, pakai di semua
   scene dengan `transition: 'none'`, dan mulai tiap scene dari `view` terakhir scene sebelumnya. Putaran/aliran tanpa `at` tetap mulus.
-- Suara otomatis: `whooshSoft` saat kamera terbang, `pop` per label, `tick` per kartu.
+- Suara otomatis: `whooshSoft` saat kamera terbang, `pop` per label/penanda ukuran, `tick` per kartu/panel batang, `impact` untuk cap.
 - Render memakai WebGL perangkat lunak (`swangle`, sudah diatur). Mesin ber-GPU: `REMOTION_GL=angle`.
 - Tema terang paling cocok.
 
@@ -197,5 +206,6 @@ dalam meter (mobil ±4,5); model otomatis ditaruh di tengah dengan alas di lanta
   gerak bagian (`move` kap), label + kartu, dan **cue kata narasi** untuk `shots[].at`, `labels[].at`, `cards[].at`, `parts[].motion[].at`.
 - Belum diuji: `spin` pada bagian model (roda), `turn` pada bagian yang pivotnya di titik asal model (kap `car-concept` — pakai `move`).
 - Label hanya bisa menunjuk `id` objek atau koordinat; untuk bagian model beri anak `group` ber-`id` sebagai jangkar.
-- Belum ada: HUD khusus topik (mis. indikator P-R-N-D), model mobil harian, pengecilan model, kit dunia selain `jalanRaya()`.
+- HUD data (strip data, panel batang, penanda ukuran, cap, daftar putusan) diperiksa lewat frame uji `Demo-Bedah3D`; belum dirender sebagai video utuh.
+- Belum ada: HUD berbentuk khusus (mis. indikator P-R-N-D), model mobil harian, pengecilan model, kit dunia selain `jalanRaya()`.
 - Percobaan mempercepat render dengan `--concurrency=4` gagal (timeout 33 dtk saat memuat model) — jangan dipakai untuk scene ber-model.

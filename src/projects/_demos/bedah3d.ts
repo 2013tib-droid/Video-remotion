@@ -59,6 +59,8 @@ export default bedah3D(seri, {
       emphasis: ['maju'],
       kamera: 'samping',
       gerak: { mobil: [{ type: 'move', to: [-1.7, 0, 7], at: 'maju', duration: 1.6 }] },
+      // Strip data: angka menghitung saat kata disebut + lencana jenis bukti. Bertahan sampai diganti / `data: false`.
+      data: { value: 0, to: 7, suffix: ' m', source: 'Contoh · bukan data', tone: 'ilustrasi', at: 'maju', duration: 1.6 },
     },
     // 5 — bagian model bergerak + tembus pandang + label yang bertahan.
     {
@@ -69,6 +71,8 @@ export default bedah3D(seri, {
       xray: ['mobil'],
       bagian: { mobil: [{ name: 'BodyHood', motion: [{ type: 'move', to: [0, 0.55, 0], at: 'Kap', duration: 1 }] }] },
       label: [{ target: 'mesin', text: 'Mesin', at: 'mesinnya', tetap: true }],
+      // Panel batang ukur: batang bergerak saat kata disebut, lalu bertahan di nilai akhirnya.
+      meter: { title: 'Bodi terlihat', tag: 'Ilustrasi', rows: [{ label: 'Bodi', value: 1, to: 0.13, at: 'tembus' }] },
     },
     // 6 — objek tersembunyi dimunculkan.
     {
@@ -76,6 +80,8 @@ export default bedah3D(seri, {
       emphasis: ['aliran'],
       muncul: { aliran: 'aliran' },
       label: [{ target: 'roda-depan', text: 'Roda depan', at: 'roda', color: 'primary', tetap: true }],
+      // Penanda ukuran di antara dua titik.
+      ukur: [{ from: 'mesin', to: 'roda-depan', text: 'contoh ukuran', at: 'roda' }],
     },
     // 7 — kartu keterangan/sumber; label dibersihkan, bodi kembali utuh.
     {
@@ -86,7 +92,18 @@ export default bedah3D(seri, {
       xray: [],
       labelBersih: true,
       hilang: { aliran: 0 },
-      kartu: [{ tag: 'Demo', text: 'Untuk angka, kutipan, atau sumber.', source: 'contoh · bukan data', at: 'Kartu' }],
+      data: false,
+      meter: false,
+      // `points` = daftar putusan ✓/✕ di dalam kartu.
+      kartu: [
+        {
+          tag: 'Demo',
+          text: 'Untuk angka, kutipan, atau sumber.',
+          points: [{ text: 'muncul saat disebut', ok: true, at: 'sumber' }, { text: 'tidak menutupi objek', ok: true, at: 'tanpa' }],
+          source: 'contoh · bukan data',
+          at: 'Kartu',
+        },
+      ],
     },
     // 8 — scene biasa disisipkan di tengah.
     {
@@ -107,6 +124,8 @@ export default bedah3D(seri, {
       narasi: 'Satu menit, kira-kira lima belas adegan seperti ini.',
       emphasis: ['Satu menit'],
       kamera: 'jalan',
+      // Cap putusan besar.
+      cap: { text: '±15 adegan', at: 'lima belas' },
     },
   ],
 });
