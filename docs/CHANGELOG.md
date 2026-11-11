@@ -2,6 +2,24 @@
 
 Perubahan framework yang memengaruhi semua video. Entri terbaru di atas.
 
+## 2026-11-11 — Scene `world`: dunia 3D
+
+Tujuan: visual mendekati nyata untuk penjelasan "cara kerja" — kamera masuk ke dalam benda, bukan kartu berganti.
+
+### Baru
+- **Scene `world`** (WebGL, `three` + `@remotion/three`) — dunia 3D dari data: bentuk dasar (`box` `cylinder` `sphere` `cone`
+  `torus` `tube`), bagian mesin (`gear` `fan` `flow`), objek jadi (`car` `road` `trafficLight` `building` `house` `tree`
+  `person` `coins`), objek bersarang (`children`).
+- **Kamera terbang** antar `shots` (orbit: target, jarak, azimuth, elevasi) dengan blur gerak dan orbit pelan saat diam;
+  `xray` menembuskan badan objek untuk melihat isinya.
+- **Gerak objek** lewat `motion`: `spin` `bob` `move` `turn` `scale` `fade` `color`, semuanya bisa dipicu kata narasi (`at`).
+- **Label menempel** pada objek (`labels`) + **kartu keterangan/sumber** (`cards`) + `note`.
+- Dunia bersambung lintas scene: `transition: 'none'` + `views` bersama; gerak tanpa `at` memakai waktu video.
+- Demo: `Demo-Dunia3D` (`src/projects/_demos/dunia.ts`).
+
+### Berubah
+- Render memakai `--gl=swangle` secara default (`remotion.config.ts`, `scripts/render-all.mjs`); ganti dengan `REMOTION_GL=angle`.
+
 ## 2026-11-10 — Musik latar + watermark
 
 ### Baru

@@ -19,6 +19,8 @@ export interface SceneMotion {
   index: number;
   /** Durasi scene dalam frame. */
   frames: number;
+  /** Frame awal scene di video (untuk gerak yang bersambung lintas scene). */
+  from?: number;
   /** Frame mulai animasi keluar; null = tidak keluar (scene terakhir / exit: false). */
   exitStart: number | null;
   energy: MotionEnergy;

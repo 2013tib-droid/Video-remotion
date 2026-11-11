@@ -330,6 +330,145 @@ export interface MapScene extends SceneBase, SceneHeading {
   zoomToPoints?: boolean;
 }
 
+/** Titik/ukuran 3D dalam meter: [x (kanan), y (atas), z (ke arah penonton)]. */
+export type Vec3 = [number, number, number];
+
+/** Warna objek 3D: hex (`#c8ccd4`) atau token tema (`primary`, `accent`, `surface`, `muted`, `text`, `success`, `danger`, ...). */
+export type WorldColor = string;
+
+/**
+ * Gerak/perubahan sebuah objek 3D.
+ * - `spin` berputar terus (opsional mulai `at`, berhenti `stopAt`) · `bob` naik-turun pelan.
+ * - `move` / `turn` / `scale` / `fade` / `color`: berubah ke nilai `to` saat cue `at` (berurutan bila lebih dari satu).
+ */
+export type WorldMotion =
+  | { type: 'spin'; axis?: 'x' | 'y' | 'z'; /** Putaran per detik. Default 0,5. */ speed?: number; at?: Cue; stopAt?: Cue }
+  | { type: 'bob'; /** Meter. Default 0,08. */ amount?: number; /** Detik. Default 2,4. */ period?: number }
+  | { type: 'move'; to: Vec3; at: Cue; duration?: number }
+  | { type: 'turn'; /** Derajat. */ to: Vec3; at: Cue; duration?: number }
+  | { type: 'scale'; to: number; at: Cue; duration?: number }
+  | { type: 'fade'; /** Opasitas 0..1. */ to: number; at: Cue; duration?: number }
+  | { type: 'color'; to: WorldColor; at: Cue; duration?: number };
+
+interface WorldObjectBase {
+  /** Nama objek — dipakai `shots[].target`, `shots[].xray`, `labels[].target`. */
+  id?: string;
+  /** Posisi (meter) relatif induknya. Default [0, 0, 0]. */
+  pos?: Vec3;
+  /** Rotasi (derajat) sumbu x, y, z. */
+  rotate?: Vec3;
+  scale?: number | Vec3;
+  color?: WorldColor;
+  /** 0..1. Default 1. */
+  opacity?: number;
+  /** Objek baru muncul (membesar memantul) saat cue ini. */
+  showAt?: Cue;
+  /** Objek menghilang saat cue ini. */
+  hideAt?: Cue;
+  motion?: WorldMotion[];
+  /** Objek anak: ikut posisi/rotasi/skala induk (mis. mesin di dalam mobil). */
+  children?: WorldObject[];
+}
+
+/**
+ * Objek di dunia 3D. Bentuk dasar (`box`, `cylinder`, `sphere`, `cone`, `torus`, `tube`), bagian mesin
+ * (`gear`, `fan`, `flow` = butiran mengalir sepanjang jalur) dan objek jadi berukuran nyata
+ * (`car` ±4,4 m menghadap +z, `road` memanjang sumbu z, `trafficLight`, `building`, `house`, `tree`, `person`, `coins`).
+ */
+export type WorldObject = WorldObjectBase &
+  (
+    | { shape: 'group' }
+    | { shape: 'box'; size: Vec3 }
+    | { shape: 'cylinder'; radius: number; height: number; /** Jari-jari atas (kerucut terpancung). */ radiusTop?: number; /** Arah sumbu. Default y. */ axis?: 'x' | 'y' | 'z' }
+    | { shape: 'sphere'; radius: number }
+    | { shape: 'cone'; radius: number; height: number; axis?: 'x' | 'y' | 'z' }
+    | { shape: 'torus'; radius: number; tube: number; /** Derajat busur. Default 360. */ arc?: number; axis?: 'x' | 'y' | 'z' }
+    | { shape: 'tube'; path: Vec3[]; radius?: number; closed?: boolean }
+    | { shape: 'gear'; radius: number; teeth?: number; thickness?: number; axis?: 'x' | 'y' | 'z' }
+    | { shape: 'fan'; radius: number; blades?: number; axis?: 'x' | 'y' | 'z' }
+    | { shape: 'flow'; path: Vec3[]; /** Jumlah butiran. Default 10. */ count?: number; /** Putaran jalur per detik. Default 0,25. */ speed?: number; /** Jari-jari butiran. */ size?: number; closed?: boolean; at?: Cue; stopAt?: Cue }
+    | { shape: 'car'; variant?: 'suv' | 'sedan'; /** Lampu rem menyala. */ brake?: boolean }
+    | { shape: 'road'; length: number; lanes?: number; /** Lebar satu lajur (m). Default 3,4. */ laneWidth?: number; /** Trotoar bergaris di tepi. Default true. */ curb?: boolean }
+    | { shape: 'trafficLight'; light?: 'red' | 'yellow' | 'green'; changes?: { to: 'red' | 'yellow' | 'green'; at: Cue }[] }
+    | { shape: 'building'; size: Vec3 }
+    | { shape: 'house' }
+    | { shape: 'tree' }
+    | { shape: 'person' }
+    | { shape: 'coins'; count?: number }
+  );
+
+/** Sudut pandang kamera 3D (mengorbit `target`). */
+export interface WorldView {
+  /** Titik yang dilihat: id objek (mengikuti objek bergerak) atau koordinat. */
+  target: string | Vec3;
+  /** Jarak kamera ke target (meter). */
+  distance: number;
+  /** Derajat mengelilingi target: 0 = dari depan (+z), 90 = dari kanan (+x). Default 35. */
+  azimuth?: number;
+  /** Derajat di atas horizon. Default 28. */
+  elevation?: number;
+  /** Sudut lensa (derajat). Default 32. */
+  fov?: number;
+}
+
+/** Satu posisi kamera di scene `world`. Shot pertama = posisi awal; berikutnya kamera TERBANG ke sana saat `at`. */
+export interface WorldShot extends Partial<WorldView> {
+  /** Nama sudut pandang di `views` (bagian lain shot menimpanya). */
+  view?: string;
+  at?: Cue;
+  /** Lama terbang (detik). Default 1,2. */
+  duration?: number;
+  /** Kamera tetap mengorbit pelan selama diam (derajat total). Default 7; 0 = diam. */
+  drift?: number;
+  /** id objek yang dibuat tembus pandang selama shot ini (melihat isi di dalamnya). */
+  xray?: string[];
+}
+
+/** Label yang menempel pada objek 3D (garis penunjuk + pil teks). */
+export interface WorldLabel {
+  target: string | Vec3;
+  text: string;
+  color?: WorldColor;
+  at?: Cue;
+  hideAt?: Cue;
+  /** Sisi pil terhadap titik. Default otomatis. */
+  side?: 'left' | 'right';
+}
+
+/** Kartu keterangan/sumber di atas dunia 3D. */
+export interface WorldCard {
+  /** Teks besar di kiri (mis. tahun "2023" atau angka). */
+  tag?: string;
+  text: string;
+  /** Sumber kecil di bawah teks. */
+  source?: string;
+  color?: WorldColor;
+  at?: Cue;
+  hideAt?: Cue;
+}
+
+/**
+ * Dunia 3D: objek nyata (mobil, jalan, gedung, mesin) dengan kamera yang terbang antar sudut pandang,
+ * tembus pandang ke dalam objek, bagian bergerak, dan label yang menempel. Untuk satu dunia yang
+ * bersambung lintas scene: simpan `objects` + `views` di satu konstanta, pakai di tiap scene dengan
+ * `transition: 'none'`, dan mulai tiap scene dari `view` terakhir scene sebelumnya.
+ */
+export interface WorldScene extends SceneBase, SceneHeading {
+  type: 'world';
+  objects: WorldObject[];
+  /** Sudut pandang bernama untuk dipakai `shots[].view`. */
+  views?: Record<string, WorldView>;
+  shots: WorldShot[];
+  labels?: WorldLabel[];
+  cards?: WorldCard[];
+  /** Lantai: `true` (default, warna tema), `false`, atau warna. */
+  ground?: boolean | WorldColor;
+  /** Warna langit/latar. Default background tema. */
+  sky?: WorldColor;
+  /** Catatan kecil di bawah (mis. "Ilustrasi · bukan skala"). */
+  note?: string;
+}
+
 export type SceneConfig =
   | LogoScene
   | HeroScene
@@ -348,6 +487,7 @@ export type SceneConfig =
   | StatementScene
   | WordsScene
   | BrollScene
-  | MapScene;
+  | MapScene
+  | WorldScene;
 
 export type SceneType = SceneConfig['type'];

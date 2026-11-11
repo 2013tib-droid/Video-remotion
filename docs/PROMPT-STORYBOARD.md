@@ -108,4 +108,6 @@ Tulis satu file config, render narasi, jalankan npm run cek. Jangan render video
 
 > Bila menambah template/jenis bagian di repo, perbarui prompt ini
 > (sumber kebenaran: `src/templates/KontenHarian.ts`, `src/templates/PromoProyek.ts`).
+> Visual 3D mendekati nyata (kamera masuk ke dalam benda, label menempel): scene manual `world` — tulis di brief
+> "pakai scene world", sebutkan benda apa saja yang tampil dan urutan kamera (lihat *Dunia 3D* di `docs/KATALOG-SCENE.md`).
 > Scene manual & template lama (appLaunch, socialMediaShort, dst.): lihat `docs/MEMBUAT-VIDEO.md`.

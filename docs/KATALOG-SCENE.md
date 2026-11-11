@@ -35,6 +35,7 @@ Sebagian besar scene juga menerima **judul standar**: `eyebrow`, `title`, `highl
 | `words` | `words` (kalimat atau `[{text, highlight?, at?}]`) `accent?[]` `interval?` `flash?` `caption?` | **Satu kata per ketukan** memenuhi layar: menghentak masuk (skala + blur), dorongan pelan, dipotong kata berikutnya; kata sorotan (`accent`) bergradien + latar berkedip warna brand (`flash: false` = mati). Bernarasi → tiap kata muncul **tepat saat diucapkan** (otomatis dicocokkan). Default dibagi rata sepanjang `duration` (≈ 1 kata/dtk bila durasi = jumlah kata). Bunyi tick per kata, dentum untuk kata sorotan. |
 | `broll` | `src` atau `shots[] {src, move?, focus?, caption?, duration?, startFrom?}` `move?` `textPosition?` `dim?` `volume?` + judul standar | **Foto/video b-roll layar penuh** dengan gerak kamera Ken Burns: `zoomIn` `zoomOut` `panLeft` `panRight` `panUp` `panDown` `none` atau `auto` (bergiliran). `focus: [x, y]` (0..1) = titik pusat zoom. Beberapa `shots` = montase dengan crossfade + swipe. Judul putih di atas scrim gelap (`dim` 0..1, `textPosition` `bottom`/`center`/`top`); `caption` = label lokasi kiri atas. Video (mp4/webm/mov) senyap kecuali `volume`. |
 | `map` | `region?` `points[] {place? \| lat+lon, label?, value?, icon?, at?}` `routes[] {from, to, at?}` `countries?[]` `zoomToPoints?` + judul standar | **Peta beranimasi** (Natural Earth): daratan tersingkap melingkar, kamera terbang ke area pin, pin jatuh memantul + denyut, label (anti-tabrakan) dengan nilai, rute melengkung tergambar + titik mengalir. `region`: `indonesia` (default) `sumatra` `jawa` `kalimantan` `sulawesi` `bali-nusra` `maluku` `papua` `asean` `asia` `world` atau bbox `[barat, selatan, timur, utara]`. `place` = kota bawaan (±100: semua ibu kota provinsi & kota besar Indonesia, ASEAN, kota dunia — `src/components/map/places.ts`). `countries` = negara diwarnai (nama Inggris, mis. `'Malaysia'`); wilayah Indonesia otomatis menyorot Indonesia. |
+| `world` | `objects[]` `views?` `shots[]` `labels?[]` `cards?[]` `ground?` `sky?` `note?` + judul standar | **Dunia 3D** (WebGL): objek nyata + kamera yang terbang antar sudut pandang, tembus pandang ke dalam objek, bagian bergerak, label menempel. Lihat bagian *Dunia 3D* di bawah. |
 
 Semua scene juga menerima `narration` (teks voice-over), `emphasis[]` (kata disorot di subtitle) dan `chapter {label?, title, highlight?}` (header bab). `at` = detik **atau kata narasi** (mis. `'higrometer'`, `'alat#2'`). Lihat `docs/EXPLAINER.md`.
 
@@ -52,7 +53,7 @@ Semua scene juga menerima `narration` (teks voice-over), `emphasis[]` (kata diso
 `notifications[]`: `{ icon?, app?, title, body?, time? }` — muncul berurutan di atas perangkat.
 
 ## Durasi default (detik)
-logo 3 · hero 4 · mascot 4 · features 5 · stats 4 · chart 5 · comparison 5 · timeline 5 · device 5 · calculation 5 · testimonial 4.5 · cta 4 · question 5 · relation 5 · statement 5 · words 4 · broll 5 · map 6 (scene bernarasi: mengikuti panjang suara)
+logo 3 · hero 4 · mascot 4 · features 5 · stats 4 · chart 5 · comparison 5 · timeline 5 · device 5 · calculation 5 · testimonial 4.5 · cta 4 · question 5 · relation 5 · statement 5 · words 4 · broll 5 · map 6 · world 8 (scene bernarasi: mengikuti panjang suara)
 
 ## Efek suara (SFX)
 Semua video otomatis punya efek suara halus (file sintetis di `public/sfx/`, dibuat `node scripts/build-sfx.mjs`):
@@ -125,3 +126,35 @@ Setiap field ikon (`features[].icon`, `timeline.steps[].icon`, `list.items[].ico
 - Nama ikon garis: `check` `check-circle` `x` `x-circle` `arrow-right` `cart` `bag` `bank` `crane` `factory` `target` `bell` `search` `bar-chart` `trending-up` `edit` `file` `receipt` `wallet` `heart` `bot` `flask` `hash` `link` `lock` `phone` `book` `briefcase` `lightbulb` `users` `user` `film` `palette` `scissors` `zap` `coffee` `star` `sparkles` `rocket` `shield` `clock` `calendar` `gift` `mail` `home` `settings` `globe` `money` `dollar` `percent` `tag` `truck` `camera` `chat` `megaphone` `trophy` `flame` `play` `download` `eye` `map-pin` `smile` `thumbs-up` `info` `alert` `question` `sun` `moon` `leaf` `cloud` `graduation` `music` `package` `scan` `calculator`.
 - Pemetaan emoji: `EMOJI_ICONS` di `src/components/icons/library.ts`. Waktu & amplitudo: `ICON_ANIMATION`, `ICON_IDLE` di `src/config/animation.ts`.
 - Contoh: video `Demo-Ikon` (`src/projects/_demos/index.ts`); contoh Lottie `public/lottie/pulse.json`.
+
+## Dunia 3D (`world`)
+Untuk penjelasan "cara kerja" yang butuh visual mendekati nyata: satu dunia berisi objek, kamera masuk ke dalamnya.
+Contoh lengkap: `src/projects/_demos/dunia.ts` (video `Demo-Dunia3D`). Satuan **meter**; sumbu `[x kanan, y atas, z ke penonton]`.
+
+- **`objects[]`** — tiap objek: `shape` + `id?` `pos?` `rotate?` (derajat) `scale?` `color?` (hex atau token tema: `primary` `accent`
+  `muted` `surface` `danger` `success` …) `opacity?` `showAt?` `hideAt?` `motion?[]` `children?[]` (anak ikut induk).
+
+| `shape` | Properti | Catatan |
+|---|---|---|
+| `box` `cylinder` `sphere` `cone` `torus` `tube` | `size` / `radius` `height` `radiusTop?` / `tube` `arc?` / `path[]`; `axis?` | bentuk dasar untuk merakit benda apa pun |
+| `gear` `fan` | `radius` `teeth?` `thickness?` / `blades?`; `axis?` | bagian mesin; beri `motion: [{ type: 'spin' }]` |
+| `flow` | `path[]` `count?` `speed?` `size?` `closed?` `at?` `stopAt?` | butiran mengalir sepanjang jalur (oli, uang, data, listrik) |
+| `car` | `variant?: 'suv' \| 'sedan'` `brake?` | ±4,4 m, depan = +z |
+| `road` | `length` `lanes?` `laneWidth?` `curb?` | memanjang sumbu z, trotoar bergaris |
+| `trafficLight` | `light?` `changes?[] {to, at}` | lampu berganti saat cue |
+| `building` `house` `tree` `person` `coins` | `size` (building) · `count?` (coins) | ukuran nyata; atur dengan `scale` |
+| `group` | — | hanya pembungkus `children` |
+
+- **`motion[]`** — `spin {axis?, speed? (putaran/dtk), at?, stopAt?}` · `bob {amount?, period?}` · dan perubahan saat cue:
+  `move {to, at}` `turn {to, at}` `scale {to, at}` `fade {to, at}` `color {to, at}` (`duration?` default 0,7 dtk).
+- **`views`** + **`shots[]`** — `view`: `{ target (id objek atau [x,y,z]), distance, azimuth? (0 = depan, 90 = kanan), elevation?, fov? }`.
+  Shot pertama = posisi awal; shot berikutnya kamera **terbang** saat `at` (`duration?` 1,2 dtk, blur gerak otomatis).
+  `drift?` = orbit pelan selama diam (default 7°). `xray: ['id']` = badan objek itu tembus pandang selama shot (anaknya tetap utuh).
+- **`labels[]`** — `{ target, text, color?, at?, hideAt?, side? }`: pil + garis penunjuk yang menempel di objek dan ikut kamera.
+- **`cards[]`** — `{ tag?, text, source?, color?, at?, hideAt? }`: kartu keterangan/sumber di bawah judul.
+- `ground` (`true`/`false`/warna), `sky` (warna latar), `note` (strip kecil, mis. "Ilustrasi · bukan skala").
+- **Dunia bersambung lintas scene** (tiap scene satu kalimat narasi): simpan `objects` + `views` di satu konstanta, pakai di semua
+  scene dengan `transition: 'none'`, dan mulai tiap scene dari `view` terakhir scene sebelumnya. Putaran/aliran tanpa `at` tetap mulus.
+- Suara otomatis: `whooshSoft` saat kamera terbang, `pop` per label, `tick` per kartu.
+- Render memakai WebGL perangkat lunak (`swangle`, sudah diatur): ±3–4× lebih lambat dari scene 2D. Mesin ber-GPU: `REMOTION_GL=angle`.
+- Batas saat ini: benda dirakit dari bentuk dasar/objek jadi (belum memuat model `.glb`). Tema terang paling cocok.
