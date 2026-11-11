@@ -12,6 +12,11 @@ Perubahan framework yang memengaruhi semua video. Entri terbaru di atas.
 - `npm run model -- <file.glb>` — daftar nama bagian & material; `npm run cek` memeriksa file `.glb` ada.
 - Pantulan lingkungan netral di semua scene `world` agar bahan mengilap tidak tampak hitam.
 
+### Catatan
+- `Demo-Dunia3D` kini bernarasi (Ardi HD): kamera, tembus pandang, gerak kap dan label dipicu kata narasi.
+- Kecepatan render terukur ada di `docs/KATALOG-SCENE.md` → *Kecepatan render*: model detail ±9× lebih lambat dari objek
+  sederhana, dan mengurangi jumlah salinan model tidak membantu. Pengecilan model belum dikerjakan.
+
 ## 2026-11-11 — Scene `world`: dunia 3D
 
 Tujuan: visual mendekati nyata untuk penjelasan "cara kerja" — kamera masuk ke dalam benda, bukan kartu berganti.

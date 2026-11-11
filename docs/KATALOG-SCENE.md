@@ -129,7 +129,7 @@ Setiap field ikon (`features[].icon`, `timeline.steps[].icon`, `list.items[].ico
 
 ## Dunia 3D (`world`)
 Untuk penjelasan "cara kerja" yang butuh visual mendekati nyata: satu dunia berisi objek, kamera masuk ke dalamnya.
-Contoh lengkap: `src/projects/_demos/dunia.ts` (video `Demo-Dunia3D`). Satuan **meter**; sumbu `[x kanan, y atas, z ke penonton]`.
+Contoh lengkap bernarasi: `src/projects/_demos/dunia.ts` (video `Demo-Dunia3D`). Satuan **meter**; sumbu `[x kanan, y atas, z ke penonton]`.
 
 - **`objects[]`** — tiap objek: `shape` + `id?` `pos?` `rotate?` (derajat) `scale?` `color?` (hex atau token tema: `primary` `accent`
   `muted` `surface` `danger` `success` …) `opacity?` `showAt?` `hideAt?` `motion?[]` `children?[]` (anak ikut induk).
@@ -157,7 +157,7 @@ Contoh lengkap: `src/projects/_demos/dunia.ts` (video `Demo-Dunia3D`). Satuan **
 - **Dunia bersambung lintas scene** (tiap scene satu kalimat narasi): simpan `objects` + `views` di satu konstanta, pakai di semua
   scene dengan `transition: 'none'`, dan mulai tiap scene dari `view` terakhir scene sebelumnya. Putaran/aliran tanpa `at` tetap mulus.
 - Suara otomatis: `whooshSoft` saat kamera terbang, `pop` per label, `tick` per kartu.
-- Render memakai WebGL perangkat lunak (`swangle`, sudah diatur): ±3–4× lebih lambat dari scene 2D. Mesin ber-GPU: `REMOTION_GL=angle`.
+- Render memakai WebGL perangkat lunak (`swangle`, sudah diatur). Mesin ber-GPU: `REMOTION_GL=angle`.
 - Tema terang paling cocok.
 
 ### Model `.glb`
@@ -173,4 +173,23 @@ dalam meter (mobil ±4,5); model otomatis ditaruh di tengah dengan alas di lanta
   relatif posisi asli dalam satuan model; juga `spin` `fade` `color`). Entri belakang menimpa entri depan.
 - Label/kamera ke bagian model: beri anak `{ id: 'mesin', shape: 'group', pos: [...] }` sebagai jangkar.
 - Kaca `transmission` dirender sebagai transparansi biasa. File masuk git biasa (jangan di `media/`); model besar memperlambat
-  render (terukur di sesi cloud tanpa GPU: demo 14,5 dtk dengan 3 mobil ±11 MB = 27 menit pada skala 0,5, ±9× lebih lambat dari objek kotak; pakai satu model detail dan objek sederhana untuk latar). Model baru: catat sumber & lisensi di `public/models/CREDITS.md`.
+  render — lihat *Kecepatan render* di bawah. Model baru: catat sumber & lisensi di `public/models/CREDITS.md`.
+
+### Kecepatan render (terukur, sesi cloud tanpa GPU, skala 0,5)
+| Isi dunia | Video | Waktu render |
+|---|---|---|
+| Objek sederhana saja (kotak, `car`, `road`, …) | 14,5 dtk | ±3 menit |
+| 3 × `car-concept.glb` | 14,5 dtk | ±27 menit |
+| 1 × `car-concept.glb` + objek sederhana, bernarasi | 16 dtk | ±26 menit |
+
+- Yang berat adalah **model detail itu sendiri** (poligon + tekstur), bukan jumlah salinannya: mengurangi 3 mobil jadi 1 tidak mempercepat.
+- Belum dikerjakan: mengecilkan model (tekstur lebih kecil, poligon lebih sedikit) — langkah berikutnya bila render perlu cepat.
+- Selama itu: render scene `world` ber-model di latar dengan batas waktu panjang, dan uji tata letak dulu dengan
+  `npx remotion still <ID> out/x.jpg --frame=<n> --scale=0.5` (±15 dtk per frame).
+
+### Status & catatan (2026-11-11)
+- Sudah terbukti di `Demo-Dunia3D`: kamera terbang, tembus pandang dengan bagian `solid`, ganti cat lewat `material`,
+  gerak bagian (`move` kap), label + kartu, dan **cue kata narasi** untuk `shots[].at`, `labels[].at`, `cards[].at`, `parts[].motion[].at`.
+- Belum diuji: `spin` pada bagian model (roda), `turn` pada bagian yang pivotnya di titik asal model (kap `car-concept` — pakai `move`).
+- Label hanya bisa menunjuk `id` objek atau koordinat; untuk bagian model beri anak `group` ber-`id` sebagai jangkar.
+- Belum ada: HUD khusus topik (mis. indikator P-R-N-D), model mobil harian, pengecilan model.

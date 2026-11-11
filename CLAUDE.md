@@ -35,6 +35,8 @@ Yang boleh diubah untuk tugas video: `src/projects/**`, `public/brands/<brand>/`
 - Key Azure (region `southeastasia`) adalah network secret di environment cloud **video-remotion**; `proxy-injected` hanya
   placeholder. Di environment lain → 401: minta pengguna pindah environment (jangan minta key ditempel di chat).
 - Render: tambahkan `--browser-executable=/opt/pw-browsers/chromium` (unduhan Chrome diblokir).
+- Scene `world` ber-model `.glb` lambat dirender (16 dtk video ≈ 26 menit di skala 0,5): jalankan di latar dengan batas waktu
+  panjang, dan cek tata letak dulu dengan `npx remotion still` (angka & status: `docs/KATALOG-SCENE.md` → *Kecepatan render*).
 
 ## Aset
 - Audio/video/file desain dan isi `public/**/media/` otomatis Git LFS — **upload LFS diblokir dari sesi cloud**.
