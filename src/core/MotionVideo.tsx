@@ -86,6 +86,7 @@ export const MotionVideo: React.FC<MotionVideoProps> = ({ config }) => {
       return {
         index: i,
         frames: entry.frames,
+        from: entry.from,
         // Scene terlalu pendek: lewati animasi keluar.
         exitStart: exitOn && exitStart > fps ? exitStart : null,
         energy,

@@ -7,6 +7,8 @@ Repo ini **framework animasi**, bukan satu video. Video baru = **satu file data*
    - Iklan sebuah proyek/aplikasi → `promoProyek` (`src/templates/PromoProyek.ts`), contoh `src/projects/price-atlas/iklan.ts`.
    - Konten harian topik apa pun (keuangan, politik, sosial, tips, data) → `kontenHarian` (`src/templates/KontenHarian.ts`),
      contoh `src/projects/harian/tips-gaji.ts`.
+   - Penjelasan "cara kerja" dengan visual 3D mendekati nyata → scene `world` (bagian *Dunia 3D* di `docs/KATALOG-SCENE.md`,
+     contoh `src/projects/_demos/dunia.ts`).
    - Alur khusus → scene manual `defineVideo` (kontrak: `src/scenes/types.ts`; contoh `src/projects/soal-skd/bedah-analogi.ts`).
 2. Tulis `src/projects/<brand>/<video>.ts` yang `export default` hasil template. **Tidak perlu mendaftarkan** (registry otomatis)
    dan **tidak perlu mengimpor** `*.narration.json` (dipasang otomatis).
@@ -44,7 +46,7 @@ Yang boleh diubah untuk tugas video: `src/projects/**`, `public/brands/<brand>/`
 
 ## Mengubah framework (hanya bila diminta animasi/efek/scene/template baru)
 Framework sudah punya: kamera + idle + animasi keluar, tipografi kinetik, 15 transisi + `mix`, ikon tergambar/Lottie, SFX otomatis, musik latar, watermark,
-18 tipe scene, narasi + subtitle. Sebelum menambah apa pun baca `docs/KATALOG-SCENE.md` (apa yang ada) dan `docs/MEMPERLUAS.md` (cara menambah).
+19 tipe scene (termasuk `world` = dunia 3D: kamera terbang, tembus pandang, label menempel), narasi + subtitle. Sebelum menambah apa pun baca `docs/KATALOG-SCENE.md` (apa yang ada) dan `docs/MEMPERLUAS.md` (cara menambah).
 - Pasang di level framework agar semua video ikut; properti baru harus **opsional** dengan default aman (config lama tetap valid).
 - Warna dari `useTheme()`, ukuran via `px()`, tanpa angka spring mentah, waktu dalam detik, deterministik dari `useCurrentFrame()`
   (tanpa `Math.random()`/`Date`), tidak mengganggu keterbacaan teks. Hindari transisi shader (rawan gagal render).

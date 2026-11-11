@@ -18,6 +18,7 @@ export const DEFAULT_SCENE_DURATION: Record<string, number> = {
   words: 4,
   broll: 5,
   map: 6,
+  world: 8,
 };
 
 /** Durasi minimum satu scene (detik) setelah penskalaan durasi total. */

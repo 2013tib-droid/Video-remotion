@@ -63,6 +63,7 @@ for (const [i, composition] of selected.entries()) {
       outputLocation: output,
       scale,
       browserExecutable,
+      chromiumOptions: { gl: process.env.REMOTION_GL ?? 'swangle' },
       onProgress: ({ progress }) => {
         const pct = Math.floor(progress * 10) * 10;
         if (pct !== last) process.stdout.write(`${(last = pct)}% `);
