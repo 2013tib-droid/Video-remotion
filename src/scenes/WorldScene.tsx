@@ -2,6 +2,8 @@ import React, { useMemo } from 'react';
 import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
 import { ThreeCanvas } from '@remotion/three';
 import * as THREE from 'three';
+import { useThree } from '@react-three/fiber';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { SPRINGS } from '../config';
 import { WORLD_TIMING, cameraAt, cameraPosition, evaluateWorld, type CameraPose } from '../components/world/evaluate';
 import { WorldNodeView, type WorldPalette } from '../components/world/shapes';
@@ -23,6 +25,15 @@ const Stage: React.FC<{ pose: CameraPose; sky: string; ground: string | null }> 
     l.shadow.normalBias = 0.03;
     return l;
   }, []);
+  // Pantulan lingkungan netral: bahan mengilap model `.glb` (cat, krom, kaca) tidak tampak hitam.
+  const gl = useThree((s) => s.gl);
+  const scene3 = useThree((s) => s.scene);
+  useMemo(() => {
+    const pmrem = new THREE.PMREMGenerator(gl);
+    scene3.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+    scene3.environmentIntensity = 0.55;
+    pmrem.dispose();
+  }, [gl, scene3]);
   const ext = Math.min(70, Math.max(2.5, pose.distance * 0.75));
   light.position.copy(pose.target).add(new THREE.Vector3(0.55, 1, 0.45).multiplyScalar(ext * 2.2));
   light.target.position.copy(pose.target);

@@ -41,12 +41,12 @@ Yang boleh diubah untuk tugas video: `src/projects/**`, `public/brands/<brand>/`
   Aset kecil yang harus ikut push taruh di luar `media/`. `public/narration/**`, `public/sfx/**`, `public/music/**` file git biasa.
 
 ## Perintah
-`npm run cek` · `npm run typecheck` · `npm run narasi -- <ID|config.ts>` · `npm run studio` · `npm run render:list` ·
+`npm run cek` · `npm run typecheck` · `npm run narasi -- <ID|config.ts>` · `npm run model -- <file.glb>` (nama bagian model 3D) · `npm run studio` · `npm run render:list` ·
 `npm run render:all -- <filter> [--scale=0.5]` · `npx remotion render <ID> out/<ID>.mp4`
 
 ## Mengubah framework (hanya bila diminta animasi/efek/scene/template baru)
 Framework sudah punya: kamera + idle + animasi keluar, tipografi kinetik, 15 transisi + `mix`, ikon tergambar/Lottie, SFX otomatis, musik latar, watermark,
-19 tipe scene (termasuk `world` = dunia 3D: kamera terbang, tembus pandang, label menempel), narasi + subtitle. Sebelum menambah apa pun baca `docs/KATALOG-SCENE.md` (apa yang ada) dan `docs/MEMPERLUAS.md` (cara menambah).
+19 tipe scene (termasuk `world` = dunia 3D: kamera terbang, tembus pandang, label menempel, model `.glb`), narasi + subtitle. Sebelum menambah apa pun baca `docs/KATALOG-SCENE.md` (apa yang ada) dan `docs/MEMPERLUAS.md` (cara menambah).
 - Pasang di level framework agar semua video ikut; properti baru harus **opsional** dengan default aman (config lama tetap valid).
 - Warna dari `useTheme()`, ukuran via `px()`, tanpa angka spring mentah, waktu dalam detik, deterministik dari `useCurrentFrame()`
   (tanpa `Math.random()`/`Date`), tidak mengganggu keterbacaan teks. Hindari transisi shader (rawan gagal render).

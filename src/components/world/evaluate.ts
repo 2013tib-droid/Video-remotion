@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { EASINGS } from '../../config';
-import type { Cue, Vec3, WorldMotion, WorldObject, WorldShot, WorldView } from '../../scenes/types';
+import type { Cue, Vec3, WorldModelPart, WorldMotion, WorldObject, WorldShot, WorldView } from '../../scenes/types';
 
 /** Angka gerak dunia 3D (detik / derajat). */
 export const WORLD_TIMING = {
@@ -29,8 +29,19 @@ export interface WorldNode {
   color?: string;
   opacity: number;
   /** Nilai turunan per bentuk (fase aliran, lampu menyala). */
-  extra: { phase?: number; light?: string };
+  extra: { phase?: number; light?: string; parts?: WorldPartState[] };
   children: WorldNode[];
+}
+
+/** Keadaan satu entri `parts` model pada frame ini. */
+export interface WorldPartState {
+  part: WorldModelPart;
+  /** Geser (satuan model), putar (radian) dan skala relatif keadaan asli bagian. */
+  offset: Vec3;
+  rotation: Vec3;
+  scale: number;
+  color?: string;
+  opacity: number;
 }
 
 const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
@@ -126,6 +137,22 @@ export function evaluateWorld(
     }
 
     const extra: WorldNode['extra'] = {};
+    if (o.shape === 'model') {
+      extra.parts = (o.parts ?? []).map((part) => {
+        const pm = part.motion ?? [];
+        const d = tween<Vec3>(pm, 'turn', [0, 0, 0], t, cue, lerp3, (v: Vec3) => v);
+        const r: Vec3 = [rad(d[0]), rad(d[1]), rad(d[2])];
+        for (const m of pm) if (m.type === 'spin') r[AXIS[m.axis ?? 'x']] += running(t, abs, cue, m.at, m.stopAt) * (m.speed ?? 0.5) * Math.PI * 2;
+        return {
+          part,
+          offset: tween<Vec3>(pm, 'move', [0, 0, 0], t, cue, lerp3, (v: Vec3) => v),
+          rotation: r,
+          scale: tween<number>(pm, 'scale', 1, t, cue, lerp, (v: number) => v),
+          color: tween<string | undefined>(pm, 'color', color(part.color), t, cue, mixColor, (v: string) => color(v)),
+          opacity: tween<number>(pm, 'fade', part.hidden ? 0 : (part.opacity ?? 1), t, cue, lerp, (v: number) => v),
+        };
+      });
+    }
     if (o.shape === 'flow') extra.phase = running(t, abs, cue, o.at, o.stopAt) * (o.speed ?? 0.25);
     if (o.shape === 'trafficLight') {
       extra.light = o.light ?? 'red';

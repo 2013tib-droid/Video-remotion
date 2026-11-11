@@ -14,34 +14,42 @@ const objects: WorldObject[] = [
   { shape: 'tree', pos: [7.4, 0, -6], scale: 0.85 },
   { shape: 'person', pos: [7, 0, 1], rotate: [0, -90, 0] },
   {
+    // Model .glb nyata; nama bagian dari `npm run model -- public/models/car-concept.glb`.
     id: 'mobil',
-    shape: 'car',
+    shape: 'model',
+    src: 'models/car-concept.glb',
+    size: 4.5,
     pos: [-1.7, 0, 2],
-    brake: true,
-    children: [
-      {
-        id: 'mesin',
-        shape: 'box',
-        size: [0.8, 0.42, 0.62],
-        pos: [0, 0.68, 1.5],
-        color: 'muted',
-        children: [
-          { id: 'roda-gigi', shape: 'gear', radius: 0.2, axis: 'z', pos: [0, 0, 0.36], color: 'accent', motion: [{ type: 'spin', speed: 0.8 }] },
-          { shape: 'gear', radius: 0.13, teeth: 9, axis: 'z', pos: [0.31, 0.08, 0.36], color: 'primary', motion: [{ type: 'spin', speed: -1.24 }] },
-        ],
-      },
-      {
-        shape: 'flow',
-        path: [[0.3, 0.55, 1.3], [0.55, 0.45, 0.4], [0.55, 0.42, -1.2]],
-        count: 7,
-        size: 0.04,
-        speed: 0.45,
-      },
+    parts: [
+      { name: 'Engine', solid: true },
+      { name: 'Wheel*', solid: true },
+      { name: 'License Plate', hidden: true },
     ],
+    children: [{ id: 'mesin', shape: 'group', pos: [0, 0.6, 1.2] }],
   },
-  { shape: 'car', variant: 'sedan', pos: [1.7, 0, -4.5], color: '#e9e6df', brake: true },
-  { shape: 'car', pos: [-1.7, 0, -5.5], color: '#6f7783', brake: true },
+  // Model yang sama, cat berbeda (cocokkan lewat nama material).
+  {
+    shape: 'model',
+    src: 'models/car-concept.glb',
+    size: 4.5,
+    pos: [1.7, 0, -4.5],
+    parts: [{ material: 'Paint 1*', color: '#e9e6df' }, { name: 'License Plate', hidden: true }],
+  },
+  {
+    shape: 'model',
+    src: 'models/car-concept.glb',
+    size: 4.5,
+    pos: [-1.7, 0, -5.5],
+    parts: [{ material: 'Paint 1*', color: '#3d5a80' }, { name: 'License Plate', hidden: true }],
+  },
 ];
+
+/** Dunia yang sama, tetapi kap mobil utama terangkat pada detik 1,2. */
+const withHood: WorldObject[] = objects.map((o) =>
+  o.id === 'mobil' && o.shape === 'model'
+    ? { ...o, parts: [...(o.parts ?? []), { name: 'BodyHood', motion: [{ type: 'move', to: [0, 0.55, 0], at: 1.2, duration: 1 }] }] }
+    : o,
+);
 
 const views: Record<string, WorldView> = {
   jalan: { target: [0, 1.2, 1], distance: 30, azimuth: 205, elevation: 30 },
@@ -71,9 +79,10 @@ export default defineVideo({
       transition: 'none',
       title: 'Tembus pandang ke dalam mesin.',
       highlight: 'Tembus pandang',
-      objects,
       views,
       shots: [{ view: 'mobil' }, { view: 'mesin', at: 0.6, duration: 1.6, xray: ['mobil'] }],
+      // Bagian model bisa digerakkan per scene: kap terangkat saat kamera masuk.
+      objects: withHood,
       labels: [
         { target: 'roda-gigi', text: 'Bagian berputar', at: 2.6 },
         { target: [-1.15, 0.45, 1.2], text: 'Aliran', at: 3.4, color: 'danger' },
