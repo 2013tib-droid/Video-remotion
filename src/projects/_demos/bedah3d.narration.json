@@ -1,0 +1,600 @@
+{
+ "clips": {
+  "bd05012c": {
+   "src": "narration/Demo-Bedah3D/bd05012c.mp3",
+   "duration": 1.968,
+   "words": [
+    {
+     "w": "Video",
+     "start": 0.07,
+     "end": 0.393
+    },
+    {
+     "w": "ini",
+     "start": 0.393,
+     "end": 0.608
+    },
+    {
+     "w": "dibuat",
+     "start": 0.608,
+     "end": 0.93
+    },
+    {
+     "w": "dari",
+     "start": 0.93,
+     "end": 1.145
+    },
+    {
+     "w": "satu",
+     "start": 1.145,
+     "end": 1.36
+    },
+    {
+     "w": "file",
+     "start": 1.36,
+     "end": 1.575
+    },
+    {
+     "w": "data.",
+     "start": 1.575,
+     "end": 1.79
+    }
+   ]
+  },
+  "aa972b46": {
+   "src": "narration/Demo-Bedah3D/aa972b46.mp3",
+   "duration": 3.768,
+   "words": [
+    {
+     "w": "Tiap",
+     "start": 0.07,
+     "end": 0.294
+    },
+    {
+     "w": "adegan",
+     "start": 0.294,
+     "end": 0.63
+    },
+    {
+     "w": "satu",
+     "start": 0.63,
+     "end": 0.854
+    },
+    {
+     "w": "kalimat,",
+     "start": 0.854,
+     "end": 1.19
+    },
+    {
+     "w": "dan",
+     "start": 1.32,
+     "end": 1.472
+    },
+    {
+     "w": "kamera",
+     "start": 1.472,
+     "end": 1.928
+    },
+    {
+     "w": "terbang",
+     "start": 1.928,
+     "end": 2.232
+    },
+    {
+     "w": "ke",
+     "start": 2.232,
+     "end": 2.384
+    },
+    {
+     "w": "tempat",
+     "start": 2.384,
+     "end": 2.688
+    },
+    {
+     "w": "yang",
+     "start": 2.688,
+     "end": 2.84
+    },
+    {
+     "w": "sedang",
+     "start": 2.84,
+     "end": 3.144
+    },
+    {
+     "w": "dibahas.",
+     "start": 3.144,
+     "end": 3.6
+    }
+   ]
+  },
+  "1fe66aeb": {
+   "src": "narration/Demo-Bedah3D/1fe66aeb.mp3",
+   "duration": 3.96,
+   "words": [
+    {
+     "w": "Lampu",
+     "start": 0.08,
+     "end": 0.357
+    },
+    {
+     "w": "berganti",
+     "start": 0.357,
+     "end": 0.772
+    },
+    {
+     "w": "hijau",
+     "start": 0.772,
+     "end": 1.048
+    },
+    {
+     "w": "saat",
+     "start": 1.048,
+     "end": 1.325
+    },
+    {
+     "w": "disebut,",
+     "start": 1.325,
+     "end": 1.74
+    },
+    {
+     "w": "dan",
+     "start": 1.93,
+     "end": 2.072
+    },
+    {
+     "w": "tetap",
+     "start": 2.072,
+     "end": 2.355
+    },
+    {
+     "w": "hijau",
+     "start": 2.355,
+     "end": 2.638
+    },
+    {
+     "w": "di",
+     "start": 2.638,
+     "end": 2.779
+    },
+    {
+     "w": "adegan",
+     "start": 2.779,
+     "end": 3.204
+    },
+    {
+     "w": "berikutnya.",
+     "start": 3.204,
+     "end": 3.77
+    }
+   ]
+  },
+  "c109e223": {
+   "src": "narration/Demo-Bedah3D/c109e223.mp3",
+   "duration": 3.144,
+   "words": [
+    {
+     "w": "Mobil",
+     "start": 0.07,
+     "end": 0.41
+    },
+    {
+     "w": "bisa",
+     "start": 0.41,
+     "end": 0.75
+    },
+    {
+     "w": "maju,",
+     "start": 0.75,
+     "end": 1.09
+    },
+    {
+     "w": "lalu",
+     "start": 1.29,
+     "end": 1.57
+    },
+    {
+     "w": "berhenti",
+     "start": 1.57,
+     "end": 1.99
+    },
+    {
+     "w": "di",
+     "start": 1.99,
+     "end": 2.13
+    },
+    {
+     "w": "posisi",
+     "start": 2.13,
+     "end": 2.55
+    },
+    {
+     "w": "barunya.",
+     "start": 2.55,
+     "end": 2.97
+    }
+   ]
+  },
+  "add9758e": {
+   "src": "narration/Demo-Bedah3D/add9758e.mp3",
+   "duration": 2.904,
+   "words": [
+    {
+     "w": "Kap",
+     "start": 0.08,
+     "end": 0.212
+    },
+    {
+     "w": "terangkat,",
+     "start": 0.212,
+     "end": 0.606
+    },
+    {
+     "w": "bodi",
+     "start": 0.606,
+     "end": 0.869
+    },
+    {
+     "w": "dibuat",
+     "start": 0.869,
+     "end": 1.264
+    },
+    {
+     "w": "tembus",
+     "start": 1.264,
+     "end": 1.526
+    },
+    {
+     "w": "pandang,",
+     "start": 1.526,
+     "end": 1.789
+    },
+    {
+     "w": "dan",
+     "start": 1.789,
+     "end": 1.921
+    },
+    {
+     "w": "mesinnya",
+     "start": 1.921,
+     "end": 2.315
+    },
+    {
+     "w": "terlihat.",
+     "start": 2.315,
+     "end": 2.71
+    }
+   ]
+  },
+  "eff4f85d": {
+   "src": "narration/Demo-Bedah3D/eff4f85d.mp3",
+   "duration": 4.368,
+   "words": [
+    {
+     "w": "Bagian",
+     "start": 0.08,
+     "end": 0.5
+    },
+    {
+     "w": "yang",
+     "start": 0.5,
+     "end": 0.64
+    },
+    {
+     "w": "tadinya",
+     "start": 0.64,
+     "end": 1.06
+    },
+    {
+     "w": "tersembunyi",
+     "start": 1.06,
+     "end": 1.62
+    },
+    {
+     "w": "bisa",
+     "start": 1.62,
+     "end": 1.9
+    },
+    {
+     "w": "muncul,",
+     "start": 1.9,
+     "end": 2.18
+    },
+    {
+     "w": "misalnya",
+     "start": 2.51,
+     "end": 2.902
+    },
+    {
+     "w": "aliran",
+     "start": 2.902,
+     "end": 3.295
+    },
+    {
+     "w": "dari",
+     "start": 3.295,
+     "end": 3.556
+    },
+    {
+     "w": "mesin",
+     "start": 3.556,
+     "end": 3.818
+    },
+    {
+     "w": "ke",
+     "start": 3.818,
+     "end": 3.948
+    },
+    {
+     "w": "roda.",
+     "start": 3.948,
+     "end": 4.21
+    }
+   ]
+  },
+  "7621675f": {
+   "src": "narration/Demo-Bedah3D/7621675f.mp3",
+   "duration": 3.96,
+   "words": [
+    {
+     "w": "Kartu",
+     "start": 0.07,
+     "end": 0.363
+    },
+    {
+     "w": "keterangan",
+     "start": 0.363,
+     "end": 0.949
+    },
+    {
+     "w": "dan",
+     "start": 0.949,
+     "end": 1.095
+    },
+    {
+     "w": "sumber",
+     "start": 1.095,
+     "end": 1.388
+    },
+    {
+     "w": "muncul",
+     "start": 1.388,
+     "end": 1.681
+    },
+    {
+     "w": "di",
+     "start": 1.681,
+     "end": 1.827
+    },
+    {
+     "w": "atas,",
+     "start": 1.827,
+     "end": 2.12
+    },
+    {
+     "w": "tanpa",
+     "start": 2.52,
+     "end": 2.798
+    },
+    {
+     "w": "menutupi",
+     "start": 2.798,
+     "end": 3.353
+    },
+    {
+     "w": "objeknya.",
+     "start": 3.353,
+     "end": 3.77
+    }
+   ]
+  },
+  "73b75a88": {
+   "src": "narration/Demo-Bedah3D/73b75a88.mp3",
+   "duration": 4.776,
+   "words": [
+    {
+     "w": "Scene",
+     "start": 0.08,
+     "end": 0.402
+    },
+    {
+     "w": "biasa,",
+     "start": 0.402,
+     "end": 0.885
+    },
+    {
+     "w": "seperti",
+     "start": 0.885,
+     "end": 1.368
+    },
+    {
+     "w": "grafik,",
+     "start": 1.368,
+     "end": 1.69
+    },
+    {
+     "w": "angka,",
+     "start": 1.87,
+     "end": 2.29
+    },
+    {
+     "w": "atau",
+     "start": 2.4,
+     "end": 2.72
+    },
+    {
+     "w": "teks",
+     "start": 2.72,
+     "end": 2.88
+    },
+    {
+     "w": "besar,",
+     "start": 2.88,
+     "end": 3.2
+    },
+    {
+     "w": "bisa",
+     "start": 3.42,
+     "end": 3.682
+    },
+    {
+     "w": "disisipkan",
+     "start": 3.682,
+     "end": 4.207
+    },
+    {
+     "w": "di",
+     "start": 4.207,
+     "end": 4.338
+    },
+    {
+     "w": "tengah.",
+     "start": 4.338,
+     "end": 4.6
+    }
+   ]
+  },
+  "15022a4f": {
+   "src": "narration/Demo-Bedah3D/15022a4f.mp3",
+   "duration": 3.36,
+   "words": [
+    {
+     "w": "Setelah",
+     "start": 0.08,
+     "end": 0.65
+    },
+    {
+     "w": "itu,",
+     "start": 0.65,
+     "end": 1.03
+    },
+    {
+     "w": "dunia",
+     "start": 1.12,
+     "end": 1.442
+    },
+    {
+     "w": "tiga",
+     "start": 1.442,
+     "end": 1.657
+    },
+    {
+     "w": "dimensinya",
+     "start": 1.657,
+     "end": 2.086
+    },
+    {
+     "w": "lanjut",
+     "start": 2.086,
+     "end": 2.301
+    },
+    {
+     "w": "dari",
+     "start": 2.301,
+     "end": 2.516
+    },
+    {
+     "w": "posisi",
+     "start": 2.516,
+     "end": 2.838
+    },
+    {
+     "w": "terakhir.",
+     "start": 2.838,
+     "end": 3.16
+    }
+   ]
+  },
+  "4a9b49d4": {
+   "src": "narration/Demo-Bedah3D/4a9b49d4.mp3",
+   "duration": 3.768,
+   "words": [
+    {
+     "w": "Salin",
+     "start": 0.08,
+     "end": 0.343
+    },
+    {
+     "w": "file",
+     "start": 0.343,
+     "end": 0.607
+    },
+    {
+     "w": "ini,",
+     "start": 0.607,
+     "end": 0.87
+    },
+    {
+     "w": "ganti",
+     "start": 1.03,
+     "end": 1.313
+    },
+    {
+     "w": "dunianya,",
+     "start": 1.313,
+     "end": 1.88
+    },
+    {
+     "w": "ganti",
+     "start": 2.02,
+     "end": 2.327
+    },
+    {
+     "w": "kalimatnya.",
+     "start": 2.327,
+     "end": 2.94
+    },
+    {
+     "w": "Selesai.",
+     "start": 3.13,
+     "end": 3.6
+    }
+   ]
+  },
+  "d5493a18": {
+   "src": "narration/Demo-Bedah3D/d5493a18.mp3",
+   "duration": 2.64,
+   "words": [
+    {
+     "w": "Satu",
+     "start": 0.07,
+     "end": 0.3
+    },
+    {
+     "w": "menit,",
+     "start": 0.3,
+     "end": 0.53
+    },
+    {
+     "w": "kira-kira",
+     "start": 0.75,
+     "end": 1.177
+    },
+    {
+     "w": "lima",
+     "start": 1.177,
+     "end": 1.391
+    },
+    {
+     "w": "belas",
+     "start": 1.391,
+     "end": 1.605
+    },
+    {
+     "w": "adegan",
+     "start": 1.605,
+     "end": 1.926
+    },
+    {
+     "w": "seperti",
+     "start": 1.926,
+     "end": 2.246
+    },
+    {
+     "w": "ini.",
+     "start": 2.246,
+     "end": 2.46
+    }
+   ]
+  }
+ }
+}

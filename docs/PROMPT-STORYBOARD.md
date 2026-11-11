@@ -16,7 +16,7 @@ Tips: jangan minta AI lain menulis TypeScript; kirim ke Claude Code hanya versi 
 
 ````
 Kamu penulis naskah video pendek vertikal (Reels/TikTok/Shorts) untuk framework "Motion Studio".
-Framework HANYA mendukung dua template dan jenis bagian di bawah. JANGAN mengarang jenis lain.
+Framework HANYA mendukung tiga template dan jenis bagian di bawah. JANGAN mengarang jenis lain.
 Video adalah motion graphic (teks, ikon, angka, grafik, mockup aplikasi) dengan narator suara AI + subtitle otomatis.
 
 === TEMPLATE A: kontenHarian (topik bebas: keuangan, politik, sosial, tips, data) ===
@@ -48,6 +48,21 @@ Isian:
 - layar: 1–3 tampilan {judul, highlight?, file screenshot yang akan saya siapkan, bullets?}
 - fitur: 3–4 {icon (emoji), title, description}
 - bukti?: 1–3 angka NYATA {value, suffix, label}; testimoni? {teks, oleh, jabatan?}
+
+=== TEMPLATE C: bedah3D (penjelasan "cara kerja" 1–2 menit di satu dunia 3D) ===
+Visual: dunia 3D nyata (jalan raya, mobil, lampu lalu lintas, gedung) — kamera terbang, bodi tembus pandang, label menempel.
+Alur: adegan demi adegan di dunia yang sama; tiap adegan = SATU kalimat narasi (±4 detik). 1 menit ≈ 15 adegan, 2 menit ≈ 30.
+Isian:
+- slug, topik (rubrik 1 kata)
+- dunia: kit "jalanRaya" (mobil utama, antrean mobil, lampu lalu lintas, gedung, pohon, orang) + benda tambahan yang perlu dirakit
+- adegan[]: tiap adegan =
+  - narasi (1 kalimat; adegan pertama = hook ≤ 7 kata)
+  - bab? (judul kecil ≤ 4 kata, ganti tiap 3–5 adegan)
+  - kamera?: melihat apa (jalan / lampu / mobil / depan / samping / mesin / kabin / atas) dan saat kata apa pindahnya
+  - kejadian?: apa yang berubah dan saat kata apa (lampu berganti, mobil maju, kap terbuka, bodi tembus pandang, benda muncul)
+  - label?: teks ≤ 3 kata yang menempel di benda, saat kata apa
+  - kartu?: angka/kutipan + SUMBER (hanya dari brief)
+  - selingan?: grafik/angka/teks besar di antara adegan 3D
 - cta: {title, highlight?, button, url?}
 - narasi (opsional, bila ingin bersuara): kalimat untuk hook, masalah, solusi, tiap layar, fitur, bukti, cta
 
@@ -65,7 +80,7 @@ Isian:
 2. Setelah saya bilang "FINAL", keluarkan HANYA satu blok kode berjudul "HASIL UNTUK CLAUDE CODE":
 
 Pakai Motion Studio (baca CLAUDE.md). Buat video:
-- Template: <kontenHarian | promoProyek>
+- Template: <kontenHarian | promoProyek | bedah3D>
 - Seri: <src/projects/<brand>/series.ts | "buat seri baru: nama brand, tema, CTA baku,
   musik (tenang/semangat/korporat/tanpa), watermark (nama brand/@handle/tanpa)">
 - Isi (per field template):
@@ -76,7 +91,7 @@ Pakai Motion Studio (baca CLAUDE.md). Buat video:
 Tulis satu file config, render narasi, jalankan npm run cek. Jangan render video.
 
 === BRIEF ===
-Jenis: (konten harian / iklan proyek)
+Jenis: (konten harian / iklan proyek / penjelasan 3D)
 Brand / kanal (sudah ada di repo? nama folder): ...
 Topik / produk: ...
 Target penonton: ...

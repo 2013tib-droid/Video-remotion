@@ -2,7 +2,7 @@ import { defineVideo } from '../../core';
 import type { WorldObject, WorldView } from '../../scenes/types';
 
 /**
- * Demo scene `world` (dunia 3D): satu dunia bersambung lintas scene.
+ * Demo scene `world` (dunia 3D) bernarasi: satu dunia bersambung lintas scene, gerak dipicu kata narasi.
  * `objects` + `views` disimpan sekali, tiap scene hanya mengatur kamera, label dan kartu.
  */
 const objects: WorldObject[] = [
@@ -25,36 +25,31 @@ const objects: WorldObject[] = [
       { name: 'Wheel*', solid: true },
       { name: 'License Plate', hidden: true },
     ],
-    children: [{ id: 'mesin', shape: 'group', pos: [0, 0.6, 1.2] }],
+    // Jangkar label/kamera di dalam mobil (posisi dalam meter, relatif mobil).
+    children: [
+      { id: 'mesin', shape: 'group', pos: [0, 0.6, 1.2] },
+      { id: 'roda-depan', shape: 'group', pos: [0.95, 0.36, 1.42] },
+      { id: 'kabin', shape: 'group', pos: [0, 1.0, -0.3] },
+    ],
   },
-  // Model yang sama, cat berbeda (cocokkan lewat nama material).
-  {
-    shape: 'model',
-    src: 'models/car-concept.glb',
-    size: 4.5,
-    pos: [1.7, 0, -4.5],
-    parts: [{ material: 'Paint 1*', color: '#e9e6df' }, { name: 'License Plate', hidden: true }],
-  },
-  {
-    shape: 'model',
-    src: 'models/car-concept.glb',
-    size: 4.5,
-    pos: [-1.7, 0, -5.5],
-    parts: [{ material: 'Paint 1*', color: '#3d5a80' }, { name: 'License Plate', hidden: true }],
-  },
+  // Latar: mobil sederhana (satu model detail saja agar render tetap cepat).
+  { shape: 'car', variant: 'sedan', pos: [1.7, 0, -4.5], color: '#e9e6df', brake: true },
+  { shape: 'car', pos: [-1.7, 0, -5.5], color: '#3d5a80', brake: true },
 ];
 
-/** Dunia yang sama, tetapi kap mobil utama terangkat pada detik 1,2. */
-const withHood: WorldObject[] = objects.map((o) =>
-  o.id === 'mobil' && o.shape === 'model'
-    ? { ...o, parts: [...(o.parts ?? []), { name: 'BodyHood', motion: [{ type: 'move', to: [0, 0.55, 0], at: 1.2, duration: 1 }] }] }
-    : o,
-);
+/** Dunia yang sama, tetapi kap mobil utama terangkat saat `at`. */
+const withHood = (at: string | number): WorldObject[] =>
+  objects.map((o) =>
+    o.id === 'mobil' && o.shape === 'model'
+      ? { ...o, parts: [...(o.parts ?? []), { name: 'BodyHood', motion: [{ type: 'move', to: [0, 0.55, 0], at, duration: 1 }] }] }
+      : o,
+  );
 
 const views: Record<string, WorldView> = {
   jalan: { target: [0, 1.2, 1], distance: 30, azimuth: 205, elevation: 30 },
   mobil: { target: 'mobil', distance: 11, azimuth: 150, elevation: 20 },
   mesin: { target: 'mesin', distance: 5.2, azimuth: 52, elevation: 24 },
+  samping: { target: 'kabin', distance: 9, azimuth: 80, elevation: 14 },
 };
 
 export default defineVideo({
@@ -62,34 +57,50 @@ export default defineVideo({
   brand: { name: 'Motion Studio' },
   theme: 'ModernSaaS',
   sfx: true,
+  voice: { name: 'id-ID-Ardi:DragonHDLatestNeural', rate: '+10%' },
+  overlay: {},
   scenes: [
     {
       type: 'world',
-      eyebrow: 'Demo scene world',
-      title: 'Satu dunia, kamera yang terbang.',
-      highlight: 'terbang',
+      chapter: { label: 'Demo scene world', title: 'satu dunia tiga dimensi', highlight: 'tiga dimensi' },
+      narration: 'Ini bukan slide. Ini satu dunia tiga dimensi, dan kameranya bisa terbang ke mana saja.',
+      emphasis: ['tiga dimensi', 'terbang'],
       objects,
       views,
-      shots: [{ view: 'jalan' }, { view: 'mobil', at: 3 }],
-      labels: [{ target: 'mobil', text: 'Mobil kita', at: 4.4 }],
-      duration: 6.5,
+      shots: [{ view: 'jalan' }, { view: 'mobil', at: 'terbang' }],
     },
     {
       type: 'world',
       transition: 'none',
-      title: 'Tembus pandang ke dalam mesin.',
-      highlight: 'Tembus pandang',
+      chapter: { label: 'Tembus pandang', title: 'lihat isi di dalamnya', highlight: 'di dalamnya' },
+      narration: 'Kita dekati mobilnya. Bodinya dibuat tembus pandang, supaya mesin di dalamnya terlihat.',
+      emphasis: ['tembus pandang', 'mesin'],
+      // Bagian model bisa digerakkan per scene: kap terangkat saat kata "tembus".
+      objects: withHood('tembus'),
       views,
-      shots: [{ view: 'mobil' }, { view: 'mesin', at: 0.6, duration: 1.6, xray: ['mobil'] }],
-      // Bagian model bisa digerakkan per scene: kap terangkat saat kamera masuk.
-      objects: withHood,
-      labels: [
-        { target: 'roda-gigi', text: 'Bagian berputar', at: 2.6 },
-        { target: [-1.15, 0.45, 1.2], text: 'Aliran', at: 3.4, color: 'danger' },
-      ],
-      cards: [{ tag: 'Demo', text: 'Label menempel pada objek, ikut gerak kamera.', source: 'contoh · bukan data', at: 4.4 }],
+      shots: [{ view: 'mobil' }, { view: 'mesin', at: 'tembus', duration: 1.6, xray: ['mobil'] }],
+      labels: [{ target: 'mesin', text: 'Mesin', at: 'mesin' }],
       note: 'Ilustrasi · bukan skala',
-      duration: 8,
+    },
+    {
+      type: 'world',
+      transition: 'none',
+      chapter: { label: 'Label', title: 'muncul tepat saat disebut', highlight: 'tepat saat disebut' },
+      narration: 'Setiap bagian bisa diberi label, tepat saat disebut: mesin, roda depan, sampai kabin.',
+      emphasis: ['label', 'roda depan', 'kabin'],
+      objects: withHood(0),
+      views,
+      shots: [
+        { view: 'mesin', xray: ['mobil'] },
+        { view: 'samping', at: 'sampai', duration: 1.4, xray: ['mobil'] },
+      ],
+      labels: [
+        { target: 'mesin', text: 'Mesin', at: 'mesin', color: 'primary' },
+        { target: 'roda-depan', text: 'Roda depan', at: 'roda' },
+        { target: 'kabin', text: 'Kabin', at: 'kabin', color: 'danger' },
+      ],
+      cards: [{ tag: 'Demo', text: 'Label menempel pada objek dan ikut gerak kamera.', source: 'contoh · bukan data', at: 'label' }],
+      note: 'Ilustrasi · bukan skala',
     },
   ],
 });

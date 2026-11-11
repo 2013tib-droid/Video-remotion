@@ -7,8 +7,8 @@ Repo ini **framework animasi**, bukan satu video. Video baru = **satu file data*
    - Iklan sebuah proyek/aplikasi → `promoProyek` (`src/templates/PromoProyek.ts`), contoh `src/projects/price-atlas/iklan.ts`.
    - Konten harian topik apa pun (keuangan, politik, sosial, tips, data) → `kontenHarian` (`src/templates/KontenHarian.ts`),
      contoh `src/projects/harian/tips-gaji.ts`.
-   - Penjelasan "cara kerja" dengan visual 3D mendekati nyata → scene `world` (bagian *Dunia 3D* di `docs/KATALOG-SCENE.md`,
-     contoh `src/projects/_demos/dunia.ts`).
+   - Penjelasan "cara kerja" 1–2 menit dengan visual 3D mendekati nyata → `bedah3D` (`src/templates/Bedah3D.ts`) + kit dunia
+     `src/worlds/`; acuan `src/projects/_demos/bedah3d.ts`. Satu adegan = satu kalimat ≈ 4 dtk (1 menit ≈ 15 adegan).
    - Alur khusus → scene manual `defineVideo` (kontrak: `src/scenes/types.ts`; contoh `src/projects/soal-skd/bedah-analogi.ts`).
 2. Tulis `src/projects/<brand>/<video>.ts` yang `export default` hasil template. **Tidak perlu mendaftarkan** (registry otomatis)
    dan **tidak perlu mengimpor** `*.narration.json` (dipasang otomatis).
@@ -35,6 +35,8 @@ Yang boleh diubah untuk tugas video: `src/projects/**`, `public/brands/<brand>/`
 - Key Azure (region `southeastasia`) adalah network secret di environment cloud **video-remotion**; `proxy-injected` hanya
   placeholder. Di environment lain → 401: minta pengguna pindah environment (jangan minta key ditempel di chat).
 - Render: tambahkan `--browser-executable=/opt/pw-browsers/chromium` (unduhan Chrome diblokir).
+- Scene `world` ber-model `.glb` lambat dirender (16 dtk video ≈ 26 menit di skala 0,5): jalankan di latar dengan batas waktu
+  panjang, dan cek tata letak dulu dengan `npx remotion still` (angka & status: `docs/KATALOG-SCENE.md` → *Kecepatan render*).
 
 ## Aset
 - Audio/video/file desain dan isi `public/**/media/` otomatis Git LFS — **upload LFS diblokir dari sesi cloud**.

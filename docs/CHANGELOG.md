@@ -2,6 +2,21 @@
 
 Perubahan framework yang memengaruhi semua video. Entri terbaru di atas.
 
+## 2026-11-11 — Template `bedah3D` + kit dunia
+
+Tujuan: video penjelasan 3D 1–2 menit = satu file data, tanpa menyusun scene `world` satu per satu.
+
+### Baru
+- **Template `bedah3D`** (`src/templates/Bedah3D.ts`) — daftar `adegan` (satu kalimat narasi per adegan) di satu dunia: `kamera`,
+  `xray`, `label` (bisa `tetap`), `kartu`, `gerak`, `bagian`, `muncul`/`hilang`, `lampu`, `ubah`, `sisip`. Semua perubahan
+  menetap ke adegan berikutnya; id/view yang salah langsung jadi galat yang jelas.
+- **Kit dunia** `src/worlds/` — `jalanRaya()` (jalan, lampu, antrean mobil, gedung, mobil utama model/sederhana, jangkar & view bernama).
+- **Acuan** `src/projects/_demos/bedah3d.ts` (`Demo-Bedah3D`, 11 scene, narasi 38,6 dtk) — belum dirender jadi video.
+- Objek dunia: `hidden` (tersembunyi sampai dimunculkan).
+
+### Berubah
+- Orbit pelan kamera `world` kini berayun memakai waktu video, sehingga tidak melompat di potongan antar scene.
+
 ## 2026-11-11 — Model `.glb` di scene `world`
 
 ### Baru
@@ -11,6 +26,11 @@ Perubahan framework yang memengaruhi semua video. Entri terbaru di atas.
 - **Model bawaan** `public/models/car-concept.glb` (CC BY 4.0, kredit di `public/models/CREDITS.md`).
 - `npm run model -- <file.glb>` — daftar nama bagian & material; `npm run cek` memeriksa file `.glb` ada.
 - Pantulan lingkungan netral di semua scene `world` agar bahan mengilap tidak tampak hitam.
+
+### Catatan
+- `Demo-Dunia3D` kini bernarasi (Ardi HD): kamera, tembus pandang, gerak kap dan label dipicu kata narasi.
+- Kecepatan render terukur ada di `docs/KATALOG-SCENE.md` → *Kecepatan render*: model detail ±9× lebih lambat dari objek
+  sederhana, dan mengurangi jumlah salinan model tidak membantu. Pengecilan model belum dikerjakan.
 
 ## 2026-11-11 — Scene `world`: dunia 3D
 
