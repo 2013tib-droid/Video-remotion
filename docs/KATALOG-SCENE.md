@@ -128,11 +128,13 @@ Setiap field ikon (`features[].icon`, `timeline.steps[].icon`, `list.items[].ico
 - Contoh: video `Demo-Ikon` (`src/projects/_demos/index.ts`); contoh Lottie `public/lottie/pulse.json`.
 
 ## Dunia 3D (`world`)
+**Untuk video baru pakai template `bedah3D`** (`docs/MEMBUAT-VIDEO.md` → *Penjelasan 3D 1–2 menit*): ia merangkai scene `world`
+bersambung dan membawa semua perubahan ke adegan berikutnya. Bagian ini adalah rujukan bentuk, gerak, dan kamera yang dipakainya.
 Untuk penjelasan "cara kerja" yang butuh visual mendekati nyata: satu dunia berisi objek, kamera masuk ke dalamnya.
 Contoh lengkap bernarasi: `src/projects/_demos/dunia.ts` (video `Demo-Dunia3D`). Satuan **meter**; sumbu `[x kanan, y atas, z ke penonton]`.
 
 - **`objects[]`** — tiap objek: `shape` + `id?` `pos?` `rotate?` (derajat) `scale?` `color?` (hex atau token tema: `primary` `accent`
-  `muted` `surface` `danger` `success` …) `opacity?` `showAt?` `hideAt?` `motion?[]` `children?[]` (anak ikut induk).
+  `muted` `surface` `danger` `success` …) `opacity?` `hidden?` `showAt?` `hideAt?` `motion?[]` `children?[]` (anak ikut induk).
 
 | `shape` | Properti | Catatan |
 |---|---|---|
@@ -150,7 +152,7 @@ Contoh lengkap bernarasi: `src/projects/_demos/dunia.ts` (video `Demo-Dunia3D`).
   `move {to, at}` `turn {to, at}` `scale {to, at}` `fade {to, at}` `color {to, at}` (`duration?` default 0,7 dtk).
 - **`views`** + **`shots[]`** — `view`: `{ target (id objek atau [x,y,z]), distance, azimuth? (0 = depan, 90 = kanan), elevation?, fov? }`.
   Shot pertama = posisi awal; shot berikutnya kamera **terbang** saat `at` (`duration?` 1,2 dtk, blur gerak otomatis).
-  `drift?` = orbit pelan selama diam (default 7°). `xray: ['id']` = badan objek itu tembus pandang selama shot (anaknya tetap utuh).
+  `drift?` = ayunan orbit pelan (default 7°, bersambung lintas scene). `xray: ['id']` = badan objek itu tembus pandang selama shot (anaknya tetap utuh).
 - **`labels[]`** — `{ target, text, color?, at?, hideAt?, side? }`: pil + garis penunjuk yang menempel di objek dan ikut kamera.
 - **`cards[]`** — `{ tag?, text, source?, color?, at?, hideAt? }`: kartu keterangan/sumber di bawah judul.
 - `ground` (`true`/`false`/warna), `sky` (warna latar), `note` (strip kecil, mis. "Ilustrasi · bukan skala").

@@ -10,6 +10,8 @@ export const WORLD_TIMING = {
   spinRamp: 0.5,
   flight: 1.2,
   drift: 7,
+  /** Detik satu ayunan orbit pelan. */
+  driftPeriod: 11,
   xrayOpacity: 0.13,
 } as const;
 
@@ -112,6 +114,7 @@ export function evaluateWorld(
   const out: WorldNode[] = [];
   objects.forEach((o, i) => {
     const motions = o.motion ?? [];
+    if (o.hidden && o.showAt === undefined) return;
     let show = 1;
     if (o.showAt !== undefined) show *= easeOutBack(clamp01((t - cue(o.showAt, 0)) / WORLD_TIMING.show));
     if (o.hideAt !== undefined) show *= 1 - EASINGS.accelerate(clamp01((t - cue(o.hideAt, Infinity)) / WORLD_TIMING.hide));
@@ -208,6 +211,8 @@ export function cameraAt(
   sceneSec: number,
   cue: CueFn,
   positions: Map<string, THREE.Vector3>,
+  /** Detik video: orbit pelan memakai waktu ini agar tidak melompat di potongan antar scene. */
+  abs: number = t,
 ): CameraPose {
   const resolved = shots.map((s, i) => {
     const v = { ...(s.view ? views[s.view] : undefined), ...s };
@@ -224,9 +229,7 @@ export function cameraAt(
   resolved.forEach(({ v, start, duration }, i) => {
     const p = i === 0 ? 1 : EASINGS.emphasized(clamp01((t - start) / duration));
     if (p <= 0) return;
-    const end = resolved[i + 1]?.start ?? sceneSec;
-    const hold = clamp01((t - start) / Math.max(0.01, end - start));
-    const azimuth = (v.azimuth ?? WORLD_VIEW_DEFAULT.azimuth) + (v.drift ?? WORLD_TIMING.drift) * (hold - 0.5);
+    const azimuth = (v.azimuth ?? WORLD_VIEW_DEFAULT.azimuth) + (v.drift ?? WORLD_TIMING.drift) * 0.5 * Math.sin((abs / WORLD_TIMING.driftPeriod) * Math.PI * 2);
     pose.target.lerp(point(v.target), p);
     pose.distance = Math.exp(lerp(Math.log(pose.distance), Math.log(Math.max(0.05, v.distance ?? 10)), p));
     pose.azimuth = lerp(pose.azimuth, azimuth, p);

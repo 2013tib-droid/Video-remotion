@@ -56,6 +56,42 @@ Contoh lengkap: `src/projects/harian/tips-gaji.ts` (bernarasi), `src/projects/pr
 - **Bersuara**: isi `narasi` → `AZURE_SPEECH_KEY=proxy-injected npm run narasi -- Harian-Inflasi-Okt26`. Subtitle & HUD otomatis.
 - **Periksa**: `npm run cek` (typecheck + highlight, aset, cue, narasi yang belum dirender, teks kepanjangan).
 
+## Penjelasan 3D 1–2 menit — template `bedah3D`
+
+Untuk video "cara kerja" dengan visual mendekati nyata: satu dunia 3D yang bersambung, tiap **adegan** = satu kalimat narasi.
+Acuan lengkap: `src/projects/_demos/bedah3d.ts` (salin file itu).
+
+```ts
+import { bedah3D } from '../../templates';
+import { jalanRaya } from '../../worlds';
+import { seri } from './series';
+
+export default bedah3D(seri, {
+  slug: 'LampuMerah',
+  topik: 'Otomotif',
+  dunia: jalanRaya(),                       // kit dunia siap pakai
+  adegan: [
+    { bab: 'judul bab', narasi: 'Kalimat hook.', kamera: 'jalan' },
+    { narasi: 'Kita lihat mesinnya.', kamera: { view: 'mesin', at: 'mesinnya' }, xray: ['mobil'],
+      label: [{ target: 'mesin', text: 'Mesin', at: 'mesinnya', tetap: true }] },
+  ],
+});
+```
+
+- **Per adegan**: `narasi` (wajib) · `bab` · `emphasis` · `kamera` (nama view / `{ view, at }` / beberapa) · `xray` · `label` (`tetap: true`
+  = bertahan; `labelBersih` menghapus) · `kartu` · `gerak` (per id objek) · `bagian` (bagian model `.glb`) · `muncul` / `hilang` ·
+  `lampu` · `ubah` · `catatan`. Detail: `src/templates/Bedah3D.ts`.
+- **Semua perubahan menetap**: mobil yang maju tetap di posisi barunya, kap yang terbuka tetap terbuka, lampu tetap hijau, kamera
+  mulai dari posisi terakhir. Tidak perlu mengulang apa pun di adegan berikutnya.
+- **Durasi** (terukur): satu adegan ≈ 4 detik → **1 menit ≈ 15 adegan, 2 menit ≈ 30 adegan**. Adegan pertama = hook (≤ 2–3 detik).
+- **Selingan**: `{ sisip: { type: 'chart', ... } }` menyisipkan scene biasa (grafik, angka, teks besar) di antara adegan 3D.
+- **Kit dunia** (`src/worlds/`): `jalanRaya({ mobil?, warna?, antrean?, lampu?, kota?, tambahan?, isiMobil? })` — id `mobil` `lampu` `orang`,
+  jangkar `mesin` `roda-depan` `kabin` `bagasi`, view `jalan` `lampu` `mobil` `depan` `samping` `mesin` `kabin` `atas`.
+  Topik lain: rakit `{ objects, views }` sendiri di file video (bentuk & model: *Dunia 3D* di `docs/KATALOG-SCENE.md`),
+  atau tambah kit baru di `src/worlds/` bila akan dipakai berulang.
+- Objek yang baru muncul di tengah video: beri `hidden: true` di dunia, lalu `muncul: { id: 'kata' }` di adegannya.
+- Render lambat bila memakai model `.glb` (lihat *Kecepatan render* di katalog); `jalanRaya({ mobil: 'sederhana' })` untuk draf cepat.
+
 ## Cara A — Template promo lama
 
 Cocok bila struktur video standar. Pilih template:

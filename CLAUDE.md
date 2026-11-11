@@ -7,8 +7,8 @@ Repo ini **framework animasi**, bukan satu video. Video baru = **satu file data*
    - Iklan sebuah proyek/aplikasi → `promoProyek` (`src/templates/PromoProyek.ts`), contoh `src/projects/price-atlas/iklan.ts`.
    - Konten harian topik apa pun (keuangan, politik, sosial, tips, data) → `kontenHarian` (`src/templates/KontenHarian.ts`),
      contoh `src/projects/harian/tips-gaji.ts`.
-   - Penjelasan "cara kerja" dengan visual 3D mendekati nyata → scene `world` (bagian *Dunia 3D* di `docs/KATALOG-SCENE.md`,
-     contoh `src/projects/_demos/dunia.ts`).
+   - Penjelasan "cara kerja" 1–2 menit dengan visual 3D mendekati nyata → `bedah3D` (`src/templates/Bedah3D.ts`) + kit dunia
+     `src/worlds/`; acuan `src/projects/_demos/bedah3d.ts`. Satu adegan = satu kalimat ≈ 4 dtk (1 menit ≈ 15 adegan).
    - Alur khusus → scene manual `defineVideo` (kontrak: `src/scenes/types.ts`; contoh `src/projects/soal-skd/bedah-analogi.ts`).
 2. Tulis `src/projects/<brand>/<video>.ts` yang `export default` hasil template. **Tidak perlu mendaftarkan** (registry otomatis)
    dan **tidak perlu mengimpor** `*.narration.json` (dipasang otomatis).

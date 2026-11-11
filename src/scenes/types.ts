@@ -361,6 +361,8 @@ interface WorldObjectBase {
   color?: WorldColor;
   /** 0..1. Default 1. */
   opacity?: number;
+  /** Objek belum tampil (sampai diberi `showAt` / dimunculkan template `bedah3D`). */
+  hidden?: boolean;
   /** Objek baru muncul (membesar memantul) saat cue ini. */
   showAt?: Cue;
   /** Objek menghilang saat cue ini. */
@@ -449,7 +451,7 @@ export interface WorldShot extends Partial<WorldView> {
   at?: Cue;
   /** Lama terbang (detik). Default 1,2. */
   duration?: number;
-  /** Kamera tetap mengorbit pelan selama diam (derajat total). Default 7; 0 = diam. */
+  /** Kamera tetap berayun mengorbit pelan (derajat total, bersambung lintas scene). Default 7; 0 = diam. */
   drift?: number;
   /** id objek yang dibuat tembus pandang selama shot ini (melihat isi di dalamnya). */
   xray?: string[];

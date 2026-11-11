@@ -8,3 +8,4 @@ export * from './series';
 export * from './KontenHarian';
 export * from './PromoProyek';
 export * from './components';
+export * from './Bedah3D';

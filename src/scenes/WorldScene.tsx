@@ -94,8 +94,9 @@ export const WorldSceneView: React.FC<SceneProps<WorldScene>> = ({ scene }) => {
   const at = (f: number) => {
     const t = f / fps;
     const positions = new Map<string, THREE.Vector3>();
-    const nodes = evaluateWorld(scene.objects, t, ((motion?.from ?? 0) + f) / fps, cue, color, positions);
-    const pose = cameraAt(scene.shots, scene.views ?? {}, t, sceneSec, cue, positions);
+    const abs = ((motion?.from ?? 0) + f) / fps;
+    const nodes = evaluateWorld(scene.objects, t, abs, cue, color, positions);
+    const pose = cameraAt(scene.shots, scene.views ?? {}, t, sceneSec, cue, positions, abs);
     return { t, nodes, positions, pose };
   };
   const now = at(frame);
