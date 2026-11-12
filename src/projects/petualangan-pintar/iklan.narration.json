@@ -1,0 +1,573 @@
+{
+ "clips": {
+  "c5dd0857": {
+   "src": "narration/PetualanganPintar-Iklan/c5dd0857.mp3",
+   "duration": 3.648,
+   "words": [
+    {
+     "w": "Anak",
+     "start": 0.07,
+     "end": 0.388
+    },
+    {
+     "w": "belum",
+     "start": 0.388,
+     "end": 0.706
+    },
+    {
+     "w": "lancar",
+     "start": 0.706,
+     "end": 1.023
+    },
+    {
+     "w": "membaca?",
+     "start": 1.023,
+     "end": 1.5
+    },
+    {
+     "w": "Tetap",
+     "start": 2.12,
+     "end": 2.386
+    },
+    {
+     "w": "bisa",
+     "start": 2.386,
+     "end": 2.652
+    },
+    {
+     "w": "belajar",
+     "start": 2.652,
+     "end": 3.051
+    },
+    {
+     "w": "sendiri.",
+     "start": 3.051,
+     "end": 3.45
+    }
+   ]
+  },
+  "56bad20a": {
+   "src": "narration/PetualanganPintar-Iklan/56bad20a.mp3",
+   "duration": 3.216,
+   "words": [
+    {
+     "w": "Bukan",
+     "start": 0.08,
+     "end": 0.393
+    },
+    {
+     "w": "game",
+     "start": 0.393,
+     "end": 0.705
+    },
+    {
+     "w": "penuh",
+     "start": 0.705,
+     "end": 1.018
+    },
+    {
+     "w": "iklan,",
+     "start": 1.018,
+     "end": 1.33
+    },
+    {
+     "w": "bukan",
+     "start": 1.55,
+     "end": 1.85
+    },
+    {
+     "w": "belajar",
+     "start": 1.85,
+     "end": 2.3
+    },
+    {
+     "w": "yang",
+     "start": 2.3,
+     "end": 2.45
+    },
+    {
+     "w": "membosankan.",
+     "start": 2.45,
+     "end": 3.05
+    }
+   ]
+  },
+  "173bea5e": {
+   "src": "narration/PetualanganPintar-Iklan/173bea5e.mp3",
+   "duration": 4.8,
+   "words": [
+    {
+     "w": "Kenalkan",
+     "start": 0.07,
+     "end": 0.46
+    },
+    {
+     "w": "Petualangan",
+     "start": 0.46,
+     "end": 1.11
+    },
+    {
+     "w": "Pintar,",
+     "start": 1.11,
+     "end": 1.37
+    },
+    {
+     "w": "game",
+     "start": 1.62,
+     "end": 1.905
+    },
+    {
+     "w": "edukasi",
+     "start": 1.905,
+     "end": 2.475
+    },
+    {
+     "w": "untuk",
+     "start": 2.475,
+     "end": 2.76
+    },
+    {
+     "w": "anak",
+     "start": 2.76,
+     "end": 3.045
+    },
+    {
+     "w": "Playgroup,",
+     "start": 3.045,
+     "end": 3.33
+    },
+    {
+     "w": "TK,",
+     "start": 3.65,
+     "end": 4.054
+    },
+    {
+     "w": "dan",
+     "start": 4.054,
+     "end": 4.256
+    },
+    {
+     "w": "SD.",
+     "start": 4.256,
+     "end": 4.66
+    }
+   ]
+  },
+  "3712e392": {
+   "src": "narration/PetualanganPintar-Iklan/3712e392.mp3",
+   "duration": 4.08,
+   "words": [
+    {
+     "w": "Setiap",
+     "start": 0.08,
+     "end": 0.52
+    },
+    {
+     "w": "soal",
+     "start": 0.52,
+     "end": 0.813
+    },
+    {
+     "w": "dibacakan,",
+     "start": 0.813,
+     "end": 1.399
+    },
+    {
+     "w": "jadi",
+     "start": 1.399,
+     "end": 1.692
+    },
+    {
+     "w": "anak",
+     "start": 1.692,
+     "end": 1.985
+    },
+    {
+     "w": "yang",
+     "start": 1.985,
+     "end": 2.132
+    },
+    {
+     "w": "belum",
+     "start": 2.132,
+     "end": 2.425
+    },
+    {
+     "w": "bisa",
+     "start": 2.425,
+     "end": 2.718
+    },
+    {
+     "w": "membaca",
+     "start": 2.718,
+     "end": 3.157
+    },
+    {
+     "w": "tetap",
+     "start": 3.157,
+     "end": 3.45
+    },
+    {
+     "w": "bisa",
+     "start": 3.45,
+     "end": 3.743
+    },
+    {
+     "w": "main.",
+     "start": 3.743,
+     "end": 3.89
+    }
+   ]
+  },
+  "f9fcb6d5": {
+   "src": "narration/PetualanganPintar-Iklan/f9fcb6d5.mp3",
+   "duration": 3.96,
+   "words": [
+    {
+     "w": "Jarinya",
+     "start": 0.07,
+     "end": 0.47
+    },
+    {
+     "w": "menyusuri",
+     "start": 0.47,
+     "end": 1.003
+    },
+    {
+     "w": "jalur,",
+     "start": 1.003,
+     "end": 1.27
+    },
+    {
+     "w": "belajar",
+     "start": 1.58,
+     "end": 1.985
+    },
+    {
+     "w": "menulis",
+     "start": 1.985,
+     "end": 2.39
+    },
+    {
+     "w": "huruf",
+     "start": 2.39,
+     "end": 2.66
+    },
+    {
+     "w": "dengan",
+     "start": 2.66,
+     "end": 2.93
+    },
+    {
+     "w": "urutan",
+     "start": 2.93,
+     "end": 3.335
+    },
+    {
+     "w": "yang",
+     "start": 3.335,
+     "end": 3.47
+    },
+    {
+     "w": "benar.",
+     "start": 3.47,
+     "end": 3.74
+    }
+   ]
+  },
+  "8d9b0eaa": {
+   "src": "narration/PetualanganPintar-Iklan/8d9b0eaa.mp3",
+   "duration": 3.12,
+   "words": [
+    {
+     "w": "Kumpulkan",
+     "start": 0.07,
+     "end": 0.499
+    },
+    {
+     "w": "bintang,",
+     "start": 0.499,
+     "end": 0.785
+    },
+    {
+     "w": "dan",
+     "start": 0.785,
+     "end": 0.928
+    },
+    {
+     "w": "teman",
+     "start": 0.928,
+     "end": 1.214
+    },
+    {
+     "w": "belajarnya",
+     "start": 1.214,
+     "end": 1.786
+    },
+    {
+     "w": "tumbuh",
+     "start": 1.786,
+     "end": 2.072
+    },
+    {
+     "w": "sampai",
+     "start": 2.072,
+     "end": 2.358
+    },
+    {
+     "w": "jadi",
+     "start": 2.358,
+     "end": 2.644
+    },
+    {
+     "w": "naga.",
+     "start": 2.644,
+     "end": 2.93
+    }
+   ]
+  },
+  "3c2006bc": {
+   "src": "narration/PetualanganPintar-Iklan/3c2006bc.mp3",
+   "duration": 6.984,
+   "words": [
+    {
+     "w": "Tanpa",
+     "start": 0.07,
+     "end": 0.42
+    },
+    {
+     "w": "iklan,",
+     "start": 0.42,
+     "end": 0.77
+    },
+    {
+     "w": "tanpa",
+     "start": 1.07,
+     "end": 1.388
+    },
+    {
+     "w": "hukuman",
+     "start": 1.388,
+     "end": 1.864
+    },
+    {
+     "w": "saat",
+     "start": 1.864,
+     "end": 2.182
+    },
+    {
+     "w": "salah.",
+     "start": 2.182,
+     "end": 2.5
+    },
+    {
+     "w": "Untuk",
+     "start": 2.81,
+     "end": 3.196
+    },
+    {
+     "w": "Playgroup",
+     "start": 3.196,
+     "end": 3.581
+    },
+    {
+     "w": "dan",
+     "start": 3.581,
+     "end": 3.774
+    },
+    {
+     "w": "TK,",
+     "start": 3.774,
+     "end": 4.16
+    },
+    {
+     "w": "cukup",
+     "start": 4.64,
+     "end": 4.899
+    },
+    {
+     "w": "sekali",
+     "start": 4.899,
+     "end": 5.287
+    },
+    {
+     "w": "bayar",
+     "start": 5.287,
+     "end": 5.546
+    },
+    {
+     "w": "sembilan",
+     "start": 5.546,
+     "end": 5.934
+    },
+    {
+     "w": "belas",
+     "start": 5.934,
+     "end": 6.193
+    },
+    {
+     "w": "ribu",
+     "start": 6.193,
+     "end": 6.452
+    },
+    {
+     "w": "rupiah.",
+     "start": 6.452,
+     "end": 6.84
+    }
+   ]
+  },
+  "de149d33": {
+   "src": "narration/PetualanganPintar-Iklan/de149d33.mp3",
+   "duration": 6,
+   "words": [
+    {
+     "w": "Ada",
+     "start": 0.07,
+     "end": 0.334
+    },
+    {
+     "w": "empat",
+     "start": 0.334,
+     "end": 0.598
+    },
+    {
+     "w": "puluh",
+     "start": 0.598,
+     "end": 0.862
+    },
+    {
+     "w": "tujuh",
+     "start": 0.862,
+     "end": 1.126
+    },
+    {
+     "w": "game,",
+     "start": 1.126,
+     "end": 1.39
+    },
+    {
+     "w": "lima",
+     "start": 1.7,
+     "end": 1.958
+    },
+    {
+     "w": "ratus",
+     "start": 1.958,
+     "end": 2.217
+    },
+    {
+     "w": "enam",
+     "start": 2.217,
+     "end": 2.475
+    },
+    {
+     "w": "puluh",
+     "start": 2.475,
+     "end": 2.733
+    },
+    {
+     "w": "lima",
+     "start": 2.733,
+     "end": 2.992
+    },
+    {
+     "w": "level,",
+     "start": 2.992,
+     "end": 3.25
+    },
+    {
+     "w": "dan",
+     "start": 3.47,
+     "end": 3.593
+    },
+    {
+     "w": "lebih",
+     "start": 3.593,
+     "end": 3.839
+    },
+    {
+     "w": "dari",
+     "start": 3.839,
+     "end": 4.086
+    },
+    {
+     "w": "dua",
+     "start": 4.086,
+     "end": 4.332
+    },
+    {
+     "w": "ribu",
+     "start": 4.332,
+     "end": 4.578
+    },
+    {
+     "w": "enam",
+     "start": 4.578,
+     "end": 4.825
+    },
+    {
+     "w": "ratus",
+     "start": 4.825,
+     "end": 5.071
+    },
+    {
+     "w": "variasi",
+     "start": 5.071,
+     "end": 5.564
+    },
+    {
+     "w": "soal.",
+     "start": 5.564,
+     "end": 5.81
+    }
+   ]
+  },
+  "57d1a233": {
+   "src": "narration/PetualanganPintar-Iklan/57d1a233.mp3",
+   "duration": 3,
+   "words": [
+    {
+     "w": "Coba",
+     "start": 0.08,
+     "end": 0.383
+    },
+    {
+     "w": "gratis",
+     "start": 0.383,
+     "end": 0.687
+    },
+    {
+     "w": "sekarang",
+     "start": 0.687,
+     "end": 1.142
+    },
+    {
+     "w": "di",
+     "start": 1.142,
+     "end": 1.293
+    },
+    {
+     "w": "petualangan",
+     "start": 1.293,
+     "end": 2.052
+    },
+    {
+     "w": "pintar",
+     "start": 2.052,
+     "end": 2.355
+    },
+    {
+     "w": "titik",
+     "start": 2.355,
+     "end": 2.658
+    },
+    {
+     "w": "kom.",
+     "start": 2.658,
+     "end": 2.81
+    }
+   ]
+  }
+ }
+}
