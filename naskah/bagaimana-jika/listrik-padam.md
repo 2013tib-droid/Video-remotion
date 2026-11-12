@@ -1,5 +1,5 @@
 ---
-status: draf         # ide | draf | final | dibuat
+status: dibuat
 id: BagaimanaJika-ListrikPadam
 template: kontenHarian
 seri: baru           # src/projects/bagaimana-jika/series.ts (lihat "Seri baru")

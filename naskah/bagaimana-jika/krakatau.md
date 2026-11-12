@@ -1,5 +1,5 @@
 ---
-status: draf         # ide | draf | final | dibuat
+status: dibuat
 id: BagaimanaJika-Krakatau
 template: kontenHarian
 seri: src/projects/bagaimana-jika/series.ts   # dibuat bersama naskah listrik-padam.md

@@ -1,0 +1,727 @@
+{
+ "clips": {
+  "fcf9e0d0": {
+   "src": "narration/BagaimanaJika-ListrikPadam/fcf9e0d0.mp3",
+   "duration": 2.856,
+   "words": [
+    {
+     "w": "Bagaimana",
+     "start": 0.07,
+     "end": 0.622
+    },
+    {
+     "w": "jika",
+     "start": 0.622,
+     "end": 0.897
+    },
+    {
+     "w": "listrik",
+     "start": 0.897,
+     "end": 1.173
+    },
+    {
+     "w": "Jawa",
+     "start": 1.173,
+     "end": 1.449
+    },
+    {
+     "w": "dan",
+     "start": 1.449,
+     "end": 1.587
+    },
+    {
+     "w": "Bali",
+     "start": 1.587,
+     "end": 1.863
+    },
+    {
+     "w": "padam",
+     "start": 1.863,
+     "end": 2.138
+    },
+    {
+     "w": "tiga",
+     "start": 2.138,
+     "end": 2.414
+    },
+    {
+     "w": "hari?",
+     "start": 2.414,
+     "end": 2.69
+    }
+   ]
+  },
+  "8c29ff51": {
+   "src": "narration/BagaimanaJika-ListrikPadam/8c29ff51.mp3",
+   "duration": 6.576,
+   "words": [
+    {
+     "w": "Ini",
+     "start": 0.06,
+     "end": 0.386
+    },
+    {
+     "w": "bukan",
+     "start": 0.386,
+     "end": 0.711
+    },
+    {
+     "w": "khayalan.",
+     "start": 0.711,
+     "end": 1.2
+    },
+    {
+     "w": "Empat",
+     "start": 1.38,
+     "end": 1.645
+    },
+    {
+     "w": "Agustus",
+     "start": 1.645,
+     "end": 2.043
+    },
+    {
+     "w": "dua",
+     "start": 2.043,
+     "end": 2.308
+    },
+    {
+     "w": "ribu",
+     "start": 2.308,
+     "end": 2.574
+    },
+    {
+     "w": "sembilan",
+     "start": 2.574,
+     "end": 2.972
+    },
+    {
+     "w": "belas,",
+     "start": 2.972,
+     "end": 3.237
+    },
+    {
+     "w": "dua",
+     "start": 3.237,
+     "end": 3.502
+    },
+    {
+     "w": "puluh",
+     "start": 3.502,
+     "end": 3.767
+    },
+    {
+     "w": "satu",
+     "start": 3.767,
+     "end": 4.033
+    },
+    {
+     "w": "koma",
+     "start": 4.033,
+     "end": 4.298
+    },
+    {
+     "w": "sembilan",
+     "start": 4.298,
+     "end": 4.696
+    },
+    {
+     "w": "juta",
+     "start": 4.696,
+     "end": 4.961
+    },
+    {
+     "w": "pelanggan",
+     "start": 4.961,
+     "end": 5.359
+    },
+    {
+     "w": "PLN",
+     "start": 5.359,
+     "end": 5.757
+    },
+    {
+     "w": "mendadak",
+     "start": 5.757,
+     "end": 6.155
+    },
+    {
+     "w": "gelap.",
+     "start": 6.155,
+     "end": 6.42
+    }
+   ]
+  },
+  "1929e32f": {
+   "src": "narration/BagaimanaJika-ListrikPadam/1929e32f.mp3",
+   "duration": 8.352,
+   "words": [
+    {
+     "w": "Dalam",
+     "start": 0.08,
+     "end": 0.37
+    },
+    {
+     "w": "hitungan",
+     "start": 0.37,
+     "end": 0.805
+    },
+    {
+     "w": "jam,",
+     "start": 0.805,
+     "end": 0.95
+    },
+    {
+     "w": "empat",
+     "start": 1.05,
+     "end": 1.3
+    },
+    {
+     "w": "kereta",
+     "start": 1.3,
+     "end": 1.675
+    },
+    {
+     "w": "MRT",
+     "start": 1.675,
+     "end": 2.05
+    },
+    {
+     "w": "tertahan",
+     "start": 2.05,
+     "end": 2.425
+    },
+    {
+     "w": "di",
+     "start": 2.425,
+     "end": 2.55
+    },
+    {
+     "w": "bawah",
+     "start": 2.55,
+     "end": 2.8
+    },
+    {
+     "w": "tanah,",
+     "start": 2.8,
+     "end": 3.05
+    },
+    {
+     "w": "dua",
+     "start": 3.26,
+     "end": 3.513
+    },
+    {
+     "w": "ratus",
+     "start": 3.513,
+     "end": 3.766
+    },
+    {
+     "w": "empat",
+     "start": 3.766,
+     "end": 4.019
+    },
+    {
+     "w": "puluh",
+     "start": 4.019,
+     "end": 4.272
+    },
+    {
+     "w": "perjalanan",
+     "start": 4.272,
+     "end": 4.778
+    },
+    {
+     "w": "KRL",
+     "start": 4.778,
+     "end": 5.157
+    },
+    {
+     "w": "batal,",
+     "start": 5.157,
+     "end": 5.41
+    },
+    {
+     "w": "lampu",
+     "start": 5.64,
+     "end": 5.922
+    },
+    {
+     "w": "lalu",
+     "start": 5.922,
+     "end": 6.205
+    },
+    {
+     "w": "lintas",
+     "start": 6.205,
+     "end": 6.488
+    },
+    {
+     "w": "mati,",
+     "start": 6.488,
+     "end": 6.77
+    },
+    {
+     "w": "dan",
+     "start": 6.87,
+     "end": 7.032
+    },
+    {
+     "w": "sinyal",
+     "start": 7.032,
+     "end": 7.357
+    },
+    {
+     "w": "ponsel",
+     "start": 7.357,
+     "end": 7.683
+    },
+    {
+     "w": "terganggu.",
+     "start": 7.683,
+     "end": 8.17
+    }
+   ]
+  },
+  "ed357106": {
+   "src": "narration/BagaimanaJika-ListrikPadam/ed357106.mp3",
+   "duration": 5.088,
+   "words": [
+    {
+     "w": "Itu",
+     "start": 0.07,
+     "end": 0.317
+    },
+    {
+     "w": "pun",
+     "start": 0.317,
+     "end": 0.441
+    },
+    {
+     "w": "sebagian",
+     "start": 0.441,
+     "end": 0.935
+    },
+    {
+     "w": "wilayah",
+     "start": 0.935,
+     "end": 1.306
+    },
+    {
+     "w": "baru",
+     "start": 1.306,
+     "end": 1.554
+    },
+    {
+     "w": "menyala",
+     "start": 1.554,
+     "end": 1.925
+    },
+    {
+     "w": "lagi",
+     "start": 1.925,
+     "end": 2.172
+    },
+    {
+     "w": "besok",
+     "start": 2.172,
+     "end": 2.419
+    },
+    {
+     "w": "malamnya.",
+     "start": 2.419,
+     "end": 2.79
+    },
+    {
+     "w": "Sekarang",
+     "start": 3.46,
+     "end": 3.82
+    },
+    {
+     "w": "bayangkan",
+     "start": 3.82,
+     "end": 4.18
+    },
+    {
+     "w": "tiga",
+     "start": 4.18,
+     "end": 4.42
+    },
+    {
+     "w": "hari",
+     "start": 4.42,
+     "end": 4.66
+    },
+    {
+     "w": "penuh.",
+     "start": 4.66,
+     "end": 4.9
+    }
+   ]
+  },
+  "f836072d": {
+   "src": "narration/BagaimanaJika-ListrikPadam/f836072d.mp3",
+   "duration": 9.168,
+   "words": [
+    {
+     "w": "Hari",
+     "start": 0.07,
+     "end": 0.278
+    },
+    {
+     "w": "kedua,",
+     "start": 0.278,
+     "end": 0.59
+    },
+    {
+     "w": "pompa",
+     "start": 0.89,
+     "end": 1.154
+    },
+    {
+     "w": "air",
+     "start": 1.154,
+     "end": 1.285
+    },
+    {
+     "w": "berhenti",
+     "start": 1.285,
+     "end": 1.681
+    },
+    {
+     "w": "dan",
+     "start": 1.681,
+     "end": 1.813
+    },
+    {
+     "w": "keran",
+     "start": 1.813,
+     "end": 2.076
+    },
+    {
+     "w": "kering.",
+     "start": 2.076,
+     "end": 2.34
+    },
+    {
+     "w": "ATM",
+     "start": 2.64,
+     "end": 3.073
+    },
+    {
+     "w": "dan",
+     "start": 3.073,
+     "end": 3.218
+    },
+    {
+     "w": "QRIS",
+     "start": 3.218,
+     "end": 3.362
+    },
+    {
+     "w": "tidak",
+     "start": 3.362,
+     "end": 3.651
+    },
+    {
+     "w": "jalan,",
+     "start": 3.651,
+     "end": 3.94
+    },
+    {
+     "w": "uang",
+     "start": 4.12,
+     "end": 4.365
+    },
+    {
+     "w": "tunai",
+     "start": 4.365,
+     "end": 4.61
+    },
+    {
+     "w": "jadi",
+     "start": 4.61,
+     "end": 4.855
+    },
+    {
+     "w": "raja.",
+     "start": 4.855,
+     "end": 5.1
+    },
+    {
+     "w": "Hari",
+     "start": 5.43,
+     "end": 5.654
+    },
+    {
+     "w": "ketiga,",
+     "start": 5.654,
+     "end": 5.99
+    },
+    {
+     "w": "SPBU",
+     "start": 6.16,
+     "end": 6.705
+    },
+    {
+     "w": "sulit",
+     "start": 6.705,
+     "end": 6.978
+    },
+    {
+     "w": "memompa",
+     "start": 6.978,
+     "end": 7.387
+    },
+    {
+     "w": "bensin,",
+     "start": 7.387,
+     "end": 7.66
+    },
+    {
+     "w": "dan",
+     "start": 7.82,
+     "end": 7.953
+    },
+    {
+     "w": "isi",
+     "start": 7.953,
+     "end": 8.22
+    },
+    {
+     "w": "kulkas",
+     "start": 8.22,
+     "end": 8.487
+    },
+    {
+     "w": "mulai",
+     "start": 8.487,
+     "end": 8.753
+    },
+    {
+     "w": "basi.",
+     "start": 8.753,
+     "end": 9.02
+    }
+   ]
+  },
+  "2e044e8f": {
+   "src": "narration/BagaimanaJika-ListrikPadam/2e044e8f.mp3",
+   "duration": 4.896,
+   "words": [
+    {
+     "w": "Yang",
+     "start": 0.07,
+     "end": 0.242
+    },
+    {
+     "w": "bertahan",
+     "start": 0.242,
+     "end": 0.757
+    },
+    {
+     "w": "bukan",
+     "start": 0.757,
+     "end": 1.101
+    },
+    {
+     "w": "yang",
+     "start": 1.101,
+     "end": 1.273
+    },
+    {
+     "w": "paling",
+     "start": 1.273,
+     "end": 1.616
+    },
+    {
+     "w": "kaya,",
+     "start": 1.616,
+     "end": 1.96
+    },
+    {
+     "w": "tapi",
+     "start": 2.06,
+     "end": 2.484
+    },
+    {
+     "w": "yang",
+     "start": 2.484,
+     "end": 2.697
+    },
+    {
+     "w": "punya",
+     "start": 2.697,
+     "end": 3.121
+    },
+    {
+     "w": "uang",
+     "start": 3.121,
+     "end": 3.546
+    },
+    {
+     "w": "tunai,",
+     "start": 3.546,
+     "end": 3.97
+    },
+    {
+     "w": "stok",
+     "start": 4.13,
+     "end": 4.252
+    },
+    {
+     "w": "air,",
+     "start": 4.252,
+     "end": 4.374
+    },
+    {
+     "w": "dan",
+     "start": 4.374,
+     "end": 4.496
+    },
+    {
+     "w": "senter.",
+     "start": 4.496,
+     "end": 4.74
+    }
+   ]
+  },
+  "e8be0ad6": {
+   "src": "narration/BagaimanaJika-ListrikPadam/e8be0ad6.mp3",
+   "duration": 4.824,
+   "words": [
+    {
+     "w": "Listrik",
+     "start": 0.07,
+     "end": 0.367
+    },
+    {
+     "w": "padam",
+     "start": 0.367,
+     "end": 0.664
+    },
+    {
+     "w": "tidak",
+     "start": 0.664,
+     "end": 0.961
+    },
+    {
+     "w": "bisa",
+     "start": 0.961,
+     "end": 1.259
+    },
+    {
+     "w": "kita",
+     "start": 1.259,
+     "end": 1.556
+    },
+    {
+     "w": "cegah,",
+     "start": 1.556,
+     "end": 1.853
+    },
+    {
+     "w": "tapi",
+     "start": 1.853,
+     "end": 2.15
+    },
+    {
+     "w": "bisa",
+     "start": 2.15,
+     "end": 2.447
+    },
+    {
+     "w": "kita",
+     "start": 2.447,
+     "end": 2.744
+    },
+    {
+     "w": "siapkan.",
+     "start": 2.744,
+     "end": 3.19
+    },
+    {
+     "w": "Mulai",
+     "start": 3.46,
+     "end": 3.722
+    },
+    {
+     "w": "dari",
+     "start": 3.722,
+     "end": 3.984
+    },
+    {
+     "w": "tiga",
+     "start": 3.984,
+     "end": 4.247
+    },
+    {
+     "w": "hal",
+     "start": 4.247,
+     "end": 4.378
+    },
+    {
+     "w": "tadi.",
+     "start": 4.378,
+     "end": 4.64
+    }
+   ]
+  },
+  "9dce71b9": {
+   "src": "narration/BagaimanaJika-ListrikPadam/9dce71b9.mp3",
+   "duration": 3.744,
+   "words": [
+    {
+     "w": "Tulis",
+     "start": 0.07,
+     "end": 0.329
+    },
+    {
+     "w": "skenario",
+     "start": 0.329,
+     "end": 0.848
+    },
+    {
+     "w": "bagaimana",
+     "start": 0.848,
+     "end": 1.366
+    },
+    {
+     "w": "jika",
+     "start": 1.366,
+     "end": 1.626
+    },
+    {
+     "w": "versimu",
+     "start": 1.626,
+     "end": 2.014
+    },
+    {
+     "w": "di",
+     "start": 2.014,
+     "end": 2.144
+    },
+    {
+     "w": "komentar.",
+     "start": 2.144,
+     "end": 2.533
+    },
+    {
+     "w": "Follow",
+     "start": 2.533,
+     "end": 2.792
+    },
+    {
+     "w": "untuk",
+     "start": 2.792,
+     "end": 3.051
+    },
+    {
+     "w": "jawabannya.",
+     "start": 3.051,
+     "end": 3.57
+    }
+   ]
+  }
+ }
+}
