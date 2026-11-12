@@ -19,6 +19,10 @@ Sumber: bedah video referensi "Pertalite atau Pertamax" (`docs/REFERENSI.md`, R2
 ### Contoh
 - `src/projects/bagaimana-jika/` — seri "Bagaimana Jika?" (krem, 3D isometrik + irisan).
 
+### Pustaka visual
+- **`docs/PUSTAKA-VISUAL.md`** + `src/worlds/benda.ts` & `src/worlds/irisan.ts`: benda 3D (SPBU, kereta, ATM, gedung berjendela,
+  gunung api, …), 6 irisan siap pakai, HUD, dan resep adegan dari video jadi — dengan gambar dari videonya (`docs/pustaka/`).
+
 ## 2026-11-12 — Folder `naskah/`
 
 - **`naskah/`** — rancangan video sebelum jadi config: satu file per video (konsep, data & sumber, alur, narasi) +

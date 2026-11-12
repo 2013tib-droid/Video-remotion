@@ -221,6 +221,8 @@ dalam meter (mobil ±4,5); model otomatis ditaruh di tengah dengan alas di lanta
 - Percobaan mempercepat render dengan `--concurrency=4` gagal (timeout 33 dtk saat memuat model) — jangan dipakai untuk scene ber-model.
 
 ## Irisan teknis (`irisan`)
+Gambar irisan siap pakai (gunung api, longsor, pantai, jaringan listrik, terowongan, pompa air): `docs/PUSTAKA-VISUAL.md`.
+
 **Untuk video baru pakai template `bedah3D`** dengan props `irisan: { nama: { parts, views?, badge?, size? } }` lalu
 `gambar: 'nama'` di adegan: adegan itu tampil sebagai irisan 2D; `kamera` (view irisan `{ center, zoom }`), `gerak`, `muncul`,
 `hilang`, `ubah`, `label` menunjuk bagian irisan. Keadaannya bersambung antar adegan ber-`gambar` sama; dunia 3D melanjutkan

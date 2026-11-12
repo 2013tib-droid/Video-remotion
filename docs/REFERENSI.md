@@ -4,6 +4,8 @@ Video orang lain yang gayanya disukai pemilik repo, dibedah jadi **pola yang bis
 Dipakai saat menulis naskah/storyboard dan saat memilih animasi. Yang ditiru **tekniknya** — bukan brand, naskah, atau asetnya
 (file video referensi tidak disimpan di repo).
 
+Komponen yang sudah dibuat dari gaya-gaya ini (benda 3D, irisan 2D, HUD, resep adegan) dikumpulkan di `docs/PUSTAKA-VISUAL.md`.
+
 Menambah referensi baru: beri videonya ke Claude Code, minta "jadikan referensi", lalu tambahkan bagian baru di bawah
 dengan susunan yang sama (ringkasan → alur → pola → cara membuat → yang belum ada).
 
