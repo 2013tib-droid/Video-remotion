@@ -3,6 +3,8 @@
 Repo ini **framework animasi**, bukan satu video. Video baru = **satu file data**; jangan menulis kode animasi.
 
 ## Membuat video (99% tugas) — alur hemat token
+0. Bila diberi `naskah/<brand>/<video>.md` (konsep + alur + narasi, lihat `naskah/README.md`): itu sumber isinya. Setelah config
+   dibuat, ubah `status: dibuat` + isi `file:`; revisi narasi berikutnya di `.ts`, bukan di naskah.
 1. Pilih template, baca **hanya** interface props-nya:
    - Iklan sebuah proyek/aplikasi → `promoProyek` (`src/templates/PromoProyek.ts`), contoh `src/projects/price-atlas/iklan.ts`.
    - Konten harian topik apa pun (keuangan, politik, sosial, tips, data) → `kontenHarian` (`src/templates/KontenHarian.ts`),
@@ -20,7 +22,7 @@ Repo ini **framework animasi**, bukan satu video. Video baru = **satu file data*
    `public/narration/<ID>/` + `<video>.narration.json`. Tanpa langkah ini video bisu.
 5. `npm run cek` (typecheck + periksa isi: highlight, aset, cue, narasi). Selesai. **Jangan render kecuali diminta.**
 
-Yang boleh diubah untuk tugas video: `src/projects/**`, `public/brands/<brand>/`. Jangan membaca `src/components`,
+Yang boleh diubah untuk tugas video: `src/projects/**`, `naskah/**`, `public/brands/<brand>/`. Jangan membaca `src/components`,
 `src/scenes/*Scene*`, `src/core`, `src/motion` — tidak diperlukan.
 
 ## Aturan isi

@@ -3,6 +3,9 @@
 Setiap video adalah satu file di `src/projects/<brand>/` yang `export default` sebuah `VideoConfig`.
 File itu **otomatis terdaftar** (tidak ada daftar yang perlu diedit).
 
+Rancangan sebelum config (konsep, data & sumber, alur, narasi) ditulis di `naskah/<brand>/<video>.md` — salin
+`naskah/_template/video.md`; alurnya di `naskah/README.md`.
+
 ## Cara cepat — Seri + template (disarankan)
 
 **Seri** (`src/projects/<brand>/series.ts`) menyimpan semua yang sama di tiap video: brand, tema, suara, transisi, penutup.

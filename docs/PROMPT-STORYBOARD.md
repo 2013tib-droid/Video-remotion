@@ -9,6 +9,8 @@ Claude Code hanya menerima **hasil final** lalu menulis satu file config.
 3. Setelah bilang "FINAL", salin blok **HASIL UNTUK CLAUDE CODE** ke Claude Code. Selesai.
 
 Tips: jangan minta AI lain menulis TypeScript; kirim ke Claude Code hanya versi final.
+Atau simpan naskahnya di repo: tempel `naskah/_template/video.md` sebagai BRIEF, simpan hasilnya ke `naskah/<brand>/<video>.md`
+(status `final`), lalu cukup bilang ke Claude Code "buat video dari naskah itu" (lihat `naskah/README.md`).
 
 ---
 

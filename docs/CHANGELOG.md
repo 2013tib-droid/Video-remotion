@@ -2,6 +2,12 @@
 
 Perubahan framework yang memengaruhi semua video. Entri terbaru di atas.
 
+## 2026-11-12 — Folder `naskah/`
+
+- **`naskah/`** — rancangan video sebelum jadi config: satu file per video (konsep, data & sumber, alur, narasi) +
+  `status:` (`ide` → `draf` → `final` → `dibuat`). Template `naskah/_template/video.md`, contoh `naskah/harian/tips-gaji.md`.
+- Setelah dibuat, narasi tetap bersumber di file `.ts` (naskah tidak dibaca build/narasi). Tidak ada perubahan kode.
+
 ## 2026-11-11 — Referensi gaya + HUD data di dunia 3D
 
 Sumber: bedah video referensi "busi standar atau iridium?" (`docs/REFERENSI.md`, R1).
