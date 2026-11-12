@@ -35,6 +35,7 @@ Sebagian besar scene juga menerima **judul standar**: `eyebrow`, `title`, `highl
 | `words` | `words` (kalimat atau `[{text, highlight?, at?}]`) `accent?[]` `interval?` `flash?` `caption?` | **Satu kata per ketukan** memenuhi layar: menghentak masuk (skala + blur), dorongan pelan, dipotong kata berikutnya; kata sorotan (`accent`) bergradien + latar berkedip warna brand (`flash: false` = mati). Bernarasi → tiap kata muncul **tepat saat diucapkan** (otomatis dicocokkan). Default dibagi rata sepanjang `duration` (≈ 1 kata/dtk bila durasi = jumlah kata). Bunyi tick per kata, dentum untuk kata sorotan. |
 | `broll` | `src` atau `shots[] {src, move?, focus?, caption?, duration?, startFrom?}` `move?` `textPosition?` `dim?` `volume?` + judul standar | **Foto/video b-roll layar penuh** dengan gerak kamera Ken Burns: `zoomIn` `zoomOut` `panLeft` `panRight` `panUp` `panDown` `none` atau `auto` (bergiliran). `focus: [x, y]` (0..1) = titik pusat zoom. Beberapa `shots` = montase dengan crossfade + swipe. Judul putih di atas scrim gelap (`dim` 0..1, `textPosition` `bottom`/`center`/`top`); `caption` = label lokasi kiri atas. Video (mp4/webm/mov) senyap kecuali `volume`. |
 | `map` | `region?` `points[] {place? \| lat+lon, label?, value?, icon?, at?}` `routes[] {from, to, at?}` `countries?[]` `zoomToPoints?` + judul standar | **Peta beranimasi** (Natural Earth): daratan tersingkap melingkar, kamera terbang ke area pin, pin jatuh memantul + denyut, label (anti-tabrakan) dengan nilai, rute melengkung tergambar + titik mengalir. `region`: `indonesia` (default) `sumatra` `jawa` `kalimantan` `sulawesi` `bali-nusra` `maluku` `papua` `asean` `asia` `world` atau bbox `[barat, selatan, timur, utara]`. `place` = kota bawaan (±100: semua ibu kota provinsi & kota besar Indonesia, ASEAN, kota dunia — `src/components/map/places.ts`). `countries` = negara diwarnai (nama Inggris, mis. `'Malaysia'`); wilayah Indonesia otomatis menyorot Indonesia. |
+| `irisan` | `parts[]` `size?` `shots?[]` `labels?[]` `badge?` `cards?[]` `readout?` `panel?` `meters?[]` `stamp?` `latar?` `note?` | **Irisan teknis 2D** (cutaway gaya buku teknik): bagian berwarna per bahan dengan aksir, bergerak saat kata narasi, label menempel, HUD sama dengan `world`. Lihat bagian *Irisan teknis* di bawah. |
 | `world` | `objects[]` `views?` `shots[]` `labels?[]` `cards?[]` `readout?` `meters?[]` `measures?[]` `stamp?` `ground?` `sky?` `note?` + judul standar | **Dunia 3D** (WebGL): objek nyata + kamera yang terbang antar sudut pandang, tembus pandang ke dalam objek, bagian bergerak, label menempel. Lihat bagian *Dunia 3D* di bawah. |
 
 Semua scene juga menerima `narration` (teks voice-over), `emphasis[]` (kata disorot di subtitle) dan `chapter {label?, title, highlight?}` (header bab). `at` = detik **atau kata narasi** (mis. `'higrometer'`, `'alat#2'`). Lihat `docs/EXPLAINER.md`.
@@ -53,7 +54,7 @@ Semua scene juga menerima `narration` (teks voice-over), `emphasis[]` (kata diso
 `notifications[]`: `{ icon?, app?, title, body?, time? }` — muncul berurutan di atas perangkat.
 
 ## Durasi default (detik)
-logo 3 · hero 4 · mascot 4 · features 5 · stats 4 · chart 5 · comparison 5 · timeline 5 · device 5 · calculation 5 · testimonial 4.5 · cta 4 · question 5 · relation 5 · statement 5 · words 4 · broll 5 · map 6 · world 8 (scene bernarasi: mengikuti panjang suara)
+logo 3 · hero 4 · mascot 4 · features 5 · stats 4 · chart 5 · comparison 5 · timeline 5 · device 5 · calculation 5 · testimonial 4.5 · cta 4 · question 5 · relation 5 · statement 5 · words 4 · broll 5 · map 6 · world 8 · irisan 6 (scene bernarasi: mengikuti panjang suara)
 
 ## Efek suara (SFX)
 Semua video otomatis punya efek suara halus (file sintetis di `public/sfx/`, dibuat `node scripts/build-sfx.mjs`):
@@ -171,6 +172,15 @@ Contoh lengkap bernarasi: `src/projects/_demos/dunia.ts` (video `Demo-Dunia3D`).
 - Render memakai WebGL perangkat lunak (`swangle`, sudah diatur). Mesin ber-GPU: `REMOTION_GL=angle`.
 - Tema terang paling cocok.
 
+### HUD tambahan (`world` & `irisan`)
+- **`panel`** — panel gelap gaya layar mesin: `{ title?, rows[], note?, at?, hideAt? }`,
+  `rows: [{ label, tag?, dot?, value?, to?, text?, prefix?, suffix?, decimals?, at?, duration?, showAt?, color? }]`
+  (angka mesin tik yang menghitung; `showAt` = baris yang menyusul, mis. SELISIH). Template `bedah3D`: `panel` (bertahan, `false` menghapus).
+- **`cards[].gaya`** — `catatan` (default) · `kutipan` (miring, pinggir hijau, + sumber) · `putusan` (kartu kuning besar).
+  `cards[].sorot: ['frasa']` = stabilo kuning di dalam teks kartu.
+- **`box.round`** — jari-jari sudut membulat (default otomatis kecil; `0` = tajam).
+- Tema: `colors.highlight` / `onHighlight` (opsional) = warna kata aktif subtitle (default `primary`).
+
 ### Model `.glb`
 `{ shape: 'model', src: 'models/car-concept.glb', size: 4.5 }` — benda nyata dari file glTF biner. `size` = sisi terpanjang
 dalam meter (mobil ±4,5); model otomatis ditaruh di tengah dengan alas di lantai (`ground: false` = titik asal asli).
@@ -209,3 +219,26 @@ dalam meter (mobil ±4,5); model otomatis ditaruh di tengah dengan alas di lanta
 - HUD data (strip data, panel batang, penanda ukuran, cap, daftar putusan) diperiksa lewat frame uji `Demo-Bedah3D`; belum dirender sebagai video utuh.
 - Belum ada: HUD berbentuk khusus (mis. indikator P-R-N-D), model mobil harian, pengecilan model, kit dunia selain `jalanRaya()`.
 - Percobaan mempercepat render dengan `--concurrency=4` gagal (timeout 33 dtk saat memuat model) — jangan dipakai untuk scene ber-model.
+
+## Irisan teknis (`irisan`)
+**Untuk video baru pakai template `bedah3D`** dengan props `irisan: { nama: { parts, views?, badge?, size? } }` lalu
+`gambar: 'nama'` di adegan: adegan itu tampil sebagai irisan 2D; `kamera` (view irisan `{ center, zoom }`), `gerak`, `muncul`,
+`hilang`, `ubah`, `label` menunjuk bagian irisan. Keadaannya bersambung antar adegan ber-`gambar` sama; dunia 3D melanjutkan
+dari posisi terakhirnya. Acuan: `src/projects/bagaimana-jika/krakatau.ts` (gunung dibelah, longsor, pantai) dan
+`listrik-padam.ts` (jaringan listrik, terowongan MRT, pompa air). Gaya: `docs/REFERENSI.md` R2.
+
+- Kanvas `size` (default `[1000, 1000]`, y ke bawah). Gambar ditaruh di tengah antara header bab dan subtitle.
+- **`parts[]`** — `shape`: `rect {x,y,w,h,r?}` · `circle {x,y,r}` · `ellipse {x,y,rx,ry}` · `poly {points[], smooth?, closed?}`
+  · `path {d}` · `wave {x,y,w,h,amp?,length?,speed?}` (permukaan air bergelombang) · `flow {path[], count?, size?, speed?, at?, stopAt?}`
+  (butiran mengalir: listrik, air, lava) · `group {children[]}`.
+  Umum: `id?` `pos?` `origin?` (poros putar/skala + titik label) `bahan?` `fill?` `stroke?` (`false` = tanpa) `strokeWidth?`
+  `hatch?` (`true` aksir · `'titik'` · `false`) `opacity?` `glow?` `hidden?` `showAt?` `hideAt?` `motion?[]`.
+- **`bahan`** → warna + tekstur + garis tepi otomatis: `batu` `tanah` `pasir` `magma` (menyala) `air` `logam` `beton` `abu` `udara`
+  `kayu` `karet` `rumput`. `fill` menimpa warnanya.
+- **`motion[]`** — `move {to:[dx,dy]}` · `turn {to: derajat}` · `scale {to: n | [sx,sy]}` · `fade` · `color` (semua saat `at`,
+  `duration?`), `spin {speed?, at?, stopAt?}` (kipas/roda), `bob {amount?, period?}`, `shake {amount?, at?, stopAt?}` (getar/ledakan).
+  Tumbuh dari dasar: `origin` di dasar + `scale [1, 0.25]` di awal lalu `scale [1, 1]` saat cue.
+- **`shots[]`** — `{ center?, zoom?, at?, duration? }`: bergeser/memperbesar halus; ada ayunan perbesaran pelan (gerak lambat).
+- **`labels[]`** — `{ target: id | [x, y], text, color?, at?, hideAt?, side? }`. **`badge`** = lencana di atas gambar
+  ("Ilustrasi · irisan · bukan skala"). HUD `readout` `panel` `meters` `cards` `stamp` sama dengan `world`.
+- Render ringan (SVG, tanpa WebGL).

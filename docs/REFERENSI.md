@@ -112,8 +112,8 @@ ke dalam benda, gambar berganti ke **irisan teknis** (cutaway) yang rapi seperti
 - Warna diirit: dunia netral, warna kuat hanya untuk yang sedang dibahas (pil, api, label).
 - Penjelasan "di dalam" pakai irisan 2D bersih, bukan 3D tembus pandang.
 
-### Belum ada di framework (urutan prioritas untuk menyamai R2)
-1. Scene **irisan teknis 2D** (SVG): bagian berwarna per bahan, aksir, label, gerak lambat.
-2. **Kit dunia detail** dari bentuk dasar yang lebih kaya (tepi membulat, bagian kecil, bayangan lembut) per tempat.
-3. Panel HUD **gelap** gaya layar mesin + kartu kutipan bertumpuk + kartu putusan kuning.
-4. Lencana jenis gambar di atas objek, dan sapuan kamera cepat.
+### Status (2026-11-12)
+- **Sudah dibuat:** scene irisan teknis 2D (`irisan` + `gambar` di `bedah3D`), panel gelap `panel`, kartu `kutipan`/`putusan`
+  + `sorot`, kotak bersudut membulat, lencana gambar di irisan, warna sorotan subtitle di tema. Contoh: `src/projects/bagaimana-jika/`.
+- **Belum:** kit dunia detail siap pakai per tempat (SPBU, kota, pantai — sekarang dirakit di file video), lencana di atas
+  objek 3D, sapuan kamera cepat (whip pan), aksir/tekstur pada objek 3D.
