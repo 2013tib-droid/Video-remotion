@@ -96,3 +96,5 @@ Total narasi ±90 kata ≈ 33–38 dtk.
      domain `.id`, badge App Store/Google Play. Usul: hapus setelah iklan ini dibuat.
 - 2026-11-12 — keputusan pemilik: suara Ardi; Rp19.000 untuk Playgroup & TK adalah harga tetap → masuk fitur & narasi;
   `promo.ts` lama dihapus; watermark logo + nama brand sampai ada akun medsos. Config dibuat → revisi berikutnya di `.ts`.
+- 2026-11-12 — revisi pemilik: 12 dtk pertama terlalu banyak teks. Pembuka diganti montase screenshot layar penuh (hook lewat
+  narasi + subtitle) → maskot anak ayam memperkenalkan produk; layar keluhan dihapus. Detail di `iklan.ts`.

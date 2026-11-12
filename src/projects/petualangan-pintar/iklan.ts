@@ -1,14 +1,17 @@
+import type { VideoConfig } from '../../core/types';
+import type { SceneConfig } from '../../scenes/types';
 import { promoProyek } from '../../templates';
 import { petualanganPintar } from './series';
 
+const img = (f: string) => `brands/petualangan-pintar/${f}`;
+
 /** Iklan Petualangan Pintar. Naskah & sumber angka: `naskah/petualangan-pintar/iklan.md`. */
-export default promoProyek(petualanganPintar, {
+const promo = promoProyek(petualanganPintar, {
   slug: 'Iklan',
   duration: 35,
   lexicon: { TK: 'Te Ka', SD: 'Es De', Playgroup: 'Plé grup' },
   hook: 'Belum bisa baca? Tetap bisa belajar.',
   highlight: 'Tetap bisa belajar',
-  masalah: ['Game penuh iklan.', 'Belajar bikin bosan.', 'Takut salah.'],
   solusi: 'Belajar seru, tanpa terasa belajar.',
   solusiHighlight: 'tanpa terasa belajar',
   tagline: 'Game edukasi untuk Playgroup, TK, dan SD.',
@@ -47,9 +50,38 @@ export default promoProyek(petualanganPintar, {
   ],
   narasi: {
     hook: 'Anak belum lancar membaca? Tetap bisa belajar sendiri.',
-    masalah: 'Bukan game penuh iklan, bukan belajar yang membosankan.',
     solusi: 'Kenalkan Petualangan Pintar, game edukasi untuk anak Playgroup, TK, dan SD.',
     fitur: 'Tanpa iklan, tanpa hukuman saat salah. Untuk Playgroup dan TK, cukup sekali bayar sembilan belas ribu rupiah.',
     bukti: 'Ada empat puluh tujuh game, lima ratus enam puluh lima level, dan lebih dari dua ribu enam ratus variasi soal.',
   },
 });
+
+/**
+ * Pembuka bergambar sejak detik pertama: montase gameplay (hook) → maskot memperkenalkan produk.
+ * Menggantikan dua scene teks pertama promoProyek (hook & solusi); sisanya (layar HP, fitur, angka, CTA) tetap.
+ */
+const pembuka: SceneConfig[] = [
+  {
+    type: 'broll',
+    // Tanpa judul: teks di screenshot bertabrakan dengan judul. Hook dibawa narasi + subtitle.
+    dim: 0.1,
+    emphasis: ['Tetap bisa belajar'],
+    shots: [
+      { src: img('03-gameplay-benar.jpg'), move: 'zoomIn', focus: [0.5, 0.5] },
+      { src: img('04-gameplay-tulis.jpg'), move: 'zoomIn', focus: [0.5, 0.62] },
+      { src: img('05-selamat.jpg'), move: 'panUp', focus: [0.5, 0.6] },
+    ],
+    narration: 'Anak belum lancar membaca? Tetap bisa belajar sendiri.',
+  },
+  {
+    type: 'mascot',
+    mascot: img('petualang.webp'),
+    name: 'Petualangan Pintar',
+    speech: 'Belajar seru, tanpa terasa belajar!',
+    subtitle: 'Game edukasi untuk Playgroup, TK, dan SD.',
+    narration: 'Kenalkan Petualangan Pintar, game edukasi untuk anak Playgroup, TK, dan SD.',
+  },
+];
+
+const config: VideoConfig = { ...promo, scenes: [...pembuka, ...promo.scenes.slice(2)] };
+export default config;
