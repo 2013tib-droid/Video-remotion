@@ -1,7 +1,12 @@
 import type { VideoConfig } from '../core/types';
 import type {
   Cue,
+  IrisanMotion,
+  IrisanPart,
+  IrisanScene,
+  IrisanShot,
   SceneConfig,
+  Vec2,
   WorldCard,
   WorldLabel,
   WorldMeasure,
@@ -9,6 +14,7 @@ import type {
   WorldModelPart,
   WorldMotion,
   WorldObject,
+  WorldPanel,
   WorldReadout,
   WorldScene,
   WorldShot,
@@ -25,6 +31,24 @@ export interface Dunia {
   sky?: WorldScene['sky'];
 }
 
+/**
+ * Gambar IRISAN teknis 2D (cutaway) yang dipakai adegan ber-`gambar`: bagian per bahan + sudut pandang bernama.
+ * Koordinat kanvas `size` (default 1000 × 1000, y ke bawah). Rujukan bentuk: `IrisanPart` di `src/scenes/types.ts`.
+ */
+export interface Irisan {
+  parts: IrisanPart[];
+  size?: Vec2;
+  /** Sudut pandang bernama: `{ center: [x, y], zoom }` — dipakai `kamera` adegan ber-`gambar`. */
+  views?: Record<string, Omit<IrisanShot, 'at' | 'duration'>>;
+  /** Lencana di atas gambar, mis. "Ilustrasi · irisan · gerak lambat". */
+  badge?: string;
+  /** Warna latar irisan. Default background tema. */
+  latar?: string;
+}
+
+/** Perubahan permanen sebuah bagian irisan mulai adegan ini. */
+export type UbahBagian = { pos?: Vec2; fill?: string; opacity?: number; hidden?: boolean };
+
 /** Perubahan permanen sebuah objek mulai adegan ini (mis. `{ light: 'green' }`, `{ brake: false }`, `{ color: 'danger' }`). */
 export type UbahObjek = Partial<Pick<WorldObject, 'pos' | 'rotate' | 'scale' | 'color' | 'opacity' | 'hidden'>> & {
   light?: 'red' | 'yellow' | 'green';
@@ -36,6 +60,12 @@ export type UbahObjek = Partial<Pick<WorldObject, 'pos' | 'rotate' | 'scale' | '
  * (kamera pindah, objek bergerak, bagian terbuka, lampu berganti) TETAP berlaku di adegan berikutnya.
  */
 export interface Adegan {
+  /**
+   * Nama gambar irisan (`irisan` di props video) — adegan ini tampil sebagai irisan teknis 2D, bukan dunia 3D.
+   * `kamera`/`gerak`/`muncul`/`hilang`/`ubah`/`label` lalu menunjuk view & bagian irisan itu. Keadaannya bersambung
+   * antar adegan ber-`gambar` sama; dunia 3D melanjutkan dari posisi terakhirnya saat kembali.
+   */
+  gambar?: string;
   /** Header bab kiri atas. String = judul saja. Kosong = lanjut bab sebelumnya. */
   bab?: string | { label?: string; judul: string; highlight?: string };
   /** Kalimat yang dibacakan (1–2 kalimat pendek, ±3–7 detik). */
@@ -50,7 +80,7 @@ export interface Adegan {
   /** id objek yang tembus pandang mulai adegan ini. `[]` = kembali utuh. Kosong = sama seperti sebelumnya. */
   xray?: string[];
   /** Label yang menempel pada objek. `tetap: true` = bertahan di adegan-adegan berikutnya. */
-  label?: (WorldLabel & { tetap?: boolean })[];
+  label?: (Omit<WorldLabel, 'target'> & { target: string | WorldLabel['target'] | Vec2; tetap?: boolean })[];
   /** `true` = hapus semua label `tetap` sebelum adegan ini. */
   labelBersih?: boolean;
   /** Kartu keterangan/sumber (hanya di adegan ini). */
@@ -62,12 +92,14 @@ export interface Adegan {
   data?: WorldReadout | false;
   /** Panel batang ukur (HUD). BERTAHAN ke adegan berikutnya di nilai akhirnya sampai diganti; `false` = hapus. */
   meter?: WorldMeter | WorldMeter[] | false;
+  /** Panel gelap gaya layar mesin. BERTAHAN (angka di nilai akhirnya) sampai diganti; `false` = hapus. */
+  panel?: WorldPanel | false;
   /** Penanda ukuran antara dua titik (mis. celah "0,8 mm"). `tetap: true` = bertahan; `labelBersih` menghapusnya. */
   ukur?: (WorldMeasure & { tetap?: boolean })[];
   /** Cap putusan besar (mis. "IMPAS") — hanya di adegan ini. */
   cap?: WorldStamp;
   /** Gerak objek per id: `{ mobil: [{ type: 'move', to: [0, 0, 8], at: 'maju' }] }`. Hasil akhirnya menetap. */
-  gerak?: Record<string, WorldMotion[]>;
+  gerak?: Record<string, (WorldMotion | IrisanMotion)[]>;
   /** Atur bagian model `.glb` per id model: `{ mobil: [{ name: 'BodyHood', motion: [...] }] }`. Menetap. */
   bagian?: Record<string, WorldModelPart[]>;
   /** Munculkan objek ber-`hidden: true` saat cue: `{ panah: 'dorong' }`. */
@@ -77,7 +109,7 @@ export interface Adegan {
   /** Lampu lalu lintas berganti saat cue: `{ lampu: { to: 'green', at: 'hijau' } }`. Menetap. */
   lampu?: Record<string, { to: 'red' | 'yellow' | 'green'; at: Cue }>;
   /** Ubah properti objek seketika di awal adegan (permanen). */
-  ubah?: Record<string, UbahObjek>;
+  ubah?: Record<string, UbahObjek | UbahBagian>;
   /** Catatan kecil di bawah (mis. "Ilustrasi · bukan skala"). Kosong = `catatan` video. */
   catatan?: string;
 }
@@ -91,6 +123,8 @@ export interface Bedah3DProps extends SeriesVideoBase {
   /** Rubrik singkat di HUD, mis. "Otomotif". */
   topik?: string;
   dunia: Dunia;
+  /** Gambar irisan teknis 2D bernama (dipakai adegan lewat `gambar`). */
+  irisan?: Record<string, Irisan>;
   /**
    * Urutan adegan. Adegan pertama = HOOK (kalimat ≤ 2–3 detik yang memancing).
    * Patokan durasi (terukur dari contoh): satu adegan ≈ 4 detik → 1 menit ≈ 15 adegan, 2 menit ≈ 30 adegan.
@@ -100,6 +134,14 @@ export interface Bedah3DProps extends SeriesVideoBase {
   catatan?: string;
   /** Ganti sebagian penutup seri, atau `false` untuk tanpa penutup. */
   penutup?: Partial<SeriesOutro> | false;
+}
+
+type IrisanLabelT = NonNullable<IrisanScene['labels']>[number];
+
+/** Label adegan 3D: target harus id objek atau titik [x, y, z]. */
+function worldLabel(l: Omit<WorldLabel, 'target'> & { target: string | number[] }, i: number): WorldLabel {
+  if (Array.isArray(l.target) && l.target.length !== 3) throw new Error(`adegan ke-${i + 1}: label 3D butuh titik [x, y, z].`);
+  return l as WorldLabel;
 }
 
 /** Waktu "sudah lama terjadi": gerak dari adegan sebelumnya langsung berada di keadaan akhirnya. */
@@ -153,6 +195,37 @@ function patch(objects: WorldObject[], id: string, fn: (o: WorldObject) => World
 
 const isSisipan = (a: Adegan | Sisipan): a is Sisipan => 'sisip' in a;
 
+/** Bawa bagian irisan ke adegan berikutnya: tween selesai, yang muncul tetap tampil, yang hilang dibuang. */
+function carryIrisan(parts: IrisanPart[]): IrisanPart[] {
+  return parts.flatMap((p) => {
+    if (p.hideAt !== undefined) return [];
+    const next = { ...p } as IrisanPart;
+    if (next.showAt !== undefined) {
+      next.showAt = undefined;
+      next.hidden = false;
+    }
+    next.motion = next.motion
+      ?.filter((m) => !((m.type === 'shake' || m.type === 'spin') && m.stopAt !== undefined))
+      .map((m) => ('to' in m ? ({ ...m, at: DONE } as IrisanMotion) : m.type === 'shake' || m.type === 'spin' ? { ...m, at: undefined } : m));
+    if (next.shape === 'flow') {
+      if (next.stopAt !== undefined) return [];
+      next.at = undefined;
+    }
+    if (next.shape === 'group') next.children = carryIrisan(next.children);
+    return [next];
+  });
+}
+
+function patchIrisan(parts: IrisanPart[], id: string, fn: (p: IrisanPart) => IrisanPart, found: { ok: boolean }): IrisanPart[] {
+  return parts.map((p) => {
+    if (p.id === id) {
+      found.ok = true;
+      return fn(p);
+    }
+    return p.shape === 'group' ? ({ ...p, children: patchIrisan(p.children, id, fn, found) } as IrisanPart) : p;
+  });
+}
+
 /**
  * Penjelasan "cara kerja" 1–2 menit di SATU dunia 3D yang bersambung: tiap adegan satu kalimat narasi,
  * kamera terbang antar sudut pandang, objek & bagian model bergerak saat kata tertentu diucapkan,
@@ -167,6 +240,23 @@ export function bedah3D(series: Series, p: Bedah3DProps): VideoConfig {
   let stickyMeasures: WorldMeasure[] = [];
   let readout: WorldReadout | undefined;
   let meters: WorldMeter[] = [];
+  let panel: WorldPanel | undefined;
+  const irisanState: Record<string, IrisanPart[]> = Object.fromEntries(Object.entries(p.irisan ?? {}).map(([k, v]) => [k, v.parts]));
+  let lastMode = '';
+  const irisanCam: Record<string, IrisanShot> = {};
+  const irisanSticky: Record<string, IrisanLabelT[]> = {};
+  const stickyIrisan = (k: string) => irisanSticky[k] ?? [];
+  /** HUD yang bertahan: adegan berikutnya mulai dari keadaan akhirnya (tanpa animasi masuk ulang). */
+  const settleHud = () => {
+    if (readout?.value !== undefined && readout.to !== undefined) readout = { ...readout, value: readout.to, to: undefined };
+    if (readout) readout = { ...readout, at: DONE };
+    meters = meters.map((m) => ({
+      ...m,
+      at: DONE,
+      rows: m.rows.map(({ to, at: _at, showAt: _showAt, ...r }) => ({ ...r, value: to ?? r.value })),
+    }));
+    if (panel) panel = { ...panel, at: DONE, rows: panel.rows.map(({ to, at: _at, showAt: _s, ...r }) => ({ ...r, value: to ?? r.value })) };
+  };
   let chapter: SceneConfig['chapter'];
   let afterInsert = false;
   const scenes: SceneConfig[] = [];
@@ -184,7 +274,67 @@ export function bedah3D(series: Series, p: Bedah3DProps): VideoConfig {
     }
     if (a.data !== undefined) readout = a.data || undefined;
     if (a.meter !== undefined) meters = a.meter ? (Array.isArray(a.meter) ? a.meter : [a.meter]) : [];
+    if (a.panel !== undefined) panel = a.panel || undefined;
     if (a.bab) chapter = typeof a.bab === 'string' ? { title: a.bab } : { label: a.bab.label, title: a.bab.judul, highlight: a.bab.highlight };
+
+    const mode = a.gambar ? `irisan:${a.gambar}` : 'dunia';
+    const transition = scenes.length === 0 ? undefined : afterInsert || mode !== lastMode ? 'fade' : 'none';
+    lastMode = mode;
+
+    if (a.gambar) {
+      const gb = p.irisan?.[a.gambar];
+      if (!gb) throw new Error(`${where(i)}: gambar "${a.gambar}" tidak ada di props \`irisan\`.`);
+      const key = a.gambar;
+      let parts = irisanState[key];
+      const applyI = (id: string, what: string, fn: (q: IrisanPart) => IrisanPart) => {
+        const found = { ok: false };
+        parts = patchIrisan(parts, id, fn, found);
+        if (!found.ok) throw new Error(`${where(i)}: ${what} menunjuk bagian "${id}" yang tidak ada di irisan "${key}".`);
+      };
+      for (const [id, props] of Object.entries(a.ubah ?? {})) applyI(id, '`ubah`', (q) => ({ ...q, ...props }) as IrisanPart);
+      for (const [id, m] of Object.entries(a.gerak ?? {})) applyI(id, '`gerak`', (q) => ({ ...q, motion: [...(q.motion ?? []), ...(m as IrisanMotion[])] }) as IrisanPart);
+      for (const [id, at] of Object.entries(a.muncul ?? {})) applyI(id, '`muncul`', (q) => ({ ...q, showAt: at }) as IrisanPart);
+      for (const [id, at] of Object.entries(a.hilang ?? {})) applyI(id, '`hilang`', (q) => ({ ...q, hideAt: at }) as IrisanPart);
+      const views = gb.views ?? {};
+      const moves = (a.kamera === undefined ? [] : Array.isArray(a.kamera) ? a.kamera : [a.kamera]).map((k) => (typeof k === 'string' ? { view: k } : k));
+      const shots: IrisanShot[] = moves.map((m) => {
+        const v = m.view ? views[m.view] : undefined;
+        if (m.view && !v) throw new Error(`${where(i)}: view "${m.view}" tidak ada di irisan "${key}".`);
+        return { ...v, at: m.at, duration: m.duration };
+      });
+      // Mulai dari posisi terakhir irisan ini; shot tanpa `at` di adegan pertamanya = posisi awal.
+      const prev = irisanCam[key];
+      const list: IrisanShot[] = !prev && shots.length && shots[0].at === undefined ? shots : [prev ?? {}, ...shots.map((q) => ({ ...q, at: q.at ?? 0.05 }))];
+      const last = list[list.length - 1];
+      irisanCam[key] = { center: last.center ?? prev?.center, zoom: last.zoom ?? prev?.zoom };
+      if (a.labelBersih) irisanSticky[key] = [];
+      const fresh = (a.label ?? []).map(({ tetap: _t, ...l }) => l as IrisanLabelT);
+      scenes.push({
+        type: 'irisan',
+        transition,
+        chapter,
+        narration: a.narasi,
+        emphasis: a.emphasis,
+        size: gb.size,
+        parts,
+        shots: list,
+        labels: [...stickyIrisan(key).map((l) => ({ ...l, at: DONE })), ...fresh],
+        badge: gb.badge,
+        latar: gb.latar,
+        cards: a.kartu,
+        readout,
+        meters: meters.length ? meters : undefined,
+        panel,
+        stamp: a.cap as IrisanScene['stamp'],
+        // Irisan sudah berlencana di atas gambar; catatan bawah hanya bila adegan memintanya.
+        note: a.catatan,
+      });
+      irisanSticky[key] = [...stickyIrisan(key), ...(a.label ?? []).filter((l) => l.tetap).map(({ tetap: _t, ...l }) => l as IrisanLabelT)];
+      irisanState[key] = carryIrisan(parts);
+      afterInsert = false;
+      settleHud();
+      return;
+    }
 
     // Objek: keadaan akhir adegan sebelumnya + perubahan adegan ini.
     const apply = (id: string, what: string, fn: (o: WorldObject) => WorldObject) => {
@@ -193,7 +343,7 @@ export function bedah3D(series: Series, p: Bedah3DProps): VideoConfig {
       if (!found.ok) throw new Error(`${where(i)}: ${what} menunjuk id "${id}" yang tidak ada di dunia.`);
     };
     for (const [id, props] of Object.entries(a.ubah ?? {})) apply(id, '`ubah`', (o) => ({ ...o, ...props }) as WorldObject);
-    for (const [id, m] of Object.entries(a.gerak ?? {})) apply(id, '`gerak`', (o) => ({ ...o, motion: [...(o.motion ?? []), ...m] }) as WorldObject);
+    for (const [id, m] of Object.entries(a.gerak ?? {})) apply(id, '`gerak`', (o) => ({ ...o, motion: [...(o.motion ?? []), ...(m as WorldMotion[])] }) as WorldObject);
     for (const [id, at] of Object.entries(a.muncul ?? {})) apply(id, '`muncul`', (o) => ({ ...o, showAt: at }) as WorldObject);
     for (const [id, at] of Object.entries(a.hilang ?? {})) apply(id, '`hilang`', (o) => ({ ...o, hideAt: at }) as WorldObject);
     for (const [id, change] of Object.entries(a.lampu ?? {})) {
@@ -227,17 +377,18 @@ export function bedah3D(series: Series, p: Bedah3DProps): VideoConfig {
 
     scenes.push({
       type: 'world',
-      transition: scenes.length === 0 ? undefined : afterInsert ? 'fade' : 'none',
+      transition,
       chapter,
       narration: a.narasi,
       emphasis: a.emphasis,
       objects,
       views: p.dunia.views,
       shots,
-      labels: [...sticky.map((l) => ({ ...l, at: DONE })), ...(a.label ?? []).map(({ tetap: _tetap, ...l }) => l)],
+      labels: [...sticky.map((l) => ({ ...l, at: DONE })), ...(a.label ?? []).map(({ tetap: _tetap, ...l }) => worldLabel(l, i))],
       cards: a.kartu,
       readout,
       meters: meters.length ? meters : undefined,
+      panel,
       measures: [...stickyMeasures.map((m) => ({ ...m, at: DONE })), ...(a.ukur ?? []).map(({ tetap: _tetap, ...m }) => m)],
       stamp: a.cap,
       ground: p.dunia.ground,
@@ -245,16 +396,9 @@ export function bedah3D(series: Series, p: Bedah3DProps): VideoConfig {
       note: a.catatan ?? p.catatan,
     });
     afterInsert = false;
-    sticky = [...sticky, ...(a.label ?? []).filter((l) => l.tetap).map(({ tetap: _tetap, ...l }) => l)];
+    sticky = [...sticky, ...(a.label ?? []).filter((l) => l.tetap).map(({ tetap: _tetap, ...l }) => worldLabel(l, i))];
     stickyMeasures = [...stickyMeasures, ...(a.ukur ?? []).filter((m) => m.tetap).map(({ tetap: _tetap, ...m }) => m)];
-    // HUD yang bertahan: adegan berikutnya mulai dari keadaan akhirnya (tanpa animasi masuk ulang).
-    if (readout?.value !== undefined && readout.to !== undefined) readout = { ...readout, value: readout.to, to: undefined };
-    if (readout) readout = { ...readout, at: DONE };
-    meters = meters.map((m) => ({
-      ...m,
-      at: DONE,
-      rows: m.rows.map(({ to, at: _at, showAt: _showAt, ...r }) => ({ ...r, value: to ?? r.value })),
-    }));
+    settleHud();
     objects = carry(objects);
   });
 

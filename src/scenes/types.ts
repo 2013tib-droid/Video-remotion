@@ -380,7 +380,7 @@ interface WorldObjectBase {
 export type WorldObject = WorldObjectBase &
   (
     | { shape: 'group' }
-    | { shape: 'box'; size: Vec3 }
+    | { shape: 'box'; size: Vec3; /** Jari-jari sudut membulat (m). Default otomatis kecil; 0 = tajam. */ round?: number }
     | { shape: 'cylinder'; radius: number; height: number; /** Jari-jari atas (kerucut terpancung). */ radiusTop?: number; /** Arah sumbu. Default y. */ axis?: 'x' | 'y' | 'z' }
     | { shape: 'sphere'; radius: number }
     | { shape: 'cone'; radius: number; height: number; axis?: 'x' | 'y' | 'z' }
@@ -470,6 +470,10 @@ export interface WorldLabel {
 
 /** Kartu keterangan/sumber di atas dunia 3D. */
 export interface WorldCard {
+  /** Gaya kartu: `catatan` (default, putih), `kutipan` (kutipan + sumber, kata `sorot` bertanda kuning), `putusan` (kuning besar). */
+  gaya?: 'catatan' | 'kutipan' | 'putusan';
+  /** Kata/frasa di `text` yang disorot kuning. */
+  sorot?: string[];
   /** Teks besar di kiri (mis. tahun "2023" atau angka). */
   tag?: string;
   text: string;
@@ -506,6 +510,38 @@ export interface WorldReadout {
   at?: Cue;
   /** Lama menghitung (detik). Default sampai ±akhir scene. */
   duration?: number;
+}
+
+/** Satu baris panel layar: label (+ lencana kecil) di kiri, angka (bisa menghitung) di kanan. */
+export interface WorldPanelRow {
+  label: string;
+  /** Lencana kecil di samping label, mis. "RON 90". */
+  tag?: string;
+  /** Titik warna di depan label (mis. hijau = pilihan A). */
+  dot?: WorldColor;
+  value?: number;
+  /** Angka akhir: menghitung dari `value` ke `to` saat `at`. */
+  to?: number;
+  /** Teks tetap di kanan (dipakai bila `value` kosong). */
+  text?: string;
+  prefix?: string;
+  suffix?: string;
+  decimals?: number;
+  at?: Cue;
+  duration?: number;
+  /** Baris baru muncul saat cue ini (mis. "SELISIH"). */
+  showAt?: Cue;
+  /** Warna angka. Default putih. */
+  color?: WorldColor;
+}
+
+/** Panel gelap gaya layar mesin (pompa bensin, meteran): judul kecil + baris angka mesin tik + catatan. */
+export interface WorldPanel {
+  title?: string;
+  rows: WorldPanelRow[];
+  note?: string;
+  at?: Cue;
+  hideAt?: Cue;
 }
 
 /** Satu batang ukur. `value`/`to` dalam satuan `max` panelnya. */
@@ -580,6 +616,8 @@ export interface WorldScene extends SceneBase, SceneHeading {
   readout?: WorldReadout;
   /** Panel batang ukur (HUD). */
   meters?: WorldMeter[];
+  /** Panel gelap gaya layar mesin. */
+  panel?: WorldPanel;
   /** Penanda ukuran antara dua titik 3D. */
   measures?: WorldMeasure[];
   /** Cap putusan besar. */
@@ -589,6 +627,115 @@ export interface WorldScene extends SceneBase, SceneHeading {
   /** Warna langit/latar. Default background tema. */
   sky?: WorldColor;
   /** Catatan kecil di bawah (mis. "Ilustrasi · bukan skala"). */
+  note?: string;
+}
+
+
+/** Titik 2D di gambar irisan (satuan kanvas `size`, default 1000 × 1000; y ke bawah). */
+export type Vec2 = [number, number];
+
+/**
+ * Bahan bagian irisan → warna + tekstur otomatis (aksir/titik) + garis tepi lebih gelap.
+ * `magma` menyala; `air` sedikit tembus.
+ */
+export type IrisanBahan = 'batu' | 'tanah' | 'pasir' | 'magma' | 'air' | 'logam' | 'beton' | 'abu' | 'udara' | 'kayu' | 'karet' | 'rumput';
+
+/** Gerak bagian irisan. `move` relatif posisi asal; `turn`/`scale` berporos di `origin` bagian. */
+export type IrisanMotion =
+  | { type: 'move'; to: Vec2; at: Cue; duration?: number }
+  | { type: 'turn'; /** Derajat. */ to: number; at: Cue; duration?: number }
+  | { type: 'scale'; to: number | Vec2; at: Cue; duration?: number }
+  | { type: 'fade'; to: number; at: Cue; duration?: number }
+  | { type: 'color'; to: WorldColor; at: Cue; duration?: number }
+  | { type: 'bob'; /** Satuan kanvas. Default 6. */ amount?: number; /** Detik. Default 2. */ period?: number }
+  | { type: 'spin'; /** Putaran per detik. Default 1. */ speed?: number; at?: Cue; stopAt?: Cue }
+  | { type: 'shake'; /** Satuan kanvas. Default 8. */ amount?: number; at?: Cue; stopAt?: Cue };
+
+interface IrisanPartBase {
+  id?: string;
+  /** Geser seluruh bagian (satuan kanvas). */
+  pos?: Vec2;
+  /** Poros `turn`/`scale` dan titik tempel label. Default tengah bagian. */
+  origin?: Vec2;
+  bahan?: IrisanBahan;
+  /** Warna isi (hex/token tema). Menimpa warna `bahan`. */
+  fill?: WorldColor;
+  /** Warna garis tepi; `false` = tanpa garis. Default isi yang digelapkan. */
+  stroke?: WorldColor | false;
+  strokeWidth?: number;
+  /** Tekstur aksir: `true` (garis miring), `'titik'`, `false`. Default dari `bahan`. */
+  hatch?: boolean | 'titik';
+  opacity?: number;
+  /** Menyala (lampu, magma, api). */
+  glow?: boolean;
+  hidden?: boolean;
+  showAt?: Cue;
+  hideAt?: Cue;
+  motion?: IrisanMotion[];
+}
+
+/** Bagian gambar irisan teknis (cutaway 2D). */
+export type IrisanPart = IrisanPartBase &
+  (
+    | { shape: 'rect'; x: number; y: number; w: number; h: number; /** Radius sudut. */ r?: number }
+    | { shape: 'circle'; x: number; y: number; r: number }
+    | { shape: 'ellipse'; x: number; y: number; rx: number; ry: number }
+    | { shape: 'poly'; points: Vec2[]; /** Sudut dihaluskan (lekuk alami: gunung, batu). */ smooth?: boolean; /** `false` = garis terbuka (kabel, pipa). */ closed?: boolean }
+    | { shape: 'path'; /** Data path SVG. */ d: string }
+    | {
+        /** Permukaan air bergelombang: area dari garis gelombang `y` sampai `y + h`. */
+        shape: 'wave';
+        x: number;
+        y: number;
+        w: number;
+        h: number;
+        /** Tinggi gelombang. Default 10. */ amp?: number;
+        /** Panjang satu gelombang. Default 160. */ length?: number;
+        /** Kecepatan geser (gelombang/detik). Default 0,4. */ speed?: number;
+      }
+    | { shape: 'flow'; path: Vec2[]; /** Jumlah butiran. Default 10. */ count?: number; size?: number; /** Putaran jalur per detik. Default 0,3. */ speed?: number; closed?: boolean; at?: Cue; stopAt?: Cue }
+    | { shape: 'group'; children: IrisanPart[] }
+  );
+
+/** Posisi "kamera" irisan: titik tengah + perbesaran; berikutnya bergeser halus saat `at`. */
+export interface IrisanShot {
+  center?: Vec2;
+  /** 1 = seluruh kanvas. Default 1. */
+  zoom?: number;
+  at?: Cue;
+  duration?: number;
+}
+
+/** Label irisan: pil + garis penunjuk ke bagian (`id`) atau titik [x, y]. */
+export interface IrisanLabel {
+  target: string | Vec2;
+  text: string;
+  color?: WorldColor;
+  at?: Cue;
+  hideAt?: Cue;
+  side?: 'left' | 'right';
+}
+
+/**
+ * Irisan teknis 2D (cutaway) gaya buku teknik: bagian berwarna per bahan dengan aksir, bergerak saat kata narasi,
+ * label menempel, + HUD yang sama dengan scene `world` (strip data, panel, batang, kartu, cap).
+ */
+export interface IrisanScene extends SceneBase, SceneHeading {
+  type: 'irisan';
+  /** Ukuran kanvas gambar. Default [1000, 1000]. */
+  size?: Vec2;
+  parts: IrisanPart[];
+  shots?: IrisanShot[];
+  labels?: IrisanLabel[];
+  /** Lencana di atas gambar, mis. "Ilustrasi · gerak lambat". */
+  badge?: string;
+  cards?: WorldCard[];
+  readout?: WorldReadout;
+  meters?: WorldMeter[];
+  panel?: WorldPanel;
+  stamp?: Omit<WorldStamp, 'target'> & { target?: string | Vec2 };
+  /** Warna latar. Default background tema. */
+  latar?: WorldColor;
   note?: string;
 }
 
@@ -611,6 +758,7 @@ export type SceneConfig =
   | WordsScene
   | BrollScene
   | MapScene
-  | WorldScene;
+  | WorldScene
+  | IrisanScene;
 
 export type SceneType = SceneConfig['type'];

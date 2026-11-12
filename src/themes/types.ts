@@ -24,6 +24,10 @@ export interface Theme {
     border: string;
     success: string;
     danger: string;
+    /** Warna kata aktif subtitle (opsional). Default `primary`. */
+    highlight?: string;
+    /** Warna teks di atas `highlight`. Default `onPrimary`. */
+    onHighlight?: string;
   };
   /** Gradien teks/tombol hero, CSS linear-gradient lengkap. */
   gradient: string;

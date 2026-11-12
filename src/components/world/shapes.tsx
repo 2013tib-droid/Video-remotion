@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import type { Vec3, WorldObject } from '../../scenes/types';
 import type { WorldNode } from './evaluate';
 import { ModelView } from './Model';
@@ -80,11 +81,13 @@ function extrude(points: [number, number][], depth: number, bevel = 0, holes: TH
 
 // ---------- bentuk dasar ----------
 
-const Box: React.FC<ShapeProps<'box'>> = ({ o, color, opacity, pal }) => (
-  <M color={color ?? pal.neutral} opacity={opacity}>
-    <boxGeometry args={o.size} />
-  </M>
-);
+/** Kotak bersudut membulat (tepi lembut = tampak lebih rapi); `round: 0` = tajam. */
+const Box: React.FC<ShapeProps<'box'>> = ({ o, color, opacity, pal }) => {
+  const [x, y, z] = o.size;
+  const r = Math.min(o.round ?? Math.min(0.12, Math.min(x, y, z) * 0.12), Math.min(x, y, z) / 2 - 1e-4);
+  const geo = useMemo(() => (r > 0.001 ? new RoundedBoxGeometry(x, y, z, 3, r) : new THREE.BoxGeometry(x, y, z)), [x, y, z, r]);
+  return <M color={color ?? pal.neutral} opacity={opacity} geometry={geo} />;
+};
 
 const Cylinder: React.FC<ShapeProps<'cylinder'>> = ({ o, color, opacity, pal }) => (
   <M color={color ?? pal.neutral} opacity={opacity} rotation={fromY(o.axis)}>
