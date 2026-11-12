@@ -70,6 +70,10 @@ Isian:
   - ukur?: penanda ukuran di benda (mis. "0,8 mm"), dari titik mana ke mana
   - cap?: cap putusan ≤ 2 kata (mis. IMPAS, MITOS), saat kata apa
   - selingan?: grafik/angka/teks besar di antara adegan 3D
+  - irisan?: saat "masuk ke dalam" benda, adegan boleh berganti ke IRISAN TEKNIS 2D (gambar belah gaya buku teknik):
+    sebutkan bagian-bagiannya + bahannya (batu, tanah, pasir, magma, air, logam, beton…), apa yang bergerak saat kata apa
+  - panel?: panel gelap gaya layar mesin (baris label + angka yang menghitung), mis. harga/liter/korban + sumber
+  - kartu putusan?: kartu kuning besar untuk kesimpulan; kartu kutipan untuk kutipan + sumber (kata kunci disorot)
 - cta: {title, highlight?, button, url?}
 - narasi (opsional, bila ingin bersuara): kalimat untuk hook, masalah, solusi, tiap layar, fitur, bukti, cta
 
@@ -84,6 +88,7 @@ Isian:
 - Khusus bedah3D (gaya acuan: docs/REFERENSI.md): tiap kalimat harus mengubah gambar (kamera / benda / data);
   bab = kesimpulan bab itu (≤ 4 kata), label kecil bab = jenis buktinya; urutan pertanyaan → cara kerja → klaim diuji →
   dihitung dalam rupiah → pengecualian → putusan satu kalimat; adegan terakhir boleh kembali ke gambar pembuka (loop).
+  Tampilan (R2): dunia netral krem, warna kuat hanya untuk yang dibahas; detail lewat bagian kecil benda yang dikenal.
 
 === CARA KERJA ===
 1. Tulis storyboard ringkas untuk saya review: tabel No | Jenis bagian | Teks di layar | Narasi.

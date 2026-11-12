@@ -6,7 +6,7 @@ import { useThree } from '@react-three/fiber';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { SPRINGS } from '../config';
 import { WORLD_TIMING, cameraAt, cameraPosition, evaluateWorld, type CameraPose } from '../components/world/evaluate';
-import { WorldCardPoints, WorldMeasureView, WorldMeterView, WorldReadoutView, WorldStampView } from '../components/world/Hud';
+import { WorldCardView, WorldMeasureView, WorldMeterView, WorldPanelView, WorldReadoutView, WorldStampView } from '../components/world/Hud';
 import { WorldNodeView, type WorldPalette } from '../components/world/shapes';
 import { Sfx, useCue, useSceneExit, useSceneMotion } from '../motion';
 import { useTheme } from '../themes';
@@ -109,7 +109,7 @@ export const WorldSceneView: React.FC<SceneProps<WorldScene>> = ({ scene }) => {
     (cam as THREE.PerspectiveCamera & { manual?: boolean }).manual = true;
     return cam;
   }, []);
-  const hasTop = Boolean(scene.title || scene.eyebrow || scene.cards?.length || scene.readout || scene.meters?.length);
+  const hasTop = Boolean(scene.title || scene.eyebrow || scene.cards?.length || scene.readout || scene.meters?.length || scene.panel);
   camera.fov = pose.fov;
   camera.aspect = W / H;
   camera.near = Math.max(0.02, pose.distance * 0.02);
@@ -232,39 +232,8 @@ export const WorldSceneView: React.FC<SceneProps<WorldScene>> = ({ scene }) => {
         {meters.map((m, i) => (
           <WorldMeterView key={i} meter={m} index={i} exit={exit} color={color} />
         ))}
-        {cards.map(({ card, i, p, start, gone }) =>
-          gone ? null : (
-            <div
-              key={i}
-              style={{
-                opacity: p,
-                transform: `translateY(${(1 - p) * -px(24)}px)`,
-                display: 'flex',
-                alignItems: 'center',
-                gap: space.sm,
-                maxWidth: '86%',
-                padding: `${px(22)}px ${px(30)}px`,
-                borderRadius: theme.radius.sm,
-                background: c.surface,
-                borderLeft: `${px(8)}px solid ${color(card.color) ?? c.primary}`,
-                boxShadow: theme.shadow.card,
-              }}
-            >
-              {card.tag ? (
-                <div style={{ fontFamily: theme.fonts.heading, fontWeight: theme.fontWeights.heading, fontSize: type.h3, color: c.text, whiteSpace: 'nowrap' }}>
-                  {card.tag}
-                </div>
-              ) : null}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: px(6) }}>
-                <div style={{ fontFamily: theme.fonts.body, fontWeight: theme.fontWeights.strong, fontSize: type.caption, lineHeight: 1.3, color: c.text }}>{card.text}</div>
-                {card.points ? <WorldCardPoints points={card.points} cardStart={start} /> : null}
-                {card.source ? (
-                  <div style={{ fontFamily: theme.fonts.mono, fontSize: type.label * 0.8, color: c.muted }}>{card.source}</div>
-                ) : null}
-              </div>
-            </div>
-          ),
-        )}
+        {scene.panel ? <WorldPanelView panel={scene.panel} sceneSec={sceneSec} exit={exit} color={color} /> : null}
+        {cards.map(({ card, i, p, start, gone }) => (gone ? null : <WorldCardView key={i} card={card} p={p} start={start} color={color} />))}
       </AbsoluteFill>
 
       {scene.stamp ? <WorldStampView stamp={scene.stamp} exit={exit} project={project} color={color} W={W} H={H} start={stampStart} /> : null}
@@ -307,6 +276,7 @@ export const WorldSceneView: React.FC<SceneProps<WorldScene>> = ({ scene }) => {
       {cards.map(({ i, start }) => (
         <Sfx key={`card-${i}`} name="tick" at={start} seed={i} />
       ))}
+      {scene.panel && cue(scene.panel.at, 0.2) >= 0 ? <Sfx name="tick" at={cue(scene.panel.at, 0.2)} seed={9} /> : null}
       {meters.map((m, i) => {
         const start = cue(m.at, 0.3 + i * 0.4);
         return start >= 0 ? <Sfx key={`meter-${i}`} name="tick" at={start} seed={i + 3} /> : null;

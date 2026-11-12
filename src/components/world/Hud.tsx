@@ -3,7 +3,7 @@ import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
 import { EASINGS, SPRINGS } from '../../config';
 import { formatValue, useCue } from '../../motion';
 import { useTheme } from '../../themes';
-import type { WorldCard, WorldMeasure, WorldMeter, WorldReadout, WorldSourceTone, WorldStamp } from '../../scenes/types';
+import type { WorldCard, WorldMeasure, WorldMeter, WorldPanel, WorldReadout, WorldSourceTone, WorldStamp } from '../../scenes/types';
 
 const clamp = { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' } as const;
 
@@ -287,6 +287,142 @@ export const WorldStampView: React.FC<{ stamp: WorldStamp; exit: number; project
       }}
     >
       {stamp.text}
+    </div>
+  );
+};
+
+/** Warna HUD gaya referensi: layar gelap & kuning putusan (sama di tema terang/gelap, seperti benda nyata). */
+export const HUD_COLORS = {
+  screen: '#1d2320',
+  screenText: '#f2efe6',
+  screenMuted: '#9aa39c',
+  verdict: '#f6d23f',
+  verdictText: '#141414',
+  mark: '#f6d23f',
+} as const;
+
+/** Panel gelap gaya layar mesin: baris label + angka mesin tik yang bisa menghitung. */
+export const WorldPanelView: React.FC<{ panel: WorldPanel; sceneSec: number; exit: number; color: ColorFn }> = ({ panel, sceneSec, exit, color }) => {
+  const { theme, px, type } = useTheme();
+  const { fps } = useVideoConfig();
+  const frame = useCurrentFrame();
+  const cue = useCue();
+  const { t, p, gone } = useAppear(cue(panel.at, 0.2), panel.hideAt !== undefined ? cue(panel.hideAt, Infinity) : Infinity, exit);
+  if (gone) return null;
+  const mono = { fontFamily: theme.fonts.mono, fontWeight: 700, fontVariantNumeric: 'tabular-nums' } as const;
+  return (
+    <div
+      style={{
+        opacity: p,
+        transform: `translateY(${(1 - p) * -px(20)}px)`,
+        width: '78%',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: px(14),
+        padding: `${px(22)}px ${px(26)}px`,
+        borderRadius: theme.radius.sm,
+        background: HUD_COLORS.screen,
+        boxShadow: theme.shadow.elevated,
+        border: `${px(3)}px solid #000000`,
+      }}
+    >
+      {panel.title ? (
+        <div style={{ ...mono, fontSize: type.label * 0.82, letterSpacing: '0.14em', textTransform: 'uppercase', color: HUD_COLORS.screenMuted }}>{panel.title}</div>
+      ) : null}
+      {panel.rows.map((row, j) => {
+        const start = cue(row.at, 0.4);
+        const shown = row.showAt === undefined ? 1 : spring({ frame: frame - cue(row.showAt, 0) * fps, fps, config: SPRINGS.gentle });
+        if (shown <= 0.01) return null;
+        let text = row.text ?? '';
+        if (row.value !== undefined) {
+          const end = start + (row.duration ?? Math.max(1, Math.min(2, sceneSec - start - WORLD_HUD_TIMING.readoutTail)));
+          const v = row.to === undefined ? row.value : interpolate(t, [start, end], [row.value, row.to], { ...clamp, easing: EASINGS.standard });
+          text = formatValue(v, row);
+        }
+        return (
+          <div key={j} style={{ display: 'flex', alignItems: 'center', gap: px(14), opacity: shown, transform: `translateX(${(1 - shown) * -px(14)}px)` }}>
+            {row.dot ? <div style={{ width: px(22), height: px(22), borderRadius: '50%', background: color(row.dot) ?? row.dot, border: `${px(3)}px solid ${HUD_COLORS.screenText}` }} /> : null}
+            <div style={{ fontFamily: theme.fonts.heading, fontWeight: theme.fontWeights.strong, fontSize: type.caption, color: HUD_COLORS.screenText }}>{row.label}</div>
+            {row.tag ? (
+              <div style={{ ...mono, fontSize: type.label * 0.7, lineHeight: 1.1, padding: `${px(4)}px ${px(8)}px`, borderRadius: px(6), background: '#d9dcd6', color: '#141414' }}>{row.tag}</div>
+            ) : null}
+            <div style={{ flex: 1 }} />
+            <div style={{ ...mono, fontSize: type.caption * 1.35, color: color(row.color) ?? HUD_COLORS.screenText, whiteSpace: 'nowrap' }}>{text}</div>
+          </div>
+        );
+      })}
+      {panel.note ? <div style={{ fontFamily: theme.fonts.mono, fontSize: type.label * 0.72, color: HUD_COLORS.screenMuted }}>{panel.note}</div> : null}
+    </div>
+  );
+};
+
+/** Teks dengan kata/frasa `sorot` diberi latar kuning (gaya stabilo). */
+export const MarkedText: React.FC<{ text: string; marks?: string[] }> = ({ text, marks }) => {
+  const { px } = useTheme();
+  if (!marks?.length) return <>{text}</>;
+  const esc = marks.map((m) => m.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  const parts = text.split(new RegExp(`(${esc.join('|')})`, 'g'));
+  return (
+    <>
+      {parts.map((part, i) =>
+        marks.includes(part) ? (
+          <span key={i} style={{ background: HUD_COLORS.mark, color: HUD_COLORS.verdictText, borderRadius: px(4), padding: `0 ${px(4)}px` }}>
+            {part}
+          </span>
+        ) : (
+          <React.Fragment key={i}>{part}</React.Fragment>
+        ),
+      )}
+    </>
+  );
+};
+
+/** Kartu keterangan: `catatan` (putih), `kutipan` (kutipan + sumber), `putusan` (kuning besar). */
+export const WorldCardView: React.FC<{ card: WorldCard; p: number; start: number; color: ColorFn }> = ({ card, p, start, color }) => {
+  const { theme, px, type, space } = useTheme();
+  const c = theme.colors;
+  const gaya = card.gaya ?? 'catatan';
+  const verdict = gaya === 'putusan';
+  const quote = gaya === 'kutipan';
+  const ink = verdict ? HUD_COLORS.verdictText : c.text;
+  return (
+    <div
+      style={{
+        opacity: p,
+        transform: `translateY(${(1 - p) * -px(24)}px)`,
+        display: 'flex',
+        alignItems: 'center',
+        gap: space.sm,
+        maxWidth: verdict ? '90%' : '86%',
+        padding: verdict ? `${px(28)}px ${px(34)}px` : `${px(22)}px ${px(30)}px`,
+        borderRadius: theme.radius.sm,
+        background: verdict ? HUD_COLORS.verdict : c.surface,
+        border: verdict ? `${px(3)}px solid #141414` : undefined,
+        borderLeft: verdict ? `${px(3)}px solid #141414` : `${px(8)}px solid ${color(card.color) ?? (quote ? c.success : c.primary)}`,
+        boxShadow: verdict ? theme.shadow.elevated : theme.shadow.card,
+      }}
+    >
+      {card.tag ? (
+        <div style={{ fontFamily: theme.fonts.heading, fontWeight: theme.fontWeights.heading, fontSize: type.h3, color: ink, whiteSpace: 'nowrap' }}>{card.tag}</div>
+      ) : null}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: px(6) }}>
+        <div
+          style={{
+            fontFamily: theme.fonts.body,
+            fontWeight: verdict ? theme.fontWeights.heading : theme.fontWeights.strong,
+            fontStyle: quote ? 'italic' : undefined,
+            fontSize: verdict ? type.caption * 1.25 : type.caption,
+            lineHeight: 1.3,
+            color: ink,
+          }}
+        >
+          {quote ? '\u201C' : null}
+          <MarkedText text={card.text} marks={card.sorot} />
+          {quote ? '\u201D' : null}
+        </div>
+        {card.points ? <WorldCardPoints points={card.points} cardStart={start} /> : null}
+        {card.source ? <div style={{ fontFamily: theme.fonts.mono, fontSize: type.label * 0.8, color: verdict ? '#4a4310' : c.muted }}>{card.source}</div> : null}
+      </div>
     </div>
   );
 };

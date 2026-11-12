@@ -4,6 +4,8 @@ Video orang lain yang gayanya disukai pemilik repo, dibedah jadi **pola yang bis
 Dipakai saat menulis naskah/storyboard dan saat memilih animasi. Yang ditiru **tekniknya** — bukan brand, naskah, atau asetnya
 (file video referensi tidak disimpan di repo).
 
+Komponen yang sudah dibuat dari gaya-gaya ini (benda 3D, irisan 2D, HUD, resep adegan) dikumpulkan di `docs/PUSTAKA-VISUAL.md`.
+
 Menambah referensi baru: beri videonya ke Claude Code, minta "jadikan referensi", lalu tambahkan bagian baru di bawah
 dengan susunan yang sama (ringkasan → alur → pola → cara membuat → yang belum ada).
 
@@ -64,3 +66,56 @@ Semua di template `bedah3D` (per adegan) / scene `world`.
 - Sapuan kamera cepat antar sudut (whip pan) — sekarang terbang halus + blur gerak.
 
 Contoh pemakaian semua properti di atas: `src/projects/_demos/bedah3d.ts`.
+
+---
+
+## R2 — Bedah benda 3D: "Pertalite atau Pertamax: yang mana?" (TikTok, ±82 dtk, 9:16)
+
+Kanal yang sama dengan R1. Dikirim pemilik sebagai **acuan tingkat detail visual**: "menurutku detail". Bedahan ini fokus
+ke **tampilan** (R1 sudah membahas alur & HUD data). Yang ditiru tekniknya, bukan brand/isinya.
+
+**Kenapa terasa detail (bukan "pemula"):** benda yang dikenal penonton digambar lengkap dengan bagian kecilnya; satu palet
+netral hangat yang konsisten; tiap info punya "wadah" khas (layar pompa, kartu kutipan, kartu putusan kuning); dan saat masuk
+ke dalam benda, gambar berganti ke **irisan teknis** (cutaway) yang rapi seperti buku teknik.
+
+### Alur (ringkas)
+| Waktu | Bab (label kecil · judul) | Yang terlihat |
+|---|---|---|
+| 0–10 dtk | BENSIN MOBIL · Pertalite atau Pertamax: *yang mana?* | Mobil di SPBU (isometrik), pompa merah-putih dengan selang & nozzle, beton pembatas belang hitam-putih. Panel gelap gaya layar pompa: liter + harga dua bensin menghitung, baris SELISIH muncul belakangan. Pil berwarna (hijau PERTALITE, biru PERTAMAX) menunjuk nozzle masing-masing |
+| 10–13 | (sama) | "Kita bedah." → sapuan kamera cepat dengan blur gerak |
+| 13–17 | KATA MONTIR · … bikin mesin *ngelitik*? | Kap mobil dipotong (lencana "ILUSTRASI · KAP DIPOTONG"), mesin terlihat dari atas |
+| 17–40 | DI DALAM SILINDER / NGELITIK / ANGKA OKTAN / SENSOR KETUKAN | **Irisan silinder 2D**: dinding beraksir (garis miring), piston, katup, pegas, busi, saluran pendingin pink, oli kuning di bawah. Api oranye merambat, butiran bahan bakar. Lencana "ILUSTRASI · SILINDER 4 · GERAK LAMBAT". Label kuning (PISTON, BUSI, SENSOR KETUKAN, KOMPUTER MESIN), merah (SISA CAMPURAN). Kotak ECU + kabel. Panel "Waktu pengapian" dengan penanda geser |
+| 40–56 | UJI ORANG LAIN · Pertamax lebih irit *seberapa?* | Kartu putih bertumpuk: tiap uji (mobil · jenis uji, hasil, sumber + tanggal), batang kecil pembanding, baris kesimpulan bersorot kuning |
+| 56–63 | HARGA VS IRIT · harga *+59,5 %*, irit *+1–8 %* | Kembali ke SPBU; panel dua batang (harga panjang biru vs irit pendek hijau) |
+| 63–74 | BUKU MANUAL · Avanza: oktan *90 atau lebih* | Kartu kutipan berpinggir hijau: kutipan dengan kata penting disorot kuning + sumber (buku manual, pejabat, dealer) |
+| 74–82 | JADI · *ikuti buku manualmu* | Kartu putusan kuning besar ("Bukumu bilang 90?") + pil hijau di nozzle; lalu kembali ke gambar pembuka (loop) |
+
+### Pola tampilan → cara membuatnya di sini
+| Pola | Status / cara |
+|---|---|
+| Latar **krem hangat netral** (±`#ece8e1`), lantai abu muda, objek abu/putih, warna kuat hanya untuk penanda | `themeOverrides` + `sky`/`ground`. "Cerah" di gaya ini = terang & bersih, bukan langit biru jenuh |
+| Kamera **isometrik**: sudut tinggi, lensa sempit, nyaris tanpa perspektif | `fov` kecil (±12–18) + `distance` besar + `elevation` 30–40 |
+| Benda nyata yang dikenal (mobil, pompa bensin) dengan **detail kecil**: selang, nozzle, lampu, pelek, belang pembatas | Model `.glb` (render lambat) atau rakitan bentuk dasar yang lebih banyak bagian. Kit dunia baru per tempat (SPBU, kota, pantai) |
+| **Irisan teknis** (cutaway) saat masuk ke dalam benda: dinding beraksir, warna per bahan, gerak lambat | **Belum ada** → scene/komponen irisan 2D (SVG) beranimasi |
+| Lencana jenis gambar di atas objek ("ILUSTRASI · KAP DIPOTONG", "… · GERAK LAMBAT") | `catatan` sudah ada, tetapi posisinya di bawah → perlu opsi di atas objek |
+| Panel gelap gaya **layar mesin** (font mesin tik, angka menghitung, baris SELISIH menyusul) | `data`/`meter` ada (gaya terang) → perlu varian gelap berbaris banyak |
+| Pil label **berwarna per pihak** (hijau = A, biru = B) | `label` + `color` (sudah ada) |
+| Label nama bagian **kuning** berujung titik | `label` + `color` (sudah ada) |
+| Kartu kutipan/uji bertumpuk (pinggir berwarna, kata kunci disorot, sumber kecil) | `kartu` ada (satu kartu) → perlu tumpukan + sorotan kata di dalam teks |
+| Kartu putusan kuning besar dengan batang "target vs hasil" | Sebagian: `kartu` + `meter` → perlu varian kuning |
+| Judul bab: label kecil huruf mesin tik + judul tebal dengan **sorotan miring** | Sudah ada (`bab`) |
+| Subtitle 2 baris, kotak hitam, kata aktif **kuning** | Sudah ada; set `accent` tema ke kuning |
+| Sapuan kamera cepat + blur gerak antar bagian | Belum ada (sekarang terbang halus) |
+| Logo kanal kecil di kanan atas | `watermark` |
+
+### Pelajaran untuk video kita
+- Detail datang dari **benda yang dikenal + bagian kecilnya**, bukan dari banyaknya efek. Satu tempat yang digarap rapi
+  (SPBU) lebih "mahal" daripada banyak tempat yang kasar.
+- Warna diirit: dunia netral, warna kuat hanya untuk yang sedang dibahas (pil, api, label).
+- Penjelasan "di dalam" pakai irisan 2D bersih, bukan 3D tembus pandang.
+
+### Status (2026-11-12)
+- **Sudah dibuat:** scene irisan teknis 2D (`irisan` + `gambar` di `bedah3D`), panel gelap `panel`, kartu `kutipan`/`putusan`
+  + `sorot`, kotak bersudut membulat, lencana gambar di irisan, warna sorotan subtitle di tema. Contoh: `src/projects/bagaimana-jika/`.
+- **Belum:** kit dunia detail siap pakai per tempat (SPBU, kota, pantai — sekarang dirakit di file video), lencana di atas
+  objek 3D, sapuan kamera cepat (whip pan), aksir/tekstur pada objek 3D.

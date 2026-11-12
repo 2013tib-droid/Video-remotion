@@ -90,8 +90,8 @@ export const Captions: React.FC<{ words: CaptionWord[]; bottom: number }> = ({ w
                     borderRadius: px(10),
                     padding: `0 ${px(6)}px`,
                     margin: `0 ${px(-6)}px`,
-                    background: active ? theme.colors.primary : 'transparent',
-                    color: active ? theme.colors.onPrimary : word.emphasis ? theme.colors.primary : said ? '#ffffff' : 'rgba(255,255,255,0.55)',
+                    background: active ? (theme.colors.highlight ?? theme.colors.primary) : 'transparent',
+                    color: active ? (theme.colors.onHighlight ?? theme.colors.onPrimary) : word.emphasis ? (theme.colors.highlight ?? theme.colors.primary) : said ? '#ffffff' : 'rgba(255,255,255,0.55)',
                   }}
                 >
                   {word.w}

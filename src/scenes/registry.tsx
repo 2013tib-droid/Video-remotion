@@ -20,6 +20,7 @@ import { WordsSceneView } from './WordsScene';
 import { BrollSceneView } from './BrollScene';
 import { MapSceneView } from './MapScene';
 import { WorldSceneView } from './WorldScene';
+import { IrisanSceneView } from './IrisanScene';
 import type { SceneProps } from './registry-types';
 import type { SceneConfig, SceneType } from './types';
 
@@ -47,6 +48,7 @@ const REGISTRY: { [T in SceneType]: React.FC<SceneProps<Extract<SceneConfig, { t
   broll: BrollSceneView,
   map: MapSceneView,
   world: WorldSceneView,
+  irisan: IrisanSceneView,
 };
 
 export const SceneRenderer: React.FC<SceneProps> = ({ scene, brand }) => {

@@ -2,6 +2,27 @@
 
 Perubahan framework yang memengaruhi semua video. Entri terbaru di atas.
 
+## 2026-11-12 — Irisan teknis 2D, panel layar, kartu putusan (gaya R2)
+
+Sumber: bedah video referensi "Pertalite atau Pertamax" (`docs/REFERENSI.md`, R2). Semua properti baru opsional.
+
+### Baru
+- **Scene `irisan`** — irisan teknis 2D (cutaway): bagian per `bahan` dengan aksir otomatis, gerak saat kata narasi
+  (`move` `turn` `scale` `fade` `color` `spin` `bob` `shake`), permukaan air bergelombang, butiran mengalir, label, kamera geser/zoom,
+  lencana gambar; HUD sama dengan `world`. `src/scenes/IrisanScene.tsx` (angka waktu: `IRISAN_TIMING`, bahan: `IRISAN_BAHAN`).
+- Template `bedah3D`: props **`irisan`** + adegan **`gambar`** (beralih dunia 3D ⇄ irisan, keadaan masing-masing bersambung),
+  adegan **`panel`** (bertahan seperti `meter`).
+- HUD `world`/`irisan`: **`panel`** gelap gaya layar mesin; **`cards[].gaya`** `kutipan` / `putusan` (kuning) + **`sorot`**.
+- `box.round` — kotak 3D bersudut membulat (default otomatis kecil; tampilan semua video ikut sedikit lebih halus).
+- Tema: `colors.highlight` / `onHighlight` opsional untuk kata aktif subtitle.
+
+### Contoh
+- `src/projects/bagaimana-jika/` — seri "Bagaimana Jika?" (krem, 3D isometrik + irisan).
+
+### Pustaka visual
+- **`docs/PUSTAKA-VISUAL.md`** + `src/worlds/benda.ts` & `src/worlds/irisan.ts`: benda 3D (SPBU, kereta, ATM, gedung berjendela,
+  gunung api, …), 6 irisan siap pakai, HUD, dan resep adegan dari video jadi — dengan gambar dari videonya (`docs/pustaka/`).
+
 ## 2026-11-12 — Folder `naskah/`
 
 - **`naskah/`** — rancangan video sebelum jadi config: satu file per video (konsep, data & sumber, alur, narasi) +
