@@ -7,8 +7,8 @@ export const petualanganPintar = defineSeries({
   // Tanpa ungu (permintaan pemilik).
   theme: 'PlayfulKids',
   audio: 'semangat',
-  // Belum ada akun medsos: tampilkan logo + nama brand. Nanti bisa diganti '@akun'.
-  watermark: true,
+  // Akun Instagram.
+  watermark: '@petualanganpintar.id',
   outro: {
     title: 'Coba gratis sekarang.',
     highlight: 'gratis',
