@@ -1,7 +1,7 @@
 ---
 status: dibuat
 id: BagaimanaJika-ListrikPadam
-template: kontenHarian
+template: bedah3D
 seri: baru           # src/projects/bagaimana-jika/series.ts (lihat "Seri baru")
 file: src/projects/bagaimana-jika/listrik-padam.ts  # diisi saat dibuat
 durasi: 45–55 dtk
@@ -76,3 +76,4 @@ Angka hanya dari sini. Bagian hari ke-2 dan ke-3 adalah **logika/skenario**, tan
 ## 3. Catatan revisi
 - (2026-11-12) Draf pertama. Angka 2019 sudah dicek ke sumber di tabel. Bagian 4 murni skenario, jadi beri label di layar.
 - Bila mau versi 3D (`bedah3D`): adegan kota malam → lampu padam per blok → kamera turun ke stasiun MRT. Lebih memikat tapi lebih lama dirender.
+- (2026-11-12) Revisi: dibuat ulang jadi animasi 3D penuh (`bedah3D`, dunia dari bentuk dasar), latar cerah. Narasi kini di file `.ts`.

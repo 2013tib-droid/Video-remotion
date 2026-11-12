@@ -1,7 +1,7 @@
 ---
 status: dibuat
 id: BagaimanaJika-Krakatau
-template: kontenHarian
+template: bedah3D
 seri: src/projects/bagaimana-jika/series.ts   # dibuat bersama naskah listrik-padam.md
 file: src/projects/bagaimana-jika/krakatau.ts  # diisi saat dibuat
 durasi: 45–55 dtk
@@ -71,3 +71,4 @@ Angka hanya dari sini. Jangan menambah angka lain (mis. penurunan suhu global, j
 - (2026-11-12) Draf pertama. Jumlah korban 2018 berbeda antar laporan (426–437); dipakai 437 dari buletin BNPB per 31 Des 2018.
   Tinggi tsunami 1883 disebut rentang 30–40 m karena estimasinya beragam.
 - Kandidat kuat untuk versi `bedah3D`: Selat Sunda dari atas → gunung meledak → gelombang menyebar → potong melintang lereng Anak Krakatau longsor.
+- (2026-11-12) Revisi: dibuat ulang jadi animasi 3D penuh (`bedah3D`, dunia dari bentuk dasar), latar cerah. Narasi kini di file `.ts`.
