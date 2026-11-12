@@ -4,7 +4,7 @@ import { bagaimanaJika } from './series';
 /** Naskah & sumber: `naskah/bagaimana-jika/krakatau.md`. */
 export default kontenHarian(bagaimanaJika, {
   slug: 'Krakatau',
-  topik: 'Bagaimana Jika?',
+  topik: 'Gunung Api',
   hook: 'Krakatau meletus seperti 1883?',
   highlight: '1883',
   hookNarasi: 'Bagaimana jika Krakatau meletus seperti tahun delapan belas delapan puluh tiga?',
@@ -42,14 +42,12 @@ export default kontenHarian(bagaimanaJika, {
       narasi: 'Gunung Krakatau yang lama sudah hancur. Yang tumbuh di sana sekarang adalah anaknya, Anak Krakatau.',
     },
     {
-      label: '22 Desember 2018',
+      label: '22 Des 2018 · Sumber: BNPB',
       judul: 'Bahayanya sudah datang, 2018',
       highlight: '2018',
-      keterangan: 'Sumber: BNPB, per 31 Desember 2018',
       poin: [
         { icon: '🌋', title: 'Lereng longsor ke laut' },
-        { icon: '🌊', title: 'Tsunami di malam hari' },
-        { icon: '🔕', title: 'Tanpa gempa, tanpa peringatan' },
+        { icon: '🌊', title: 'Tsunami malam, tanpa gempa' },
         { icon: '🕯️', title: '437 jiwa meninggal' },
       ],
       narasi:

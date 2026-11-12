@@ -4,7 +4,7 @@ import { bagaimanaJika } from './series';
 /** Naskah & sumber: `naskah/bagaimana-jika/listrik-padam.md`. Bagian "Skenario" = logika, bukan data. */
 export default kontenHarian(bagaimanaJika, {
   slug: 'ListrikPadam',
-  topik: 'Bagaimana Jika?',
+  topik: 'Listrik',
   hook: 'Jawa–Bali gelap 3 hari?',
   highlight: 'gelap 3 hari',
   hookNarasi: 'Bagaimana jika listrik Jawa dan Bali padam tiga hari?',
@@ -20,14 +20,13 @@ export default kontenHarian(bagaimanaJika, {
       emphasis: ['dua puluh satu koma sembilan juta'],
     },
     {
+      label: 'Sumber: CNN Indonesia, Tirto',
       judul: 'Jam pertama: kota berhenti',
       highlight: 'Jam pertama',
-      keterangan: 'Sumber: CNN Indonesia, Tirto, 2019',
       poin: [
-        { icon: '🚇', title: '4 kereta MRT tertahan', description: 'Di terowongan bawah tanah' },
+        { icon: '🚇', title: '4 MRT tertahan di terowongan' },
         { icon: '🚆', title: '240 perjalanan KRL batal' },
-        { icon: '🚦', title: 'Lampu lalu lintas mati' },
-        { icon: '📶', title: 'Sinyal ponsel terganggu' },
+        { icon: '🚦', title: 'Lampu lalin & sinyal mati' },
       ],
       narasi:
         'Dalam hitungan jam, empat kereta MRT tertahan di bawah tanah, dua ratus empat puluh perjalanan KRL batal, lampu lalu lintas mati, dan sinyal ponsel terganggu.',
