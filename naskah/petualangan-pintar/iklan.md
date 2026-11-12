@@ -1,10 +1,10 @@
 ---
-status: draf         # ide | draf | final | dibuat
+status: dibuat       # ide | draf | final | dibuat
 id: PetualanganPintar-Iklan
 template: promoProyek
 seri: baru
-file: src/projects/petualangan-pintar/iklan.ts  # diisi saat dibuat
-durasi: 33–38 dtk
+file: src/projects/petualangan-pintar/iklan.ts
+durasi: ±40 dtk (narasi 38,8 dtk)
 ---
 
 # Iklan Petualangan Pintar — "Belum bisa baca? Tetap bisa belajar."
@@ -28,7 +28,7 @@ Aset sudah disalin ke `public/brands/petualangan-pintar/` (5 screenshot, `logo.s
 | 20 tahap maskot (telur → Naga Legenda) | `src/engine/core/mascot.ts` | data |
 | Semua instruksi dibacakan suara Bahasa Indonesia | CLAUDE.md + `scripts/narration-lines.json` | fitur |
 | Tanpa iklan, tanpa tautan keluar di area anak | CLAUDE.md game | fitur |
-| Sekali bayar per kelompok, mulai Rp19.000 (harga perkenalan) | landing, 2026-11 | harga (bisa berubah) |
+| Playgroup & TK: Rp19.000, sekali bayar (harga tetap) | pemilik, 2026-11-12 | harga |
 
 **Tidak boleh diklaim:** bisa offline, ada di Play Store/App Store, rating/jumlah pemain, testimoni, "update gratis selamanya".
 
@@ -74,11 +74,12 @@ Total narasi ±90 kata ≈ 33–38 dtk.
 - 💛 **Salah itu boleh** — Tanpa hukuman, berani coba lagi
 - 🛡️ **Tanpa iklan** — Aman, tanpa tautan keluar
 - 💳 **Sekali bayar** — Tanpa langganan bulanan
-- **Narasi:** Tanpa iklan, tanpa hukuman saat salah, dan cukup sekali bayar.
+- 💳 deskripsi diganti: **Playgroup & TK cuma Rp19.000**
+- **Narasi:** Tanpa iklan, tanpa hukuman saat salah. Untuk Playgroup dan TK, cukup sekali bayar sembilan belas ribu rupiah.
 
 ### 7 · Bukti (angka)
 - **Layar:** **47** game · **565** level · **2.600+** variasi soal
-- **Narasi:** Empat puluh tujuh game, lima ratus enam puluh lima level, lebih dari dua ribu enam ratus variasi soal.
+- **Narasi:** Ada empat puluh tujuh game, lima ratus enam puluh lima level, dan lebih dari dua ribu enam ratus variasi soal.
 
 ### CTA (penutup seri)
 - **Layar:** Coba gratis sekarang. · tombol "Coba Gratis" · petualanganpintar.com
@@ -93,3 +94,5 @@ Total narasi ±90 kata ≈ 33–38 dtk.
   3. Tampilkan harga ("mulai Rp19.000, sekali bayar") di penutup? Ini harga perkenalan, jadi video bisa cepat basi.
   4. `src/projects/petualangan-pintar/promo.ts` (video lama, contoh awal framework) berisi data karangan: maskot burung hantu,
      domain `.id`, badge App Store/Google Play. Usul: hapus setelah iklan ini dibuat.
+- 2026-11-12 — keputusan pemilik: suara Ardi; Rp19.000 untuk Playgroup & TK adalah harga tetap → masuk fitur & narasi;
+  `promo.ts` lama dihapus; watermark logo + nama brand sampai ada akun medsos. Config dibuat → revisi berikutnya di `.ts`.
