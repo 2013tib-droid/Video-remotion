@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * Render narasi (voice-over) video jadi MP3 + waktu tiap kata (Azure Speech).
+ * Render narasi (voice-over) video jadi MP3 + waktu tiap kata
+ * (Azure Speech, atau ElevenLabs bila `voice.name` diawali "elevenlabs:").
  *
  *   npm run narasi -- src/projects/soal-skd/bedah-analogi.ts
  *   npm run narasi -- Harian-TipsGaji          # atau cukup ID video (boleh sebagian)
@@ -17,6 +18,11 @@
  * KREDENSIAL: AZURE_SPEECH_KEY + AZURE_SPEECH_REGION (default southeastasia),
  * dari env atau file .env. Di sesi cloud Claude, key disuntikkan proxy:
  * isi AZURE_SPEECH_KEY=proxy-injected.
+ *
+ * ELEVENLABS (opsional): `voice: { name: 'elevenlabs:<voiceId>', rate: '+10%' }`.
+ * Key: ELEVENLABS_API_KEY (di sesi cloud: network secret untuk api.elevenlabs.io,
+ * isi ELEVENLABS_API_KEY=proxy-injected). Model: ELEVENLABS_MODEL
+ * (default eleven_multilingual_v2). `rate` → speed 0,7–1,2. Lexicon tetap berlaku.
  *
  * WAKTU PER KATA: REST API Azure hanya mengirim audio. Waktu kata dihitung
  * dari audio: jeda (hening) dideteksi, dicocokkan dengan tanda baca naskah,
@@ -51,6 +57,10 @@ if (existsSync('.env')) {
   }
 }
 const KEY = process.env.AZURE_SPEECH_KEY ?? '';
+const XI_KEY = process.env.ELEVENLABS_API_KEY ?? '';
+const XI_MODEL = process.env.ELEVENLABS_MODEL || 'eleven_multilingual_v2';
+const XI_PREFIX = 'elevenlabs:';
+const isEleven = (voice) => voice.name.startsWith(XI_PREFIX);
 const REGION = process.env.AZURE_SPEECH_REGION || 'southeastasia';
 /** Jeda antar permintaan: tier gratis F0 = 20 permintaan/menit. */
 const GAP_MS = Number(process.env.AZURE_TTS_GAP_MS ?? 3200);
@@ -68,6 +78,49 @@ function applyLexicon(text, lexicon = {}) {
 }
 
 async function synthesize(text, voice) {
+  return isEleven(voice) ? synthesizeEleven(text, voice) : synthesizeAzure(text, voice);
+}
+
+/** "+10%" → 1.1, dibatasi rentang speed ElevenLabs (0,7–1,2). */
+function rateToSpeed(rate) {
+  const m = /^([+-]?\d+(?:\.\d+)?)%$/.exec(String(rate ?? '').trim());
+  const v = m ? 1 + Number(m[1]) / 100 : 1;
+  return Math.min(1.2, Math.max(0.7, +v.toFixed(2)));
+}
+
+async function synthesizeEleven(text, voice) {
+  const voiceId = voice.name.slice(XI_PREFIX.length);
+  for (let attempt = 1; ; attempt++) {
+    const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(voiceId)}?output_format=mp3_44100_128`, {
+      method: 'POST',
+      headers: { 'xi-api-key': XI_KEY, 'Content-Type': 'application/json', Accept: 'audio/mpeg' },
+      body: JSON.stringify({
+        text: applyLexicon(text, voice.lexicon),
+        model_id: XI_MODEL,
+        voice_settings: { stability: 0.5, similarity_boost: 0.75, speed: rateToSpeed(voice.rate) },
+      }),
+    });
+    if (res.ok) {
+      const buf = Buffer.from(await res.arrayBuffer());
+      if (buf.length < 500) throw new Error('Audio kosong dari ElevenLabs.');
+      return buf;
+    }
+    if (res.status === 429 && attempt < 4) {
+      await sleep(15000 * attempt);
+      continue;
+    }
+    const body = (await res.text()).slice(0, 300);
+    const hint =
+      res.status === 401 && /unusual|abuse|free/i.test(body)
+        ? ' (akun gratis ElevenLabs sering diblokir dari server cloud — coba dari komputer sendiri atau paket berbayar)'
+        : res.status === 401
+          ? ' (key ElevenLabs salah/belum terpasang)'
+          : '';
+    throw new Error(`ElevenLabs ${res.status}: ${body}${hint}`);
+  }
+}
+
+async function synthesizeAzure(text, voice) {
   const lang = voice.name.slice(0, 5);
   const ssml =
     `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="${lang}">` +
@@ -274,8 +327,8 @@ for (const file of files) {
       console.log(`  + ${label}`);
       continue;
     }
-    if (!KEY) {
-      console.error('AZURE_SPEECH_KEY belum diisi (lihat komentar di atas skrip).');
+    if (isEleven(config.voice) ? !XI_KEY : !KEY) {
+      console.error(`${isEleven(config.voice) ? 'ELEVENLABS_API_KEY' : 'AZURE_SPEECH_KEY'} belum diisi (lihat komentar di atas skrip).`);
       process.exit(1);
     }
     if (requests++) await sleep(GAP_MS);
