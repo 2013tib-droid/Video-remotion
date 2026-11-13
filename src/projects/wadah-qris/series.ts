@@ -7,6 +7,8 @@ export const wadahQris = defineSeries({
   theme: 'IslamicWarm',
   audio: 'tenang',
   watermark: '@wadahqris.id',
+  // Reels: gerak kamera, idle & keluar lebih terasa (explainer default-nya `calm`).
+  motion: { energy: 'lively' },
   voice: {
     ...DEFAULT_VOICE,
     // Urutan penting: yang panjang dulu.

@@ -107,82 +107,6 @@
     }
    ]
   },
-  "701c1255": {
-   "src": "narration/WadahQRIS-AjakSedekah/701c1255.mp3",
-   "duration": 5.808,
-   "words": [
-    {
-     "w": "Cari",
-     "start": 0.07,
-     "end": 0.38
-    },
-    {
-     "w": "masjidnya",
-     "start": 0.38,
-     "end": 0.845
-    },
-    {
-     "w": "di",
-     "start": 0.845,
-     "end": 1
-    },
-    {
-     "w": "WadahQRIS,",
-     "start": 1,
-     "end": 1.62
-    },
-    {
-     "w": "scan",
-     "start": 1.82,
-     "end": 1.986
-    },
-    {
-     "w": "pakai",
-     "start": 1.986,
-     "end": 2.317
-    },
-    {
-     "w": "e-wallet",
-     "start": 2.317,
-     "end": 2.814
-    },
-    {
-     "w": "atau",
-     "start": 2.814,
-     "end": 3.146
-    },
-    {
-     "w": "m-banking",
-     "start": 3.146,
-     "end": 3.477
-    },
-    {
-     "w": "apa",
-     "start": 3.477,
-     "end": 3.809
-    },
-    {
-     "w": "saja,",
-     "start": 3.809,
-     "end": 4.14
-    },
-    {
-     "w": "lalu",
-     "start": 4.46,
-     "end": 4.748
-    },
-    {
-     "w": "isi",
-     "start": 4.748,
-     "end": 5.035
-    },
-    {
-     "w": "semampumu.",
-     "start": 5.035,
-     "end": 5.61
-    }
-   ]
-  },
   "4c799b5c": {
    "src": "narration/WadahQRIS-AjakSedekah/4c799b5c.mp3",
    "duration": 5.376,
@@ -391,102 +315,6 @@
     }
    ]
   },
-  "be0d4e18": {
-   "src": "narration/WadahQRIS-AjakSedekah/be0d4e18.mp3",
-   "duration": 7.08,
-   "words": [
-    {
-     "w": "Seperti",
-     "start": 0.08,
-     "end": 0.522
-    },
-    {
-     "w": "sebutir",
-     "start": 0.522,
-     "end": 0.964
-    },
-    {
-     "w": "biji",
-     "start": 0.964,
-     "end": 1.259
-    },
-    {
-     "w": "yang",
-     "start": 1.259,
-     "end": 1.406
-    },
-    {
-     "w": "tumbuh",
-     "start": 1.406,
-     "end": 1.701
-    },
-    {
-     "w": "tujuh",
-     "start": 1.701,
-     "end": 1.995
-    },
-    {
-     "w": "tangkai,",
-     "start": 1.995,
-     "end": 2.29
-    },
-    {
-     "w": "tiap",
-     "start": 2.52,
-     "end": 2.816
-    },
-    {
-     "w": "tangkai",
-     "start": 2.816,
-     "end": 3.111
-    },
-    {
-     "w": "seratus",
-     "start": 3.111,
-     "end": 3.554
-    },
-    {
-     "w": "biji.",
-     "start": 3.554,
-     "end": 3.85
-    },
-    {
-     "w": "Allah",
-     "start": 4.4,
-     "end": 4.653
-    },
-    {
-     "w": "melipatgandakan",
-     "start": 4.653,
-     "end": 5.412
-    },
-    {
-     "w": "bagi",
-     "start": 5.412,
-     "end": 5.665
-    },
-    {
-     "w": "siapa",
-     "start": 5.665,
-     "end": 6.045
-    },
-    {
-     "w": "yang",
-     "start": 6.045,
-     "end": 6.171
-    },
-    {
-     "w": "Dia",
-     "start": 6.171,
-     "end": 6.424
-    },
-    {
-     "w": "kehendaki.",
-     "start": 6.424,
-     "end": 6.93
-    }
-   ]
-  },
   "03404414": {
    "src": "narration/WadahQRIS-AjakSedekah/03404414.mp3",
    "duration": 4.128,
@@ -530,6 +358,210 @@
      "w": "wadahqris.id.",
      "start": 2.788,
      "end": 3.98
+    }
+   ]
+  },
+  "f6a66b48": {
+   "src": "narration/WadahQRIS-AjakSedekah/f6a66b48.mp3",
+   "duration": 4.44,
+   "words": [
+    {
+     "w": "Cari",
+     "start": 0.07,
+     "end": 0.342
+    },
+    {
+     "w": "masjidnya",
+     "start": 0.342,
+     "end": 0.75
+    },
+    {
+     "w": "di",
+     "start": 0.75,
+     "end": 0.886
+    },
+    {
+     "w": "WadahQRIS,",
+     "start": 0.886,
+     "end": 1.43
+    },
+    {
+     "w": "lalu",
+     "start": 1.83,
+     "end": 2.138
+    },
+    {
+     "w": "scan",
+     "start": 2.138,
+     "end": 2.291
+    },
+    {
+     "w": "pakai",
+     "start": 2.291,
+     "end": 2.599
+    },
+    {
+     "w": "e-wallet",
+     "start": 2.599,
+     "end": 3.06
+    },
+    {
+     "w": "atau",
+     "start": 3.06,
+     "end": 3.368
+    },
+    {
+     "w": "m-banking",
+     "start": 3.368,
+     "end": 3.675
+    },
+    {
+     "w": "apa",
+     "start": 3.675,
+     "end": 3.983
+    },
+    {
+     "w": "saja.",
+     "start": 3.983,
+     "end": 4.29
+    }
+   ]
+  },
+  "b6e7f1d1": {
+   "src": "narration/WadahQRIS-AjakSedekah/b6e7f1d1.mp3",
+   "duration": 2.712,
+   "words": [
+    {
+     "w": "Isi",
+     "start": 0.07,
+     "end": 0.38
+    },
+    {
+     "w": "semampumu,",
+     "start": 0.38,
+     "end": 1
+    },
+    {
+     "w": "dan",
+     "start": 1,
+     "end": 1.155
+    },
+    {
+     "w": "sedekahmu",
+     "start": 1.155,
+     "end": 1.775
+    },
+    {
+     "w": "langsung",
+     "start": 1.775,
+     "end": 2.085
+    },
+    {
+     "w": "terkirim.",
+     "start": 2.085,
+     "end": 2.55
+    }
+   ]
+  },
+  "f06d1b2f": {
+   "src": "narration/WadahQRIS-AjakSedekah/f06d1b2f.mp3",
+   "duration": 4.248,
+   "words": [
+    {
+     "w": "Seperti",
+     "start": 0.08,
+     "end": 0.572
+    },
+    {
+     "w": "sebutir",
+     "start": 0.572,
+     "end": 1.064
+    },
+    {
+     "w": "biji",
+     "start": 1.064,
+     "end": 1.392
+    },
+    {
+     "w": "yang",
+     "start": 1.392,
+     "end": 1.556
+    },
+    {
+     "w": "tumbuh",
+     "start": 1.556,
+     "end": 1.884
+    },
+    {
+     "w": "tujuh",
+     "start": 1.884,
+     "end": 2.212
+    },
+    {
+     "w": "tangkai,",
+     "start": 2.212,
+     "end": 2.54
+    },
+    {
+     "w": "tiap",
+     "start": 2.77,
+     "end": 3.063
+    },
+    {
+     "w": "tangkai",
+     "start": 3.063,
+     "end": 3.357
+    },
+    {
+     "w": "seratus",
+     "start": 3.357,
+     "end": 3.797
+    },
+    {
+     "w": "biji.",
+     "start": 3.797,
+     "end": 4.09
+    }
+   ]
+  },
+  "847af92d": {
+   "src": "narration/WadahQRIS-AjakSedekah/847af92d.mp3",
+   "duration": 2.664,
+   "words": [
+    {
+     "w": "Allah",
+     "start": 0.06,
+     "end": 0.306
+    },
+    {
+     "w": "melipatgandakan",
+     "start": 0.306,
+     "end": 1.044
+    },
+    {
+     "w": "bagi",
+     "start": 1.044,
+     "end": 1.29
+    },
+    {
+     "w": "siapa",
+     "start": 1.29,
+     "end": 1.659
+    },
+    {
+     "w": "yang",
+     "start": 1.659,
+     "end": 1.782
+    },
+    {
+     "w": "Dia",
+     "start": 1.782,
+     "end": 2.028
+    },
+    {
+     "w": "kehendaki.",
+     "start": 2.028,
+     "end": 2.52
     }
    ]
   }
