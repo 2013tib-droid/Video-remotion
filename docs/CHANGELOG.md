@@ -2,6 +2,13 @@
 
 Perubahan framework yang memengaruhi semua video. Entri terbaru di atas.
 
+## 2026-11-13 — Suara ElevenLabs (opsional)
+
+- `npm run narasi` kini juga bisa memakai **ElevenLabs**: `voice: { name: 'elevenlabs:<voiceId>', rate: '+10%' }` (di seri atau video).
+  Key `ELEVENLABS_API_KEY` (cloud: network secret untuk `api.elevenlabs.io` + `ELEVENLABS_API_KEY=proxy-injected`), model
+  `ELEVENLABS_MODEL` (default `eleven_multilingual_v2`). `rate` dipetakan ke speed 0,7–1,2; `lexicon` & waktu kata tetap sama.
+- Default tetap Azure; config lama tidak berubah. Akun gratis: kuota kecil, non-komersial, sering diblokir dari IP cloud.
+
 ## 2026-11-12 — Irisan teknis 2D, panel layar, kartu putusan (gaya R2)
 
 Sumber: bedah video referensi "Pertalite atau Pertamax" (`docs/REFERENSI.md`, R2). Semua properti baru opsional.

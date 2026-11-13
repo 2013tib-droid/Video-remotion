@@ -38,6 +38,8 @@ Yang boleh diubah untuk tugas video: `src/projects/**`, `naskah/**`, `public/bra
 ## Narasi & render di sesi cloud
 - Key Azure (region `southeastasia`) adalah network secret di environment cloud **video-remotion**; `proxy-injected` hanya
   placeholder. Di environment lain → 401: minta pengguna pindah environment (jangan minta key ditempel di chat).
+- ElevenLabs (opsional): `voice.name: 'elevenlabs:<voiceId>'` + `ELEVENLABS_API_KEY=proxy-injected` (key via network secret
+  `api.elevenlabs.io`, minta lewat formulir kredensial). Rincian: komentar atas `scripts/narrate.mjs`.
 - Render: tambahkan `--browser-executable=/opt/pw-browsers/chromium` (unduhan Chrome diblokir).
 - Scene `world` ber-model `.glb` lambat dirender (16 dtk video ≈ 26 menit di skala 0,5): jalankan di latar dengan batas waktu
   panjang, dan cek tata letak dulu dengan `npx remotion still` (angka & status: `docs/KATALOG-SCENE.md` → *Kecepatan render*).

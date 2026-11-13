@@ -30,7 +30,10 @@ export interface NarrationData {
 }
 
 export interface VoiceSettings {
-  /** Nama suara Azure, mis. "id-ID-Ardi:DragonHDLatestNeural". */
+  /**
+   * Nama suara Azure, mis. "id-ID-Ardi:DragonHDLatestNeural",
+   * atau ElevenLabs: "elevenlabs:<voiceId>" (rate "+10%" → speed 1,1).
+   */
   name: string;
   /** Kecepatan SSML, mis. "+10%". */
   rate?: string;
