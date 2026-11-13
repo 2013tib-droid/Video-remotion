@@ -42,11 +42,11 @@ export default kontenHarian(wadahQris, {
     {
       scene: {
         type: 'testimonial',
-        quote: 'Allah tidak membebani seseorang melainkan sesuai dengan kesanggupannya.',
+        quote: 'Alloh tidak membebani seseorang melainkan sesuai dengan kesanggupannya.',
         author: 'QS. Al-Baqarah: 286',
         avatar: '📖',
       },
-      narasi: 'Tak perlu memaksakan diri. Allah tidak membebani seseorang melainkan sesuai dengan kesanggupannya.',
+      narasi: 'Tak perlu memaksakan diri. Alloh tidak membebani seseorang melainkan sesuai dengan kesanggupannya.',
       emphasis: ['kesanggupannya'],
     },
     {
@@ -62,11 +62,11 @@ export default kontenHarian(wadahQris, {
     {
       scene: {
         type: 'testimonial',
-        quote: 'Amalan yang paling dicintai Allah adalah yang terus-menerus, walaupun sedikit.',
+        quote: 'Amalan yang paling dicintai Alloh adalah yang terus-menerus, walaupun sedikit.',
         author: 'HR. Bukhari & Muslim',
         avatar: '💚',
       },
-      narasi: 'Rasulullah bersabda, amalan yang paling dicintai Allah adalah yang terus-menerus, walaupun sedikit.',
+      narasi: 'Rasulullah bersabda, amalan yang paling dicintai Alloh adalah yang terus-menerus, walaupun sedikit.',
       emphasis: ['terus-menerus'],
     },
     {
@@ -87,7 +87,7 @@ export default kontenHarian(wadahQris, {
       highlight: 'tujuh ratus',
       angka: [{ value: 700, suffix: '×', label: 'dari sebutir biji' }],
       keterangan: 'QS. Al-Baqarah: 261',
-      narasi: 'Allah melipatgandakan bagi siapa yang Dia kehendaki.',
+      narasi: 'Alloh melipatgandakan bagi siapa yang Dia kehendaki.',
       emphasis: ['melipatgandakan'],
     },
   ],

@@ -18,6 +18,8 @@ export const wadahQris = defineSeries({
       QRIS: 'kyu-ris',
       'HR.': 'hadits riwayat',
       HP: 'ha-pe',
+      // Ditulis "Alloh" di layar, tetap diucapkan "Allah".
+      Alloh: 'Allah',
     },
   },
   outro: {
