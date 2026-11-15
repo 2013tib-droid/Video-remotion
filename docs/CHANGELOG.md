@@ -11,7 +11,8 @@ Sumber: bedah video referensi "SCBD jadi sirkuit F1?" (`docs/REFERENSI.md`, R3).
 - Bentuk baru **`prism`** (gedung dari tapak: `pita`/`kisi`/`kaca`/`polos` + detail atap) dan **`strip`** (pita jalan/lintasan).
   Geometri: `src/components/world/geometry.ts`.
 - Kit **`src/worlds/kota.ts`**: `gedungKaca` `menaraBulat` `gedungPita` `gedungKantor` `podiumMenara`, `WARNA_KOTA`,
-  **`kotaDariPeta()`** + skrip **`npm run peta`** (OpenStreetMap via Overpass; host `overpass-api.de` harus diizinkan).
+  **`kotaDariPeta()`** + skrip **`npm run peta`** (API resmi OpenStreetMap, host `api.openstreetmap.org`;
+  `OVERPASS_URL` = pakai Overpass). Peta pertama: `src/worlds/peta/scbd.json` → demo `Demo-KotaSCBD`.
 - Lantai dunia diperbesar (radius 20 km) agar tepinya tidak terlihat dari kamera jauh.
 - Demo: `Demo-KotaTinta` (`src/projects/_demos/kota-tinta.ts`).
 

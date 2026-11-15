@@ -108,7 +108,7 @@ export interface KotaDariPetaOptions {
 }
 
 export interface KotaDariPeta extends Dunia {
-  /** Nama gedung di peta → id objeknya (untuk `label`, `kamera`). */
+  /** Nama gedung di peta → id titik dekat puncaknya (untuk `label`, `kamera`); badan gedung = id tanpa `-puncak`. */
   idGedung: Record<string, string>;
   /** Kredit wajib — tulis di sumber/catatan video. */
   kredit: string;
@@ -138,7 +138,7 @@ function gayaGedung(p: Vec2[], h: number, i: number): Pick<Extract<WorldObject, 
 /**
  * KIT DUNIA: kota dari peta asli (OpenStreetMap) — tata jalan, tapak & tinggi gedung sesuai aslinya.
  *
- * id objek: `gedung-<nama-gedung>` untuk gedung bernama (lihat `idGedung`), `gedung-<n>` lainnya; `pusat` (jangkar tengah).
+ * id objek: `gedung-<nama-gedung>` untuk gedung bernama, `gedung-<n>` lainnya, `<id>-puncak` = titik dekat atap (dipakai `idGedung`); `pusat`.
  * view: `kota` (isometrik seluruh kawasan) · `dekat` (isometrik setengah jarak) · `atas` (peta dari atas) · `rendah` (sudut rendah).
  */
 export function kotaDariPeta(peta: PetaKota, o: KotaDariPetaOptions = {}): KotaDariPeta {
@@ -174,9 +174,11 @@ export function kotaDariPeta(peta: PetaKota, o: KotaDariPetaOptions = {}): KotaD
       if (g.nama) {
         const s = slug(g.nama);
         id = idGedung[g.nama] ? `${s}-${i}` : `gedung-${s}`;
-        idGedung[g.nama] ??= id;
+        idGedung[g.nama] ??= `${id}-puncak`;
       }
-      objects.push({ id, shape: 'prism', pos: [cx, 0, cz], points: local, height: Math.max(3, g.h * k), ...gayaGedung(local, g.h * k, i) });
+      const h = Math.max(3, g.h * k);
+      // Jangkar `<id>-puncak` di dekat atap: label & kamera menunjuk ke sini, bukan ke dasar gedung.
+      objects.push({ id, shape: 'prism', pos: [cx, 0, cz], points: local, height: h, ...gayaGedung(local, h, i), children: [{ id: `${id}-puncak`, shape: 'group', pos: [0, h * 0.9, 0] }] });
     });
 
   if (o.pohon ?? true) {
@@ -212,7 +214,7 @@ export function kotaDariPeta(peta: PetaKota, o: KotaDariPetaOptions = {}): KotaD
   objects.push(...(o.tambahan ?? []));
 
   const views: Record<string, WorldView> = {
-    kota: { target: [0, 0, 0], distance: R * 10, azimuth: 32, elevation: 36, fov: 18 },
+    kota: { target: [0, 45, 0], distance: R * 8.5, azimuth: 32, elevation: 36, fov: 18 },
     dekat: { target: [0, 20, 0], distance: R * 5, azimuth: 40, elevation: 32, fov: 18 },
     atas: { target: [0, 0, 0], distance: R * 11, azimuth: 0, elevation: 88, fov: 18 },
     rendah: { target: [0, 30, 0], distance: R * 3, azimuth: 20, elevation: 14, fov: 24 },
