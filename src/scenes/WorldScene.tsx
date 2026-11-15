@@ -8,6 +8,7 @@ import { SPRINGS } from '../config';
 import { WORLD_TIMING, cameraAt, cameraPosition, evaluateWorld, type CameraPose } from '../components/world/evaluate';
 import { WorldCardView, WorldMeasureView, WorldMeterView, WorldPanelView, WorldReadoutView, WorldStampView } from '../components/world/Hud';
 import { WorldNodeView, type WorldPalette } from '../components/world/shapes';
+import { INK_LIGHT, InkPass, InkProvider, toonGradient, type InkSettings } from '../components/world/Ink';
 import { Sfx, useCue, useSceneExit, useSceneMotion } from '../motion';
 import { useTheme } from '../themes';
 import type { SceneProps } from './registry-types';
@@ -17,15 +18,15 @@ import type { WorldScene } from './types';
 const clamp = { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' } as const;
 
 /** Lampu + kabut + lantai; mengikuti titik yang dilihat kamera agar bayangan tetap tajam. */
-const Stage: React.FC<{ pose: CameraPose; sky: string; ground: string | null }> = ({ pose, sky, ground }) => {
+const Stage: React.FC<{ pose: CameraPose; sky: string; ground: string | null; ink: boolean }> = ({ pose, sky, ground, ink }) => {
   const light = useMemo(() => {
-    const l = new THREE.DirectionalLight('#ffffff', 2.1);
+    const l = new THREE.DirectionalLight('#ffffff', ink ? INK_LIGHT.sun : 2.1);
     l.castShadow = true;
     l.shadow.mapSize.set(2048, 2048);
     l.shadow.bias = -0.0004;
     l.shadow.normalBias = 0.03;
     return l;
-  }, []);
+  }, [ink]);
   // Pantulan lingkungan netral: bahan mengilap model `.glb` (cat, krom, kaca) tidak tampak hitam.
   const gl = useThree((s) => s.gl);
   const scene3 = useThree((s) => s.scene);
@@ -35,6 +36,8 @@ const Stage: React.FC<{ pose: CameraPose; sky: string; ground: string | null }> 
     scene3.environmentIntensity = 0.55;
     pmrem.dispose();
   }, [gl, scene3]);
+  // Gaya tinta: tanpa pantulan lingkungan (warna rata).
+  scene3.environmentIntensity = ink ? 0 : 0.55;
   const ext = Math.min(70, Math.max(2.5, pose.distance * 0.75));
   light.position.copy(pose.target).add(new THREE.Vector3(0.55, 1, 0.45).multiplyScalar(ext * 2.2));
   light.target.position.copy(pose.target);
@@ -47,13 +50,13 @@ const Stage: React.FC<{ pose: CameraPose; sky: string; ground: string | null }> 
   return (
     <>
       <fog attach="fog" args={[sky, pose.distance * 2.2, pose.distance * 7]} />
-      <hemisphereLight args={['#ffffff', ground ?? sky, 1.25]} />
+      {ink ? <hemisphereLight args={['#ffffff', '#ffffff', INK_LIGHT.hemisphere]} /> : <hemisphereLight args={['#ffffff', ground ?? sky, 1.25]} />}
       <primitive object={light} />
       <primitive object={light.target} />
       {ground ? (
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, 0]} receiveShadow>
-          <circleGeometry args={[600, 48]} />
-          <meshStandardMaterial color={ground} roughness={1} />
+          <circleGeometry args={[20000, 64]} />
+          {ink ? <meshToonMaterial color={ground} gradientMap={toonGradient()} toneMapped={false} /> : <meshStandardMaterial color={ground} roughness={1} />}
         </mesh>
       ) : null}
     </>
@@ -91,6 +94,9 @@ export const WorldSceneView: React.FC<SceneProps<WorldScene>> = ({ scene }) => {
   const sky = color(scene.sky) ?? c.background;
   const groundSetting = scene.ground ?? true;
   const ground = groundSetting === false ? null : groundSetting === true ? (dark ? '#14171c' : '#dedbd3') : (color(groundSetting) ?? null);
+
+  const ink: InkSettings | null =
+    scene.style === 'ink' ? { color: scene.ink?.color ?? (dark ? '#05070c' : '#1d2230'), width: scene.ink?.width ?? 4 } : null;
 
   const at = (f: number) => {
     const t = f / fps;
@@ -159,10 +165,13 @@ export const WorldSceneView: React.FC<SceneProps<WorldScene>> = ({ scene }) => {
     <AbsoluteFill style={{ background: sky }}>
       <AbsoluteFill style={{ filter: blur > 0.4 ? `blur(${blur.toFixed(2)}px)` : undefined, transform: blur > 0.4 ? 'scale(1.03)' : undefined }}>
         <ThreeCanvas width={W} height={H} camera={camera} shadows gl={{ antialias: true }} style={{ width: W, height: H }}>
-          <Stage pose={pose} sky={sky} ground={ground} />
-          {nodes.map((n) => (
-            <WorldNodeView key={n.key} node={n} pal={pal} xray={pose.xray} xrayOpacity={WORLD_TIMING.xrayOpacity} />
-          ))}
+          <Stage pose={pose} sky={sky} ground={ground} ink={Boolean(ink)} />
+          <InkProvider value={ink}>
+            {nodes.map((n) => (
+              <WorldNodeView key={n.key} node={n} pal={pal} xray={pose.xray} xrayOpacity={WORLD_TIMING.xrayOpacity} />
+            ))}
+          </InkProvider>
+          {ink ? <InkPass settings={ink} fog={[pose.distance * 2.2, pose.distance * 7]} /> : null}
         </ThreeCanvas>
       </AbsoluteFill>
 

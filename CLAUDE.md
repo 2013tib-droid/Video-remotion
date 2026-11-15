@@ -49,7 +49,7 @@ Yang boleh diubah untuk tugas video: `src/projects/**`, `naskah/**`, `public/bra
   Aset kecil yang harus ikut push taruh di luar `media/`. `public/narration/**`, `public/sfx/**`, `public/music/**` file git biasa.
 
 ## Perintah
-`npm run cek` · `npm run typecheck` · `npm run narasi -- <ID|config.ts>` · `npm run model -- <file.glb>` (nama bagian model 3D) · `npm run studio` · `npm run render:list` ·
+`npm run cek` · `npm run typecheck` · `npm run narasi -- <ID|config.ts>` · `npm run model -- <file.glb>` (nama bagian model 3D) · `npm run peta -- <nama> <lat> <lon> [radius]` (kota dari OSM) · `npm run studio` · `npm run render:list` ·
 `npm run render:all -- <filter> [--scale=0.5]` · `npx remotion render <ID> out/<ID>.mp4`
 
 ## Mengubah framework (hanya bila diminta animasi/efek/scene/template baru)

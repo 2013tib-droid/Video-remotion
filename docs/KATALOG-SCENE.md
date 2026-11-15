@@ -146,6 +146,8 @@ Contoh lengkap bernarasi: `src/projects/_demos/dunia.ts` (video `Demo-Dunia3D`).
 | `road` | `length` `lanes?` `laneWidth?` `curb?` | memanjang sumbu z, trotoar bergaris |
 | `trafficLight` | `light?` `changes?[] {to, at}` | lampu berganti saat cue |
 | `building` `house` `tree` `person` `coins` | `size` (building) · `count?` (coins) | ukuran nyata; atur dengan `scale` |
+| `prism` | `points[]` (denah [x, z]) `height` `facade?: 'pita' \| 'kisi' \| 'kaca' \| 'polos'` `floor?` `roof?` `windowColor?` `roofColor?` | **gedung dari tapak** sembarang (dari peta, menara bulat, sudut terpotong) + jendela/kaca + detail atap (AC, tangki). Pakai lewat kit `src/worlds/kota.ts` |
+| `strip` | `path[]` ([x, z]) `width` `closed?` `centerLine?` | pita datar di lantai sepanjang jalur (jalan dari peta, lintasan, sungai), bertepi lebih gelap |
 | `model` | `src` (`.glb` di `public/`) `size?` `ground?` `parts?[]` | **model 3D nyata** — lihat *Model `.glb`* di bawah |
 | `group` | — | hanya pembungkus `children` |
 
@@ -166,6 +168,10 @@ Contoh lengkap bernarasi: `src/projects/_demos/dunia.ts` (video `Demo-Dunia3D`).
 - **`measures[]`** — `{ from, to, text, color?, at?, hideAt? }`: penanda ukuran (garis berujung + teks) antara dua titik 3D, ikut kamera.
 - **`stamp`** — `{ text, target?, color?, rotate?, at?, hideAt? }`: cap putusan besar miring yang menghentak masuk (≤ 2 kata).
 - `ground` (`true`/`false`/warna), `sky` (warna latar), `note` (strip kecil, mis. "Ilustrasi · bukan skala").
+- **`style: 'ink'`** — gaya komik/ilustrasi (referensi R3): garis tinta di siluet & lipatan **semua** benda (termasuk model `.glb`)
+  + warna rata bertingkat (toon, tanpa tone mapping — warna tampil persis). `ink: { color?, width? }` (px pada lebar 1080, default 4).
+  Jendela, marka & pita jalan sengaja tanpa garis. Template `bedah3D`: `dunia.gaya: 'tinta'` (+ `tinta: { warna, tebal }`).
+  Biaya: dunia digambar dua kali per frame (±1,5–2× lebih lambat).
 - **Dunia bersambung lintas scene** (tiap scene satu kalimat narasi): simpan `objects` + `views` di satu konstanta, pakai di semua
   scene dengan `transition: 'none'`, dan mulai tiap scene dari `view` terakhir scene sebelumnya. Putaran/aliran tanpa `at` tetap mulus.
 - Suara otomatis: `whooshSoft` saat kamera terbang, `pop` per label/penanda ukuran, `tick` per kartu/panel batang, `impact` untuk cap.

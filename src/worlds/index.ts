@@ -7,3 +7,4 @@
 export * from './jalan-raya';
 export * from './benda';
 export * from './irisan';
+export * from './kota';

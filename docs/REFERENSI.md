@@ -185,3 +185,9 @@ Tidak ada kata sifat kosong ("luar biasa", "revolusioner"), tidak ada daftar tig
 - Rasa "nyata" datang dari **tata letak yang benar** (peta asli) + **siluet gedung yang khas**, bukan dari tekstur fotorealistis.
 - Garis tinta menyatukan semua benda jadi satu gaya — ini yang membuat rakitan bentuk dasar terlihat sengaja, bukan kasar.
 - Satu dunia, banyak sudut: atas-bawah, isometrik, pengemudi, jendela kantor — penonton tetap di tempat yang sama.
+
+### Status (2026-11-15)
+- **Sudah dibuat:** gaya tinta (`style: 'ink'` / `gaya: 'tinta'`), gedung dari tapak (`prism`: pita, kisi, kaca, detail atap),
+  pita jalan (`strip`), kit `src/worlds/kota.ts` + `kotaDariPeta()` + `npm run peta` (OSM). Demo: `Demo-KotaTinta`.
+- **Belum:** lintasan yang tergambar memanjang, HUD gim (peta mini, LAP, km/h), bingkai jendela/kokpit, pil & panel gaya komik,
+  peta skematik ber-pin, subtitle bergaris tepi.

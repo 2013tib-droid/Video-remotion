@@ -140,4 +140,6 @@ Tulis satu file config, render narasi, jalankan npm run cek. Jangan render video
 > (sumber kebenaran: `src/templates/KontenHarian.ts`, `src/templates/PromoProyek.ts`).
 > Visual 3D mendekati nyata (kamera masuk ke dalam benda, label menempel): scene manual `world` — tulis di brief
 > "pakai scene world", sebutkan benda apa saja yang tampil (model `.glb` yang tersedia: `public/models/`) dan urutan kamera (lihat *Dunia 3D* di `docs/KATALOG-SCENE.md`).
+> Gaya komik bergaris tinta (kota isometrik, gedung seperti gambar): tulis "gaya tinta"; kota sungguhan: sebutkan tempat
+> + koordinat agar dibuat dari peta OSM (`kotaDariPeta`, `docs/PUSTAKA-VISUAL.md`).
 > Scene manual & template lama (appLaunch, socialMediaShort, dst.): lihat `docs/MEMBUAT-VIDEO.md`.

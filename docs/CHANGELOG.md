@@ -2,6 +2,19 @@
 
 Perubahan framework yang memengaruhi semua video. Entri terbaru di atas.
 
+## 2026-11-15 — Gaya tinta & kota dari peta (gaya R3)
+
+Sumber: bedah video referensi "SCBD jadi sirkuit F1?" (`docs/REFERENSI.md`, R3). Semua properti baru opsional.
+
+- Scene `world`: **`style: 'ink'`** + `ink: { color, width }` — garis tinta (deteksi tepi kedalaman + normal, layar penuh) dan
+  warna rata bertingkat (toon). `src/components/world/Ink.tsx`. Template `bedah3D`: `dunia.gaya: 'tinta'`.
+- Bentuk baru **`prism`** (gedung dari tapak: `pita`/`kisi`/`kaca`/`polos` + detail atap) dan **`strip`** (pita jalan/lintasan).
+  Geometri: `src/components/world/geometry.ts`.
+- Kit **`src/worlds/kota.ts`**: `gedungKaca` `menaraBulat` `gedungPita` `gedungKantor` `podiumMenara`, `WARNA_KOTA`,
+  **`kotaDariPeta()`** + skrip **`npm run peta`** (OpenStreetMap via Overpass; host `overpass-api.de` harus diizinkan).
+- Lantai dunia diperbesar (radius 20 km) agar tepinya tidak terlihat dari kamera jauh.
+- Demo: `Demo-KotaTinta` (`src/projects/_demos/kota-tinta.ts`).
+
 ## 2026-11-13 — Suara ElevenLabs (opsional)
 
 - `npm run narasi` kini juga bisa memakai **ElevenLabs**: `voice: { name: 'elevenlabs:<voiceId>', rate: '+10%' }` (di seri atau video).
