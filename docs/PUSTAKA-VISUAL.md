@@ -111,6 +111,20 @@ puncak, pesisir berumah. Kanvas 1000 × 1100.
 
 <table>
 <tr>
+<td width="140"><img src="pustaka/kota-tinta.jpg" width="135"></td>
+<td>
+
+**Kota bergaya komik** (`src/worlds/kota.ts`, gaya R3; demo `Demo-KotaTinta`) — pakai dengan `gaya: 'tinta'`.
+Gedung: `gedungKaca(pos, lebar, tinggi, {bulat?})` · `menaraBulat(pos, jari, tinggi)` · `gedungPita(pos, l, d, t)` ·
+`gedungKantor(pos, l, d, t)` · `podiumMenara(pos, podium, menara)`; warna `WARNA_KOTA`; jalan `strip`.
+**Kota dari peta asli:** `npm run peta -- scbd -6.2251 106.8085 450` → `src/worlds/peta/scbd.json`, lalu
+`kotaDariPeta(peta, { radius?, tinggi?, pohon? })` → `{ objects, views: kota · dekat · atas · rendah, idGedung, kredit }`.
+Gedung bernama → `idGedung['Equity Tower']` (titik dekat puncak). Wajib tulis `kredit` ("© OpenStreetMap contributors") di sumber.
+Contoh jadi: `Demo-KotaSCBD` (`src/projects/_demos/kota-scbd.ts`, data `src/worlds/peta/scbd.json`: 417 gedung, 63 bernama).
+Sumber data: API resmi OSM (host `api.openstreetmap.org` di jaringan environment); data mentah di-cache di
+`node_modules/.cache/peta/`; bila kena batas permintaan (429) tunggu ±1 menit.
+</td></tr>
+<tr>
 <td width="140"><img src="pustaka/dunia-kota.jpg" width="135"></td>
 <td>
 

@@ -3,7 +3,9 @@ import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import type { Vec3, WorldObject } from '../../scenes/types';
 import type { WorldNode } from './evaluate';
+import { useInk, toonGradient } from './Ink';
 import { ModelView } from './Model';
+import { prismGeometry, stripGeometry } from './geometry';
 
 /** Warna dunia 3D yang diturunkan dari tema (diisi di luar kanvas — konteks tema tidak menembus kanvas). */
 export interface WorldPalette {
@@ -33,19 +35,20 @@ const fromY = (axis: 'x' | 'y' | 'z' = 'y'): Vec3 => (axis === 'x' ? [0, 0, -HAL
 /** Rotasi agar geometri bersumbu z (hasil extrude) mengarah ke `axis`. */
 const fromZ = (axis: 'x' | 'y' | 'z' = 'y'): Vec3 => (axis === 'x' ? [0, HALF, 0] : axis === 'y' ? [-HALF, 0, 0] : [0, 0, 0]);
 
-/** Material matte gaya ilustrasi; `glow` = menyala (lampu). */
-const Mat: React.FC<{ color: string; opacity?: number; glow?: number }> = ({ color, opacity = 1, glow = 0 }) => (
-  <meshStandardMaterial
-    color={color}
-    roughness={0.82}
-    metalness={0.04}
-    transparent={opacity < 0.999}
-    opacity={opacity}
-    depthWrite={opacity >= 0.999}
-    emissive={glow > 0 ? color : '#000000'}
-    emissiveIntensity={glow}
-  />
-);
+/** Material matte gaya ilustrasi; `glow` = menyala (lampu). Gaya tinta → warna rata bertingkat (toon). */
+const Mat: React.FC<{ color: string; opacity?: number; glow?: number; attach?: string }> = ({ color, opacity = 1, glow = 0, attach }) => {
+  const ink = useInk();
+  const common = {
+    attach,
+    color,
+    transparent: opacity < 0.999,
+    opacity,
+    depthWrite: opacity >= 0.999,
+    emissive: glow > 0 ? color : '#000000',
+    emissiveIntensity: glow,
+  };
+  return ink ? <meshToonMaterial {...common} gradientMap={toonGradient()} toneMapped={false} /> : <meshStandardMaterial {...common} roughness={0.82} metalness={0.04} />;
+};
 
 /** Mesh dengan bayangan (benda tembus pandang tidak membayang). */
 const M: React.FC<{
@@ -56,9 +59,11 @@ const M: React.FC<{
   rotation?: Vec3;
   scale?: Vec3;
   geometry?: THREE.BufferGeometry;
+  /** Tanpa garis tinta (detail kecil: jendela, marka). */
+  noInk?: boolean;
   children?: React.ReactNode;
-}> = ({ color, opacity = 1, glow, children, geometry, ...rest }) => (
-  <mesh castShadow={opacity >= 0.999} receiveShadow={opacity >= 0.999} geometry={geometry} {...rest}>
+}> = ({ color, opacity = 1, glow, children, geometry, noInk, ...rest }) => (
+  <mesh castShadow={opacity >= 0.999} receiveShadow={opacity >= 0.999} geometry={geometry} userData={noInk ? { noInk: true } : undefined} {...rest}>
     {children}
     <Mat color={color} opacity={opacity} glow={glow} />
   </mesh>
@@ -359,6 +364,51 @@ const Building: React.FC<ShapeProps<'building'>> = ({ o, color, opacity, pal }) 
   );
 };
 
+/** Gedung dari tapak: badan (atap berwarna sendiri) + jendela/kaca + detail atap, masing-masing satu mesh. */
+const Prism: React.FC<ShapeProps<'prism'>> = ({ o, color, opacity, pal }) => {
+  const geo = useMemo(
+    () => prismGeometry(o.points, o.height, o.facade ?? 'kisi', o.floor ?? 3.6, o.roof ?? o.height >= 6),
+    [o.points, o.height, o.facade, o.floor, o.roof],
+  );
+  const kaca = o.facade === 'kaca';
+  const wall = color ?? (kaca ? '#9dbde3' : pal.light);
+  const roof = o.roofColor ?? `#${new THREE.Color(wall).multiplyScalar(kaca ? 0.82 : 0.9).getHexString()}`;
+  const win = o.windowColor ?? (kaca ? '#eef3f8' : '#7fa3cf');
+  return (
+    <group>
+      <mesh geometry={geo.body} castShadow={opacity >= 0.999} receiveShadow={opacity >= 0.999}>
+        <Mat attach="material-0" color={roof} opacity={opacity} />
+        <Mat attach="material-1" color={wall} opacity={opacity} />
+      </mesh>
+      {geo.windows ? <M color={win} opacity={opacity} geometry={geo.windows} noInk /> : null}
+      {geo.roof ? <M color="#d6d3cc" opacity={opacity} geometry={geo.roof} /> : null}
+    </group>
+  );
+};
+
+/** Pita datar sepanjang jalur (jalan peta, lintasan); `centerLine` = garis putus-putus. */
+const Strip: React.FC<ShapeProps<'strip'>> = ({ o, color, opacity, pal }) => {
+  const geo = useMemo(() => stripGeometry(o.path, o.width, Boolean(o.closed), Boolean(o.centerLine)), [o.path, o.width, o.closed, o.centerLine]);
+  const fill = color ?? pal.road;
+  // Tepi = pita sedikit lebih lebar berwarna lebih gelap (lebih rapi daripada garis tinta di sisi pita yang tipis).
+  const edge = `#${new THREE.Color(fill).multiplyScalar(0.55).getHexString()}`;
+  return (
+    <group>
+      <mesh geometry={geo.edge} receiveShadow userData={{ noInk: true }}>
+        <Mat color={edge} opacity={opacity} />
+      </mesh>
+      <mesh geometry={geo.body} receiveShadow userData={{ noInk: true }}>
+        <Mat color={fill} opacity={opacity} />
+      </mesh>
+      {geo.dashes && o.centerLine ? (
+        <mesh geometry={geo.dashes} userData={{ noInk: true }}>
+          <Mat color={o.centerLine} opacity={opacity} />
+        </mesh>
+      ) : null}
+    </group>
+  );
+};
+
 const House: React.FC<ShapeProps<'house'>> = ({ color, opacity, pal }) => {
   const roof = useMemo(() => extrude([[-3.4, 0], [0, 2.1], [3.4, 0]], 5.6, 0.03), []);
   return (
@@ -434,6 +484,8 @@ const SHAPES: { [S in WorldObject['shape']]: React.FC<ShapeProps<S>> | null } = 
   road: Road,
   trafficLight: TrafficLight,
   building: Building,
+  prism: Prism,
+  strip: Strip,
   house: House,
   tree: Tree,
   person: Person,

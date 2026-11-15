@@ -119,3 +119,75 @@ ke dalam benda, gambar berganti ke **irisan teknis** (cutaway) yang rapi seperti
   + `sorot`, kotak bersudut membulat, lencana gambar di irisan, warna sorotan subtitle di tema. Contoh: `src/projects/bagaimana-jika/`.
 - **Belum:** kit dunia detail siap pakai per tempat (SPBU, kota, pantai — sekarang dirakit di file video), lencana di atas
   objek 3D, sapuan kamera cepat (whip pan), aksir/tekstur pada objek 3D.
+
+---
+
+## R3 — Kota isometrik bergaya komik: "SCBD jadi sirkuit F1?" (TikTok, ±64 dtk, 9:16)
+
+Dikirim pemilik: "gedungnya kelihatan real walaupun kayak gambar, detail juga. Tulisannya juga bukan AI slop."
+Kanal lain dari R1/R2. Fokus bedahan: **gaya gambar kota** dan **gaya tulisan**. Yang ditiru tekniknya, bukan brand/isinya.
+
+**Kenapa terasa nyata walau berupa gambar:** kotanya **dirakit dari peta asli** (OpenStreetMap, tertulis di sumber), jadi
+tata jalan, bundaran, dan letak gedung cocok dengan yang dikenal penonton; tiap gedung punya **ciri bentuknya sendiri**
+(menara silinder, kaca biru bersegi, kotak bertingkat) dan detail kecil di atap. Semuanya digambar dengan **garis tinta
+gelap + warna rata + satu bayangan**, jadi tetap bersih seperti ilustrasi, bukan render 3D "plastik".
+
+**Kenapa tulisannya bukan AI slop:** kalimatnya lisan dan pendek ("Mau lewat mana?", "Siap-siap."), angkanya spesifik dan
+bersumber (3,34 km · ±4,5 km · 9 m · ±8–10 m · 6 minggu), tiap label hanya **fakta pendek gaya catatan** ("garis start:
+Jl. Sudirman", "Sudirman buka tutup"), dan ada sejarah nyata bertanggal (2021, 2025) sebagai bukti "bukan khayalan".
+Tidak ada kata sifat kosong ("luar biasa", "revolusioner"), tidak ada daftar tiga poin generik, tidak ada pertanyaan retoris berderet.
+
+### Alur (12 potongan, ±5 dtk per potongan)
+| Waktu | Yang terlihat | Kalimat (gaya) |
+|---|---|---|
+| 0–5 dtk | Atas-bawah: jalan lurus, deretan mobil F1 di grid, lampu start, tribun, pohon bulat. Label "garis start: Jl. Sudirman" | "Gimana kalau SCBD jadi sirkuit jalan raya, kaya di Monaco?" |
+| 5–6 | Kota isometrik, mobil menikung di jalan layang. HUD gim: peta lintasan mini + "LAP 1" + "295 km/h" | (lanjutan) |
+| 6–9 | Sudut pandang **pengemudi** (mobil di depan kamera), masuk terowongan. Label "di dalam underpass SCBD" | "Ternyata ukurannya masuk." |
+| 9–17 | Kawasan SCBD dari atas, **lintasan merah** tergambar mengitari gedung; label nama gedung; **dua batang** (Monaco 3,34 km vs keliling SCBD ±4,5 km) | "Sirkuit Monaco cuma tiga koma tiga empat kilometer…" |
+| 17–21 | Jalan dari atas, **tiga pil ukuran** (Singapura & Baku 9 m / SCBD ±8–10 m / Sudirman ±14 m) + penanda lebar di aspal; mobil lewat | "Selebar sembilan meter." |
+| 21–28 | Jalan menikung, pagar & kerb **terpasang bertahap**; teks kecil "minggu ke-3 … ke-6" | "Monaco butuh enam minggu buat masang." |
+| 28–36 | Dekat jalan: barikade, marshal, mobil antre. Pil "Sudirman buka tutup" | "Bayangin Sudirman buka tutup sebulan lebih… Mau lewat mana?" |
+| 36–51 | **Peta skematik** dalam bingkai ("peta skematis, bukan skala"): garis jalan, pin Bundaran HI → Ratu Plaza, jalur merah putus-putus; pin Ancol, PIK, Kemayoran menyusul; lencana tahun ("2021: kandidat sirkuit Formula E") | "Dan ini bukan khayalan doang. Tahun 2021…" |
+| 51–55 | Kembali ke kota, mobil menikung + HUD lap | "Jadi kalau kantor kamu di SCBD, siap-siap." |
+| 55–60 | **Dilihat dari jendela kantor** (bingkai jendela + pot tanaman), maskot menoleh. Pil "tribun VIP: jendela kantor" | "Jendelanya bisa jadi tribun." |
+| 60–64 | Kartu kanal kuning (maskot + "follow for more") | — |
+
+### Pola → cara membuatnya di sini
+| Pola | Status / cara |
+|---|---|
+| **Garis tinta** di tepi tiap benda 3D + warna rata + bayangan tunggal (gaya komik / toon) | **Belum ada** → mode gambar dunia `gaya: 'tinta'` (garis tepi + bayangan bertingkat) di scene `world` |
+| Kota dari **peta asli** (jalan, bundaran, tapak gedung) | **Belum ada** → kit `kotaDariPeta()`: tapak gedung + jalan dari data OSM yang disimpan sebagai JSON kecil; kredit "© OpenStreetMap contributors" otomatis di sumber |
+| Gedung berkarakter: menara silinder berjendela pita, kaca biru bersegi, podium + menara, kotak kecil ber-AC di atap | Sebagian (`gedungBerjendela`) → perlu jenis gedung (silinder, kaca, podium) + **detail atap** (AC, tangki air, tepi atap) |
+| Pohon bulat bergerombol, palem, taman hijau, tribun penonton berwarna | Sebagian (`pohon`) → tambah palem & tribun |
+| **Lintasan tergambar** mengitari gedung (garis merah tebal yang memanjang) | **Belum ada** di 3D → garis jalur yang tumbuh mengikuti titik-titik (seperti rute `map`, tapi di dunia 3D) |
+| HUD gim: peta lintasan mini + titik berjalan, "LAP 1", kecepatan | **Belum ada** → HUD `minimap` + pil angka (bisa memakai `panel`) |
+| Sudut pandang pengemudi / dari jendela kantor (bingkai di depan kamera) | **Belum ada** → `bingkai: 'jendela' \| 'kokpit'` (lapisan 2D di depan dunia) |
+| Pil label krem/kuning/merah muda bergaris tepi gelap, huruf tangan, kadang miring sedikit | `label` + `color` ada → perlu varian gaya **pil komik** (garis tepi tebal, bayangan keras, sedikit miring) |
+| Dua batang pembanding di atas (merah vs kuning, garis tepi tebal) | `meter` ada → varian gaya komik |
+| Penanda lebar di aspal + tiga pil ukuran | `ukur` + `label` (sudah ada) |
+| Benda dipasang bertahap + penghitung "minggu ke-N" | `muncul` per objek + `data` menghitung (sudah ada) |
+| Peta skematik dalam bingkai berlabel "bukan skala", pin bertahap, jalur putus-putus | `map` ada (peta dunia) → perlu **peta skematik bebas** (garis jalan sederhana + pin) di dalam kartu |
+| Lencana tahun di bawah ("2021: …", "2025: …") yang ganti tiap kalimat | `data` / `catatan` (sudah ada) |
+| Judul tetap di atas sepanjang video, kata kunci di **kotak kuning** | `bab` + sorotan kuning (sudah ada) |
+| Subtitle **huruf besar, putih bergaris tepi hitam, kata kunci kuning-hijau**, 2 baris di tengah | Subtitle ada (kotak hitam) → varian gaya `tepi` (tanpa kotak, garis tepi tebal) |
+| Strip sumber kecil di bawah tiap potongan (berganti sesuai isi) | Sudah ada (`source` di `data`/adegan) |
+| Penutup kartu kanal dengan maskot | `penutup` seri |
+
+### Aturan naskah dari referensi ini
+- **Pertanyaan "gimana kalau" tentang tempat yang dikenal** penonton → dijawab dengan ukuran nyata dibanding tempat lain
+  (panjang, lebar, lama pasang), lalu dampaknya ke penonton ("mau lewat mana?"), lalu bukti sejarah, lalu penutup yang
+  menyentil kehidupan penonton ("kalau kantor kamu di SCBD…").
+- Label di layar = **catatan fakta** 2–5 kata dengan titik dua ("Monaco: 6 minggu masang"), bukan judul promosi.
+- Bahasa lisan Jakarta yang wajar ("doang", "bayangin", "kaya"), tanpa kata sifat bombastis dan tanpa penutup klise.
+- Akui keterbatasan di layar bila perlu: "peta skematis, bukan skala", "estimasi" di sumber.
+
+### Pelajaran untuk video kita
+- Rasa "nyata" datang dari **tata letak yang benar** (peta asli) + **siluet gedung yang khas**, bukan dari tekstur fotorealistis.
+- Garis tinta menyatukan semua benda jadi satu gaya — ini yang membuat rakitan bentuk dasar terlihat sengaja, bukan kasar.
+- Satu dunia, banyak sudut: atas-bawah, isometrik, pengemudi, jendela kantor — penonton tetap di tempat yang sama.
+
+### Status (2026-11-15)
+- **Sudah dibuat:** gaya tinta (`style: 'ink'` / `gaya: 'tinta'`), gedung dari tapak (`prism`: pita, kisi, kaca, detail atap),
+  pita jalan (`strip`), kit `src/worlds/kota.ts` + `kotaDariPeta()` + `npm run peta` (OSM). Demo: `Demo-KotaTinta`.
+- **Belum:** lintasan yang tergambar memanjang, HUD gim (peta mini, LAP, km/h), bingkai jendela/kokpit, pil & panel gaya komik,
+  peta skematik ber-pin, subtitle bergaris tepi.

@@ -393,6 +393,35 @@ export type WorldObject = WorldObjectBase &
     | { shape: 'road'; length: number; lanes?: number; /** Lebar satu lajur (m). Default 3,4. */ laneWidth?: number; /** Trotoar bergaris di tepi. Default true. */ curb?: boolean }
     | { shape: 'trafficLight'; light?: 'red' | 'yellow' | 'green'; changes?: { to: 'red' | 'yellow' | 'green'; at: Cue }[] }
     | { shape: 'building'; size: Vec3 }
+    | {
+        /**
+         * Gedung dari TAPAK (denah) sembarang — dipakai kit `kotaDariPeta()` dan `gedung*()` di `src/worlds/kota.ts`.
+         * `points` = denah [x, z] (meter, relatif `pos`), diangkat setinggi `height`.
+         */
+        shape: 'prism';
+        points: Vec2[];
+        height: number;
+        /** Muka gedung: `pita` (jendela pita per lantai) · `kisi` (jendela satu-satu) · `kaca` (dinding kaca + garis lantai) · `polos`. Default `kisi`. */
+        facade?: 'pita' | 'kisi' | 'kaca' | 'polos';
+        /** Tinggi satu lantai (m). Default 3,6. */
+        floor?: number;
+        /** Detail atap (AC, tangki air, ruang mesin). Default true bila tinggi ≥ 6 m. */
+        roof?: boolean;
+        /** Warna jendela/garis kaca (hex). */
+        windowColor?: string;
+        /** Warna atap (hex). Default dinding yang sedikit lebih gelap. */
+        roofColor?: string;
+      }
+    | {
+        /** Pita datar di lantai sepanjang jalur [x, z] — jalan dari peta, lintasan, sungai. */
+        shape: 'strip';
+        path: Vec2[];
+        /** Lebar (m). */
+        width: number;
+        closed?: boolean;
+        /** Garis tengah putus-putus (warna). */
+        centerLine?: WorldColor;
+      }
     | { shape: 'house' }
     | { shape: 'tree' }
     | { shape: 'person' }
@@ -628,6 +657,13 @@ export interface WorldScene extends SceneBase, SceneHeading {
   sky?: WorldColor;
   /** Catatan kecil di bawah (mis. "Ilustrasi · bukan skala"). */
   note?: string;
+  /**
+   * Gaya gambar: `smooth` (default, bayangan halus) · `ink` = gaya komik/ilustrasi: garis tinta di tepi & lipatan
+   * semua benda (termasuk model `.glb`) + warna rata bertingkat. Referensi: `docs/REFERENSI.md` R3.
+   */
+  style?: 'smooth' | 'ink';
+  /** Garis tinta (`style: 'ink'`): `color` default biru tua hampir hitam, `width` px pada lebar 1080 (default 4). */
+  ink?: { color?: string; width?: number };
 }
 
 

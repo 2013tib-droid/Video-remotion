@@ -29,6 +29,10 @@ export interface Dunia {
   views: Record<string, WorldView>;
   ground?: WorldScene['ground'];
   sky?: WorldScene['sky'];
+  /** `'tinta'` = gaya komik: garis tinta di tepi semua benda + warna rata (referensi R3). Default halus. */
+  gaya?: 'halus' | 'tinta';
+  /** Garis tinta: warna (hex) & tebal (px pada lebar 1080, default 4). */
+  tinta?: { warna?: string; tebal?: number };
 }
 
 /**
@@ -393,6 +397,8 @@ export function bedah3D(series: Series, p: Bedah3DProps): VideoConfig {
       stamp: a.cap,
       ground: p.dunia.ground,
       sky: p.dunia.sky,
+      style: p.dunia.gaya === 'tinta' ? 'ink' : undefined,
+      ink: p.dunia.tinta ? { color: p.dunia.tinta.warna, width: p.dunia.tinta.tebal } : undefined,
       note: a.catatan ?? p.catatan,
     });
     afterInsert = false;
