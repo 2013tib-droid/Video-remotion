@@ -26,15 +26,25 @@ durasi: ±65 dtk
 | Kupon obligasi lama 5% | brief pengguna | ilustrasi |
 | Arah inflasi/permintaan/harga obligasi/saham | logika umum kebijakan moneter | ilustrasi ("Arah umum") |
 
-## 2. Alur (16 adegan)
-| # | Brief | Narasi | Visual |
-|---|---|---|---|
-| 1 | Hook | Breaking! Bank Indonesia resmi menaikkan suku bunga jadi 6 persen. | Zoom cepat ke gedung BI, panel 5,75 → 6,00%, sirene + cincin alarm, lantai memerah, cap "BI RATE 6%" |
-| 2 | Hook | Tapi, siapa yang sebenarnya paling terdampak? | Kamera mundur ke kota: "Debitur? Bank? SBN? Saham?" |
-| 3–4 | Kenapa naik | …menahan inflasi dan menjaga nilai rupiah. / …mengurangi uang yang beredar… | Orbit; tuas rem ditarik, api inflasi mengecil, koin rupiah & dolar, aliran uang melambat; meter Inflasi ↓ Permintaan ↓ Stabilitas ↑ |
-| 5–6 | Debitur | …pinjaman berbunga mengambang, cicilan bisa naik. / Beban … ikut bertambah. | Rumah KPR, mobil, kartu kredit; panel Rp4.000.000 → Rp4.400.000 (+Rp400.000); orang kaget, dompet menipis, cap "CICILAN NAIK" |
-| 7–8 | Bank | …pendapatan bunga lebih besar. / Namun risikonya juga meningkat… | Bunga mengalir ke bank, koin menumpuk, timbangan miring ke "Pendapatan ↑" lalu ke "Risiko gagal bayar ↑"; tanda telat bayar di rumah |
-| 9–10 | SBN | …harga obligasi lama biasanya turun. / …SBN baru menawarkan imbal hasil… | Sertifikat lama (kupon 5%) turun + panah merah; SBN baru naik + panah hijau, investor pindah |
-| 11–12 | Saham | Pasar saham sering tertekan… / …perbankan bisa lebih tahan… | Batang IHSG turun + garis merah, dana mengalir ke SBN; batang sektor Bank (hijau) / Properti (merah) / Growth (kuning) |
-| 13–15 | Penutup | Jadi, kenaikan suku bunga bukan selalu kabar buruk. / Dampaknya berbeda… / Memahami hubungan ini… | Zoom out, jalur BI RATE → 4 pihak; kartu putusan ✓/✕; kartu "Pahami arah bunga" |
-| 16 | Outro | Follow untuk belajar ekonomi dan investasi dengan cara yang mudah dipahami. | Kartu kanal + tombol Follow |
+## 2. Alur (16 scene · versi 2 infografis)
+Versi 1 (dunia 3D) dinilai pemilik 50/100: membingungkan, benda kecil abstrak bergerak bersamaan. Versi 2: satu kalimat = satu layar
+dengan satu pesan. Narasi tidak berubah.
+
+| # | Narasi (ringkas) | Layar |
+|---|---|---|
+| 1 | Breaking! … jadi 6 persen. | `words`: BREAKING · BI Rate · naik · 6% (caption 5,75% → 6,00%) |
+| 2 | Tapi, siapa … paling terdampak? | `features` 2×2: Debitur · Bank · SBN · Saham |
+| 3 | BI … menahan inflasi dan menjaga nilai rupiah. | `relation`: Bunga ↑ → menahan → Inflasi; → menjaga → Nilai rupiah |
+| 4 | Caranya, mengurangi uang yang beredar… | `timeline`: Bunga naik → Uang beredar berkurang → Harga stabil |
+| 5 | …pinjaman berbunga mengambang, cicilan bisa naik. | `device`: aplikasi "Pinjaman saya" (KPR, mobil, kartu kredit ▲) + notifikasi |
+| 6 | Beban … ikut bertambah. | `calculation`: Rp4.000.000 + Rp400.000 = Rp4.400.000 (ilustrasi) |
+| 7 | Bank … pendapatan bunga lebih besar. | `hero` ikon bank: "Pendapatan bunga bank naik" |
+| 8 | Namun risikonya juga meningkat… | `features`: Pendapatan bunga ↑ · Risiko gagal bayar ↑ |
+| 9 | …harga obligasi lama biasanya turun. | `relation`: Suku bunga ↑ → Harga obligasi lama ↓ |
+| 10 | …SBN baru … imbal hasil lebih menarik. | `comparison`: Obligasi lama (kupon 5%) vs SBN baru |
+| 11 | Pasar saham sering tertekan… | `device`: "Pasar hari ini" saham ▼ / obligasi ▲ + notifikasi dana pindah |
+| 12 | …perbankan bisa lebih tahan… | `features`: Perbankan tahan · Properti tertekan · Growth sensitif |
+| 13 | Jadi … bukan selalu kabar buruk. | `statement` |
+| 14 | Dampaknya berbeda untuk setiap pihak. | `comparison` Untung/Rugi per pihak |
+| 15 | Memahami hubungan ini… | `hero` ikon lampu: "Pahami arah bunga" |
+| 16 | Follow untuk belajar… | penutup seri |
