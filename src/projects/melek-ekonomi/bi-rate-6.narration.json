@@ -1,0 +1,830 @@
+{
+ "clips": {
+  "52505296": {
+   "src": "narration/MelekEkonomi-BIRate6/52505296.mp3",
+   "duration": 3.72,
+   "words": [
+    {
+     "w": "Follow",
+     "start": 0.1,
+     "end": 0.354
+    },
+    {
+     "w": "untuk",
+     "start": 0.354,
+     "end": 0.608
+    },
+    {
+     "w": "belajar",
+     "start": 0.608,
+     "end": 0.989
+    },
+    {
+     "w": "ekonomi",
+     "start": 0.989,
+     "end": 1.497
+    },
+    {
+     "w": "dan",
+     "start": 1.497,
+     "end": 1.624
+    },
+    {
+     "w": "investasi",
+     "start": 1.624,
+     "end": 2.133
+    },
+    {
+     "w": "dengan",
+     "start": 2.133,
+     "end": 2.387
+    },
+    {
+     "w": "cara",
+     "start": 2.387,
+     "end": 2.641
+    },
+    {
+     "w": "yang",
+     "start": 2.641,
+     "end": 2.768
+    },
+    {
+     "w": "mudah",
+     "start": 2.768,
+     "end": 3.022
+    },
+    {
+     "w": "dipahami.",
+     "start": 3.022,
+     "end": 3.53
+    }
+   ]
+  },
+  "e85fe8dc": {
+   "src": "narration/MelekEkonomi-BIRate6/e85fe8dc.mp3",
+   "duration": 3.96,
+   "words": [
+    {
+     "w": "Breaking!",
+     "start": 0.08,
+     "end": 0.67
+    },
+    {
+     "w": "Bank",
+     "start": 0.86,
+     "end": 0.998
+    },
+    {
+     "w": "Indonesia",
+     "start": 0.998,
+     "end": 1.689
+    },
+    {
+     "w": "resmi",
+     "start": 1.689,
+     "end": 1.965
+    },
+    {
+     "w": "menaikkan",
+     "start": 1.965,
+     "end": 2.379
+    },
+    {
+     "w": "suku",
+     "start": 2.379,
+     "end": 2.655
+    },
+    {
+     "w": "bunga",
+     "start": 2.655,
+     "end": 2.931
+    },
+    {
+     "w": "jadi",
+     "start": 2.931,
+     "end": 3.208
+    },
+    {
+     "w": "6",
+     "start": 3.208,
+     "end": 3.484
+    },
+    {
+     "w": "persen.",
+     "start": 3.484,
+     "end": 3.76
+    }
+   ]
+  },
+  "8adb6623": {
+   "src": "narration/MelekEkonomi-BIRate6/8adb6623.mp3",
+   "duration": 2.544,
+   "words": [
+    {
+     "w": "Tapi,",
+     "start": 0.07,
+     "end": 0.4
+    },
+    {
+     "w": "siapa",
+     "start": 0.62,
+     "end": 1.026
+    },
+    {
+     "w": "yang",
+     "start": 1.026,
+     "end": 1.162
+    },
+    {
+     "w": "sebenarnya",
+     "start": 1.162,
+     "end": 1.703
+    },
+    {
+     "w": "paling",
+     "start": 1.703,
+     "end": 1.974
+    },
+    {
+     "w": "terdampak?",
+     "start": 1.974,
+     "end": 2.38
+    }
+   ]
+  },
+  "27fc8b15": {
+   "src": "narration/MelekEkonomi-BIRate6/27fc8b15.mp3",
+   "duration": 4.848,
+   "words": [
+    {
+     "w": "BI",
+     "start": 0.08,
+     "end": 0.389
+    },
+    {
+     "w": "biasanya",
+     "start": 0.389,
+     "end": 1.006
+    },
+    {
+     "w": "menaikkan",
+     "start": 1.006,
+     "end": 1.469
+    },
+    {
+     "w": "suku",
+     "start": 1.469,
+     "end": 1.778
+    },
+    {
+     "w": "bunga",
+     "start": 1.778,
+     "end": 2.086
+    },
+    {
+     "w": "untuk",
+     "start": 2.086,
+     "end": 2.395
+    },
+    {
+     "w": "menahan",
+     "start": 2.395,
+     "end": 2.858
+    },
+    {
+     "w": "inflasi",
+     "start": 2.858,
+     "end": 3.321
+    },
+    {
+     "w": "dan",
+     "start": 3.321,
+     "end": 3.475
+    },
+    {
+     "w": "menjaga",
+     "start": 3.475,
+     "end": 3.938
+    },
+    {
+     "w": "nilai",
+     "start": 3.938,
+     "end": 4.247
+    },
+    {
+     "w": "rupiah.",
+     "start": 4.247,
+     "end": 4.71
+    }
+   ]
+  },
+  "09f2206e": {
+   "src": "narration/MelekEkonomi-BIRate6/09f2206e.mp3",
+   "duration": 3.624,
+   "words": [
+    {
+     "w": "Caranya,",
+     "start": 0.07,
+     "end": 0.59
+    },
+    {
+     "w": "mengurangi",
+     "start": 0.69,
+     "end": 1.214
+    },
+    {
+     "w": "uang",
+     "start": 1.214,
+     "end": 1.476
+    },
+    {
+     "w": "yang",
+     "start": 1.476,
+     "end": 1.607
+    },
+    {
+     "w": "beredar,",
+     "start": 1.607,
+     "end": 2
+    },
+    {
+     "w": "sehingga",
+     "start": 2.21,
+     "end": 2.623
+    },
+    {
+     "w": "harga",
+     "start": 2.623,
+     "end": 2.899
+    },
+    {
+     "w": "lebih",
+     "start": 2.899,
+     "end": 3.174
+    },
+    {
+     "w": "stabil.",
+     "start": 3.174,
+     "end": 3.45
+    }
+   ]
+  },
+  "8eac098a": {
+   "src": "narration/MelekEkonomi-BIRate6/8eac098a.mp3",
+   "duration": 3.36,
+   "words": [
+    {
+     "w": "Kalau",
+     "start": 0.08,
+     "end": 0.347
+    },
+    {
+     "w": "kamu",
+     "start": 0.347,
+     "end": 0.613
+    },
+    {
+     "w": "punya",
+     "start": 0.613,
+     "end": 0.88
+    },
+    {
+     "w": "pinjaman",
+     "start": 0.88,
+     "end": 1.28
+    },
+    {
+     "w": "berbunga",
+     "start": 1.28,
+     "end": 1.68
+    },
+    {
+     "w": "mengambang,",
+     "start": 1.68,
+     "end": 2.08
+    },
+    {
+     "w": "cicilan",
+     "start": 2.36,
+     "end": 2.78
+    },
+    {
+     "w": "bisa",
+     "start": 2.78,
+     "end": 3.06
+    },
+    {
+     "w": "naik.",
+     "start": 3.06,
+     "end": 3.2
+    }
+   ]
+  },
+  "a0ea591f": {
+   "src": "narration/MelekEkonomi-BIRate6/a0ea591f.mp3",
+   "duration": 2.496,
+   "words": [
+    {
+     "w": "Beban",
+     "start": 0.07,
+     "end": 0.371
+    },
+    {
+     "w": "rumah",
+     "start": 0.371,
+     "end": 0.673
+    },
+    {
+     "w": "tangga",
+     "start": 0.673,
+     "end": 0.974
+    },
+    {
+     "w": "maupun",
+     "start": 0.974,
+     "end": 1.275
+    },
+    {
+     "w": "bisnis",
+     "start": 1.275,
+     "end": 1.577
+    },
+    {
+     "w": "ikut",
+     "start": 1.577,
+     "end": 1.878
+    },
+    {
+     "w": "bertambah.",
+     "start": 1.878,
+     "end": 2.33
+    }
+   ]
+  },
+  "b1390c80": {
+   "src": "narration/MelekEkonomi-BIRate6/b1390c80.mp3",
+   "duration": 2.736,
+   "words": [
+    {
+     "w": "Bank",
+     "start": 0.07,
+     "end": 0.2
+    },
+    {
+     "w": "berpotensi",
+     "start": 0.2,
+     "end": 0.72
+    },
+    {
+     "w": "memperoleh",
+     "start": 0.72,
+     "end": 1.24
+    },
+    {
+     "w": "pendapatan",
+     "start": 1.24,
+     "end": 1.76
+    },
+    {
+     "w": "bunga",
+     "start": 1.76,
+     "end": 2.02
+    },
+    {
+     "w": "lebih",
+     "start": 2.02,
+     "end": 2.28
+    },
+    {
+     "w": "besar.",
+     "start": 2.28,
+     "end": 2.54
+    }
+   ]
+  },
+  "46beebcb": {
+   "src": "narration/MelekEkonomi-BIRate6/46beebcb.mp3",
+   "duration": 4.632,
+   "words": [
+    {
+     "w": "Namun",
+     "start": 0.07,
+     "end": 0.345
+    },
+    {
+     "w": "risikonya",
+     "start": 0.345,
+     "end": 0.894
+    },
+    {
+     "w": "juga",
+     "start": 0.894,
+     "end": 1.168
+    },
+    {
+     "w": "meningkat,",
+     "start": 1.168,
+     "end": 1.58
+    },
+    {
+     "w": "karena",
+     "start": 1.91,
+     "end": 2.274
+    },
+    {
+     "w": "kemampuan",
+     "start": 2.274,
+     "end": 2.76
+    },
+    {
+     "w": "bayar",
+     "start": 2.76,
+     "end": 3.003
+    },
+    {
+     "w": "sebagian",
+     "start": 3.003,
+     "end": 3.489
+    },
+    {
+     "w": "debitur",
+     "start": 3.489,
+     "end": 3.853
+    },
+    {
+     "w": "bisa",
+     "start": 3.853,
+     "end": 4.096
+    },
+    {
+     "w": "melemah.",
+     "start": 4.096,
+     "end": 4.46
+    }
+   ]
+  },
+  "0b75d8e2": {
+   "src": "narration/MelekEkonomi-BIRate6/0b75d8e2.mp3",
+   "duration": 3.192,
+   "words": [
+    {
+     "w": "Saat",
+     "start": 0.08,
+     "end": 0.368
+    },
+    {
+     "w": "bunga",
+     "start": 0.368,
+     "end": 0.656
+    },
+    {
+     "w": "naik,",
+     "start": 0.656,
+     "end": 0.8
+    },
+    {
+     "w": "harga",
+     "start": 1.07,
+     "end": 1.344
+    },
+    {
+     "w": "obligasi",
+     "start": 1.344,
+     "end": 1.893
+    },
+    {
+     "w": "lama",
+     "start": 1.893,
+     "end": 2.167
+    },
+    {
+     "w": "biasanya",
+     "start": 2.167,
+     "end": 2.716
+    },
+    {
+     "w": "turun.",
+     "start": 2.716,
+     "end": 2.99
+    }
+   ]
+  },
+  "9f228cb2": {
+   "src": "narration/MelekEkonomi-BIRate6/9f228cb2.mp3",
+   "duration": 3.624,
+   "words": [
+    {
+     "w": "Sebaliknya,",
+     "start": 0.08,
+     "end": 0.66
+    },
+    {
+     "w": "SBN",
+     "start": 0.85,
+     "end": 1.264
+    },
+    {
+     "w": "baru",
+     "start": 1.264,
+     "end": 1.539
+    },
+    {
+     "w": "menawarkan",
+     "start": 1.539,
+     "end": 2.091
+    },
+    {
+     "w": "imbal",
+     "start": 2.091,
+     "end": 2.367
+    },
+    {
+     "w": "hasil",
+     "start": 2.367,
+     "end": 2.643
+    },
+    {
+     "w": "yang",
+     "start": 2.643,
+     "end": 2.781
+    },
+    {
+     "w": "lebih",
+     "start": 2.781,
+     "end": 3.056
+    },
+    {
+     "w": "menarik.",
+     "start": 3.056,
+     "end": 3.47
+    }
+   ]
+  },
+  "b0ada4c7": {
+   "src": "narration/MelekEkonomi-BIRate6/b0ada4c7.mp3",
+   "duration": 4.128,
+   "words": [
+    {
+     "w": "Pasar",
+     "start": 0.07,
+     "end": 0.352
+    },
+    {
+     "w": "saham",
+     "start": 0.352,
+     "end": 0.634
+    },
+    {
+     "w": "sering",
+     "start": 0.634,
+     "end": 0.917
+    },
+    {
+     "w": "tertekan,",
+     "start": 0.917,
+     "end": 1.34
+    },
+    {
+     "w": "karena",
+     "start": 1.6,
+     "end": 2.013
+    },
+    {
+     "w": "investor",
+     "start": 2.013,
+     "end": 2.426
+    },
+    {
+     "w": "punya",
+     "start": 2.426,
+     "end": 2.701
+    },
+    {
+     "w": "alternatif",
+     "start": 2.701,
+     "end": 3.252
+    },
+    {
+     "w": "yang",
+     "start": 3.252,
+     "end": 3.389
+    },
+    {
+     "w": "lebih",
+     "start": 3.389,
+     "end": 3.665
+    },
+    {
+     "w": "aman.",
+     "start": 3.665,
+     "end": 3.94
+    }
+   ]
+  },
+  "607fd193": {
+   "src": "narration/MelekEkonomi-BIRate6/607fd193.mp3",
+   "duration": 3.816,
+   "words": [
+    {
+     "w": "Tapi",
+     "start": 0.07,
+     "end": 0.369
+    },
+    {
+     "w": "sektor",
+     "start": 0.369,
+     "end": 0.668
+    },
+    {
+     "w": "perbankan",
+     "start": 0.668,
+     "end": 1.117
+    },
+    {
+     "w": "bisa",
+     "start": 1.117,
+     "end": 1.416
+    },
+    {
+     "w": "lebih",
+     "start": 1.416,
+     "end": 1.715
+    },
+    {
+     "w": "tahan",
+     "start": 1.715,
+     "end": 2.015
+    },
+    {
+     "w": "dibanding",
+     "start": 2.015,
+     "end": 2.463
+    },
+    {
+     "w": "properti",
+     "start": 2.463,
+     "end": 2.912
+    },
+    {
+     "w": "atau",
+     "start": 2.912,
+     "end": 3.211
+    },
+    {
+     "w": "saham",
+     "start": 3.211,
+     "end": 3.51
+    },
+    {
+     "w": "growth.",
+     "start": 3.51,
+     "end": 3.66
+    }
+   ]
+  },
+  "de5243db": {
+   "src": "narration/MelekEkonomi-BIRate6/de5243db.mp3",
+   "duration": 2.712,
+   "words": [
+    {
+     "w": "Jadi,",
+     "start": 0.08,
+     "end": 0.356
+    },
+    {
+     "w": "kenaikan",
+     "start": 0.356,
+     "end": 0.769
+    },
+    {
+     "w": "suku",
+     "start": 0.769,
+     "end": 1.044
+    },
+    {
+     "w": "bunga",
+     "start": 1.044,
+     "end": 1.32
+    },
+    {
+     "w": "bukan",
+     "start": 1.32,
+     "end": 1.596
+    },
+    {
+     "w": "selalu",
+     "start": 1.596,
+     "end": 2.009
+    },
+    {
+     "w": "kabar",
+     "start": 2.009,
+     "end": 2.284
+    },
+    {
+     "w": "buruk.",
+     "start": 2.284,
+     "end": 2.56
+    }
+   ]
+  },
+  "4d40e58a": {
+   "src": "narration/MelekEkonomi-BIRate6/4d40e58a.mp3",
+   "duration": 2.136,
+   "words": [
+    {
+     "w": "Dampaknya",
+     "start": 0.08,
+     "end": 0.512
+    },
+    {
+     "w": "berbeda",
+     "start": 0.512,
+     "end": 0.943
+    },
+    {
+     "w": "untuk",
+     "start": 0.943,
+     "end": 1.231
+    },
+    {
+     "w": "setiap",
+     "start": 1.231,
+     "end": 1.662
+    },
+    {
+     "w": "pihak.",
+     "start": 1.662,
+     "end": 1.95
+    }
+   ]
+  },
+  "61bfd3c8": {
+   "src": "narration/MelekEkonomi-BIRate6/61bfd3c8.mp3",
+   "duration": 4.536,
+   "words": [
+    {
+     "w": "Memahami",
+     "start": 0.07,
+     "end": 0.604
+    },
+    {
+     "w": "hubungan",
+     "start": 0.604,
+     "end": 1.004
+    },
+    {
+     "w": "ini",
+     "start": 1.004,
+     "end": 1.271
+    },
+    {
+     "w": "bisa",
+     "start": 1.271,
+     "end": 1.538
+    },
+    {
+     "w": "membantu",
+     "start": 1.538,
+     "end": 1.938
+    },
+    {
+     "w": "kamu",
+     "start": 1.938,
+     "end": 2.205
+    },
+    {
+     "w": "mengambil",
+     "start": 2.205,
+     "end": 2.605
+    },
+    {
+     "w": "keputusan",
+     "start": 2.605,
+     "end": 3.139
+    },
+    {
+     "w": "keuangan",
+     "start": 3.139,
+     "end": 3.673
+    },
+    {
+     "w": "yang",
+     "start": 3.673,
+     "end": 3.806
+    },
+    {
+     "w": "lebih",
+     "start": 3.806,
+     "end": 4.073
+    },
+    {
+     "w": "bijak.",
+     "start": 4.073,
+     "end": 4.34
+    }
+   ]
+  }
+ }
+}
