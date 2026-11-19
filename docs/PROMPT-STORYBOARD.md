@@ -142,4 +142,9 @@ Tulis satu file config, render narasi, jalankan npm run cek. Jangan render video
 > "pakai scene world", sebutkan benda apa saja yang tampil (model `.glb` yang tersedia: `public/models/`) dan urutan kamera (lihat *Dunia 3D* di `docs/KATALOG-SCENE.md`).
 > Gaya komik bergaris tinta (kota isometrik, gedung seperti gambar): tulis "gaya tinta"; kota sungguhan: sebutkan tempat
 > + koordinat agar dibuat dari peta OSM (`kotaDariPeta`, `docs/PUSTAKA-VISUAL.md`).
+> Film pendek sinematik/religi/emosional (siluet berlapis berlatar cahaya fajar/senja, masjid, kaligrafi Arab, ponsel donasi):
+> scene manual `sinema` — tulis di brief "pakai scene sinema", lalu per adegan: panggung (`masjid` fajar/pagi/senja + orang
+> `jalan`/`masuk`/`pulang`, `langit`, `mihrab`, `jendela`, `dompet`, `sarapan`, `berbagi`, `anak`, `air`, `mushaf`, `pola`, `ponsel`,
+> `kartu`), teks layar (≤ 3 baris pendek), kaligrafi + terjemahan + sumber, dan narasi. Tanpa wajah: tokoh tampil sebagai siluet.
+> Acuan: `src/projects/wadah-qris/jumat-berkah.ts`.
 > Scene manual & template lama (appLaunch, socialMediaShort, dst.): lihat `docs/MEMBUAT-VIDEO.md`.

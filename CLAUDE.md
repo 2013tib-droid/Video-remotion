@@ -13,6 +13,8 @@ Repo ini **framework animasi**, bukan satu video. Video baru = **satu file data*
      `src/worlds/`; acuan `src/projects/_demos/bedah3d.ts`. Satu adegan = satu kalimat ≈ 4 dtk (1 menit ≈ 15 adegan).
      Gaya yang disukai pemilik (alur, data bersumber, HUD) → baca `docs/REFERENSI.md` sebelum menulis naskahnya.
      Benda 3D, irisan 2D & resep adegan yang sudah jadi → `docs/PUSTAKA-VISUAL.md` (impor dari `src/worlds/`); tambahkan yang baru tiap selesai video.
+   - Film pendek sinematik/emosional (siluet berlatar cahaya, masjid, kaligrafi, ponsel donasi) → scene `sinema` di `defineVideo`;
+     acuan `src/projects/wadah-qris/jumat-berkah.ts`, rincian `docs/KATALOG-SCENE.md` → *Sinema*.
    - Alur khusus → scene manual `defineVideo` (kontrak: `src/scenes/types.ts`; contoh `src/projects/soal-skd/bedah-analogi.ts`).
 2. Tulis `src/projects/<brand>/<video>.ts` yang `export default` hasil template. **Tidak perlu mendaftarkan** (registry otomatis)
    dan **tidak perlu mengimpor** `*.narration.json` (dipasang otomatis).

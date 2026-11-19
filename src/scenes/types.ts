@@ -32,6 +32,8 @@ export interface SceneBase {
   narration?: string;
   /** Kata/frasa narasi yang disorot di subtitle. */
   emphasis?: string[];
+  /** `false` = narasi scene ini tanpa subtitle (mis. teksnya sudah tampil besar di layar). Default true. */
+  captions?: boolean;
   /** Header bab di lapisan explainer (kiri atas). */
   chapter?: { label?: string; title: string; highlight?: string };
   /** Gaya muncul kata judul: rise | pop | blur | typewriter | slam. Default dari tema. */
@@ -284,6 +286,98 @@ export interface BrollScene extends SceneBase, SceneHeading {
   dim?: number;
   /** Volume suara asli video 0..1. Default 0 (senyap). */
   volume?: number;
+}
+
+/* ------------------------------------------------------------------ */
+/*  SINEMA — adegan ilustrasi sinematik (siluet berlapis, cahaya)      */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Panggung adegan `sinema`. Semua digambar dari kode (tanpa foto), gaya siluet sinematik berlapis:
+ * - `masjid` eksterior masjid + kampung + jalan (pakai `time` & `crowd`)
+ * - `langit` langit pagi, dua berkas cahaya turun ke kitab amal yang bercahaya
+ * - `mihrab` interior masjid: mihrab, lengkung, lampu gantung, karpet saf
+ * - `jendela` interior masjid: sinar matahari menembus jendela kisi + debu
+ * - `dompet` close-up dompet terbuka berisi selembar uang (`note`) di meja kayu
+ * - `sarapan` meja sarapan sederhana, teh mengepul, cahaya jendela
+ * - `berbagi` siluet memberi nasi kotak kepada pekerja
+ * - `anak` siluet membagikan makanan kepada anak-anak
+ * - `air` deretan air minum kemasan dalam cahaya
+ * - `mushaf` mushaf di rehal, sajadah & tasbih
+ * - `pola` latar zamrud berpola geometris Islam (untuk `flow`)
+ * - `ponsel` latar bokeh hangat (untuk `phone`)
+ * - `kartu` kertas putih hangat berpola halus (kartu akhir)
+ */
+export type SinemaSet =
+  | 'masjid'
+  | 'langit'
+  | 'mihrab'
+  | 'jendela'
+  | 'dompet'
+  | 'sarapan'
+  | 'berbagi'
+  | 'anak'
+  | 'air'
+  | 'mushaf'
+  | 'pola'
+  | 'ponsel'
+  | 'kartu';
+
+/** Gerak kamera adegan `sinema` (pelan, sinematik). */
+export type SinemaMove = 'descend' | 'rise' | 'pushIn' | 'pullOut' | 'panLeft' | 'panRight' | 'none';
+
+export interface SinemaShot {
+  set: SinemaSet;
+  /** Waktu/cahaya (`masjid`, `langit`): `fajar` (default) · `pagi` · `senja`. */
+  time?: 'fajar' | 'pagi' | 'senja';
+  /** Orang di set `masjid`: `jalan` (menuju masjid) · `masuk` (ramai, anak salim) · `pulang` (keluarga bergandengan) · `none`. */
+  crowd?: 'jalan' | 'masuk' | 'pulang' | 'none';
+  /** Gerak kamera. Default per set. */
+  move?: SinemaMove;
+  /** Durasi shot (detik). Default dibagi rata. */
+  duration?: number;
+  /** Label kecil dokumenter di bawah (mis. "Nasi kotak untuk pekerja"). */
+  caption?: string;
+  /** Nominal uang di set `dompet`. Default "10.000". */
+  note?: string;
+}
+
+/** Baris teks sinematik (serif besar, muncul per kata dari kabur). */
+export interface SinemaLine {
+  text: string;
+  /** Bagian teks berwarna emas (harus ada di `text`). */
+  highlight?: string;
+  /** Muncul saat (detik atau kata narasi). Default bergiliran. */
+  at?: Cue;
+  /** `title` (default) besar · `body` sedang · `label` huruf kapital kecil berjarak. */
+  size?: 'title' | 'body' | 'label';
+}
+
+export interface SinemaScene extends SceneBase {
+  type: 'sinema';
+  /** Satu panggung (singkat untuk `shots: [{ set }]`). */
+  set?: SinemaSet;
+  time?: SinemaShot['time'];
+  crowd?: SinemaShot['crowd'];
+  move?: SinemaMove;
+  /** Beberapa shot berurutan (montase, crossfade pelan). */
+  shots?: SinemaShot[];
+  /** Teks di atas adegan. */
+  lines?: SinemaLine[];
+  /** Posisi teks. Default `top`. */
+  textPosition?: 'top' | 'center' | 'bottom';
+  /** Kaligrafi Arab yang tergambar kanan → kiri, lalu terjemahan & sumber. */
+  arabic?: { text: string; translation?: string; source?: string; at?: Cue; translationAt?: Cue };
+  /** Infografis alur melingkar (set `pola`): node muncul berurutan, terhubung panah. */
+  flow?: { items: { text: string; icon?: string; at?: Cue }[] };
+  /** Ponsel: situs → QR → dipindai → berhasil (set `ponsel`). */
+  phone?: { url: string; title?: string; amount?: string; success?: string; qrAt?: Cue; scanAt?: Cue; successAt?: Cue };
+  /** Logo brand memudar masuk (default `brand.logo`) + teks di bawahnya (mis. URL). */
+  logo?: { src?: string; text?: string; at?: Cue };
+  /** Kekuatan partikel debu emas 0..1. Default per set. */
+  dust?: number;
+  /** Lens flare dari matahari. Default per set. */
+  flare?: boolean;
 }
 
 /** Wilayah peta bawaan, atau bbox `[bujurBarat, lintangSelatan, bujurTimur, lintangUtara]`. */
@@ -795,6 +889,7 @@ export type SceneConfig =
   | BrollScene
   | MapScene
   | WorldScene
-  | IrisanScene;
+  | IrisanScene
+  | SinemaScene;
 
 export type SceneType = SceneConfig['type'];

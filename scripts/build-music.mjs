@@ -241,7 +241,87 @@ function korporat() {
   finish('korporat', tr);
 }
 
+/** Piano lembut: parsial sedikit tak-harmonik, meluruh pelan, attack palu halus. */
+function piano(tr, at, midi, amp, decay = 1.8) {
+  const f = hz(midi);
+  tr.add(at, decay * 3.2, (t) => {
+    const a = t < 0.004 ? t / 0.004 : 1;
+    let v = 0;
+    for (let h = 1; h <= 6; h++) {
+      const fh = f * h * Math.sqrt(1 + 0.0004 * h * h);
+      v += (Math.sin(2 * Math.PI * fh * t) / Math.pow(h, 1.5)) * Math.exp(-t / (decay / Math.pow(h, 0.7)));
+    }
+    return a * amp * v;
+  });
+}
+
+/** Oud: Karplus-Strong (derau dalam saluran tunda) — petikan hangat bersenar ganda. */
+function oud(tr, at, midi, amp, sec = 1.6, seed = 1) {
+  const r = rng(seed);
+  const strings = [hz(midi), hz(midi) * 1.003];
+  const lines = strings.map((f) => {
+    const n = Math.max(2, Math.round(SR / f));
+    const buf = new Float32Array(n);
+    let lp = 0;
+    for (let i = 0; i < n; i++) {
+      lp += 0.5 * (r() * 2 - 1 - lp);
+      buf[i] = lp;
+    }
+    return { buf, n, i: 0 };
+  });
+  tr.add(at, sec, (t) => {
+    let v = 0;
+    for (const L of lines) {
+      const a = L.buf[L.i % L.n];
+      const b = L.buf[(L.i + 1) % L.n];
+      const y = 0.5 * (a + b) * 0.996;
+      L.buf[L.i % L.n] = y;
+      L.i++;
+      v += y;
+    }
+    const fade = t > sec - 0.3 ? (sec - t) / 0.3 : 1;
+    return v * amp * fade;
+  });
+}
+
+/**
+ * KHIDMAT — 66,7 bpm, 8 birama (28,8 dtk). Piano lembut + string + petikan oud bernuansa Hijaz.
+ * Dm(add9) · B♭maj7 · Gm7 · A7 — haru, hangat, tidak dramatis berlebihan.
+ */
+function khidmat() {
+  const tr = track(28.8);
+  const beat = 0.9;
+  const chords = [
+    { root: 38, notes: [62, 65, 69, 76], arp: [62, 69, 74, 76, 77, 76, 74, 69] },
+    { root: 34, notes: [62, 65, 69, 70], arp: [58, 65, 69, 74, 72, 69, 65, 62] },
+    { root: 31, notes: [62, 65, 67, 70], arp: [55, 62, 65, 70, 69, 67, 65, 62] },
+    { root: 33, notes: [61, 64, 67, 69], arp: [57, 64, 67, 73, 72, 69, 67, 64] },
+  ];
+  // Frasa oud (Hijaz di D: D E♭ F♯ G A B♭ C) — muncul di birama genap.
+  const oudPhrases = [
+    [[0, 69], [0.5, 70], [1, 69], [1.5, 67], [2, 66], [3, 67]],
+    [[0, 74], [0.33, 75], [0.66, 74], [1.25, 72], [2, 70], [2.5, 69], [3, 69]],
+  ];
+  for (let bar = 0; bar < 8; bar++) {
+    const c = chords[bar % 4];
+    const t0 = bar * 4 * beat;
+    c.notes.forEach((n) => pad(tr, t0, 4 * beat, n - 12, 0.075, 0.35));
+    pad(tr, t0, 4 * beat, c.root, 0.13, 0.25);
+    pad(tr, t0, 4 * beat, c.root + 12, 0.05, 0.3);
+    piano(tr, t0, c.root + 12, 0.22, 2.4);
+    c.arp.forEach((n, i) => {
+      if (bar < 2 && i % 2) return;
+      piano(tr, t0 + i * 0.5 * beat, n + 12, i === 0 ? 0.2 : 0.13, 1.6);
+    });
+    if (bar % 2 === 1) {
+      oudPhrases[(bar >> 1) % 2].forEach(([b, n], k) => oud(tr, t0 + b * beat, n - 12, k === 0 ? 0.32 : 0.26, 1.4, bar * 10 + k));
+    }
+  }
+  finish('khidmat', tr, 0.65);
+}
+
 fs.mkdirSync(OUT, { recursive: true });
 tenang();
 semangat();
 korporat();
+khidmat();

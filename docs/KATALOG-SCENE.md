@@ -36,6 +36,7 @@ Sebagian besar scene juga menerima **judul standar**: `eyebrow`, `title`, `highl
 | `broll` | `src` atau `shots[] {src, move?, focus?, caption?, duration?, startFrom?}` `move?` `textPosition?` `dim?` `volume?` + judul standar | **Foto/video b-roll layar penuh** dengan gerak kamera Ken Burns: `zoomIn` `zoomOut` `panLeft` `panRight` `panUp` `panDown` `none` atau `auto` (bergiliran). `focus: [x, y]` (0..1) = titik pusat zoom. Beberapa `shots` = montase dengan crossfade + swipe. Judul putih di atas scrim gelap (`dim` 0..1, `textPosition` `bottom`/`center`/`top`); `caption` = label lokasi kiri atas. Video (mp4/webm/mov) senyap kecuali `volume`. |
 | `map` | `region?` `points[] {place? \| lat+lon, label?, value?, icon?, at?}` `routes[] {from, to, at?}` `countries?[]` `zoomToPoints?` + judul standar | **Peta beranimasi** (Natural Earth): daratan tersingkap melingkar, kamera terbang ke area pin, pin jatuh memantul + denyut, label (anti-tabrakan) dengan nilai, rute melengkung tergambar + titik mengalir. `region`: `indonesia` (default) `sumatra` `jawa` `kalimantan` `sulawesi` `bali-nusra` `maluku` `papua` `asean` `asia` `world` atau bbox `[barat, selatan, timur, utara]`. `place` = kota bawaan (±100: semua ibu kota provinsi & kota besar Indonesia, ASEAN, kota dunia — `src/components/map/places.ts`). `countries` = negara diwarnai (nama Inggris, mis. `'Malaysia'`); wilayah Indonesia otomatis menyorot Indonesia. |
 | `irisan` | `parts[]` `size?` `shots?[]` `labels?[]` `badge?` `cards?[]` `readout?` `panel?` `meters?[]` `stamp?` `latar?` `note?` | **Irisan teknis 2D** (cutaway gaya buku teknik): bagian berwarna per bahan dengan aksir, bergerak saat kata narasi, label menempel, HUD sama dengan `world`. Lihat bagian *Irisan teknis* di bawah. |
+| `sinema` | `set` / `shots[] {set, time?, crowd?, move?, caption?, note?, duration?}` `lines[] {text, highlight?, at?, size?}` `arabic?` `flow?` `phone?` `logo?` `textPosition?` | **Film pendek sinematik ilustratif** (tanpa foto): panggung siluet berlapis dengan paralaks, kamera pelan, sinar matahari, debu emas, lens flare, grain film; teks serif muncul dari kabur, kaligrafi Arab tersingkap kanan → kiri. Lihat bagian *Sinema* di bawah. |
 | `world` | `objects[]` `views?` `shots[]` `labels?[]` `cards?[]` `readout?` `meters?[]` `measures?[]` `stamp?` `ground?` `sky?` `note?` + judul standar | **Dunia 3D** (WebGL): objek nyata + kamera yang terbang antar sudut pandang, tembus pandang ke dalam objek, bagian bergerak, label menempel. Lihat bagian *Dunia 3D* di bawah. |
 
 Semua scene juga menerima `narration` (teks voice-over), `emphasis[]` (kata disorot di subtitle) dan `chapter {label?, title, highlight?}` (header bab). `at` = detik **atau kata narasi** (mis. `'higrometer'`, `'alat#2'`). Lihat `docs/EXPLAINER.md`.
@@ -54,7 +55,7 @@ Semua scene juga menerima `narration` (teks voice-over), `emphasis[]` (kata diso
 `notifications[]`: `{ icon?, app?, title, body?, time? }` — muncul berurutan di atas perangkat.
 
 ## Durasi default (detik)
-logo 3 · hero 4 · mascot 4 · features 5 · stats 4 · chart 5 · comparison 5 · timeline 5 · device 5 · calculation 5 · testimonial 4.5 · cta 4 · question 5 · relation 5 · statement 5 · words 4 · broll 5 · map 6 · world 8 · irisan 6 (scene bernarasi: mengikuti panjang suara)
+logo 3 · hero 4 · mascot 4 · features 5 · stats 4 · chart 5 · comparison 5 · timeline 5 · device 5 · calculation 5 · testimonial 4.5 · cta 4 · question 5 · relation 5 · statement 5 · words 4 · broll 5 · map 6 · world 8 · irisan 6 · sinema 5 (scene bernarasi: mengikuti panjang suara)
 
 ## Efek suara (SFX)
 Semua video otomatis punya efek suara halus (file sintetis di `public/sfx/`, dibuat `node scripts/build-sfx.mjs`):
@@ -67,6 +68,7 @@ Semua video otomatis punya efek suara halus (file sintetis di `public/sfx/`, dib
 | Soal: pilih / salah / coret / benar | `tick` / `impact` / `swipe` / `ting` |
 | Baris `statement`, kata `words` | `tick` (gaya `slam` & kata sorotan: `impact`) |
 | Pin `map` jatuh / rute tergambar; ganti shot `broll` | `pop` / `swipe` |
+| `sinema`: set `masjid`/`langit` · orang berjalan · kaligrafi · ponsel dipindai | `burung` (kicau + angin) · `langkah` · `halaman` · `beep` lalu `ting` |
 
 - Atur per video: `sfx: false` (senyap) atau `sfx: { volume: 0.7, transitions: true, elements: true, counters: true }`. Per scene: `sfx: false`.
 - Video bernarasi otomatis dikecilkan (×0,6) agar suara narator tetap jelas. Volume & pemetaan: `src/config/sfx.ts`.
@@ -81,6 +83,7 @@ Opsional, lewat `audio` di seri (semua video ikut) atau di config video. Trek ba
 | `tenang` | Pad hangat + arpeggio pelan, 60 bpm | Penjelasan, edukasi, data |
 | `semangat` | Ketukan ringan + bass + pluck, 120 bpm | Iklan, tips cepat, promo |
 | `korporat` | Petikan redam + pad, 100 bpm | Profil produk, laporan |
+| `khidmat` | Piano lembut + string + petikan oud (Hijaz), 67 bpm | Religi, haru, sinematik |
 
 - `audio: 'tenang'` atau `audio: { src: 'tenang', volume: 0.4 }`. File sendiri: `audio: { src: 'brands/x/musik.mp3', volume?, loop? }`.
 - Otomatis memudar masuk (0,5 dtk) dan keluar (1,5 dtk terakhir); atur dengan `fadeIn`/`fadeOut`.
@@ -127,6 +130,42 @@ Setiap field ikon (`features[].icon`, `timeline.steps[].icon`, `list.items[].ico
 - Nama ikon garis: `check` `check-circle` `x` `x-circle` `arrow-right` `cart` `bag` `bank` `crane` `factory` `target` `bell` `search` `bar-chart` `trending-up` `edit` `file` `receipt` `wallet` `heart` `bot` `flask` `hash` `link` `lock` `phone` `book` `briefcase` `lightbulb` `users` `user` `film` `palette` `scissors` `zap` `coffee` `star` `sparkles` `rocket` `shield` `clock` `calendar` `gift` `mail` `home` `settings` `globe` `money` `dollar` `percent` `tag` `truck` `camera` `chat` `megaphone` `trophy` `flame` `play` `download` `eye` `map-pin` `smile` `thumbs-up` `info` `alert` `question` `sun` `moon` `leaf` `cloud` `graduation` `music` `package` `scan` `calculator`.
 - Pemetaan emoji: `EMOJI_ICONS` di `src/components/icons/library.ts`. Waktu & amplitudo: `ICON_ANIMATION`, `ICON_IDLE` di `src/config/animation.ts`.
 - Contoh: video `Demo-Ikon` (`src/projects/_demos/index.ts`); contoh Lottie `public/lottie/pulse.json`.
+
+## Sinema (`sinema`)
+Film pendek gaya dokumenter sinematik yang **digambar dari kode** (bukan foto/AI): siluet berlapis berlatar cahaya, sehingga tidak
+ada wajah/artefak. Contoh lengkap bernarasi: `src/projects/wadah-qris/jumat-berkah.ts` (video `WadahQRIS-JumatBerkah`).
+Komponen: `src/components/sinema/` (panggung, siluet, atmosfer, tipografi). Kanvas 1080×1920, paling cocok 9:16.
+
+| `set` | Isi | Gerak default |
+|---|---|---|
+| `masjid` | langit + matahari + awan + burung, gunung berkabut, kampung, kelapa, masjid (kubah, menara, jendela menyala), halaman, lampu jalan, jamaah. `time`: `fajar` · `pagi` · `senja`; `crowd`: `jalan` (+ motor lewat) · `masuk` (ramai, anak salim) · `pulang` (keluarga bergandengan) · `none` | `descend` |
+| `langit` | langit pagi, dua berkas cahaya turun, kitab amal bercahaya yang tulisannya muncul | `rise` |
+| `mihrab` | interior: mihrab bercahaya, deret lengkung, lentera berayun, karpet saf, berkas cahaya | `pushIn` |
+| `jendela` | interior: sinar matahari menembus jendela kisi, debu di dalam berkas, jamaah duduk | `panLeft` |
+| `dompet` | close-up dompet kulit membuka, selembar uang (`note`, default "10.000") ditarik | `pushIn` |
+| `sarapan` | meja sarapan dekat jendela, teh & nasi mengepul, ibu samar di belakang | `panRight` |
+| `berbagi` · `anak` | siluet memberi nasi kotak ke pekerja berhelm / ibu memberi makanan ke anak-anak, pendar tepi | `pushIn` · `panLeft` |
+| `air` · `mushaf` | air minum dalam cahaya + tangan meraih / mushaf di rehal, sajadah, tasbih | `panRight` · `pushIn` |
+| `pola` | latar zamrud berpola bintang delapan + roset emas tergambar (untuk `flow`) | `none` |
+| `ponsel` | latar hangat berbokeh (untuk `phone`) | `pushIn` |
+| `kartu` | kertas putih hangat, kisi samar, bingkai & ranting emas (kartu akhir) | `none` |
+
+- **`move`**: `descend` (drone turun) · `rise` (kamera naik) · `pushIn` · `pullOut` · `panLeft` · `panRight` · `none`. Tiap lapisan
+  bergerak menurut kedalamannya (paralaks); latar depan dikaburkan (ruang tajam sempit).
+- **`shots[]`** = montase: crossfade pelan 0,9 dtk, `caption` = label dokumenter kecil di bawah judul.
+- **`lines[]`** — `size`: `title` (serif besar, default) · `body` (serif miring) · `label` (kapital kecil berjarak). Kata muncul dari kabur
+  bergiliran tepat saat `at`; `highlight` berwarna emas; ornamen bintang delapan di atasnya. Maks ±3 baris.
+- **`arabic`** — `{ text, translation?, source?, at?, translationAt? }`: Amiri emas tersingkap kanan → kiri dengan kilau; `\n` = baris baru;
+  terjemahan & sumber menyusul. Bayangan lembut otomatis di belakangnya. Pakai `captions: false` di scene bila narasi = terjemahan.
+- **`flow`** — `{ items: [{ text, icon?: 'line:<nama>', at? }] }`: lingkaran emas bertumpuk, cincin tergambar, panah turun; node terakhir berkilau.
+- **`phone`** — `{ url, title?, amount?, success?, qrAt?, scanAt?, successAt? }`: alamat diketik → QR tersusun → bingkai pemindai + laser
+  + bip → layar berhasil (centang, cincin, konfeti).
+- **`logo`** — `{ src?, text?, at? }`: pil logo + teks (default `brand.logo` + `brand.url`), di bawah teks.
+- `textPosition` `top` (default) · `center` · `bottom`; `dust` (0..1) dan `flare` (lens flare `masjid`).
+- Otomatis: grain film, vinyet, grade hangat, kilau cahaya (light leak) di awal adegan, adegan pertama naik dari gelap.
+- Teks gelap/terang otomatis per panggung (`kartu` = teks zamrud, lainnya teks putih hangat).
+- Lapisan subtitle yang cocok: `overlay: { brand: false, captionStyle: 'sinema' }` (serif tanpa kotak, kata memudar masuk;
+  tanpa HUD area atas tidak dikosongkan).
 
 ## Dunia 3D (`world`)
 **Untuk video baru pakai template `bedah3D`** (`docs/MEMBUAT-VIDEO.md` → *Penjelasan 3D 1–2 menit*): ia merangkai scene `world`

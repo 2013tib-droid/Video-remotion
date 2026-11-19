@@ -172,6 +172,78 @@ function riser(seed) {
   return normalize(a.map((v, i) => v * Math.pow(i / a.length, 2.2)), 0.6);
 }
 
+/** Bip pemindai QR: dua nada sinus pendek bersih. */
+function beep() {
+  const sec = 0.32;
+  const a = new Float32Array(Math.round(sec * SR));
+  for (let i = 0; i < a.length; i++) {
+    const t = i / SR;
+    const f = t < 0.12 ? 1975.5 : 2637;
+    const local = t < 0.12 ? t : t - 0.13;
+    const e = t < 0.12 ? env(local, 0.004, 0.06) : t < 0.13 ? 0 : env(local, 0.004, 0.07);
+    a[i] = Math.sin(2 * Math.PI * f * t) * e * 0.8 + 0.15 * Math.sin(4 * Math.PI * f * t) * e;
+  }
+  return normalize(a, 0.6);
+}
+
+/** Kicau burung pagi: sapuan nada FM pendek bergerombol (sintetis), di atas desir angin lembut. */
+function burung(seed) {
+  const sec = 6;
+  const r = rng(seed);
+  const a = new Float32Array(Math.round(sec * SR));
+  const wind = svf(noise(sec, seed + 1), (t) => 380 + 120 * Math.sin(t * 0.7), 0.7, 'low');
+  for (let i = 0; i < a.length; i++) a[i] = wind[i] * 0.05 * Math.min(1, i / SR / 0.8, (sec - i / SR) / 0.8);
+  let at = 0.2;
+  while (at < sec - 0.6) {
+    const base = 2600 + r() * 1800;
+    const notes = 2 + Math.floor(r() * 4);
+    const len = 0.05 + r() * 0.07;
+    const amp = 0.25 + r() * 0.35;
+    for (let n = 0; n < notes; n++) {
+      const t0 = at + n * (len + 0.03 + r() * 0.04);
+      const up = r() > 0.5;
+      const s0 = Math.round(t0 * SR);
+      for (let k = 0; k < len * SR; k++) {
+        const u = k / (len * SR);
+        const f = base * (up ? 0.8 + 0.5 * u : 1.3 - 0.5 * u) * (1 + 0.04 * Math.sin(2 * Math.PI * 40 * k / SR));
+        const ph = 2 * Math.PI * f * (k / SR);
+        if (s0 + k < a.length) a[s0 + k] += Math.sin(ph) * Math.sin(Math.PI * u) * amp;
+      }
+    }
+    at += 0.35 + r() * 0.9;
+  }
+  return normalize(a, 0.55);
+}
+
+/** Langkah kaki di jalan: ketukan lembut berselang (sandal di paving). */
+function langkah(seed) {
+  const sec = 4;
+  const r = rng(seed);
+  const a = new Float32Array(Math.round(sec * SR));
+  for (let s = 0; s < 7; s++) {
+    const t0 = 0.15 + s * 0.55 + r() * 0.05;
+    const n = svf(noise(0.12, seed + s), () => 900 + r() * 300, 1.1);
+    const s0 = Math.round(t0 * SR);
+    for (let k = 0; k < n.length; k++) {
+      const t = k / SR;
+      if (s0 + k < a.length) a[s0 + k] += n[k] * env(t, 0.002, 0.03) * (s % 2 ? 0.8 : 1);
+    }
+  }
+  return normalize(a, 0.5);
+}
+
+/** Lembar halaman dibalik: desir kertas. */
+function halaman(seed) {
+  const sec = 0.7;
+  const n = noise(sec, seed);
+  const a = svf(n, (t) => 1800 + 2600 * Math.sin((t / sec) * Math.PI), 0.9);
+  return normalize(a.map((v, i) => {
+    const t = i / SR;
+    const e = Math.sin(Math.PI * Math.min(1, t / sec)) * (1 + 0.6 * Math.sin(t * 60));
+    return v * Math.max(0, e);
+  }), 0.5);
+}
+
 fs.mkdirSync(OUT, { recursive: true });
 wav('whoosh', whoosh(0.6, 260, 2600, 0.42, 11));
 wav('whoosh-soft', whoosh(0.5, 500, 3400, 0.5, 23, 1.2));
@@ -183,3 +255,7 @@ wav('ting', ting(1567.98));
 wav('tick', tick(53));
 wav('impact', impact(59));
 wav('riser', riser(61));
+wav('beep', beep());
+wav('burung', burung(71));
+wav('langkah', langkah(73));
+wav('halaman', halaman(79));

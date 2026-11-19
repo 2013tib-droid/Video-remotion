@@ -39,8 +39,11 @@ export function paginate(words: CaptionWord[]): Page[] {
   return pages;
 }
 
-/** Subtitle karaoke: kotak gelap, kata yang sedang diucapkan disorot. */
-export const Captions: React.FC<{ words: CaptionWord[]; bottom: number }> = ({ words, bottom }) => {
+/**
+ * Subtitle karaoke: kotak gelap, kata yang sedang diucapkan disorot.
+ * `variant: 'sinema'` = tanpa kotak: serif putih bayangan lembut, kata memudar masuk saat diucapkan.
+ */
+export const Captions: React.FC<{ words: CaptionWord[]; bottom: number; variant?: 'kotak' | 'sinema' }> = ({ words, bottom, variant = 'kotak' }) => {
   const { theme, px } = useTheme();
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -49,6 +52,47 @@ export const Captions: React.FC<{ words: CaptionWord[]; bottom: number }> = ({ w
   const idx = pages.findIndex((p, i) => t >= p.start - 0.05 && t < Math.max(p.end + 0.5, 0) && (!pages[i + 1] || t < pages[i + 1].start - 0.05));
   if (idx < 0) return null;
   const page = pages[idx];
+  if (variant === 'sinema') {
+    const out = interpolate(t, [page.end + 0.25, page.end + 0.5], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
+    const next = pages[idx + 1];
+    const fade = next && next.start - page.end < 0.6 ? 1 : out;
+    return (
+      <div style={{ position: 'absolute', left: px(80), right: px(80), bottom: px(bottom), display: 'flex', justifyContent: 'center', textAlign: 'center' }}>
+        <div
+          style={{
+            maxWidth: px(860),
+            lineHeight: 1.3,
+            fontFamily: '"Cormorant Garamond", "Lora", "Amiri", serif',
+            fontWeight: 700,
+            fontSize: px(58),
+            color: '#fffaf0',
+            opacity: fade,
+            textShadow: '0 2px 6px rgba(0,0,0,0.75), 0 0 28px rgba(0,0,0,0.55)',
+          }}
+        >
+          {page.words.map((word, i) => {
+            const p = interpolate(t, [word.start - 0.06, word.start + 0.16], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
+            return (
+              <React.Fragment key={i}>
+                {i > 0 ? ' ' : null}
+                <span
+                  style={{
+                    display: 'inline-block',
+                    opacity: p,
+                    filter: `blur(${(1 - p) * px(6)}px)`,
+                    transform: `translateY(${(1 - p) * px(8)}px)`,
+                    color: word.emphasis ? (theme.colors.highlight ?? theme.colors.accent) : undefined,
+                  }}
+                >
+                  {word.w}
+                </span>
+              </React.Fragment>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
   const appear = interpolate(t, [page.start - 0.05, page.start + 0.08], [0.85, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
   return (
     <div

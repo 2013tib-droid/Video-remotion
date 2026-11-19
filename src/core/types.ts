@@ -91,4 +91,9 @@ export interface OverlayConfig {
   brand?: boolean;
   /** Subtitle per kata dari narasi. Default true. */
   captions?: boolean;
+  /**
+   * Gaya subtitle: `kotak` (default, karaoke kotak gelap) · `sinema` (serif putih tanpa kotak,
+   * kata memudar masuk saat diucapkan — untuk video sinematik).
+   */
+  captionStyle?: 'kotak' | 'sinema';
 }

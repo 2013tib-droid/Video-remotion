@@ -18,6 +18,12 @@ import '@fontsource/lora/500.css';
 import '@fontsource/lora/700.css';
 import '@fontsource/jetbrains-mono/500.css';
 import '@fontsource/jetbrains-mono/700.css';
+import '@fontsource/cormorant-garamond/500.css';
+import '@fontsource/cormorant-garamond/600.css';
+import '@fontsource/cormorant-garamond/600-italic.css';
+import '@fontsource/cormorant-garamond/700.css';
+import '@fontsource/amiri/400.css';
+import '@fontsource/amiri/700.css';
 
 export const FONT_STACKS = {
   inter: '"Inter", -apple-system, "SF Pro Display", "Helvetica Neue", Arial, sans-serif',
@@ -25,5 +31,9 @@ export const FONT_STACKS = {
   fredoka: '"Fredoka", "Nunito", "Comic Sans MS", sans-serif',
   plex: '"IBM Plex Sans", "Inter", Arial, sans-serif',
   lora: '"Lora", Georgia, "Times New Roman", serif',
+  /** Serif display sinematik (adegan `sinema`). */
+  cormorant: '"Cormorant Garamond", "Lora", Georgia, serif',
+  /** Naskh Arab untuk kaligrafi/ayat/hadis. */
+  amiri: '"Amiri", "Lora", serif',
   mono: '"JetBrains Mono", "SF Mono", Menlo, Consolas, monospace',
 } as const;

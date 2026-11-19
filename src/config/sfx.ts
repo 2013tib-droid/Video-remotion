@@ -14,6 +14,14 @@ export const SFX_FILES = {
   tick: ['tick'],
   impact: ['impact'],
   riser: ['riser'],
+  /** Bip pemindai QR. */
+  beep: ['beep'],
+  /** Kicau burung pagi + desir angin (6 dtk). */
+  burung: ['burung'],
+  /** Langkah kaki di jalan (4 dtk). */
+  langkah: ['langkah'],
+  /** Halaman kertas dibalik. */
+  halaman: ['halaman'],
 } as const;
 
 export type SfxName = keyof typeof SFX_FILES;
@@ -28,6 +36,10 @@ export const SFX_VOLUME: Record<SfxName, number> = {
   tick: 0.4,
   impact: 0.5,
   riser: 0.3,
+  beep: 0.4,
+  burung: 0.5,
+  langkah: 0.3,
+  halaman: 0.4,
 };
 
 /** Panjang file (detik) — Sequence audio dipotong sepanjang ini. */
@@ -40,6 +52,10 @@ export const SFX_LENGTH: Record<SfxName, number> = {
   tick: 0.12,
   impact: 0.6,
   riser: 1.0,
+  beep: 0.32,
+  burung: 6,
+  langkah: 4,
+  halaman: 0.7,
 };
 
 /** Suara untuk tiap transisi antar scene (`null` = senyap). */

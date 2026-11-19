@@ -9,6 +9,8 @@ export const MUSIC_TRACKS = {
   semangat: { file: 'music/semangat.wav', length: 16, volume: 0.5 },
   /** Petikan redam + pad — profil produk, korporat, laporan. */
   korporat: { file: 'music/korporat.wav', length: 19.2, volume: 0.55 },
+  /** Piano lembut + string + petikan oud (Hijaz), 67 bpm — religi, haru, sinematik. */
+  khidmat: { file: 'music/khidmat.wav', length: 28.8, volume: 0.6 },
 } as const;
 
 export type MusicName = keyof typeof MUSIC_TRACKS;
@@ -26,7 +28,7 @@ export const MUSIC_TIMING = {
 } as const;
 
 export interface MusicOptions {
-  /** Nama trek bawaan (`tenang` · `semangat` · `korporat`) atau path file di public/. */
+  /** Nama trek bawaan (`tenang` · `semangat` · `korporat` · `khidmat`) atau path file di public/. */
   src: MusicName | (string & {});
   /** Volume 0–1. Default: preset trek (file sendiri 0,8). Bernarasi: otomatis ×0,35. */
   volume?: number;

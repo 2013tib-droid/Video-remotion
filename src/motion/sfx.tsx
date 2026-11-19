@@ -33,6 +33,10 @@ const CATEGORY: Record<SfxName, SfxCategory> = {
   tick: 'elements',
   impact: 'elements',
   riser: 'elements',
+  beep: 'elements',
+  burung: 'elements',
+  langkah: 'elements',
+  halaman: 'elements',
   ting: 'counters',
 };
 

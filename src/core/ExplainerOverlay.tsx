@@ -20,7 +20,7 @@ export const OVERLAY_LAYOUT = {
 export function narrationWords(config: VideoConfig, timeline: Timeline): CaptionWord[] {
   const out: CaptionWord[] = [];
   config.scenes.forEach((scene, i) => {
-    if (!scene.narration) return;
+    if (!scene.narration || scene.captions === false) return;
     const offset = timeline.entries[i].from / timeline.fps + NARRATION_LEAD;
     const emph = (scene.emphasis ?? []).map((p) => p.split(/\s+/).map(normWord));
     const words = resolveClip(scene.narration, config.narration, config.voice).words;
@@ -52,16 +52,18 @@ export const ExplainerOverlay: React.FC<{ config: VideoConfig; timeline: Timelin
 
   return (
     <AbsoluteFill style={{ pointerEvents: 'none' }}>
-      <StatusHud
-        top={OVERLAY_LAYOUT.hudTop}
-        brand={overlay.brand === false ? undefined : config.brand}
-        label={overlay.hud?.label}
-        timer={overlay.hud?.timer}
-      />
+      {overlay.brand === false && !overlay.hud ? null : (
+        <StatusHud
+          top={OVERLAY_LAYOUT.hudTop}
+          brand={overlay.brand === false ? undefined : config.brand}
+          label={overlay.hud?.label}
+          timer={overlay.hud?.timer}
+        />
+      )}
       {chapter ? (
         <ChapterHeader key={chapterStart} {...chapter} startFrame={timeline.entries[chapterStart].from} top={OVERLAY_LAYOUT.chapterTop} />
       ) : null}
-      {overlay.captions === false ? null : <Captions words={words} bottom={OVERLAY_LAYOUT.captionsBottom} />}
+      {overlay.captions === false ? null : <Captions words={words} bottom={OVERLAY_LAYOUT.captionsBottom} variant={overlay.captionStyle} />}
     </AbsoluteFill>
   );
 };

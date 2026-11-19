@@ -2,6 +2,22 @@
 
 Perubahan framework yang memengaruhi semua video. Entri terbaru di atas.
 
+## 2026-11-19 — Scene `sinema`: film pendek sinematik ilustratif
+
+Sumber: permintaan video "Sedekah Jumat Berkah" (WadahQRIS) bergaya sinematik, hangat, Islami modern. Semua properti baru opsional.
+
+- **Scene `sinema`** (`src/scenes/SinemaScene.tsx`, komponen `src/components/sinema/`): panggung siluet berlapis dengan paralaks
+  & kamera pelan (`descend` `rise` `pushIn` `pullOut` `panLeft` `panRight`), 13 panggung (`masjid` fajar/pagi/senja + jamaah,
+  `langit`, `mihrab`, `jendela`, `dompet`, `sarapan`, `berbagi`, `anak`, `air`, `mushaf`, `pola`, `ponsel`, `kartu`), sinar matahari,
+  debu emas, lens flare, grain film, light leak. Teks serif sinematik, kaligrafi Arab (`arabic`), infografis alur (`flow`),
+  ponsel donasi QR (`phone`), logo (`logo`). Lihat `docs/KATALOG-SCENE.md` → *Sinema*.
+- Font: **Cormorant Garamond** (display) dan **Amiri** (Arab) — `FONT_STACKS.cormorant` / `amiri`.
+- Subtitle: `overlay.captionStyle: 'sinema'` (serif tanpa kotak); `overlay.brand: false` tanpa `hud` = HUD tidak tampil & area atas
+  tidak dikosongkan. Per scene: **`captions: false`** = narasi scene itu tanpa subtitle.
+- Musik baru **`khidmat`** (piano + string + oud Hijaz, 28,8 dtk loop). SFX baru: `beep`, `burung`, `langkah`, `halaman`.
+- `npm run cek`: periksa `highlight` baris `sinema`.
+- Video: `WadahQRIS-JumatBerkah` (`src/projects/wadah-qris/jumat-berkah.ts`).
+
 ## 2026-11-15 — Gaya tinta & kota dari peta (gaya R3)
 
 Sumber: bedah video referensi "SCBD jadi sirkuit F1?" (`docs/REFERENSI.md`, R3). Semua properti baru opsional.

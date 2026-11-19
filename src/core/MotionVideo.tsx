@@ -67,8 +67,13 @@ export const MotionVideo: React.FC<MotionVideoProps> = ({ config }) => {
   const timeline = useMemo(() => computeTimeline(config), [config]);
   useFontsReady(theme);
   const insets = useMemo(
-    () => (config.overlay ? { top: OVERLAY_LAYOUT.insetTop, bottom: OVERLAY_LAYOUT.insetBottom } : undefined),
-    [config.overlay],
+    () => {
+      if (!config.overlay) return undefined;
+      // Tanpa HUD & header bab, area atas tidak perlu dikosongkan.
+      const bare = config.overlay.brand === false && !config.overlay.hud && !config.scenes.some((s) => s.chapter);
+      return { top: bare ? 0 : OVERLAY_LAYOUT.insetTop, bottom: OVERLAY_LAYOUT.insetBottom };
+    },
+    [config.overlay, config.scenes],
   );
   const clips = useMemo(
     () => config.scenes.map((s) => (s.narration ? resolveClip(s.narration, config.narration, config.voice) : null)),

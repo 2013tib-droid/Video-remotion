@@ -65,7 +65,7 @@ for (const file of files) {
     // Musik: nama trek bawaan (public/music/<nama>.wav) atau path file.
     const music = typeof config.audio === 'string' ? config.audio : config.audio ? config.audio.src : null;
     if (music && !/^https?:/.test(music) && !ASSET.test(music) && !existsSync(join('public', 'music', `${music}.wav`))) {
-      err.push(`musik "${music}" tidak dikenal (trek bawaan: tenang, semangat, korporat; atau path file di public/)`);
+      err.push(`musik "${music}" tidak dikenal (trek bawaan: tenang, semangat, korporat, khidmat; atau path file di public/)`);
     }
 
     const narrated = config.scenes.some((s) => s.narration);
@@ -90,6 +90,12 @@ for (const file of files) {
           if (l.highlight && !l.text.includes(l.highlight)) warn.push(`${at(i, s)}: highlight "${l.highlight}" tidak ada di baris "${l.text}"`);
           if (l.text.length > LIMIT.statementLine) warn.push(`${at(i, s)}: baris "${l.text}" panjang (${l.text.length} huruf) — font akan mengecil`);
         }
+      }
+      if (s.type === 'sinema') {
+        for (const l of s.lines ?? []) {
+          if (l.highlight && !l.text.includes(l.highlight)) warn.push(`${at(i, s)}: highlight "${l.highlight}" tidak ada di baris "${l.text}"`);
+        }
+        if (s.lines?.length > 3) warn.push(`${at(i, s)}: ${s.lines.length} baris teks (maks ±3 agar adegan tetap lapang)`);
       }
       if (s.narration) {
         for (const e of s.emphasis ?? []) if (!hasPhrase(s.narration, e)) warn.push(`${at(i, s)}: emphasis "${e}" tidak ada di narasi`);
