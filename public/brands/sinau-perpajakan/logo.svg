@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Logo Sinau Perpajakan">
+  <title>Sinau Perpajakan</title>
+  <!-- badge kuning -->
+  <rect x="16" y="16" width="480" height="480" rx="120" fill="#FFE14D"/>
+  <!-- kertas bukti/faktur putih bergerigi bawah -->
+  <path d="M146 96 H366 a20 20 0 0 1 20 20 V404 l-30 -22 -33 24 -34 -24 -33 24 -34 -24 -33 24 -29 -22 V116 a20 20 0 0 1 20 -20 Z"
+        fill="#FFFFFF" stroke="#1B1B1F" stroke-width="16" stroke-linejoin="round"/>
+  <!-- tanda persen biru -->
+  <circle cx="212" cy="190" r="30" fill="none" stroke="#1D3FA6" stroke-width="18"/>
+  <circle cx="300" cy="290" r="30" fill="none" stroke="#1D3FA6" stroke-width="18"/>
+  <line x1="306" y1="168" x2="206" y2="312" stroke="#1D3FA6" stroke-width="20" stroke-linecap="round"/>
+  <!-- garis isian -->
+  <line x1="186" y1="352" x2="326" y2="352" stroke="#2F7BF5" stroke-width="14" stroke-linecap="round"/>
+</svg>
