@@ -191,3 +191,82 @@ Tidak ada kata sifat kosong ("luar biasa", "revolusioner"), tidak ada daftar tig
   pita jalan (`strip`), kit `src/worlds/kota.ts` + `kotaDariPeta()` + `npm run peta` (OSM). Demo: `Demo-KotaTinta`.
 - **Belum:** lintasan yang tergambar memanjang, HUD gim (peta mini, LAP, km/h), bingkai jendela/kokpit, pil & panel gaya komik,
   peta skematik ber-pin, subtitle bergaris tepi.
+
+---
+
+## R4 — Diorama dalam kartu, gaya editorial: "Bagaimana hujan turun?" (±14 dtk, 9:16)
+
+Dikirim pemilik: "versi simple tapi elegan dan detil menarik. Aku suka." Rencana pemilik: tiap topik dibuat **dua versi —
+panjang dan pendek** (lihat di bawah). Yang ditiru tekniknya, bukan isinya.
+
+**Kenapa terasa elegan:** satu layar yang **tidak pernah ganti tata letak** — latar krem polos, satu kartu sudut membulat
+berisi **diorama 3D kecil** (pulau bundar melayang: laut, pantai, hutan cemara low-poly, gunung bersalju, sungai), teks di
+bawahnya. Yang berubah hanya **suasana di dalam kartu** dan **teks tahap**. Tidak ada transisi potong, tidak ada kamera
+terbang, tidak ada ikon/emoji — semua gerak "kecil tapi hidup".
+
+**Kenapa detailnya menarik:** tiap tahap punya **gerak alam sendiri** di diorama, dan **warna latar kartu** ikut bercerita:
+hijau mint cerah (panas) → biru muda (mendingin) → biru tua (hujan) → kembali mint (siklus selesai). Matahari mengecil &
+meredup saat mendung, awan tumbuh lalu menggelap, ada riak lingkaran di laut saat hujan, sungai mengalir. Satu pil label
+kecil ("● Tetes hujan") menempel pada benda yang sedang dibahas.
+
+### Tata letak tetap (atas → bawah)
+| Bagian | Isi | Gaya |
+|---|---|---|
+| Eyebrow | "○ SIKLUS AIR" | huruf kapital kecil, spasi lebar, lingkaran garis hijau tua |
+| Judul 2 baris | "**Bagaimana**" / "*hujan turun?*" | baris 1 sans tebal hitam; baris 2 **serif miring hijau** (kontras dua huruf) |
+| Kartu diorama | ±60% tinggi layar, sudut membulat besar, kisi halus samar di latar | latar gradasi berganti per tahap |
+| Penanda tahap | "TAHAP 3 DARI 4" | kapital kecil hijau, spasi lebar |
+| Nama tahap | "Presipitasi" | sans tebal besar |
+| Deskripsi | 1–2 kalimat pendek, ±12 kata | sans biasa abu tua |
+| Progres bersegmen | 4 garis + nama pendek di bawahnya (Penguapan · Awan terbentuk · Hujan turun · Air kembali) | segmen aktif **terisi bertahap** sepanjang tahap, nama aktif tebal hijau; segmen lewat tetap penuh |
+
+### Alur (4 tahap × ±3,4 dtk)
+| Waktu | Diorama | Teks tahap |
+|---|---|---|
+| 0–3,5 | Latar mint terang, matahari besar bersinar; **titik-titik uap naik** berkelok dari laut ke atas; pil "Uap air"; awan kecil mulai muncul | Tahap 1 · Evaporasi · "Panas matahari membuat air laut menguap dan naik ke udara." |
+| 3,5–7 | Latar bergeser ke **biru muda**; awan **tumbuh** jadi gumpalan putih; jejak uap masih naik; pil "Butiran air" pindah ke awan | Tahap 2 · Kondensasi · "Uap air mendingin dan berubah jadi butiran kecil yang membentuk awan." |
+| 7–10,5 | Latar **biru tua**, matahari hilang, awan menggelap & membesar; **hujan garis-garis** jatuh; **riak lingkaran** di laut; pil "Tetes hujan" | Tahap 3 · Presipitasi · "Butiran air bergabung. Saat cukup besar, butiran itu jatuh sebagai hujan." |
+| 10,5–14 | Langit cerah kembali ke mint, awan memutih & mengecil, matahari muncul lagi; **sungai berkilau mengalir** ke laut; pil "Aliran sungai" | Tahap 4 · Air kembali ke laut · "…Siklus pun berulang." |
+
+Pergantian teks tahap: teks lama **memudar** (±0,3 dtk), teks baru muncul — judul atas, kartu, dan progres tidak bergerak.
+Suasana kartu berubah **menyatu** (warna & benda), bukan dipotong.
+
+### Pola → cara membuatnya di sini
+| Pola | Status / cara |
+|---|---|
+| Tata letak editorial tetap: eyebrow + judul 2 gaya + kartu dunia + panel tahap + progres bersegmen | **Belum ada** → mode tata letak `world` baru (mis. `layout: 'kartu'`): dunia digambar di kartu membulat, teks tahap di bawah |
+| Judul dua huruf: sans tebal + **serif miring** berwarna | **Belum ada** → `highlight` bergaya `serif` (font serif miring dari tema) |
+| Progres bersegmen bernama, terisi sepanjang tahap | **Belum ada** → `langkah: ['Penguapan', …]` di level adegan/template |
+| "TAHAP n DARI N" + nama + deskripsi yang memudar berganti | Sebagian (`cards[]` + `at`) → panel tahap otomatis dari daftar tahap |
+| Diorama pulau melayang (cakram laut, pantai, hutan cemara, gunung salju, sungai) | Sebagian (`pohon`, bentuk dasar di `src/worlds/benda.ts`) → kit `src/worlds/alam.ts`: `pulau()`, `gunung()`, `cemara()`, `sungai()` |
+| **Warna latar berganti per tahap** (gradasi, menyatu) | `sky` ada (satu warna) → `sky` per shot/tahap dengan peralihan halus |
+| Partikel di dunia: uap naik, hujan jatuh, riak di air | **Belum ada** di 3D (`particles` hanya latar 2D) → objek `partikel` (`naik` · `hujan` · `riak`) deterministik dari frame |
+| Awan tumbuh/menggelap, matahari mengecil/meredup | `muncul` + `motion` ada untuk posisi/ukuran → perlu animasi **warna/kecerahan** objek |
+| Pil label kecil berpindah benda | `labels[]` + `at` (sudah ada) |
+| Kamera nyaris diam, putar pelan | `shots[]` dengan geser kecil (sudah ada) |
+
+### Versi panjang & pendek (rencana pemilik)
+Satu topik → **dua file config dari satu daftar tahap** yang sama (dunia, tahap, label dipakai bersama; beda di narasi & durasi):
+- **Pendek (±15–25 dtk, Reels/Shorts):** persis gaya R4 — 3–5 tahap, ±3–5 dtk per tahap, tanpa narasi atau narasi sangat
+  singkat, musik `tenang`. Teks tahap yang menjelaskan; penonton bisa baca dalam satu tarikan napas.
+- **Panjang (±60–120 dtk):** tata letak sama, tapi tiap tahap dipecah jadi 2–4 kalimat narasi (≈ 4 dtk/kalimat, aturan
+  `bedah3D`); kamera boleh mendekat ke bagian yang dibahas lalu kembali; tambah 1–2 angka bersumber per tahap (`data`/kartu);
+  progres tetap 4 segmen agar penonton tahu posisinya. Hook di awal + penutup seri.
+- Cara membuatnya nanti: template baru (mis. `tahapan3D`) yang menerima `tahap[]` dan `versi: 'pendek' | 'panjang'`, atau
+  satu file tahap bersama yang diimpor oleh `<topik>-pendek.ts` dan `<topik>-panjang.ts`.
+
+### Aturan naskah dari referensi ini
+- Judul = pertanyaan sederhana yang anak SD pun penasaran ("Bagaimana hujan turun?"); kata kuncinya di baris serif miring.
+- Proses dipecah **3–5 tahap** bernama istilah resmi (Evaporasi) + nama awam di progres (Penguapan). Deskripsi 1–2 kalimat,
+  sebab → akibat, tanpa kata sifat.
+- Satu tahap = satu perubahan yang **terlihat** di diorama. Kalau tidak bisa digambar, gabungkan dengan tahap lain.
+- Penutup menyambung ke awal ("Siklus pun berulang") — cocok untuk video yang di-loop.
+
+### Pelajaran untuk video kita
+- Elegan = **satu tata letak tetap + sedikit warna + banyak ruang kosong**; detail ditaruh di gerak kecil, bukan di teks.
+- Warna latar adalah alat cerita yang murah: pergantian suasana terasa tanpa satu potongan pun.
+- Progres bersegmen membuat video pendek terasa "selesai" dan memancing tonton ulang.
+
+### Status (2026-11-20)
+- **Belum dibuat:** semua bagian di atas (tata letak kartu, judul serif, progres bersegmen, kit alam, partikel 3D, `sky` per tahap,
+  template panjang/pendek).
