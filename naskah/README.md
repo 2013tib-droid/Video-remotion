@@ -7,6 +7,8 @@ Tempat merancang video **sebelum** ditulis jadi config. Satu video = satu file `
 1. Salin `_template/video.md` → `naskah/<brand>/<video>.md` (nama `<brand>` sama dengan folder di `src/projects/`).
 2. Isi konsep + data & sumber dulu, baru alur & narasi. Boleh dikerjakan di chat AI lain
    (prompt: `docs/PROMPT-STORYBOARD.md`; tempel file ini sebagai BRIEF).
+   Atau di Claude Code: *"Pakai agen storyboard untuk `naskah/<brand>/<video>.md`"* (`.claude/agents/storyboard.md`,
+   semua brand; agen `riset-pajak` → `penulis-naskah` khusus Sinau Perpajakan).
 3. Ubah `status:` → `final`, lalu ke Claude Code: *"Buat video dari `naskah/<brand>/<video>.md`."*
 4. Setelah config dibuat: `status: dibuat` + isi `file:`. **Mulai saat itu narasi direvisi di file `.ts`**
    (sumber suara & subtitle) — naskah ini tinggal catatan konsep.
