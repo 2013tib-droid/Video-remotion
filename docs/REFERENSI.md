@@ -191,3 +191,83 @@ Tidak ada kata sifat kosong ("luar biasa", "revolusioner"), tidak ada daftar tig
   pita jalan (`strip`), kit `src/worlds/kota.ts` + `kotaDariPeta()` + `npm run peta` (OSM). Demo: `Demo-KotaTinta`.
 - **Belum:** lintasan yang tergambar memanjang, HUD gim (peta mini, LAP, km/h), bingkai jendela/kokpit, pil & panel gaya komik,
   peta skematik ber-pin, subtitle bergaris tepi.
+
+---
+
+## R4 — Makro 3D sehari-hari: "Laron: badannya ke mana?" (TikTok, ±78 dtk + logo, 9:16)
+
+Dikirim pemilik: "detil, ga banyak tulisan, jelas juga penyampaiannya." Fokus bedahan: **cara menjelaskan dengan gambar,
+bukan tulisan**. Yang ditiru tekniknya, bukan brand/isinya.
+
+**Kenapa jelas walau hampir tanpa tulisan:** pertanyaannya muncul dari pemandangan yang semua orang pernah lihat (lantai
+teras penuh sayap habis hujan). Tiap kalimat narasi punya **satu gambar yang menjawabnya sendiri** — kalau suaranya
+dimatikan, alurnya masih bisa ditebak. Tulisan di layar cuma subtitle + label 1–3 kata; judul besar hanya dua kali
+(pertanyaan di awal, tindakan di akhir). Konsep sulit dijelaskan lewat **benda yang dikenal** (garis lepas sayap = "kayak
+garis sobekan di bungkus snack", lebar jalur = "selebar pensil").
+
+**Kenapa terasa detail:** kamera makro setinggi serangga; serangga digambar lengkap (ruas badan, kaki beruas, antena,
+sayap berurat tembus cahaya); lingkungan nyata dengan teksturnya (keramik bernat, tanah berkerikil + akar, dinding
+bercat, pintu, lampu teras); cahaya hangat lembut, **latar kabur** (kedalaman bidang), **debu melayang**, dan **ratusan**
+sayap/laron sekaligus (bukan tiga-empat).
+
+### Alur (kalimat dipotong per frase 3–5 kata, ±2–4 dtk per gambar)
+| Waktu | Yang terlihat | Kalimat (gaya) |
+|---|---|---|
+| 0–3 dtk | Lantai teras penuh sayap, satu laron berjalan. Judul besar **"Badannya *ke mana?*"** (kata tanya bergaris bawah oranye) | "Habis hujan, lantai teras penuh sayap laron. Badannya ke mana?" |
+| 3–9 | **Irisan tanah 3D**: sarang + terowongan; **lingkaran lup** memperbesar satu ekor ("rayap bersayap"); terowongan berisi laron berlabel "calon ratu / calon raja"; di permukaan, **ikon mahkota** kecil di atas kepala | "Laron itu rayap dewasa bersayap, calon raja dan ratu, yang keluar buat bikin sarang baru." |
+| 9–14 | Halaman: keran + selang, hujan turun, laron beterbangan; irisan tanah basah + **catatan kecil bersumber** ("tanah lembap, enak digali · Watson dkk. 2011, PLoS One") | "Hujan sering jadi aba-aba terbang, soalnya tanah jadi lembap, enak digali." |
+| 14–20 | Dinding teras, lampu menyala dikerubungi kawanan; lalu pagi: keramik penuh sayap | "Banyak yang ketarik lampu teras. Paginya, sayap numpuk di situ." |
+| 20–26 | Pil waktu **"🌙 semalam"**; laron mendarat, sayap terlepas; sayap patah **dicoret X merah** | "Semalam, habis mendarat, sayapnya dibuang. Bukan patah, ngelepas." |
+| 26–37 | Makro pangkal sayap: **garis putus-putus merah** + label "garis lepas"; **kartu gambar sisipan** bungkus snack bergaris sobek; laron menekuk perut (**panah lengkung**) menekan pangkal, sayap copot, label "sisa pangkal"; catatan "diamati di rayap Jepang · Matsuura & Nishida 2002" | "Di pangkal tiap sayap udah ada garis lepasnya, kayak garis sobekan di bungkus snack…" |
+| 37–45 | Tanah berkerikil + daun: laron bersayap diserang semut; **layar terbagi** dua sisi, tiap sisi bercatatan bersumber ("ketangkep semut", "sayap ngalangin jantan") | "Kenapa dibuang? Di tanah, sayap bikin repot. Gampang ketangkep semut, dan jantan susah nempel ke betina." |
+| 45–53 | Dua laron beriringan, label **warna per pihak** (jantan gelap, betina merah muda); **aura bau** merah muda berdenyut di sekitar betina + penanda jarak "± beberapa cm · Mizumoto & Dobata 2019" | "Betina jalan di depan, jantan nempel di belakang. Bau betinanya cuma kecium beberapa senti…" |
+| 53–60 | Irisan tanah: mereka menggali, masuk, pintu tertutup; ruang kecil terang, mahkota muncul | "Mereka gali ruang kecil di tanah lembap, terus pintunya ditutup. Di dalam, mereka jadi raja dan ratu." |
+| 60–68 | Kembali ke lantai (judul pertanyaan diulang di narasi); **tiga kartu gambar** muncul satu-satu: semut, laba-laba, burung | "Jadi, badannya ke mana? Banyak yang dimakan semut, laba-laba, dan burung." |
+| 68–70 | Ruang bawah tanah + catatan "± 75 ekor setelah setahun · UC IPM" dengan garis penunjuk ke telur | "Yang beruntung udah berdua di bawah tanah." |
+| 70–76 | Celah dinding dengan laron keluar, label "celah"; kartu sisipan lampu **dicoret X** | "Kalau laron keluar dari celah dinding, bukan ke lampu, biasanya ada rayap." |
+| 76–80 | Judul besar kedua **"Cek *jalur tanah*"**; jalur tanah di dinding + **pensil** sebagai pembanding ukuran, catatan "selebar pensil · UC IPM, UKy" | "Cek jalur tanah selebar pensil." |
+
+### Pola → cara membuatnya di sini
+| Pola | Status / cara |
+|---|---|
+| **Hampir tanpa tulisan**: tanpa header bab per adegan; judul besar hanya di hook & tindakan akhir | `bedah3D`: isi `bab` hanya di adegan 1 & adegan tindakan (kosong = lanjut). Perlu opsi **sembunyikan bab** di adegan tengah (sekarang bab sebelumnya tetap tampil) |
+| Subtitle 1 baris di tengah layar, putih tebal berbayang, kata aktif di **kotak oranye** | Subtitle ada (kotak hitam 2 baris) → varian `polos` (tanpa kotak, 1 baris, di tengah); warna kata aktif via `colors.highlight` |
+| Label 1–3 kata berujung titik + garis penunjuk; warna per pihak | `label` + `color` (sudah ada) |
+| **Catatan kecil bersumber** menempel dekat benda (teks tebal + baris sumber huruf mesin tik) | Sebagian: `data` (strip di atas) / `kartu` (di bawah) → perlu label ber-`source` yang menempel di objek |
+| **Ikon menempel** tanpa teks (mahkota di atas kepala) | **Belum ada** → `label` dengan `icon` saja (emoji/`line:`), tanpa pil |
+| **Lingkaran lup** yang memperbesar satu bagian (lingkaran putih + garis ke label) | **Belum ada** → HUD `lup: { target, zoom, radius, text }` (render ulang view kedua di dalam lingkaran, atau irisan 2D) |
+| **Kartu gambar sisipan** (sudut membulat, bisa **dicoret X**), sampai tiga berjajar muncul bergiliran | **Belum ada** → HUD `sisipan: [{ src, label?, coret?, at }]` (gambar/`view` lain di kartu kecil) |
+| Coretan X merah di atas benda yang salah ("bukan patah") | **Belum ada** di 3D → `cap` varian `silang` / tanda ✕ menempel di objek |
+| Garis putus-putus merah di bagian benda (garis lepas) + panah lengkung gerak | `tube`/`flow` bisa dipakai; perlu garis putus-putus & panah lengkung siap pakai |
+| **Aura** berdenyut (bau, panas, sinyal) di sekitar objek | **Belum ada** → objek `aura` (cincin/gradasi radial berdenyut) |
+| Penanda jarak dari objek ke titik + catatan bersumber | `ukur` (sudah ada) |
+| **Irisan tanah 3D** (balok tanah terpotong: terowongan, ruang, akar, kerikil) | 2D sudah ada (`irisan`, bahan `tanah`) → versi 3D: balok tanah berlubang belum ada |
+| **Layar terbagi** dua sisi untuk membandingkan | **Belum ada** → `bagi: [view A, view B]` di scene `world` |
+| Pil waktu kecil ("🌙 semalam") untuk lompatan waktu | `data: { text }` / `label` (sudah ada) |
+| Pembanding ukuran dari **benda sehari-hari** (pensil, bungkus snack) | Rakit dari bentuk dasar / model `.glb` |
+| Serangga & hewan kecil detail (ruas, kaki, antena, sayap berurat) | **Belum ada** → model `.glb` (render lambat) atau kit `serangga()` dari bentuk dasar |
+| **Kawanan / ratusan** benda kecil (sayap berserakan, laron mengerubungi lampu) | `flow` untuk yang bergerak; **belum ada** objek "sebar" (banyak salinan acak-deterministik di satu area) |
+| Kedalaman bidang (latar kabur), debu melayang, cahaya hangat | **Belum ada** → opsi dunia `fokus` (blur kedalaman) + `debu` (partikel) |
+| Hujan | **Belum ada** → efek cuaca `hujan` |
+
+### Aturan naskah dari referensi ini
+- **Uji bisu:** tiap kalimat harus terjawab oleh gambarnya sendiri. Kalau butuh tulisan untuk paham, ganti gambarnya.
+- Mulai dari **pemandangan sehari-hari yang membingungkan** → jelaskan asalnya → urutan kejadian (semalam → pagi) →
+  "kenapa" → nasib akhir (jawab pertanyaan hook dengan kalimat yang sama: "Jadi, badannya ke mana?") → **satu tindakan**
+  yang bisa dilakukan penonton ("Cek jalur tanah").
+- Konsep sulit dibandingkan dengan **benda yang ada di rumah** (bungkus snack, pensil), bukan istilah.
+- Bantah salah kaprah secara visual: tunjukkan yang salah lalu coret ("bukan patah", "bukan ke lampu").
+- Angka/fakta tetap bersumber, tetapi ditaruh **kecil di dekat bendanya**, bukan sebagai panel besar.
+- Kalimat lisan santai ("ketarik", "nggak boleh jauh-jauh", "bikin repot"), dipotong per frase pendek.
+
+### Pelajaran untuk video kita
+- Lebih sedikit tulisan = lebih jelas, **asal** tiap kalimat punya gambar yang tepat. HUD data (R1/R2) dipakai seperlunya.
+- Detail datang dari skala makro + tekstur lingkungan + jumlah benda yang banyak + cahaya/fokus, bukan dari efek.
+- Satu benda kecil diikuti dari dekat (satu ekor laron) lebih mudah diikuti daripada banyak tokoh.
+
+### Status (2026-11-21)
+- **Sudah bisa:** label berwarna per pihak, penanda ukuran, pil waktu (`data`), irisan tanah 2D, warna kata aktif subtitle,
+  dunia bersambung antar adegan.
+- **Belum:** bab tersembunyi di adegan tengah, subtitle 1 baris tanpa kotak, label bersumber & ikon menempel, lingkaran lup,
+  kartu gambar sisipan + coretan X, aura, layar terbagi, irisan tanah 3D, objek sebar (ratusan salinan), fokus/debu/hujan,
+  kit serangga.
