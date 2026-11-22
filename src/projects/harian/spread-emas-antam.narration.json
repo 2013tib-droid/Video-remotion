@@ -1,0 +1,860 @@
+{
+ "clips": {
+  "64183375": {
+   "src": "narration/spread-emas-antam-comparison/64183375.mp3",
+   "provider": "edge",
+   "duration": 8.952,
+   "words": [
+    {
+     "w": "Yang",
+     "start": 0.17,
+     "end": 0.288
+    },
+    {
+     "w": "penting",
+     "start": 0.288,
+     "end": 0.525
+    },
+    {
+     "w": "bukan",
+     "start": 0.525,
+     "end": 0.761
+    },
+    {
+     "w": "cuma",
+     "start": 0.761,
+     "end": 0.997
+    },
+    {
+     "w": "harga",
+     "start": 0.997,
+     "end": 1.234
+    },
+    {
+     "w": "beli,",
+     "start": 1.234,
+     "end": 1.47
+    },
+    {
+     "w": "tapi",
+     "start": 1.88,
+     "end": 2.096
+    },
+    {
+     "w": "berapa",
+     "start": 2.096,
+     "end": 2.421
+    },
+    {
+     "w": "uang",
+     "start": 2.421,
+     "end": 2.637
+    },
+    {
+     "w": "yang",
+     "start": 2.637,
+     "end": 2.745
+    },
+    {
+     "w": "kembali",
+     "start": 2.745,
+     "end": 3.069
+    },
+    {
+     "w": "saat",
+     "start": 3.069,
+     "end": 3.286
+    },
+    {
+     "w": "dijual.",
+     "start": 3.286,
+     "end": 3.61
+    },
+    {
+     "w": "Di",
+     "start": 4.52,
+     "end": 4.683
+    },
+    {
+     "w": "sini,",
+     "start": 4.683,
+     "end": 5.01
+    },
+    {
+     "w": "selisih",
+     "start": 5.39,
+     "end": 5.779
+    },
+    {
+     "w": "Hartadinata",
+     "start": 5.779,
+     "end": 6.426
+    },
+    {
+     "w": "dan",
+     "start": 6.426,
+     "end": 6.556
+    },
+    {
+     "w": "Galeri24",
+     "start": 6.556,
+     "end": 7.462
+    },
+    {
+     "w": "jauh",
+     "start": 7.462,
+     "end": 7.592
+    },
+    {
+     "w": "lebih",
+     "start": 7.592,
+     "end": 7.851
+    },
+    {
+     "w": "kecil.",
+     "start": 7.851,
+     "end": 8.11
+    }
+   ]
+  },
+  "eed023ab": {
+   "src": "narration/spread-emas-antam-comparison/eed023ab.mp3",
+   "provider": "edge",
+   "duration": 6.576,
+   "words": [
+    {
+     "w": "Bayangin,",
+     "start": 0.19,
+     "end": 0.72
+    },
+    {
+     "w": "baru",
+     "start": 1.08,
+     "end": 1.318
+    },
+    {
+     "w": "beli",
+     "start": 1.318,
+     "end": 1.556
+    },
+    {
+     "w": "emas",
+     "start": 1.556,
+     "end": 1.795
+    },
+    {
+     "w": "Antam",
+     "start": 1.795,
+     "end": 2.033
+    },
+    {
+     "w": "satu",
+     "start": 2.033,
+     "end": 2.271
+    },
+    {
+     "w": "gram,",
+     "start": 2.271,
+     "end": 2.39
+    },
+    {
+     "w": "kalau",
+     "start": 2.75,
+     "end": 2.983
+    },
+    {
+     "w": "langsung",
+     "start": 2.983,
+     "end": 3.217
+    },
+    {
+     "w": "dijual",
+     "start": 3.217,
+     "end": 3.567
+    },
+    {
+     "w": "lagi,",
+     "start": 3.567,
+     "end": 3.8
+    },
+    {
+     "w": "selisihnya",
+     "start": 4.17,
+     "end": 4.581
+    },
+    {
+     "w": "bisa",
+     "start": 4.581,
+     "end": 4.786
+    },
+    {
+     "w": "empat",
+     "start": 4.786,
+     "end": 4.991
+    },
+    {
+     "w": "ratus",
+     "start": 4.991,
+     "end": 5.197
+    },
+    {
+     "w": "ribu",
+     "start": 5.197,
+     "end": 5.402
+    },
+    {
+     "w": "rupiah!",
+     "start": 5.402,
+     "end": 5.71
+    }
+   ]
+  },
+  "c4621b6c": {
+   "src": "narration/spread-emas-antam-comparison/c4621b6c.mp3",
+   "provider": "edge",
+   "duration": 9.216,
+   "words": [
+    {
+     "w": "Harga",
+     "start": 0.25,
+     "end": 0.465
+    },
+    {
+     "w": "belinya",
+     "start": 0.465,
+     "end": 0.789
+    },
+    {
+     "w": "dua",
+     "start": 0.789,
+     "end": 1.004
+    },
+    {
+     "w": "juta",
+     "start": 1.004,
+     "end": 1.22
+    },
+    {
+     "w": "empat",
+     "start": 1.22,
+     "end": 1.435
+    },
+    {
+     "w": "ratus",
+     "start": 1.435,
+     "end": 1.65
+    },
+    {
+     "w": "sembilan",
+     "start": 1.65,
+     "end": 1.974
+    },
+    {
+     "w": "puluh",
+     "start": 1.974,
+     "end": 2.189
+    },
+    {
+     "w": "lima",
+     "start": 2.189,
+     "end": 2.405
+    },
+    {
+     "w": "ribu.",
+     "start": 2.405,
+     "end": 2.62
+    },
+    {
+     "w": "Tapi",
+     "start": 3.58,
+     "end": 3.797
+    },
+    {
+     "w": "harga",
+     "start": 3.797,
+     "end": 4.014
+    },
+    {
+     "w": "jual",
+     "start": 4.014,
+     "end": 4.23
+    },
+    {
+     "w": "kembalinya",
+     "start": 4.23,
+     "end": 4.664
+    },
+    {
+     "w": "cuma",
+     "start": 4.664,
+     "end": 4.881
+    },
+    {
+     "w": "dua",
+     "start": 4.881,
+     "end": 5.098
+    },
+    {
+     "w": "juta",
+     "start": 5.098,
+     "end": 5.314
+    },
+    {
+     "w": "sembilan",
+     "start": 5.314,
+     "end": 5.64
+    },
+    {
+     "w": "puluh",
+     "start": 5.64,
+     "end": 5.856
+    },
+    {
+     "w": "lima",
+     "start": 5.856,
+     "end": 6.073
+    },
+    {
+     "w": "ribu.",
+     "start": 6.073,
+     "end": 6.29
+    },
+    {
+     "w": "Itulah",
+     "start": 7.22,
+     "end": 7.587
+    },
+    {
+     "w": "yang",
+     "start": 7.587,
+     "end": 7.709
+    },
+    {
+     "w": "disebut",
+     "start": 7.709,
+     "end": 8.076
+    },
+    {
+     "w": "spread.",
+     "start": 8.076,
+     "end": 8.32
+    }
+   ]
+  },
+  "a73ae8e5": {
+   "src": "narration/spread-emas-antam-comparison/a73ae8e5.mp3",
+   "provider": "edge",
+   "duration": 8.016,
+   "words": [
+    {
+     "w": "Di",
+     "start": 0.18,
+     "end": 0.31
+    },
+    {
+     "w": "pasar",
+     "start": 0.31,
+     "end": 0.57
+    },
+    {
+     "w": "dunia,",
+     "start": 0.57,
+     "end": 0.96
+    },
+    {
+     "w": "emas",
+     "start": 1.35,
+     "end": 1.584
+    },
+    {
+     "w": "juga",
+     "start": 1.584,
+     "end": 1.819
+    },
+    {
+     "w": "terkoreksi",
+     "start": 1.819,
+     "end": 2.287
+    },
+    {
+     "w": "sekitar",
+     "start": 2.287,
+     "end": 2.639
+    },
+    {
+     "w": "delapan",
+     "start": 2.639,
+     "end": 2.99
+    },
+    {
+     "w": "persen",
+     "start": 2.99,
+     "end": 3.224
+    },
+    {
+     "w": "dalam",
+     "start": 3.224,
+     "end": 3.459
+    },
+    {
+     "w": "sepekan.",
+     "start": 3.459,
+     "end": 3.81
+    },
+    {
+     "w": "Tapi",
+     "start": 4.75,
+     "end": 4.954
+    },
+    {
+     "w": "kenapa",
+     "start": 4.954,
+     "end": 5.26
+    },
+    {
+     "w": "harga",
+     "start": 5.26,
+     "end": 5.465
+    },
+    {
+     "w": "emas",
+     "start": 5.465,
+     "end": 5.669
+    },
+    {
+     "w": "di",
+     "start": 5.669,
+     "end": 5.771
+    },
+    {
+     "w": "Indonesia",
+     "start": 5.771,
+     "end": 6.281
+    },
+    {
+     "w": "tidak",
+     "start": 6.281,
+     "end": 6.485
+    },
+    {
+     "w": "turun",
+     "start": 6.485,
+     "end": 6.69
+    },
+    {
+     "w": "sebesar",
+     "start": 6.69,
+     "end": 6.996
+    },
+    {
+     "w": "itu?",
+     "start": 6.996,
+     "end": 7.2
+    }
+   ]
+  },
+  "b863a18c": {
+   "src": "narration/spread-emas-antam-comparison/b863a18c.mp3",
+   "provider": "edge",
+   "duration": 5.976,
+   "words": [
+    {
+     "w": "Jadi",
+     "start": 0.19,
+     "end": 0.41
+    },
+    {
+     "w": "sebelum",
+     "start": 0.41,
+     "end": 0.74
+    },
+    {
+     "w": "beli",
+     "start": 0.74,
+     "end": 0.96
+    },
+    {
+     "w": "emas,",
+     "start": 0.96,
+     "end": 1.18
+    },
+    {
+     "w": "jangan",
+     "start": 1.52,
+     "end": 1.784
+    },
+    {
+     "w": "cuma",
+     "start": 1.784,
+     "end": 2.049
+    },
+    {
+     "w": "lihat",
+     "start": 2.049,
+     "end": 2.313
+    },
+    {
+     "w": "mereknya.",
+     "start": 2.313,
+     "end": 2.71
+    },
+    {
+     "w": "Cek",
+     "start": 3.62,
+     "end": 3.747
+    },
+    {
+     "w": "spread",
+     "start": 3.747,
+     "end": 4
+    },
+    {
+     "w": "dan",
+     "start": 4,
+     "end": 4.127
+    },
+    {
+     "w": "harga",
+     "start": 4.127,
+     "end": 4.38
+    },
+    {
+     "w": "jual",
+     "start": 4.38,
+     "end": 4.633
+    },
+    {
+     "w": "kembalinya!",
+     "start": 4.633,
+     "end": 5.14
+    }
+   ]
+  },
+  "d2daa79c": {
+   "src": "narration/spread-emas-antam-comparison/d2daa79c.mp3",
+   "provider": "edge",
+   "duration": 12.456,
+   "words": [
+    {
+     "w": "Galeri24,",
+     "start": 0.19,
+     "end": 1.1
+    },
+    {
+     "w": "sekitar",
+     "start": 1.5,
+     "end": 1.924
+    },
+    {
+     "w": "enam",
+     "start": 1.924,
+     "end": 2.207
+    },
+    {
+     "w": "persen.",
+     "start": 2.207,
+     "end": 2.49
+    },
+    {
+     "w": "Hartadinata,",
+     "start": 3.44,
+     "end": 4.17
+    },
+    {
+     "w": "enam",
+     "start": 4.55,
+     "end": 4.89
+    },
+    {
+     "w": "persen.",
+     "start": 4.89,
+     "end": 5.23
+    },
+    {
+     "w": "UBS,",
+     "start": 6.13,
+     "end": 6.195
+    },
+    {
+     "w": "hampir",
+     "start": 6.195,
+     "end": 6.325
+    },
+    {
+     "w": "delapan",
+     "start": 6.325,
+     "end": 6.52
+    },
+    {
+     "w": "persen.",
+     "start": 6.52,
+     "end": 6.65
+    },
+    {
+     "w": "Sementara",
+     "start": 7,
+     "end": 7.886
+    },
+    {
+     "w": "Antam",
+     "start": 7.886,
+     "end": 8.329
+    },
+    {
+     "w": "Logam",
+     "start": 8.329,
+     "end": 8.771
+    },
+    {
+     "w": "Mulia,",
+     "start": 8.771,
+     "end": 9.436
+    },
+    {
+     "w": "lebih",
+     "start": 9.436,
+     "end": 9.879
+    },
+    {
+     "w": "dari",
+     "start": 9.879,
+     "end": 10.321
+    },
+    {
+     "w": "enam",
+     "start": 10.321,
+     "end": 10.764
+    },
+    {
+     "w": "belas",
+     "start": 10.764,
+     "end": 11.207
+    },
+    {
+     "w": "persen!",
+     "start": 11.207,
+     "end": 11.65
+    }
+   ]
+  },
+  "ece3e764": {
+   "src": "narration/spread-emas-antam-comparison/ece3e764.mp3",
+   "provider": "edge",
+   "duration": 8.496,
+   "words": [
+    {
+     "w": "Karena",
+     "start": 0.21,
+     "end": 0.548
+    },
+    {
+     "w": "harga",
+     "start": 0.548,
+     "end": 0.774
+    },
+    {
+     "w": "lokal",
+     "start": 0.774,
+     "end": 0.999
+    },
+    {
+     "w": "bukan",
+     "start": 0.999,
+     "end": 1.225
+    },
+    {
+     "w": "cuma",
+     "start": 1.225,
+     "end": 1.451
+    },
+    {
+     "w": "ikut",
+     "start": 1.451,
+     "end": 1.676
+    },
+    {
+     "w": "pasar",
+     "start": 1.676,
+     "end": 1.902
+    },
+    {
+     "w": "dunia.",
+     "start": 1.902,
+     "end": 2.24
+    },
+    {
+     "w": "Kurs",
+     "start": 3.15,
+     "end": 3.277
+    },
+    {
+     "w": "dolar",
+     "start": 3.277,
+     "end": 3.53
+    },
+    {
+     "w": "terhadap",
+     "start": 3.53,
+     "end": 3.91
+    },
+    {
+     "w": "rupiah,",
+     "start": 3.91,
+     "end": 4.29
+    },
+    {
+     "w": "ditambah",
+     "start": 4.69,
+     "end": 5.08
+    },
+    {
+     "w": "premi",
+     "start": 5.08,
+     "end": 5.34
+    },
+    {
+     "w": "dan",
+     "start": 5.34,
+     "end": 5.47
+    },
+    {
+     "w": "kebijakan",
+     "start": 5.47,
+     "end": 5.99
+    },
+    {
+     "w": "penjual,",
+     "start": 5.99,
+     "end": 6.38
+    },
+    {
+     "w": "juga",
+     "start": 6.68,
+     "end": 6.93
+    },
+    {
+     "w": "ikut",
+     "start": 6.93,
+     "end": 7.18
+    },
+    {
+     "w": "menentukan.",
+     "start": 7.18,
+     "end": 7.68
+    }
+   ]
+  },
+  "a80d9a92": {
+   "src": "narration/spread-emas-antam-comparison/a80d9a92.mp3",
+   "provider": "edge",
+   "duration": 10.584,
+   "words": [
+    {
+     "w": "Kalau",
+     "start": 0.18,
+     "end": 0.404
+    },
+    {
+     "w": "cari",
+     "start": 0.404,
+     "end": 0.629
+    },
+    {
+     "w": "efisiensi,",
+     "start": 0.629,
+     "end": 1.19
+    },
+    {
+     "w": "Galeri24",
+     "start": 1.59,
+     "end": 2.446
+    },
+    {
+     "w": "unggul",
+     "start": 2.446,
+     "end": 2.69
+    },
+    {
+     "w": "tipis",
+     "start": 2.69,
+     "end": 2.934
+    },
+    {
+     "w": "di",
+     "start": 2.934,
+     "end": 3.057
+    },
+    {
+     "w": "persentase",
+     "start": 3.057,
+     "end": 3.546
+    },
+    {
+     "w": "spread.",
+     "start": 3.546,
+     "end": 3.79
+    },
+    {
+     "w": "Hartadinata",
+     "start": 4.79,
+     "end": 5.394
+    },
+    {
+     "w": "paling",
+     "start": 5.394,
+     "end": 5.635
+    },
+    {
+     "w": "murah",
+     "start": 5.635,
+     "end": 5.876
+    },
+    {
+     "w": "harga",
+     "start": 5.876,
+     "end": 6.118
+    },
+    {
+     "w": "belinya.",
+     "start": 6.118,
+     "end": 6.48
+    },
+    {
+     "w": "Antam",
+     "start": 7.4,
+     "end": 7.666
+    },
+    {
+     "w": "tetap",
+     "start": 7.666,
+     "end": 7.931
+    },
+    {
+     "w": "populer,",
+     "start": 7.931,
+     "end": 8.33
+    },
+    {
+     "w": "tapi",
+     "start": 8.7,
+     "end": 8.936
+    },
+    {
+     "w": "preminya",
+     "start": 8.936,
+     "end": 9.289
+    },
+    {
+     "w": "lebih",
+     "start": 9.289,
+     "end": 9.524
+    },
+    {
+     "w": "tinggi.",
+     "start": 9.524,
+     "end": 9.76
+    }
+   ]
+  }
+ }
+}
