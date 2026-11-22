@@ -3,6 +3,7 @@ import {
   DEFAULT_FPS,
   DEFAULT_SCENE_DURATION,
   FORMATS,
+  LEGIBILITY,
   MIN_SCENE_DURATION,
   getTransitionFrames,
   resolveTransition,
@@ -55,7 +56,9 @@ export function computeTimeline(config: VideoConfig): Timeline {
     const base = s.duration ?? DEFAULT_SCENE_DURATION[s.type] ?? 4;
     if (!s.narration) return base;
     const clip = resolveClip(s.narration, config.narration, config.voice);
-    const tail = Math.max(NARRATION_TAIL, (transitionFrames[i + 1] ?? 0) / fps + 0.1);
+    // `legibility: 'mobile'`: jeda baca agar angka/kata terakhir tidak langsung keluar saat kalimat selesai.
+    const hold = config.legibility === 'mobile' && i < config.scenes.length - 1 ? LEGIBILITY.readHold : 0;
+    const tail = Math.max(NARRATION_TAIL, (transitionFrames[i + 1] ?? 0) / fps + 0.1) + hold;
     return Math.max(s.duration ?? 0, NARRATION_LEAD + clip.duration + tail);
   });
   let frames = rawSec.map((s) => Math.round(s * fps));

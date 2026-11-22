@@ -6,6 +6,8 @@ export interface ComparisonRow {
   label: string;
   /** true = ✓, false = ✕, string = teks bebas. */
   values: (boolean | string)[];
+  /** Baris muncul saat: detik dari awal scene atau kata narasi. */
+  at?: string | number;
 }
 
 export interface ComparisonTableProps {
@@ -14,10 +16,12 @@ export interface ComparisonTableProps {
   /** Index kolom (dari `columns`) yang disorot sebagai pemenang. */
   highlightColumn?: number;
   delay?: number;
+  /** Waktu muncul per baris (detik). Kosong = bergiliran dari `delay`. */
+  delays?: number[];
 }
 
 /** Tabel perbandingan: baris muncul berurutan, kolom pemenang disorot. */
-export const ComparisonTable: React.FC<ComparisonTableProps> = ({ columns, rows, highlightColumn, delay = 0 }) => {
+export const ComparisonTable: React.FC<ComparisonTableProps> = ({ columns, rows, highlightColumn, delay = 0, delays }) => {
   const { theme, type, px } = useTheme();
   const stagger = useStagger();
   const template = `1.4fr repeat(${columns.length}, 1fr)`;
@@ -85,7 +89,7 @@ export const ComparisonTable: React.FC<ComparisonTableProps> = ({ columns, rows,
         </div>
       </Reveal>
       {rows.map((r, ri) => (
-        <Reveal key={ri} delay={stagger(ri + 1, delay)} preset="fadeUp">
+        <Reveal key={ri} delay={delays?.[ri] ?? stagger(ri + 1, delay)} preset="fadeUp">
           <div
             style={{
               display: 'grid',

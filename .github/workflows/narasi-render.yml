@@ -3,7 +3,8 @@
 # Jalankan dari HP: aplikasi GitHub → Actions → "Narasi & Render" → Run workflow
 # (atau minta Claude memicunya). Isi `video` dengan ID video (boleh sebagian, mis. Harian-TipsGaji).
 #
-# Alur: narasi per scene → (simpan audio ke cabang) → render → MP4 sebagai artifact.
+# Alur: narasi per scene → (simpan audio ke cabang) → pratinjau + QC tata letak → render → MP4 sebagai artifact.
+# Pratinjau: still per scene + laporan (juga di ringkasan run) di artifact `pratinjau-<n>`.
 # Bila narasi gagal, job BERHENTI sebelum render (tidak ada video bisu).
 #
 # Edge TTS = integrasi TIDAK RESMI (bisa berubah/dibatasi). Azure opsional:
@@ -34,6 +35,10 @@ on:
         default: false
       simpan_narasi:
         description: 'Commit audio narasi baru ke cabang ini (cache permanen)'
+        type: boolean
+        default: true
+      pratinjau:
+        description: 'Pratinjau + QC tata letak (still per scene, ±1 menit) sebelum render'
         type: boolean
         default: true
       render:
@@ -131,10 +136,32 @@ jobs:
           if-no-files-found: ignore
 
       - uses: actions/cache@v4
-        if: inputs.render
+        if: inputs.render || inputs.pratinjau
         with:
           path: node_modules/.remotion
           key: remotion-browser-${{ hashFiles('package-lock.json') }}
+
+      # Still per scene + pemeriksa tata letak (terpotong, bertumpuk, zona UI, huruf kecil).
+      # Galat tata letak TIDAK menghentikan render (estetika tetap keputusan manusia) — lihat ringkasan & artifact.
+      - name: Pratinjau & QC tata letak
+        id: pratinjau
+        if: inputs.pratinjau
+        continue-on-error: true
+        run: |
+          set +e
+          node scripts/pratinjau.mjs "$VIDEO"
+          code=$?
+          for f in out/pratinjau/*/laporan.md; do cat "$f" >> "$GITHUB_STEP_SUMMARY"; echo >> "$GITHUB_STEP_SUMMARY"; done
+          exit $code
+
+      - name: Unggah pratinjau
+        if: inputs.pratinjau && always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pratinjau-${{ github.run_number }}
+          path: out/pratinjau/
+          retention-days: 14
+          if-no-files-found: ignore
 
       - name: Render
         if: inputs.render

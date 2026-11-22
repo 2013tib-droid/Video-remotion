@@ -8,6 +8,8 @@ export interface Feature {
   icon?: string;
   title: string;
   description?: string;
+  /** Muncul saat: detik dari awal scene atau kata narasi (scene `features`). */
+  at?: string | number;
 }
 
 export interface FeatureCardProps extends Feature {

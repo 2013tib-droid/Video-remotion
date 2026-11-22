@@ -3,6 +3,11 @@ import type { ThemeName, ThemeOverrides } from '../themes';
 import type { SceneConfig } from '../scenes/types';
 import type { NarrationData, VoiceSettings } from './narration';
 
+/** `auto` = isi scene data muncul saat disebut narasi; `false` = jeda bergiliran tetap. */
+export type SyncSetting = 'auto' | false;
+/** `mobile` = batas bawah ukuran teks + jeda baca (lihat `LEGIBILITY` di config/typography.ts). */
+export type Legibility = 'standard' | 'mobile';
+
 export interface Brand {
   name: string;
   /** Path di public/ (mis. "brands/priceatlas/logo.svg"), URL, atau emoji. */
@@ -34,8 +39,16 @@ export interface VideoConfig {
    * Gerak sepanjang scene untuk seluruh video. Default dari tema;
    * video dengan `overlay` (explainer) otomatis `energy: 'calm'`.
    * `icons`: `line` (default) = emoji dikenal jadi ikon garis yang tergambar; `emoji` = emoji asli.
+   * `sync: 'auto'` = isi scene data (kartu, angka, batang, baris tabel, langkah, baris kalkulasi) muncul
+   * saat labelnya diucapkan narasi (per scene: `sync: false`). Default mati (jeda bergiliran seperti dulu).
    */
-  motion?: { energy?: MotionEnergy; camera?: CameraSetting; exit?: boolean; icons?: IconStyle };
+  motion?: { energy?: MotionEnergy; camera?: CameraSetting; exit?: boolean; icons?: IconStyle; sync?: SyncSetting };
+  /**
+   * Keterbacaan. `mobile` = teks pendukung (label, keterangan, isi tabel, HUD) tidak lebih kecil dari
+   * batas baca ponsel + jeda baca setelah narasi selesai sebelum elemen keluar. Default `standard`.
+   * Angka: `LEGIBILITY` di `src/config/typography.ts`.
+   */
+  legibility?: Legibility;
   /**
    * Efek suara: whoosh saat transisi, pop saat kartu/ikon/badge muncul, "ting" saat angka
    * selesai menghitung, tick per kata (scene `words`), dentum pin (scene `map`).

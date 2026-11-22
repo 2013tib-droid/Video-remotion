@@ -6,9 +6,12 @@
  *   npm run cek -- Harian       # ID yang mengandung "Harian" (atau path file)
  *
  * ✗ galat (exit 1): ID ganda/tidak valid, aset/musik tidak ada di public/, cue `at` tidak ada di narasi,
- *   scene bernarasi tanpa `voice`.
- * ! peringatan: `highlight`/`emphasis` tidak ditemukan di teksnya, teks terlalu panjang,
- *   narasi belum dirender, scene tanpa narasi di video bernarasi, terlalu banyak item.
+ *   scene bernarasi tanpa `voice`, scene data kosong, timeline gagal dihitung.
+ * ! peringatan: `highlight`/`emphasis` tidak ditemukan di teksnya, teks terlalu panjang (judul, label
+ *   grafik/tabel/angka/langkah, catatan), narasi belum dirender / waktu kata basi, scene tanpa narasi di
+ *   video bernarasi, terlalu banyak item, hook > ±3 dtk, dua scene bertipe sama berturut-turut,
+ *   teks layar terlalu banyak untuk lama tampilnya.
+ * Tata letak hasil render (terpotong, bertumpuk, zona UI, huruf kecil) → `npm run pratinjau -- <ID>`.
  */
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -17,7 +20,40 @@ import { listConfigFiles, loadConfigFile, resolveTargets } from './lib/configs.m
 const args = process.argv.slice(2).filter((a) => !a.startsWith('--'));
 const files = args.length ? await resolveTargets(args) : listConfigFiles();
 
-const LIMIT = { title: 70, subtitle: 110, itemTitle: 34, itemDescription: 60, items: 4, statementLine: 28 };
+const LIMIT = {
+  title: 70,
+  subtitle: 110,
+  itemTitle: 34,
+  itemDescription: 60,
+  items: 4,
+  statementLine: 28,
+  // Label data (huruf): lebih dari ini akan terbungkus/mengecil di layar ponsel.
+  chartLabel: 22,
+  tableCell: 16,
+  tableColumn: 14,
+  statLabel: 40,
+  calcLabel: 30,
+  note: 40,
+  // Hook: detik maksimal sebelum masuk isi (narasi hook / durasi scene pertama).
+  hookSec: 3.5,
+  // Kata layar per detik tampil (judul + isi) yang masih nyaman dibaca sambil mendengar narasi.
+  readWps: 4,
+};
+// Tipe yang memang dirangkai bersambung (template bedah3D) — boleh berturut-turut.
+const CONTINUOUS = new Set(['world', 'irisan', 'words', 'statement', 'question']);
+/** Teks yang tampil di layar sebuah scene (untuk perkiraan waktu baca). */
+function screenText(s) {
+  const parts = [s.eyebrow, s.title, s.subtitle];
+  for (const f of s.features ?? []) parts.push(f.title, f.description);
+  for (const x of s.stats ?? []) parts.push(x.label);
+  for (const d of s.data ?? []) parts.push(d.label);
+  for (const r of s.rows ?? []) parts.push(r.label, ...(r.values ?? []).filter((v) => typeof v === 'string'));
+  for (const st of s.steps ?? []) parts.push(st.title, st.description);
+  for (const l of s.lines ?? []) parts.push(l.label ?? l.text);
+  if (Array.isArray(s.columns)) parts.push(...s.columns);
+  return parts.filter((p) => typeof p === 'string').join(' ');
+}
+const countWords = (t) => t.split(/\s+/).filter((w) => /[\p{L}\p{N}]/u.test(w)).length;
 const ASSET = /\.(png|jpe?g|webp|gif|svg|mp4|webm|mov|mp3|wav|m4a|json|glb)$/i;
 const norm = (w) => w.toLowerCase().replace(/[^\p{L}\p{N}]/gu, '');
 const words = (t) => t.split(/\s+/).map(norm).filter(Boolean);
@@ -44,7 +80,7 @@ let warnings = 0;
 let count = 0;
 
 for (const file of files) {
-  const { configs, narrationKey, jsonPath } = await loadConfigFile(file);
+  const { configs, narrationKey, splitWords, computeTimeline, jsonPath } = await loadConfigFile(file);
   for (const config of configs) {
     count++;
     const err = [];
@@ -99,11 +135,62 @@ for (const file of files) {
         });
         const clip = config.voice ? data.clips?.[narrationKey(s.narration, config.voice)] : null;
         if (!clip || !existsSync(join('public', clip.src))) missing++;
+        else if (clip.words?.length !== splitWords(s.narration).length || !(clip.duration > 0)) {
+          warn.push(`${at(i, s)}: waktu kata narasi tidak cocok dengan teksnya → npm run narasi -- ${config.id} --retime`);
+        }
       } else if (narrated) {
         warn.push(`${at(i, s)}: tanpa narasi di video bernarasi (akan hening)`);
       }
+
+      // Isi scene data tidak boleh kosong.
+      const content = { features: s.features, stats: s.stats, chart: s.data, comparison: s.rows, timeline: s.steps, calculation: s.lines, statement: s.lines }[s.type];
+      if (Array.isArray(content) && content.length === 0) err.push(`${at(i, s)}: isi kosong`);
+      if (s.type === 'words' && !(typeof s.words === 'string' ? s.words.trim() : s.words?.length)) err.push(`${at(i, s)}: isi kosong`);
+
+      // Label data yang terlalu panjang untuk layar ponsel.
+      const long = (label, text, max) => {
+        if (typeof text === 'string' && text.length > max) warn.push(`${at(i, s)}: ${label} "${text}" ${text.length} huruf (maks ±${max})`);
+      };
+      for (const d of s.type === 'chart' ? s.data : []) long('label grafik', d.label, LIMIT.chartLabel);
+      if (s.type === 'comparison') {
+        for (const c of s.columns) long('kolom tabel', c, LIMIT.tableColumn);
+        for (const r of s.rows) [r.label, ...r.values].forEach((v) => long('sel tabel', v, LIMIT.tableCell));
+      }
+      for (const x of s.stats ?? []) long('label angka', x.label, LIMIT.statLabel);
+      for (const st of s.steps ?? []) long('judul langkah', st.title, LIMIT.itemTitle);
+      for (const l of s.type === 'calculation' ? s.lines : []) long('label kalkulasi', l.label, LIMIT.calcLabel);
+      long('catatan', s.note, LIMIT.note);
+
+      // Ritme: dua scene bertipe sama berturut-turut terasa seperti slide yang diulang.
+      const prev = config.scenes[i - 1];
+      if (prev && prev.type === s.type && !CONTINUOUS.has(s.type)) {
+        warn.push(`${at(i, s)}: tipe sama dengan scene sebelumnya — ganti komposisi (docs/PROMPT-STORYBOARD.md → Komposisi)`);
+      }
     });
     if (missing) warn.push(`${missing} klip narasi belum dirender → npm run narasi -- ${config.id}`);
+
+    // Durasi nyata (mengikuti audio bila sudah dirender): hook & waktu baca.
+    let tl = null;
+    try {
+      tl = computeTimeline({ ...config, narration: config.narration ?? data });
+    } catch (e) {
+      err.push(`timeline gagal dihitung: ${e.message}`);
+    }
+    if (tl && !missing) {
+      // Hook bernarasi: penonton memutuskan lanjut/geser saat kalimat pertama masih diucapkan.
+      const first = config.scenes[0];
+      const hookSec = first.narration ? data.clips?.[narrationKey(first.narration, config.voice)]?.duration ?? 0 : 0;
+      if (hookSec > LIMIT.hookSec) {
+        warn.push(`scene 1 (hook): ${hookSec.toFixed(1)} dtk — hook ideal ≤ ${LIMIT.hookSec - 0.5} dtk (perpendek kalimat pembuka)`);
+      }
+      config.scenes.forEach((s, i) => {
+        const secs = tl.entries[i].frames / tl.fps;
+        const n = countWords(screenText(s));
+        if (n && n / secs > LIMIT.readWps) {
+          warn.push(`${at(i, s)}: ${n} kata di layar dalam ${secs.toFixed(1)} dtk — terlalu padat untuk dibaca (kurangi teks atau perpanjang)`);
+        }
+      });
+    }
 
     errors += err.length;
     warnings += warn.length;

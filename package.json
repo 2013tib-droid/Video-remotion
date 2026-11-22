@@ -13,6 +13,7 @@
     "render:all": "node scripts/render-all.mjs",
     "render:list": "node scripts/render-all.mjs --list",
     "narasi": "node scripts/narrate.mjs",
+    "pratinjau": "node scripts/pratinjau.mjs",
     "model": "node scripts/model.mjs",
     "peta": "node scripts/peta.mjs"
   },

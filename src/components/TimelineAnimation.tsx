@@ -7,18 +7,29 @@ export interface TimelineStep {
   title: string;
   description?: string;
   icon?: string;
+  /** Langkah muncul saat: detik dari awal scene atau kata narasi. */
+  at?: string | number;
 }
 
 export interface TimelineAnimationProps {
   steps: TimelineStep[];
   delay?: number;
+  /** Waktu muncul per langkah (detik). Kosong = bergiliran dari `delay`. */
+  delays?: number[];
 }
 
 /** Langkah-langkah vertikal dengan garis progres yang tergambar. */
-export const TimelineAnimation: React.FC<TimelineAnimationProps> = ({ steps, delay = 0 }) => {
+export const TimelineAnimation: React.FC<TimelineAnimationProps> = ({ steps, delay = 0, delays }) => {
   const { theme, type, px } = useTheme();
-  const stagger = useStagger('relaxed');
-  const line = useSpring({ delay, spring: 'smooth', duration: 0.4 + steps.length * 0.3 });
+  const relaxed = useStagger('relaxed');
+  const stagger = (i: number, base: number) => delays?.[i] ?? relaxed(i, base);
+  // Garis progres tumbuh sampai langkah terakhir muncul.
+  const lastAt = delays?.length ? Math.max(...delays) : null;
+  const line = useSpring({
+    delay: delays?.length ? delays[0] : delay,
+    spring: 'smooth',
+    duration: lastAt !== null ? Math.max(0.4, lastAt - delays![0] + 0.4) : 0.4 + steps.length * 0.3,
+  });
   const node = px(96);
   return (
     <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: px(48), width: '100%', maxWidth: px(880) }}>

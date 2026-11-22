@@ -52,6 +52,27 @@ export const STAGGER = {
 export type StaggerName = keyof typeof STAGGER;
 
 /**
+ * Sinkron isi scene data ke narasi (`motion.sync: 'auto'` / item `at`). Lihat `useItemTimes`.
+ * - `lead`: item muncul sekian detik SEBELUM katanya diucapkan (mata sedikit mendahului telinga).
+ * - `after`: item yang labelnya tidak diucapkan menyusul sekian detik setelah item sebelumnya.
+ * - `earliest`: tidak muncul lebih awal dari ini (detik dari awal scene).
+ * - Token label: ≥ `minTokenLength` huruf, bukan kata umum; kata ≥ `prefixMinLength` huruf boleh cocok
+ *   sebagai awalan ("jual" ↔ "jualnya", "premi" ↔ "preminya").
+ */
+export const CUE_SYNC = {
+  lead: 0.15,
+  after: 0.35,
+  earliest: 0.2,
+  minTokenLength: 3,
+  prefixMinLength: 4,
+  stopwords: [
+    'yang', 'dan', 'atau', 'dari', 'untuk', 'dengan', 'pada', 'dalam', 'ini', 'itu', 'juga', 'tidak', 'bukan',
+    'ada', 'akan', 'bisa', 'lebih', 'paling', 'cuma', 'saja', 'para', 'per', 'jadi', 'kalau', 'tapi', 'karena',
+    'sudah', 'masih', 'agar', 'oleh', 'the', 'and',
+  ],
+} as const;
+
+/**
  * Preset animasi masuk. Setiap preset mendeskripsikan keadaan AWAL;
  * keadaan akhir selalu netral (opacity 1, posisi 0, scale 1, blur 0).
  * Nilai x/y dalam px pada basis 1080 (otomatis diskalakan).

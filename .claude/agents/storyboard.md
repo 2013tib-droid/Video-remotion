@@ -35,7 +35,11 @@ tulis sebagai catatan `💡 butuh fitur: …` di *Catatan revisi*, dan pakai alt
 ## Tugas
 Isi bagian **2. Alur & narasi** (format blok persis seperti template), lalu `status: ide` → `status: draf`.
 - Hook ≤ 2–3 dtk, memancing: pertanyaan, salah kaprah, angka mengejutkan (dari tabel), atau pernyataan berani.
+  Narasi hook ≤ 8 kata (≤ 3 dtk; dicek `npm run cek`); jawabannya harus ada di video (tanpa clickbait).
 - Judul ≤ ±8 kata, deskripsi ≤ ±8 kata, maks 4 item per bagian. Jangan jenis isi yang sama berturut-turut.
+  Pilih jenis isi dari maksud informasinya (tabel *Komposisi* di `docs/PROMPT-STORYBOARD.md`); alur hook → konteks →
+  konflik → bukti → penjelasan → putusan, dengan "re-hook" di tengah. Teks layar ≤ 4 kata per detik tampil.
+- Narasi bagian data menyebut label item persis seperti di layar, berurutan (isi muncul saat labelnya diucapkan).
 - `highlight` harus persis ada di teks layarnya.
 - Narasi ±2,7 kata/dtk; cocokkan jumlah kata dengan `durasi`. Kalimat pendek, bahasa sehari-hari, sesuai nada seri.
   Angka ditulis seperti dibaca ("lima koma empat tujuh persen").

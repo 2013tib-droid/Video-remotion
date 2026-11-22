@@ -12,6 +12,7 @@ Sumber kebenaran: `src/scenes/types.ts`. Semua scene menerima properti dasar:
 | `textAnimation` | gaya muncul kata judul: `rise` `pop` `blur` `typewriter` `slam` (default dari tema) |
 | `highlightStyle` | aksen kata sorotan: `mix` (default) `marker` `underline` `circle` `punch` `none` |
 | `sfx` | `false` = scene ini tanpa efek suara elemen (pop/ting/tick/dentum). Whoosh transisi diatur `sfx` di config video |
+| `sync` | `'auto'` = isi scene data muncul saat labelnya diucapkan narasi; `false` = jeda bergiliran. Default dari `motion.sync` video. Lihat *Sinkron isi & keterbacaan* |
 
 Sebagian besar scene juga menerima **judul standar**: `eyebrow`, `title`, `highlight` (kata bergradien), `subtitle`.
 
@@ -94,6 +95,35 @@ Opsional, lewat `watermark` di seri atau config video: pil kecil logo + nama bra
 - `position`: `top-left` `top` `top-right` `bottom-left` `bottom` `bottom-right`. Default `top-right`; video dengan
   `overlay` (HUD di atas) → `bottom` (di bawah subtitle).
 - Memudar masuk di awal dan hilang di scene penutup `cta` (kecuali `outro: true`). Template seri: `watermark: false` per video.
+
+## Sinkron isi & keterbacaan
+Opsional — tanpa ini video tampil seperti dulu. Disarankan untuk video bernarasi vertikal (pasang sekali di seri):
+`motion: { sync: 'auto' }, legibility: 'mobile'`.
+
+- **Sinkron isi ke narasi** (`motion.sync: 'auto'` di video/seri, atau `sync` per scene): kartu `features`, angka `stats`,
+  batang `chart`, baris `comparison`, langkah `timeline`, baris `calculation` muncul **saat labelnya diucapkan**
+  (0,15 dtk lebih awal), berurutan maju. Dicocokkan per kata (≥ 3 huruf, bukan kata umum; awalan ≥ 4 huruf: "premi" ↔
+  "preminya"). Item yang labelnya tidak disebut menyusul 0,35 dtk setelah item sebelumnya.
+  Per item **`at`** (detik atau kata narasi, mis. `{ label: 'UBS', value: 7.89, at: 'UBS' }`) selalu menang, juga tanpa `sync`.
+  Angka: `CUE_SYNC` (`src/config/animation.ts`). Tulis narasi yang menyebut label persis seperti di layar.
+- **`legibility: 'mobile'`** (video, seri, atau per video seri): `type.label`/`caption`/`body` minimal 32/36/38 px
+  (basis 1080) — isi tabel, label grafik, keterangan kartu; teks HUD/catatan (`panel`, `meters`, `labels`, `note`, `cards`
+  sumber, label peta) minimal 30 px; catatan `note` dibatasi area aman; dan **jeda baca 0,6 dtk** setelah narasi selesai
+  sebelum elemen keluar (video ±0,6 dtk/scene lebih panjang). Angka: `LEGIBILITY` (`src/config/typography.ts`).
+  Komponen baru: ukuran teks kecil = `small(type.label * 0.8)` dari `useTheme()`.
+  ⚠ Teks lebih besar bisa terbungkus: selalu cek dengan `npm run pratinjau` (mis. `note` > 40 huruf menimpa `stamp`).
+
+## QC otomatis
+| Perintah | Memeriksa | Biaya |
+|---|---|---|
+| `npm run cek` | config: aset, cue, highlight, panjang teks & label data, scene kosong, hook > 3,5 dtk, tipe sama berturut-turut, teks layar > 4 kata/dtk, narasi basi | detik |
+| `npm run pratinjau -- <ID>` | hasil render (still hook + per scene, skala 0,5): ✗ keluar frame · terpotong wadah · teks bertumpuk; ! zona UI platform (`SAFE_AREA`) · huruf < 30 px; resolusi/rasio | ±10–20 dtk per video 2D (`world` ber-`.glb` jauh lebih lama) |
+
+Hasil pratinjau: `out/pratinjau/<ID>/` (jpg per scene, `laporan.md`, `index.html` lembar kontak). Exit 1 bila ada ✗
+(`--ketat`: juga peringatan). Di GitHub Actions otomatis (input `pratinjau`) → artifact + ringkasan run.
+Tetap perlu mata manusia: daya tarik hook, kejelasan cerita, ritme, warna, kealamian suara, kebenaran data.
+Pemeriksa: `src/core/QualityCheck.tsx` (aktif hanya dengan input props `qc: true`; lapisan `data-qc="overlay"` —
+HUD, subtitle, watermark — tidak diperiksa zona UI/huruf kecil).
 
 ## Gerak sepanjang scene
 Semua video otomatis punya: **kamera** (zoom/geser pelan + background parallax), **idle** (kartu, ikon, angka, badge "bernapas" setelah muncul) dan **keluar** (elemen memudar ke atas bergiliran sebelum transisi).

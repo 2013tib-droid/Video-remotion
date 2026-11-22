@@ -70,7 +70,7 @@ const Stage: React.FC<{ pose: CameraPose; sky: string; ground: string | null; in
 export const WorldSceneView: React.FC<SceneProps<WorldScene>> = ({ scene }) => {
   const frame = useCurrentFrame();
   const { fps, width: W, height: H } = useVideoConfig();
-  const { theme, safe, px, type, space } = useTheme();
+  const { theme, safe, px, type, small, mobile, space } = useTheme();
   const motion = useSceneMotion();
   const cue = useCue();
   const exit = useSceneExit(0.4);
@@ -254,6 +254,7 @@ export const WorldSceneView: React.FC<SceneProps<WorldScene>> = ({ scene }) => {
             left: 0,
             right: 0,
             bottom: safe.bottom,
+            padding: `0 ${safe.x}px`,
             display: 'flex',
             justifyContent: 'center',
             opacity: interpolate(t, [0.4, 0.9], [0, 0.85], clamp) * (1 - exit),
@@ -266,8 +267,10 @@ export const WorldSceneView: React.FC<SceneProps<WorldScene>> = ({ scene }) => {
               background: dark ? 'rgba(0,0,0,0.6)' : 'rgba(20,20,20,0.78)',
               color: '#ffffff',
               fontFamily: theme.fonts.mono,
-              fontSize: type.label * 0.75,
-              letterSpacing: '0.14em',
+              fontSize: small(type.label * 0.75),
+              textAlign: 'center',
+              // Mode mobile: huruf lebih besar → tracking lebih rapat agar tetap satu baris.
+              letterSpacing: mobile ? '0.02em' : '0.14em',
               textTransform: 'uppercase',
             }}
           >

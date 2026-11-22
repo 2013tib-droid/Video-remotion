@@ -29,6 +29,7 @@ import {
 import { ThemeProvider, resolveTheme, type Theme } from '../themes';
 import { ExplainerOverlay, OVERLAY_LAYOUT } from './ExplainerOverlay';
 import { Music } from './Music';
+import { QualityCheck } from './QualityCheck';
 import { Watermark } from './Watermark';
 import { NARRATION_LEAD, resolveClip } from './narration';
 import { computeTimeline } from './timeline';
@@ -91,6 +92,7 @@ export const MotionVideo: React.FC<MotionVideoProps> = ({ config }) => {
         exitStart: exitOn && exitStart > fps ? exitStart : null,
         energy,
         camera: cam === 'auto' ? CAMERA_MOVES[i % CAMERA_MOVES.length] : cam,
+        sync: (scene.sync ?? config.motion?.sync) === 'auto',
       };
     });
   }, [config, theme, timeline, fps]);
@@ -129,7 +131,7 @@ export const MotionVideo: React.FC<MotionVideoProps> = ({ config }) => {
   }, [clips, config.id]);
 
   return (
-    <ThemeProvider theme={theme} format={config.format ?? DEFAULT_FORMAT} insets={insets}>
+    <ThemeProvider theme={theme} format={config.format ?? DEFAULT_FORMAT} insets={insets} legibility={config.legibility}>
       <AbsoluteFill style={{ background: theme.colors.background }}>
         <SfxProvider value={sfx}>
         <TransitionSeries>
@@ -175,6 +177,7 @@ export const MotionVideo: React.FC<MotionVideoProps> = ({ config }) => {
           ) : null,
         )}
         <Music audio={config.audio} narrated={config.scenes.some((sc) => sc.narration)} />
+        <QualityCheck format={config.format ?? DEFAULT_FORMAT} />
       </AbsoluteFill>
     </ThemeProvider>
   );

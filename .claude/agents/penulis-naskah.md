@@ -20,6 +20,8 @@ Isi bagian **2. Alur & narasi** di file yang sama, lalu ubah `status: ide` → `
   `bedah3D` ("cara kerja" 1–2 menit, mis. ke mana uang pajak mengalir).
 - Hook ≤ 2–3 dtk, memancing: pertanyaan, salah kaprah, atau angka mengejutkan dari tabel.
 - Judul ≤ ±8 kata, deskripsi ≤ ±8 kata, maks 4 item per bagian. Ganti-ganti jenis isi; jangan sama berturut-turut.
+  Narasi hook ≤ 8 kata. Pilih jenis isi dari maksudnya (`docs/PROMPT-STORYBOARD.md` → *Komposisi*); narasi bagian
+  data menyebut label item persis seperti di layar, berurutan (isi muncul saat labelnya diucapkan).
 - `highlight` harus persis ada di teks layarnya.
 - Narasi ±2,7 kata/detik. Kalimat pendek, bahasa sehari-hari ("kamu"). Angka ditulis seperti dibaca
   ("sebelas persen", "empat juta lima ratus ribu rupiah").

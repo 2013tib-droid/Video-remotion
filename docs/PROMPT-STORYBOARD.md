@@ -12,6 +12,34 @@ Tips: jangan minta AI lain menulis TypeScript; kirim ke Claude Code hanya versi 
 Atau simpan naskahnya di repo: tempel `naskah/_template/video.md` sebagai BRIEF, simpan hasilnya ke `naskah/<brand>/<video>.md`
 (status `final`), lalu cukup bilang ke Claude Code "buat video dari naskah itu" (lihat `naskah/README.md`).
 
+## Komposisi
+Pilih bentuk visual dari **maksud** informasinya, bukan dari kebiasaan. Dua bagian berturut-turut bertipe sama →
+`npm run cek` memberi peringatan (kecuali scene bersambung: `world` `irisan` `words` `statement` `question`).
+
+| Maksud | Isi `kontenHarian` | Tipe scene | Catatan |
+|---|---|---|---|
+| Fakta/angka mengejutkan (hook) | `kata` | `words` | angka jadi kata sorotan; ≤ 8 kata |
+| Satu angka penting | `angka` (1 item) | `stats` | ukuran display; jangan 3 angka setara berulang |
+| Perbandingan 2–6 nilai sejenis | `grafik` | `chart` | label ≤ 22 huruf; `sorot` pemenang |
+| Perbandingan beberapa atribut | `banding` | `comparison` | ≤ 3 kolom, sel ≤ 16 huruf |
+| Perubahan / simulasi angka | `hitung` | `calculation` | atau `scene: { type: 'irisan', panel }` untuk visual |
+| Sebab → akibat, urutan | `langkah` | `timeline` | 2–4 langkah; scene manual `relation` untuk A → B |
+| Daftar alasan / faktor | `poin` | `features` | ≤ 4 kartu |
+| Lokasi | `peta` | `map` | |
+| Kesimpulan | `kesimpulan` / `teks` | `statement` | 1–2 baris, + `stamp` di `irisan` untuk putusan |
+| Ajakan | penutup seri | `cta` | |
+
+**Hook (≤ 3 dtk narasi, dicek otomatis)**: angka + konsekuensi ("Rp400 ribu hilang sehari"), asumsi yang dibantah
+("Emas dunia turun 8%. Kok di sini tidak?"), kontras dua nilai, atau kesalahan umum. Visual utama tampil < 0,5 dtk;
+janji jawabannya harus dibayar di video (tanpa clickbait).
+
+**Alur cerita**: hook → konteks → konflik → bukti data → penjelasan → putusan → ajakan. Taruh "re-hook" di ±40%
+durasi ("Tapi ada yang aneh…"). Ganti tipe visual tiap ±5–8 dtk, tetapi jangan lebih cepat dari waktu baca
+(≤ 4 kata layar per detik tampil — dicek otomatis).
+
+**Sinkron**: dengan `motion: { sync: 'auto' }` di seri, kartu/batang/baris muncul saat labelnya **diucapkan** —
+jadi sebut label persis seperti di layar ("Galeri24, sekitar enam persen…"), berurutan dari atas ke bawah.
+
 ---
 
 ## Prompt (salin mulai dari sini)
@@ -80,7 +108,14 @@ Isian:
 === ATURAN ===
 - Bahasa Indonesia sehari-hari, kalimat pendek. Judul ≤ ±8 kata, deskripsi ≤ ±8 kata.
 - Hook harus menghentikan scroll dalam 2 detik: pertanyaan, angka mengejutkan, atau pernyataan berani.
-- Jangan pakai jenis bagian yang sama dua kali berturut-turut.
+  Narasi hook ≤ 8 kata (≤ 3 detik). Pola: angka + konsekuensi · asumsi yang dibantah · kontras dua nilai · kesalahan umum.
+  Tanpa clickbait: jawabannya harus ada di video.
+- Jangan pakai jenis bagian yang sama dua kali berturut-turut. Pilih jenis dari maksudnya: fakta mengejutkan → kata;
+  satu angka → angka (1 item); banding nilai sejenis → grafik; banding atribut → banding; simulasi → hitung;
+  sebab-akibat/urutan → langkah; alasan → poin; kesimpulan → teks.
+- Alur: hook → konteks → konflik → bukti data → penjelasan → putusan → ajakan; beri "re-hook" di tengah.
+- Di narasi bagian data, sebut label item persis seperti di layar dan berurutan (isi muncul saat labelnya diucapkan).
+- Teks layar ≤ 4 kata per detik tampil; label grafik ≤ 22 huruf, sel tabel ≤ 16 huruf, label angka ≤ 40 huruf.
 - Narasi total 60–110 kata untuk video 30–45 detik (±2,7 kata/detik). Tulis angka di narasi dengan cara dibaca
   ("5,47 persen"). Singkatan yang dieja: daftar di "lexicon" (mis. PDB = Pe De Be).
 - Angka/fakta harus dari brief atau sumber yang saya sebut. Tidak ada → tulis [ISI ANGKA], jangan mengarang.

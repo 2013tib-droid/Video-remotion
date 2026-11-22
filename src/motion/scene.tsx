@@ -25,6 +25,8 @@ export interface SceneMotion {
   exitStart: number | null;
   energy: MotionEnergy;
   camera: CameraMove | 'none';
+  /** Isi scene data muncul saat labelnya diucapkan narasi (`motion.sync: 'auto'`). */
+  sync?: boolean;
 }
 
 const SceneMotionContext = createContext<SceneMotion | null>(null);

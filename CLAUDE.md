@@ -22,14 +22,19 @@ Repo ini **framework animasi**, bukan satu video. Video baru = **satu file data*
 4. Bila ada `narasi`: `npm run narasi -- <ID video>` (default Edge TTS, butuh `pip install edge-tts`), lalu commit
    `public/narration/<ID>/` + `<video>.narration.json`. Tanpa langkah ini video bisu. Atau jalankan workflow GitHub
    **Narasi & Render** (`.github/workflows/narasi-render.yml`) — narasi + render + MP4 di Actions.
-5. `npm run cek` (typecheck + periksa isi: highlight, aset, cue, narasi). Selesai. **Jangan render kecuali diminta.**
+5. `npm run cek` (typecheck + periksa isi: highlight, aset, cue, narasi, panjang label, hook, ritme, waktu baca), lalu
+   `npm run pratinjau -- <ID>` (still per scene + QC tata letak, ±20 dtk; sesi cloud: `REMOTION_BROWSER_EXECUTABLE=/opt/pw-browsers/chromium`)
+   dan lihat gambarnya. Perbaiki semua ✗. Selesai. **Jangan render kecuali diminta.**
 
 Yang boleh diubah untuk tugas video: `src/projects/**`, `naskah/**`, `public/brands/<brand>/`. Jangan membaca `src/components`,
 `src/scenes/*Scene*`, `src/core`, `src/motion` — tidak diperlukan.
 
 ## Aturan isi
 - Bahasa Indonesia kecuali diminta lain. Kalimat pendek: judul ≤ ±8 kata, deskripsi ≤ ±8 kata, maks 4 item per scene.
-- Hook ≤ 2–3 detik dan memancing; ganti-ganti jenis bagian (jangan tipe yang sama berturut-turut).
+- Hook ≤ 2–3 detik dan memancing; ganti-ganti jenis bagian (jangan tipe yang sama berturut-turut). Pilih komposisi dari
+  maksud informasinya: `docs/PROMPT-STORYBOARD.md` → *Komposisi*.
+- Video bernarasi vertikal: pasang di seri `motion: { sync: 'auto' }` (isi muncul saat disebut — sebut label persis seperti
+  di layar) dan `legibility: 'mobile'` (teks pendukung terbaca di ponsel + jeda baca).
 - Angka/fakta harus dari pengguna atau sumber yang disebut; jangan mengarang.
 - `highlight` harus persis ada di judulnya. ID video: `Brand-Jenis`, unik (template seri: `<idPrefix>-<slug>`).
 - Ikon: emoji (otomatis jadi ikon garis beranimasi), `line:<nama>`, `draw:<file.svg>`, Lottie `.json`, atau path gambar.
@@ -54,14 +59,19 @@ Yang boleh diubah untuk tugas video: `src/projects/**`, `naskah/**`, `public/bra
   Aset kecil yang harus ikut push taruh di luar `media/`. `public/narration/**`, `public/sfx/**`, `public/music/**` file git biasa.
 
 ## Perintah
-`npm run cek` · `npm run typecheck` · `npm run narasi -- <ID|config.ts>` · `npm run model -- <file.glb>` (nama bagian model 3D) · `npm run peta -- <nama> <lat> <lon> [radius]` (kota dari OSM) · `npm run studio` · `npm run render:list` ·
+`npm run cek` · `npm run pratinjau -- <ID> [--scale=0.5] [--ketat]` · `npm run typecheck` · `npm run narasi -- <ID|config.ts>` · `npm run model -- <file.glb>` (nama bagian model 3D) · `npm run peta -- <nama> <lat> <lon> [radius]` (kota dari OSM) · `npm run studio` · `npm run render:list` ·
 `npm run render:all -- <filter> [--scale=0.5]` · `npx remotion render <ID> out/<ID>.mp4`
 
 ## Mengubah framework (hanya bila diminta animasi/efek/scene/template baru)
 Framework sudah punya: kamera + idle + animasi keluar, tipografi kinetik, 15 transisi + `mix`, ikon tergambar/Lottie, SFX otomatis, musik latar, watermark,
-20 tipe scene (termasuk `world` = dunia 3D: kamera terbang, tembus pandang, label menempel, model `.glb`, HUD data: strip angka bersumber, panel batang, panel layar gelap, penanda ukuran, cap 19 tipe scene (termasuk `world` = dunia 3D: kamera terbang, tembus pandang, label menempel, model `.glb`, HUD data: strip angka bersumber, panel batang, penanda ukuran, cap putusan), narasi + subtitle. kartu putusan; dan `irisan` = irisan teknis 2D beraksir per bahan), narasi + subtitle. Sebelum menambah apa pun baca `docs/KATALOG-SCENE.md` (apa yang ada) dan `docs/MEMPERLUAS.md` (cara menambah).
+20 tipe scene (termasuk `world` = dunia 3D: kamera terbang, tembus pandang, label menempel, model `.glb`, HUD data: strip angka
+bersumber, panel batang, panel layar gelap, penanda ukuran, cap putusan, kartu putusan; dan `irisan` = irisan teknis 2D beraksir
+per bahan), narasi + subtitle, sinkron isi ke narasi (`sync`/`at`), keterbacaan ponsel (`legibility`), QC otomatis (`cek`,
+`pratinjau`). Sebelum menambah apa pun baca `docs/KATALOG-SCENE.md` (apa yang ada) dan `docs/MEMPERLUAS.md` (cara menambah).
 - Pasang di level framework agar semua video ikut; properti baru harus **opsional** dengan default aman (config lama tetap valid).
 - Warna dari `useTheme()`, ukuran via `px()`, tanpa angka spring mentah, waktu dalam detik, deterministik dari `useCurrentFrame()`
   (tanpa `Math.random()`/`Date`), tidak mengganggu keterbacaan teks. Hindari transisi shader (rawan gagal render).
+  Teks kecil (label × faktor < 1) lewat `small()` dari `useTheme()`; isi berurutan menerima `delays` dari `useItemTimes()`.
+- Uji regresi: `npm run pratinjau` video yang ada sebelum & sesudah perubahan — still harus identik bila properti baru tidak dipakai.
 - Video referensi baru dari pemilik → bedah jadi bagian baru di `docs/REFERENSI.md` (pola → cara membuat → yang belum ada).
 - Template/scene/properti baru → perbarui `docs/KATALOG-SCENE.md`, `docs/PROMPT-STORYBOARD.md`, `docs/CHANGELOG.md`.

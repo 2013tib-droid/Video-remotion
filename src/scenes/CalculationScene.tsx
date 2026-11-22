@@ -1,6 +1,6 @@
 import React from 'react';
 import { CounterAnimation, Pill, Surface } from '../components';
-import { Reveal, formatValue, useStagger } from '../motion';
+import { Reveal, formatValue, useItemTimes, useStagger } from '../motion';
 import { useTheme } from '../themes';
 import { CONTENT_DELAY, SceneLayout, SceneTitle } from './SceneLayout';
 import type { CalculationScene } from './types';
@@ -9,7 +9,11 @@ import type { SceneProps } from './registry-types';
 export const CalculationSceneView: React.FC<SceneProps<CalculationScene>> = ({ scene }) => {
   const { theme, type, px, space } = useTheme();
   const stagger = useStagger('relaxed');
-  const totalDelay = stagger(scene.lines.length, CONTENT_DELAY) + 0.2;
+  const delays = useItemTimes(
+    scene.lines.map((l) => ({ at: l.at, text: l.label })),
+    (i) => stagger(i, CONTENT_DELAY),
+  );
+  const totalDelay = delays ? Math.max(...delays) + (stagger(1) - stagger(0)) + 0.2 : stagger(scene.lines.length, CONTENT_DELAY) + 0.2;
   const fmt = { prefix: scene.prefix, suffix: scene.suffix };
   return (
     <SceneLayout background={scene.background}>
@@ -18,7 +22,7 @@ export const CalculationSceneView: React.FC<SceneProps<CalculationScene>> = ({ s
         <Surface padding={52} radius="lg" elevated>
           <div style={{ display: 'flex', flexDirection: 'column', gap: px(22), fontFamily: theme.fonts.body, fontSize: type.body }}>
             {scene.lines.map((l, i) => (
-              <Reveal key={i} delay={stagger(i, CONTENT_DELAY)} preset="slideLeft">
+              <Reveal key={i} delay={delays?.[i] ?? stagger(i, CONTENT_DELAY)} preset="slideLeft">
                 <div style={{ display: 'flex', justifyContent: 'space-between', gap: px(24) }}>
                   <span style={{ color: theme.colors.muted }}>{l.label}</span>
                   <span

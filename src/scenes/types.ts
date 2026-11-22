@@ -43,6 +43,12 @@ export interface SceneBase {
   highlightStyle?: HighlightStyle;
   /** `false` = scene ini tanpa efek suara elemen (pop/ting/tick). Whoosh transisi diatur config `sfx`. */
   sfx?: boolean;
+  /**
+   * `auto` = isi scene data (features, stats, chart, comparison, timeline, calculation) muncul saat
+   * labelnya diucapkan narasi; `false` = jeda bergiliran. Default dari `motion.sync` video.
+   * Item juga bisa diberi `at` (detik atau kata narasi) sendiri — selalu menang.
+   */
+  sync?: 'auto' | false;
 }
 
 /**
@@ -112,7 +118,7 @@ export interface FeaturesScene extends SceneBase, SceneHeading {
 /** Angka-angka statistik yang menghitung naik. */
 export interface StatsScene extends SceneBase, SceneHeading {
   type: 'stats';
-  stats: { value: number; prefix?: string; suffix?: string; decimals?: number; label: string }[];
+  stats: { value: number; prefix?: string; suffix?: string; decimals?: number; label: string; /** Muncul saat (detik / kata narasi). */ at?: Cue }[];
 }
 
 /** Grafik batang. */
@@ -159,7 +165,7 @@ export interface DeviceScene extends SceneBase, SceneHeading {
 /** Perhitungan: baris-baris nilai lalu total besar (hemat, ROI, harga). */
 export interface CalculationScene extends SceneBase, SceneHeading {
   type: 'calculation';
-  lines: { label: string; value: number; /** Tampilkan sebagai pengurang (−). */ negative?: boolean }[];
+  lines: { label: string; value: number; /** Tampilkan sebagai pengurang (−). */ negative?: boolean; /** Muncul saat (detik / kata narasi). */ at?: Cue }[];
   total: { label: string; value: number };
   prefix?: string;
   suffix?: string;
