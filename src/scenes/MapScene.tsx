@@ -40,7 +40,7 @@ function fit(box: Box, vp: { x: number; y: number; w: number; h: number }): View
 export const MapSceneView: React.FC<SceneProps<MapScene>> = ({ scene }) => {
   const frame = useCurrentFrame();
   const { fps, width: W, height: H } = useVideoConfig();
-  const { theme, safe, px, type, isPortrait } = useTheme();
+  const { theme, safe, px, type, small, isPortrait } = useTheme();
   const motion = useSceneMotion();
   const cue = useCue();
   const exit = useSceneExit(0.6);
@@ -321,7 +321,7 @@ export const MapSceneView: React.FC<SceneProps<MapScene>> = ({ scene }) => {
                   {p.label ?? p.place}
                 </span>
                 {p.value ? (
-                  <span style={{ fontFamily: theme.fonts.body, fontWeight: theme.fontWeights.strong, fontSize: type.caption * 0.95, color: c.primary, lineHeight: 1.2 }}>
+                  <span style={{ fontFamily: theme.fonts.body, fontWeight: theme.fontWeights.strong, fontSize: small(type.caption * 0.95), color: c.primary, lineHeight: 1.2 }}>
                     {p.value}
                   </span>
                 ) : null}

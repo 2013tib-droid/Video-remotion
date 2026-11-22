@@ -2,6 +2,30 @@
 
 Perubahan framework yang memengaruhi semua video. Entri terbaru di atas.
 
+## 2026-11-22 — Kualitas: QC otomatis, sinkron isi ke narasi, keterbacaan ponsel
+
+Fase 0 + 1 audit kualitas. Semua properti baru **opsional**; tanpa properti baru, video lama identik
+(diverifikasi: still per scene `spread-emas-antam-comparison` sama byte-per-byte sebelum/sesudah).
+
+- **`npm run pratinjau -- <ID>`** (`scripts/pratinjau.mjs`): still "hook" (0,6 dtk) + satu still per scene tepat sebelum
+  elemen keluar, skala 0,5, ±10–20 dtk per video 2D. Pemeriksa `src/core/QualityCheck.tsx` (aktif hanya dengan input
+  `qc: true`, tidak mengubah frame) mengukur setiap teks terlihat: ✗ keluar frame · terpotong wadah · bertumpuk
+  (kecuali tertutup kartu buram), ! zona UI platform (`SAFE_AREA`) · huruf < `LEGIBILITY.minFontQc` (30 px basis 1080).
+  Hasil `out/pratinjau/<ID>/` (jpg, `laporan.md`, `index.html`); exit 1 bila ada ✗ (`--ketat`: juga peringatan).
+- **`npm run cek` diperluas**: isi scene data kosong (✗), timeline gagal (✗); label grafik/tabel/angka/langkah/kalkulasi
+  & `note` terlalu panjang, hook bernarasi > 3,5 dtk, dua scene bertipe sama berturut-turut (kecuali `world` `irisan`
+  `words` `statement` `question`), teks layar > 4 kata/dtk tampil, waktu kata narasi basi (→ `--retime`).
+- **Sinkron isi ke narasi**: `motion: { sync: 'auto' }` (video/seri) atau `sync: 'auto' | false` (scene) — kartu
+  `features`, angka `stats`, batang `chart`, baris `comparison`, langkah `timeline`, baris `calculation` muncul saat
+  labelnya diucapkan (`CUE_SYNC` di `config/animation.ts`). Per item `at` (detik / kata narasi) selalu menang.
+  Hook `useItemTimes()` di `src/motion/cues.tsx`; komponen menerima `delays?: number[]`.
+- **`legibility: 'mobile'`** (video/seri/`SeriesVideoBase`): batas bawah `type.label/caption/body` (32/36/38 px basis
+  1080), teks HUD/catatan ≥ 30 px lewat `useTheme().small()`, catatan `irisan`/`world` dibatasi area aman + tracking rapat,
+  dan jeda baca 0,6 dtk setelah narasi sebelum elemen keluar (`LEGIBILITY` di `config/typography.ts`).
+- Workflow **Narasi & Render**: input `pratinjau` (default aktif) → still + laporan di artifact `pratinjau-<n>` dan di
+  ringkasan run; galat tata letak tidak menghentikan render.
+- `scripts/lib/configs.mjs` kini juga mengekspor `computeTimeline` & `SCENE_MOTION_TIMING` (dipakai `cek` & `pratinjau`).
+
 ## 2026-11-22 — Edge TTS + workflow GitHub Actions
 
 - `npm run narasi` kini default **Edge TTS** (gratis, tanpa key) lewat CLI `edge-tts` (`pip install edge-tts`,

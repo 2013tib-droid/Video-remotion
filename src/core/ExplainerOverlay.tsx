@@ -51,7 +51,7 @@ export const ExplainerOverlay: React.FC<{ config: VideoConfig; timeline: Timelin
   while (chapter && chapterStart > 0 && config.scenes[chapterStart - 1].chapter?.title === chapter.title) chapterStart--;
 
   return (
-    <AbsoluteFill style={{ pointerEvents: 'none' }}>
+    <AbsoluteFill style={{ pointerEvents: 'none' }} data-qc="overlay">
       <StatusHud
         top={OVERLAY_LAYOUT.hudTop}
         brand={overlay.brand === false ? undefined : config.brand}

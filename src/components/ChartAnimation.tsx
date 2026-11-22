@@ -6,6 +6,8 @@ import { useTheme } from '../themes';
 export interface ChartDatum {
   label: string;
   value: number;
+  /** Batang tumbuh saat: detik dari awal scene atau kata narasi. */
+  at?: string | number;
 }
 
 export interface ChartAnimationProps {
@@ -19,6 +21,8 @@ export interface ChartAnimationProps {
   suffix?: string;
   decimals?: number;
   delay?: number;
+  /** Waktu tumbuh per batang (detik). Kosong = bergiliran dari `delay`. */
+  delays?: number[];
   /** Tinggi area chart vertikal (px basis 1080). */
   height?: number;
   compact?: boolean;
@@ -100,13 +104,14 @@ export const ChartAnimation: React.FC<ChartAnimationProps> = (props) => {
   const { theme, type, px, space } = useTheme();
   const stagger = useStagger();
   const max = Math.max(...data.map((d) => d.value), 1);
-  const lastDelay = stagger(data.length, delay);
+  const delays = props.delays;
+  const lastDelay = delays?.length ? Math.max(...delays) + (stagger(1) - stagger(0)) : stagger(data.length, delay);
   const bars = data.map((d, i) => (
     <Bar
       key={i}
       datum={d}
       ratio={d.value / max}
-      delay={stagger(i, delay)}
+      delay={delays?.[i] ?? stagger(i, delay)}
       highlighted={highlight === i}
       dimmed={highlight !== undefined && highlight !== i}
       props={{ ...props, orientation }}

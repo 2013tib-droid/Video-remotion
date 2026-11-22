@@ -281,7 +281,7 @@ const PartView: React.FC<{ part: IrisanPart; ctx: DrawCtx; offset: Vec2; k: stri
 export const IrisanSceneView: React.FC<SceneProps<IrisanScene>> = ({ scene }) => {
   const frame = useCurrentFrame();
   const { fps, width: W, height: H } = useVideoConfig();
-  const { theme, safe, px, type, space } = useTheme();
+  const { theme, safe, px, type, small, mobile, space } = useTheme();
   const motion = useSceneMotion();
   const cue = useCue();
   const exit = useSceneExit(0.4);
@@ -404,7 +404,7 @@ export const IrisanSceneView: React.FC<SceneProps<IrisanScene>> = ({ scene }) =>
               background: 'rgba(30,30,30,0.85)',
               color: '#ffffff',
               fontFamily: theme.fonts.mono,
-              fontSize: type.label * 0.75,
+              fontSize: small(type.label * 0.75),
               letterSpacing: '0.14em',
               textTransform: 'uppercase',
             }}
@@ -451,7 +451,7 @@ export const IrisanSceneView: React.FC<SceneProps<IrisanScene>> = ({ scene }) =>
               border: `${px(3)}px solid #1a1a1a`,
               fontFamily: theme.fonts.heading,
               fontWeight: theme.fontWeights.heading,
-              fontSize: type.label * 0.92,
+              fontSize: small(type.label * 0.92),
               letterSpacing: '0.04em',
               textTransform: 'uppercase',
               whiteSpace: 'nowrap',
@@ -477,8 +477,9 @@ export const IrisanSceneView: React.FC<SceneProps<IrisanScene>> = ({ scene }) =>
       ) : null}
 
       {scene.note ? (
-        <div style={{ position: 'absolute', left: 0, right: 0, bottom: safe.bottom, display: 'flex', justifyContent: 'center', opacity: interpolate(t, [0.4, 0.9], [0, 0.85], clamp) * (1 - exit) }}>
-          <div style={{ padding: `${px(8)}px ${px(20)}px`, borderRadius: px(8), background: 'rgba(20,20,20,0.78)', color: '#ffffff', fontFamily: theme.fonts.mono, fontSize: type.label * 0.75, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+        <div style={{ position: 'absolute', left: 0, right: 0, bottom: safe.bottom, padding: `0 ${safe.x}px`, display: 'flex', justifyContent: 'center', opacity: interpolate(t, [0.4, 0.9], [0, 0.85], clamp) * (1 - exit) }}>
+          {/* Mode mobile: huruf lebih besar → tracking lebih rapat agar tetap satu baris. */}
+          <div style={{ padding: `${px(8)}px ${px(20)}px`, borderRadius: px(8), background: 'rgba(20,20,20,0.78)', color: '#ffffff', fontFamily: theme.fonts.mono, fontSize: small(type.label * 0.75), textAlign: 'center', letterSpacing: mobile ? '0.02em' : '0.14em', textTransform: 'uppercase' }}>
             {scene.note}
           </div>
         </div>

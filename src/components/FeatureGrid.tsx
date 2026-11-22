@@ -8,10 +8,12 @@ export interface FeatureGridProps {
   /** Kosong = otomatis berdasarkan format & jumlah fitur. */
   columns?: number;
   delay?: number;
+  /** Waktu muncul per kartu (detik), mis. dari `useItemTimes`. Kosong = bergiliran dari `delay`. */
+  delays?: number[];
 }
 
 /** Grid fitur dengan stagger otomatis. Layout menyesuaikan format video. */
-export const FeatureGrid: React.FC<FeatureGridProps> = ({ features, columns, delay = 0 }) => {
+export const FeatureGrid: React.FC<FeatureGridProps> = ({ features, columns, delay = 0, delays }) => {
   const { isPortrait, space, px } = useTheme();
   const stagger = useStagger();
   const n = features.length;
@@ -28,7 +30,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({ features, columns, del
       }}
     >
       {features.map((f, i) => (
-        <FeatureCard key={i} {...f} layout={layout} delay={stagger(i, delay)} />
+        <FeatureCard key={i} {...f} layout={layout} delay={delays?.[i] ?? stagger(i, delay)} />
       ))}
     </div>
   );

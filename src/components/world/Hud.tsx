@@ -32,7 +32,7 @@ function useAppear(at: number, hideAt: number, exit: number, preset: keyof typeo
 
 /** Lencana jenis bukti: biru = data pihak lain, kuning = ilustrasi, netral = hitungan/asumsi sendiri. */
 export const SourceBadge: React.FC<{ text: string; tone?: WorldSourceTone; scale?: number }> = ({ text, tone = 'data', scale = 1 }) => {
-  const { theme, px, type } = useTheme();
+  const { theme, px, type, small } = useTheme();
   const c = theme.colors;
   const look = {
     data: { background: c.primary, color: c.onPrimary },
@@ -47,7 +47,7 @@ export const SourceBadge: React.FC<{ text: string; tone?: WorldSourceTone; scale
         borderRadius: px(8),
         fontFamily: theme.fonts.mono,
         fontWeight: 700,
-        fontSize: type.label * 0.85 * scale,
+        fontSize: small(type.label * 0.85) * scale,
         letterSpacing: '0.12em',
         textTransform: 'uppercase',
         whiteSpace: 'nowrap',
@@ -95,7 +95,7 @@ export const WorldReadoutView: React.FC<{ readout: WorldReadout; sceneSec: numbe
 
 /** Panel batang ukur: tiap batang bergerak dari `value` ke `to` saat cue-nya. */
 export const WorldMeterView: React.FC<{ meter: WorldMeter; index: number; exit: number; color: ColorFn }> = ({ meter, index, exit, color }) => {
-  const { theme, px, type } = useTheme();
+  const { theme, px, type, small } = useTheme();
   const { fps } = useVideoConfig();
   const frame = useCurrentFrame();
   const cue = useCue();
@@ -122,7 +122,7 @@ export const WorldMeterView: React.FC<{ meter: WorldMeter; index: number; exit: 
     >
       {meter.title || meter.tag ? (
         <div style={{ display: 'flex', alignItems: 'center', gap: px(12), flexWrap: 'wrap' }}>
-          {meter.title ? <div style={{ ...mono, fontSize: type.label * 0.82, color: c.muted }}>{meter.title}</div> : null}
+          {meter.title ? <div style={{ ...mono, fontSize: small(type.label * 0.82), color: c.muted }}>{meter.title}</div> : null}
           {meter.tag ? <SourceBadge text={meter.tag} tone={meter.tone ?? 'ilustrasi'} scale={0.85} /> : null}
         </div>
       ) : null}
@@ -133,7 +133,7 @@ export const WorldMeterView: React.FC<{ meter: WorldMeter; index: number; exit: 
         if (shown <= 0.01) return null;
         return (
           <div key={j} style={{ display: 'flex', alignItems: 'center', gap: px(14), opacity: shown }}>
-            <div style={{ ...mono, fontSize: type.label * 0.85, color: c.text, minWidth: px(170) }}>{row.label}</div>
+            <div style={{ ...mono, fontSize: small(type.label * 0.85), color: c.text, minWidth: px(170) }}>{row.label}</div>
             <div style={{ flex: 1, height: px(20), borderRadius: px(10), background: c.border, overflow: 'hidden' }}>
               <div
                 style={{
@@ -144,18 +144,18 @@ export const WorldMeterView: React.FC<{ meter: WorldMeter; index: number; exit: 
                 }}
               />
             </div>
-            {row.text ? <div style={{ ...mono, fontSize: type.label * 0.85, color: color(row.color) ?? c.text, whiteSpace: 'nowrap' }}>{row.text}</div> : null}
+            {row.text ? <div style={{ ...mono, fontSize: small(type.label * 0.85), color: color(row.color) ?? c.text, whiteSpace: 'nowrap' }}>{row.text}</div> : null}
           </div>
         );
       })}
-      {meter.note ? <div style={{ fontFamily: theme.fonts.body, fontSize: type.label * 0.8, lineHeight: 1.3, color: c.muted }}>{meter.note}</div> : null}
+      {meter.note ? <div style={{ fontFamily: theme.fonts.body, fontSize: small(type.label * 0.8), lineHeight: 1.3, color: c.muted }}>{meter.note}</div> : null}
     </div>
   );
 };
 
 /** Daftar putusan ✓/✕ di dalam kartu keterangan. */
 export const WorldCardPoints: React.FC<{ points: NonNullable<WorldCard['points']>; cardStart: number }> = ({ points, cardStart }) => {
-  const { theme, px, type } = useTheme();
+  const { theme, px, type, small } = useTheme();
   const { fps } = useVideoConfig();
   const frame = useCurrentFrame();
   const cue = useCue();
@@ -175,7 +175,7 @@ export const WorldCardPoints: React.FC<{ points: NonNullable<WorldCard['points']
               gap: px(10),
               fontFamily: theme.fonts.body,
               fontWeight: theme.fontWeights.strong,
-              fontSize: type.caption * 0.9,
+              fontSize: small(type.caption * 0.9),
               lineHeight: 1.3,
               color: col,
             }}
@@ -199,7 +199,7 @@ export const WorldMeasureView: React.FC<{ measure: WorldMeasure; index: number; 
   W,
   H,
 }) => {
-  const { theme, px, type } = useTheme();
+  const { theme, px, type, small } = useTheme();
   const cue = useCue();
   const { p } = useAppear(cue(measure.at, 0.8 + index * 0.4), measure.hideAt !== undefined ? cue(measure.hideAt, Infinity) : Infinity, exit, 'snappy');
   const a = project(measure.from);
@@ -238,7 +238,7 @@ export const WorldMeasureView: React.FC<{ measure: WorldMeasure; index: number; 
           color: col,
           fontFamily: theme.fonts.mono,
           fontWeight: 700,
-          fontSize: type.label * 0.9,
+          fontSize: small(type.label * 0.9),
           whiteSpace: 'nowrap',
         }}
       >
@@ -303,7 +303,7 @@ export const HUD_COLORS = {
 
 /** Panel gelap gaya layar mesin: baris label + angka mesin tik yang bisa menghitung. */
 export const WorldPanelView: React.FC<{ panel: WorldPanel; sceneSec: number; exit: number; color: ColorFn }> = ({ panel, sceneSec, exit, color }) => {
-  const { theme, px, type } = useTheme();
+  const { theme, px, type, small } = useTheme();
   const { fps } = useVideoConfig();
   const frame = useCurrentFrame();
   const cue = useCue();
@@ -327,7 +327,7 @@ export const WorldPanelView: React.FC<{ panel: WorldPanel; sceneSec: number; exi
       }}
     >
       {panel.title ? (
-        <div style={{ ...mono, fontSize: type.label * 0.82, letterSpacing: '0.14em', textTransform: 'uppercase', color: HUD_COLORS.screenMuted }}>{panel.title}</div>
+        <div style={{ ...mono, fontSize: small(type.label * 0.82), letterSpacing: '0.14em', textTransform: 'uppercase', color: HUD_COLORS.screenMuted }}>{panel.title}</div>
       ) : null}
       {panel.rows.map((row, j) => {
         const start = cue(row.at, 0.4);
@@ -344,14 +344,14 @@ export const WorldPanelView: React.FC<{ panel: WorldPanel; sceneSec: number; exi
             {row.dot ? <div style={{ width: px(22), height: px(22), borderRadius: '50%', background: color(row.dot) ?? row.dot, border: `${px(3)}px solid ${HUD_COLORS.screenText}` }} /> : null}
             <div style={{ fontFamily: theme.fonts.heading, fontWeight: theme.fontWeights.strong, fontSize: type.caption, color: HUD_COLORS.screenText }}>{row.label}</div>
             {row.tag ? (
-              <div style={{ ...mono, fontSize: type.label * 0.7, lineHeight: 1.1, padding: `${px(4)}px ${px(8)}px`, borderRadius: px(6), background: '#d9dcd6', color: '#141414' }}>{row.tag}</div>
+              <div style={{ ...mono, fontSize: small(type.label * 0.7), lineHeight: 1.1, padding: `${px(4)}px ${px(8)}px`, borderRadius: px(6), background: '#d9dcd6', color: '#141414' }}>{row.tag}</div>
             ) : null}
             <div style={{ flex: 1 }} />
             <div style={{ ...mono, fontSize: type.caption * 1.35, color: color(row.color) ?? HUD_COLORS.screenText, whiteSpace: 'nowrap' }}>{text}</div>
           </div>
         );
       })}
-      {panel.note ? <div style={{ fontFamily: theme.fonts.mono, fontSize: type.label * 0.72, color: HUD_COLORS.screenMuted }}>{panel.note}</div> : null}
+      {panel.note ? <div style={{ fontFamily: theme.fonts.mono, fontSize: small(type.label * 0.72), color: HUD_COLORS.screenMuted }}>{panel.note}</div> : null}
     </div>
   );
 };
@@ -379,7 +379,7 @@ export const MarkedText: React.FC<{ text: string; marks?: string[] }> = ({ text,
 
 /** Kartu keterangan: `catatan` (putih), `kutipan` (kutipan + sumber), `putusan` (kuning besar). */
 export const WorldCardView: React.FC<{ card: WorldCard; p: number; start: number; color: ColorFn }> = ({ card, p, start, color }) => {
-  const { theme, px, type, space } = useTheme();
+  const { theme, px, type, small, space } = useTheme();
   const c = theme.colors;
   const gaya = card.gaya ?? 'catatan';
   const verdict = gaya === 'putusan';
@@ -421,7 +421,7 @@ export const WorldCardView: React.FC<{ card: WorldCard; p: number; start: number
           {quote ? '\u201D' : null}
         </div>
         {card.points ? <WorldCardPoints points={card.points} cardStart={start} /> : null}
-        {card.source ? <div style={{ fontFamily: theme.fonts.mono, fontSize: type.label * 0.8, color: verdict ? '#4a4310' : c.muted }}>{card.source}</div> : null}
+        {card.source ? <div style={{ fontFamily: theme.fonts.mono, fontSize: small(type.label * 0.8), color: verdict ? '#4a4310' : c.muted }}>{card.source}</div> : null}
       </div>
     </div>
   );

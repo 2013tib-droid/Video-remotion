@@ -1,5 +1,5 @@
 import type { BackgroundKind } from '../themes';
-import type { CameraSetting, FormatName, IconStyle, MotionEnergy, SfxSetting, TransitionName } from '../config';
+import type { FormatName, SfxSetting, TransitionName } from '../config';
 import type { Brand, VideoConfig } from '../core/types';
 import type { VoiceSettings } from '../core/narration';
 import type { SceneConfig } from '../scenes/types';
@@ -35,7 +35,10 @@ export interface Series {
   format?: FormatName;
   /** Default `mix` (transisi bergiliran). */
   transition?: TransitionName;
-  motion?: { energy?: MotionEnergy; camera?: CameraSetting; exit?: boolean; icons?: IconStyle };
+  /** Gerak semua video seri. `sync: 'auto'` = isi scene data muncul saat disebut narasi. */
+  motion?: VideoConfig['motion'];
+  /** `mobile` = batas bawah ukuran teks + jeda baca untuk semua video seri ini. */
+  legibility?: VideoConfig['legibility'];
   sfx?: SfxSetting;
   /** Musik latar semua video seri ini: `'tenang'` · `'semangat'` · `'korporat'` atau `{ src, volume }`. */
   audio?: VideoConfig['audio'];
@@ -71,6 +74,8 @@ export interface SeriesVideoBase {
   watermark?: VideoConfig['watermark'];
   /** Tambahan ejaan lafal khusus video ini, mis. { PDB: 'Pe De Be' }. */
   lexicon?: Record<string, string>;
+  /** Ganti keterbacaan seri untuk video ini. */
+  legibility?: VideoConfig['legibility'];
 }
 
 const BACKGROUNDS: BackgroundKind[] = ['gradient', 'pattern', 'particles'];
@@ -95,6 +100,7 @@ export function seriesConfig(
     duration: p.duration,
     transition: p.transition ?? series.transition ?? 'mix',
     motion: series.motion,
+    legibility: p.legibility ?? series.legibility,
     sfx: series.sfx,
     audio: p.audio ?? series.audio,
     watermark: p.watermark ?? series.watermark,

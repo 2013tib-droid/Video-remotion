@@ -31,7 +31,9 @@ export async function loadConfigFile(file) {
   const abs = resolve(file);
   const entry = `import * as mod from ${JSON.stringify(abs)};
 export const def = mod.default;
-export { narrationKey, splitWords } from ${JSON.stringify(resolve('src/core/narration.ts'))};`;
+export { narrationKey, splitWords } from ${JSON.stringify(resolve('src/core/narration.ts'))};
+export { computeTimeline } from ${JSON.stringify(resolve('src/core/timeline.ts'))};
+export { SCENE_MOTION_TIMING } from ${JSON.stringify(resolve('src/config/animation.ts'))};`;
   const out = await build({
     stdin: { contents: entry, resolveDir: process.cwd(), loader: 'ts' },
     bundle: true,
@@ -49,7 +51,14 @@ export { narrationKey, splitWords } from ${JSON.stringify(resolve('src/core/narr
   try {
     const mod = await import(pathToFileURL(tmp).href);
     const configs = (Array.isArray(mod.def) ? mod.def : [mod.def]).filter(isVideo);
-    return { configs, narrationKey: mod.narrationKey, splitWords: mod.splitWords, jsonPath: narrationJsonPath(file) };
+    return {
+      configs,
+      narrationKey: mod.narrationKey,
+      splitWords: mod.splitWords,
+      computeTimeline: mod.computeTimeline,
+      SCENE_MOTION_TIMING: mod.SCENE_MOTION_TIMING,
+      jsonPath: narrationJsonPath(file),
+    };
   } finally {
     rmSync(tmp, { force: true });
   }

@@ -47,7 +47,7 @@ export const Watermark: React.FC<{ config: VideoConfig; timeline: Timeline }> = 
 
   const logo = opt.logo === false ? undefined : config.brand.logo;
   return (
-    <AbsoluteFill style={{ pointerEvents: 'none' }}>
+    <AbsoluteFill style={{ pointerEvents: 'none' }} data-qc="overlay">
       <div
         style={{
           position: 'absolute',

@@ -14,7 +14,7 @@ import {
   Surface,
   TimelineAnimation,
 } from '../components';
-import { Reveal, useStagger } from '../motion';
+import { Reveal, useItemTimes, useStagger } from '../motion';
 import { useTheme } from '../themes';
 import { CONTENT_DELAY, SceneLayout, SceneTitle } from './SceneLayout';
 import type {
@@ -72,23 +72,34 @@ export const MascotSceneView: React.FC<SceneProps<MascotScene>> = ({ scene }) =>
   );
 };
 
-export const FeaturesSceneView: React.FC<SceneProps<FeaturesScene>> = ({ scene }) => (
-  <SceneLayout background={scene.background}>
-    <SceneTitle {...scene} />
-    <FeatureGrid features={scene.features} columns={scene.columns} delay={CONTENT_DELAY} />
-  </SceneLayout>
-);
+export const FeaturesSceneView: React.FC<SceneProps<FeaturesScene>> = ({ scene }) => {
+  const stagger = useStagger();
+  const delays = useItemTimes(
+    scene.features.map((f) => ({ at: f.at, text: f.title })),
+    (i) => stagger(i, CONTENT_DELAY),
+  );
+  return (
+    <SceneLayout background={scene.background}>
+      <SceneTitle {...scene} />
+      <FeatureGrid features={scene.features} columns={scene.columns} delay={CONTENT_DELAY} delays={delays} />
+    </SceneLayout>
+  );
+};
 
 export const StatsSceneView: React.FC<SceneProps<StatsScene>> = ({ scene }) => {
   const { isPortrait, space, px } = useTheme();
   const stagger = useStagger('relaxed');
+  const delays = useItemTimes(
+    scene.stats.map((s) => ({ at: s.at, text: s.label })),
+    (i) => stagger(i, CONTENT_DELAY),
+  );
   const cols = isPortrait ? (scene.stats.length === 4 ? 2 : 1) : Math.min(scene.stats.length, 4);
   return (
     <SceneLayout background={scene.background}>
       <SceneTitle {...scene} />
       <div style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: space.lg, width: '100%', maxWidth: px(1600) }}>
-        {scene.stats.map((s, i) => (
-          <CounterAnimation key={i} {...s} size={cols > 2 ? 'h2' : 'display'} delay={stagger(i, CONTENT_DELAY)} />
+        {scene.stats.map(({ at: _at, ...s }, i) => (
+          <CounterAnimation key={i} {...s} size={cols > 2 ? 'h2' : 'display'} delay={delays?.[i] ?? stagger(i, CONTENT_DELAY)} />
         ))}
       </div>
     </SceneLayout>
@@ -97,6 +108,11 @@ export const StatsSceneView: React.FC<SceneProps<StatsScene>> = ({ scene }) => {
 
 export const ChartSceneView: React.FC<SceneProps<ChartScene>> = ({ scene }) => {
   const { px } = useTheme();
+  const stagger = useStagger();
+  const delays = useItemTimes(
+    scene.data.map((d) => ({ at: d.at, text: d.label })),
+    (i) => stagger(i, CONTENT_DELAY),
+  );
   return (
     <SceneLayout background={scene.background}>
       <SceneTitle {...scene} />
@@ -111,6 +127,7 @@ export const ChartSceneView: React.FC<SceneProps<ChartScene>> = ({ scene }) => {
             suffix={scene.suffix}
             decimals={scene.decimals}
             delay={CONTENT_DELAY}
+            delays={delays}
           />
         </Surface>
       </Reveal>
@@ -118,19 +135,34 @@ export const ChartSceneView: React.FC<SceneProps<ChartScene>> = ({ scene }) => {
   );
 };
 
-export const ComparisonSceneView: React.FC<SceneProps<ComparisonScene>> = ({ scene }) => (
-  <SceneLayout background={scene.background}>
-    <SceneTitle {...scene} />
-    <ComparisonTable columns={scene.columns} rows={scene.rows} highlightColumn={scene.highlightColumn} delay={CONTENT_DELAY} />
-  </SceneLayout>
-);
+export const ComparisonSceneView: React.FC<SceneProps<ComparisonScene>> = ({ scene }) => {
+  const stagger = useStagger();
+  // Baris dicocokkan ke label baris + isinya (mis. "Selisih" atau "Rp139.000" yang dibacakan).
+  const delays = useItemTimes(
+    scene.rows.map((r) => ({ at: r.at, text: [r.label, ...r.values.filter((v) => typeof v === 'string')].join(' ') })),
+    (i) => stagger(i + 1, CONTENT_DELAY),
+  );
+  return (
+    <SceneLayout background={scene.background}>
+      <SceneTitle {...scene} />
+      <ComparisonTable columns={scene.columns} rows={scene.rows} highlightColumn={scene.highlightColumn} delay={CONTENT_DELAY} delays={delays} />
+    </SceneLayout>
+  );
+};
 
-export const TimelineSceneView: React.FC<SceneProps<TimelineScene>> = ({ scene }) => (
-  <SceneLayout background={scene.background}>
-    <SceneTitle {...scene} />
-    <TimelineAnimation steps={scene.steps} delay={CONTENT_DELAY} />
-  </SceneLayout>
-);
+export const TimelineSceneView: React.FC<SceneProps<TimelineScene>> = ({ scene }) => {
+  const stagger = useStagger('relaxed');
+  const delays = useItemTimes(
+    scene.steps.map((s) => ({ at: s.at, text: s.title })),
+    (i) => stagger(i, CONTENT_DELAY),
+  );
+  return (
+    <SceneLayout background={scene.background}>
+      <SceneTitle {...scene} />
+      <TimelineAnimation steps={scene.steps} delay={CONTENT_DELAY} delays={delays} />
+    </SceneLayout>
+  );
+};
 
 export const TestimonialSceneView: React.FC<SceneProps<TestimonialScene>> = ({ scene }) => (
   <SceneLayout background={scene.background}>
