@@ -11,6 +11,9 @@ export const harian = defineSeries({
   audio: 'tenang',
   // Ganti dengan handle kanal, mis. '@namakanal'.
   watermark: true,
+  // Video bernarasi vertikal: isi muncul saat disebut + teks pendukung terbaca di ponsel.
+  motion: { sync: 'auto' },
+  legibility: 'mobile',
   outro: {
     title: 'Follow biar nggak ketinggalan.',
     highlight: 'Follow',
