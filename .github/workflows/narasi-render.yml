@@ -1,0 +1,150 @@
+# Narasi (TTS) + render video sepenuhnya di GitHub Actions — tanpa laptop/VPS.
+#
+# Jalankan dari HP: aplikasi GitHub → Actions → "Narasi & Render" → Run workflow
+# (atau minta Claude memicunya). Isi `video` dengan ID video (boleh sebagian, mis. Harian-TipsGaji).
+#
+# Alur: narasi per scene → (simpan audio ke cabang) → render → MP4 sebagai artifact.
+# Bila narasi gagal, job BERHENTI sebelum render (tidak ada video bisu).
+#
+# Edge TTS = integrasi TIDAK RESMI (bisa berubah/dibatasi). Azure opsional:
+#   secret repo AZURE_SPEECH_KEY (+ variable AZURE_SPEECH_REGION, default southeastasia),
+#   lalu pilih tts_provider=azure atau tts_fallback=azure. Tanpa itu Azure tidak pernah dipanggil.
+name: Narasi & Render
+
+on:
+  workflow_dispatch:
+    inputs:
+      video:
+        description: 'ID video (boleh sebagian), mis. Harian-TipsGaji'
+        required: true
+        type: string
+      tts_provider:
+        description: 'Penyedia suara'
+        type: choice
+        options: [edge, azure]
+        default: edge
+      tts_fallback:
+        description: 'Cadangan bila Edge gagal (azure = memakai kuota Azure)'
+        type: choice
+        options: [tidak, azure]
+        default: tidak
+      redo:
+        description: 'Buat ulang semua klip narasi (abaikan cache)'
+        type: boolean
+        default: false
+      simpan_narasi:
+        description: 'Commit audio narasi baru ke cabang ini (cache permanen)'
+        type: boolean
+        default: true
+      render:
+        description: 'Render MP4 setelah narasi'
+        type: boolean
+        default: true
+      scale:
+        description: 'Skala render (1 = penuh, 0.5 = pratinjau cepat)'
+        type: string
+        default: '1'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: narasi-render-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  narasi-render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      VIDEO: ${{ inputs.video }}
+      SCALE: ${{ inputs.scale }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Aset media (Git LFS) hanya diperlukan untuk render.
+          lfs: ${{ inputs.render }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci --no-audit --no-fund
+
+      - uses: actions/setup-python@v5
+        if: inputs.tts_provider == 'edge'
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: scripts/requirements-tts.txt
+
+      - name: Pasang Edge TTS (tidak resmi)
+        if: inputs.tts_provider == 'edge'
+        run: pip install --upgrade -r scripts/requirements-tts.txt
+
+      # Cache audio per isi teks+suara: narasi yang tidak berubah tidak dibuat ulang,
+      # walau belum di-commit. Kunci per run agar selalu tersimpan versi terbaru.
+      - uses: actions/cache@v4
+        with:
+          path: .cache/tts
+          key: tts-${{ github.run_id }}
+          restore-keys: tts-
+
+      - name: Narasi
+        env:
+          TTS_PROVIDER: ${{ inputs.tts_provider }}
+          TTS_FALLBACK: ${{ inputs.tts_fallback == 'azure' && 'azure' || '' }}
+          AZURE_SPEECH_KEY: ${{ secrets.AZURE_SPEECH_KEY }}
+          AZURE_SPEECH_REGION: ${{ vars.AZURE_SPEECH_REGION || 'southeastasia' }}
+          REDO: ${{ inputs.redo && '--redo' || '' }}
+        run: node scripts/narrate.mjs "$VIDEO" $REDO
+
+      - name: Periksa isi video
+        run: node scripts/cek.mjs "$VIDEO"
+
+      - name: Simpan narasi ke cabang
+        if: inputs.simpan_narasi
+        run: |
+          git add -A public/narration src/projects
+          if git diff --cached --quiet; then
+            echo "Narasi tidak berubah."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Narasi: $VIDEO (${{ inputs.tts_provider }})"
+          for i in 1 2 3; do
+            git pull --rebase origin "$GITHUB_REF_NAME" && git push origin "HEAD:$GITHUB_REF_NAME" && exit 0
+            sleep $((i * 5))
+          done
+          echo "::error::Gagal push narasi ke $GITHUB_REF_NAME (cabang terlindungi?). Audio tetap tersedia di artifact."
+          exit 1
+
+      - name: Unggah audio narasi
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: narasi-${{ github.run_number }}
+          path: public/narration/
+          retention-days: 7
+          if-no-files-found: ignore
+
+      - uses: actions/cache@v4
+        if: inputs.render
+        with:
+          path: node_modules/.remotion
+          key: remotion-browser-${{ hashFiles('package-lock.json') }}
+
+      - name: Render
+        if: inputs.render
+        run: node scripts/render-all.mjs "$VIDEO" --scale="$SCALE"
+
+      - name: Unggah video
+        if: inputs.render
+        uses: actions/upload-artifact@v4
+        with:
+          name: video-${{ github.run_number }}
+          path: out/*.mp4
+          retention-days: 14
+          if-no-files-found: error

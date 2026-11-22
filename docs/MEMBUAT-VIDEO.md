@@ -56,7 +56,7 @@ Jenis isi `bagian` (tepat satu per bagian): `angka` · `poin` · `langkah` · `g
 `foto` · `peta` · `hitung` · `scene` (scene mentah apa pun). Detail field: `src/templates/KontenHarian.ts`.
 Contoh lengkap: `src/projects/harian/tips-gaji.ts` (bernarasi), `src/projects/price-atlas/iklan.ts` (iklan).
 
-- **Bersuara**: isi `narasi` → `AZURE_SPEECH_KEY=proxy-injected npm run narasi -- Harian-Inflasi-Okt26`. Subtitle & HUD otomatis.
+- **Bersuara**: isi `narasi` → `npm run narasi -- Harian-Inflasi-Okt26`. Subtitle & HUD otomatis.
 - **Periksa**: `npm run cek` (typecheck + highlight, aset, cue, narasi yang belum dirender, teks kepanjangan).
 
 ## Penjelasan 3D 1–2 menit — template `bedah3D`

@@ -103,7 +103,7 @@ for (const file of files) {
         warn.push(`${at(i, s)}: tanpa narasi di video bernarasi (akan hening)`);
       }
     });
-    if (missing) warn.push(`${missing} klip narasi belum dirender → AZURE_SPEECH_KEY=proxy-injected npm run narasi -- ${config.id}`);
+    if (missing) warn.push(`${missing} klip narasi belum dirender → npm run narasi -- ${config.id}`);
 
     errors += err.length;
     warnings += warn.length;
