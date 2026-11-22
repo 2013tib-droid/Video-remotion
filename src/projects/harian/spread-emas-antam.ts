@@ -15,8 +15,6 @@ import { harian } from './series';
  * Spread = (harga beli − buyback) / harga beli × 100%. Belum termasuk pajak & biaya; bukan real-time.
  * Sumber cek: logammulia.com · galeri24.co.id/harga-emas · hrtagold.id/en/gold-price
  */
-const REF = 'Data referensi, perlu verifikasi';
-
 const config = seriesConfig(
   harian,
   {
@@ -25,42 +23,69 @@ const config = seriesConfig(
     lexicon: { Galeri24: 'Galeri dua empat', UBS: 'U B S' },
   },
   [
-    // 1 — THE SHOCK: tipografi hentak, angka kerugian dominan.
+    // 1 — HOOK: kata menghentak, Rp400.000 menguasai layar sejak 0,75 dtk (lebih cepat dari audio).
     {
-      type: 'hero',
-      illustration: '🪙',
-      title: 'Beli Antam 1 gram? Langsung minus Rp400.000',
-      highlight: 'Rp400.000',
-      subtitle: 'Simulasi jual kembali hari yang sama',
-      textAnimation: 'slam',
-      highlightStyle: 'underline',
-      narration:
-        'Bayangin, baru beli emas Antam satu gram, kalau langsung dijual lagi, selisihnya bisa empat ratus ribu rupiah!',
+      type: 'words',
+      background: 'gradient',
+      words: [
+        { text: 'Beli', at: 0 },
+        { text: 'emas', at: 0.2 },
+        { text: 'Antam?', at: 0.4 },
+        { text: 'Rp400.000', highlight: true, at: 0.75 },
+      ],
+      flash: false,
+      caption: 'Selisih harga beli & buyback · 1 gram',
+      narration: 'Baru beli emas Antam satu gram, langsung dijual lagi? Selisihnya bisa empat ratus ribu rupiah!',
       emphasis: ['empat ratus ribu rupiah!'],
     },
-    // 2 — SPREAD EXPLAINED: kalkulasi berurutan beli → buyback → selisih.
+    // 2 — SIMULASI: dua batang tumbuh saat disebut; celah merah = selisih; spread menghitung.
     {
-      type: 'calculation',
+      type: 'irisan',
       transition: 'pushCut',
       eyebrow: 'Antam Logam Mulia · 1 gram · 22 Nov 2026',
       title: 'Harga beli vs buyback',
       highlight: 'buyback',
-      lines: [
-        { label: 'Harga beli', value: 2495000 },
-        { label: 'Buyback', value: 2095000, negative: true },
+      size: [1000, 1000],
+      parts: [
+        { shape: 'rect', x: 110, y: 980, w: 780, h: 4, fill: '#2b3447', stroke: false },
+        {
+          id: 'beli', shape: 'rect', x: 190, y: 600, w: 260, h: 380, r: 18, fill: '#d4af37', stroke: false, hatch: false,
+          origin: [320, 980],
+          motion: [
+            { type: 'scale', to: [1, 0.02], at: 0, duration: 0.01 },
+            { type: 'scale', to: [1, 1], at: 'Harga', duration: 1.1 },
+          ],
+        },
+        {
+          id: 'buyback', shape: 'rect', x: 550, y: 661, w: 260, h: 319, r: 18, fill: '#8f7d4c', stroke: false, hatch: false,
+          origin: [680, 980],
+          motion: [
+            { type: 'scale', to: [1, 0.02], at: 0, duration: 0.01 },
+            { type: 'scale', to: [1, 1], at: 'jual', duration: 1.1 },
+          ],
+        },
+        { id: 'celah', shape: 'rect', x: 550, y: 600, w: 260, h: 61, r: 10, fill: '#ef4444', stroke: '#ef4444', hatch: true, opacity: 0.9, hidden: true, showAt: 'Itulah' },
+        { shape: 'rect', x: 450, y: 598, w: 360, h: 4, fill: '#d4af37', stroke: false, opacity: 0.7, hidden: true, showAt: 'Itulah' },
       ],
-      total: { label: 'Selisih', value: 400000 },
-      prefix: 'Rp',
-      note: 'Spread 16,03% dari harga beli',
-      subtitle: REF,
+      panel: {
+        title: 'Simulasi beli lalu jual hari yang sama',
+        rows: [
+          { label: 'Harga beli', dot: '#d4af37', value: 0, to: 2495000, prefix: 'Rp', at: 'Harga', showAt: 'Harga', duration: 1.1 },
+          { label: 'Buyback', dot: '#8f7d4c', value: 0, to: 2095000, prefix: 'Rp', at: 'jual', showAt: 'jual', duration: 1.1 },
+          { label: 'Selisih', dot: '#ef4444', value: 0, to: 400000, prefix: 'Rp', at: 'Itulah', showAt: 'Itulah', duration: 0.8, color: '#ef4444' },
+          { label: 'Spread', text: '16,03%', showAt: 'spread', color: '#d4af37' },
+        ],
+        note: 'Data referensi · perlu verifikasi',
+      },
       narration:
         'Harga belinya dua juta empat ratus sembilan puluh lima ribu. Tapi harga jual kembalinya cuma dua juta sembilan puluh lima ribu. Itulah yang disebut spread.',
       emphasis: ['spread.'],
     },
-    // 3 — THE COMPARISON: batang proporsional, Antam disorot.
+    // 3 — SPREAD: batang horizontal proporsional, tersingkap bergiliran; Antam disorot.
     {
       type: 'chart',
       transition: 'wipeUp',
+      background: 'pattern',
       orientation: 'horizontal',
       eyebrow: 'Snapshot 21–22 Nov 2026',
       title: 'Spread emas 1 gram',
@@ -72,31 +97,53 @@ const config = seriesConfig(
         { label: 'Antam LM', value: 16.03 },
       ],
       highlightBar: 3,
-      highlightLabel: 'Tertinggi',
+      highlightLabel: 'Paling lebar',
       suffix: '%',
       decimals: 2,
-      subtitle: 'Hartadinata 21 Nov, lainnya 22 Nov · ' + REF,
+      subtitle: 'Makin pendek makin hemat · data referensi',
       narration:
         'Galeri24, sekitar enam persen. Hartadinata, enam persen. UBS, hampir delapan persen. Sementara Antam Logam Mulia, lebih dari enam belas persen!',
       emphasis: ['lebih dari enam belas persen!'],
     },
-    // 4 — GLOBAL GOLD CORRECTION: hanya dua titik (tanpa data antara).
+    // 4 — EMAS DUNIA: perubahan % dari 16 Nov (skala 30 unit = 1%), dua titik per garis, tanpa data harian rekaan.
     {
-      type: 'chart',
+      type: 'irisan',
       transition: 'slideLeft',
-      orientation: 'vertical',
       eyebrow: 'US$ per troy ounce · 16–20 Nov 2026',
       title: 'Emas dunia terkoreksi',
       highlight: 'terkoreksi',
-      data: [
-        { label: '16 Nov', value: 3869.3 },
-        { label: '20 Nov', value: 3543.6 },
+      size: [1000, 1000],
+      parts: [
+        { shape: 'rect', x: 100, y: 379, w: 800, h: 2, fill: '#3a4356', stroke: false },
+        { shape: 'rect', x: 100, y: 529, w: 800, h: 2, fill: '#3a4356', stroke: false, opacity: 0.5 },
+        { shape: 'rect', x: 100, y: 679, w: 800, h: 2, fill: '#3a4356', stroke: false, opacity: 0.5 },
+        {
+          id: 'dunia', shape: 'poly', points: [[160, 380], [840, 633]], closed: false, stroke: '#ef4444', strokeWidth: 12,
+          origin: [160, 380],
+          motion: [
+            { type: 'scale', to: 0.01, at: 0, duration: 0.01 },
+            { type: 'scale', to: 1, at: 'terkoreksi', duration: 1.3 },
+          ],
+        },
+        {
+          id: 'antam', shape: 'poly', points: [[160, 380], [840, 412]], closed: false, stroke: '#d4af37', strokeWidth: 12,
+          origin: [160, 380], hidden: true, showAt: 'Indonesia',
+          motion: [
+            { type: 'scale', to: 0.01, at: 0, duration: 0.01 },
+            { type: 'scale', to: 1, at: 'Indonesia', duration: 1.1 },
+          ],
+        },
+        { shape: 'circle', x: 160, y: 380, r: 18, fill: '#f7f3ea', stroke: false },
+        { shape: 'circle', x: 840, y: 633, r: 20, fill: '#ef4444', stroke: false, glow: true, hidden: true, showAt: 'delapan' },
+        { shape: 'circle', x: 840, y: 412, r: 18, fill: '#d4af37', stroke: false, hidden: true, showAt: 'turun' },
       ],
-      highlightBar: 1,
-      highlightLabel: 'Turun 8,42%',
-      prefix: 'US$',
-      decimals: 0,
-      subtitle: 'Antam LM 16–22 Nov: −1,07% · ' + REF,
+      labels: [
+        { target: [160, 380], text: '16 Nov · US$3.869', at: 0.3, hideAt: 'Indonesia', side: 'right' },
+        { target: [840, 633], text: '20 Nov · US$3.544', color: '#ef4444', at: 'delapan', side: 'left' },
+        { target: [840, 412], text: 'Antam LM −1,07% (16–22 Nov)', color: '#d4af37', at: 'turun', side: 'left' },
+      ],
+      stamp: { text: '−8,42%', color: '#ef4444', rotate: -4, target: [480, 735], at: 'delapan' },
+      note: 'Perubahan sejak 16 Nov · dua titik data · data referensi',
       narration:
         'Di pasar dunia, emas juga terkoreksi sekitar delapan persen dalam sepekan. Tapi kenapa harga emas di Indonesia tidak turun sebesar itu?',
       emphasis: ['tidak turun sebesar itu?'],
@@ -104,7 +151,8 @@ const config = seriesConfig(
     // 5 — THE RUPIAH FACTOR: tiga faktor muncul bergiliran.
     {
       type: 'features',
-      transition: 'iris',
+      transition: 'zoom',
+      background: 'particles',
       title: 'Kenapa harga lokal beda?',
       highlight: 'beda',
       features: [
@@ -120,7 +168,8 @@ const config = seriesConfig(
     // 6 — BUYBACK REALITY: dua transaksi berdampingan (beda dari kalkulasi scene 2).
     {
       type: 'comparison',
-      transition: 'flip',
+      transition: 'slideUp',
+      background: 'pattern',
       eyebrow: 'Emas 1 gram',
       title: 'Jangan cuma lihat harga beli',
       highlight: 'harga beli',
@@ -138,7 +187,8 @@ const config = seriesConfig(
     // 7 — THE VERDICT: tiga putusan, angka menghitung.
     {
       type: 'stats',
-      transition: 'zoom',
+      transition: 'wipe',
+      background: 'gradient',
       title: 'Mana paling worth it?',
       highlight: 'worth it?',
       stats: [
@@ -151,15 +201,21 @@ const config = seriesConfig(
         'Kalau cari efisiensi, Galeri24 unggul tipis di persentase spread. Hartadinata paling murah harga belinya. Antam tetap populer, tapi preminya lebih tinggi.',
       emphasis: ['unggul tipis'],
     },
-    // 8 — CLOSING: tipografi minimal, sorot SPREAD.
+    // 8 — CLOSING: satu pesan; cap "CEK SPREAD" menghentak saat diucapkan di atas batang emas.
     {
-      type: 'cta',
+      type: 'irisan',
       transition: 'fade',
-      title: 'Beli emas? Cek spread dulu.',
-      highlight: 'spread',
+      title: 'Beli emas?',
       subtitle: 'Harga beli • Buyback • Biaya',
-      button: 'Simpan video ini',
-      textAnimation: 'pop',
+      size: [1000, 640],
+      parts: [
+        {
+          id: 'batang', shape: 'poly', points: [[230, 560], [770, 560], [680, 360], [320, 360]], fill: '#d4af37', stroke: '#b8862f', strokeWidth: 6, hatch: false,
+          motion: [{ type: 'bob', amount: 6, period: 3 }],
+        },
+        { shape: 'poly', points: [[340, 390], [660, 390], [645, 375], [355, 375]], fill: '#f5d77a', stroke: false, opacity: 0.8, motion: [{ type: 'bob', amount: 6, period: 3 }] },
+      ],
+      stamp: { text: 'CEK SPREAD', color: '#d4af37', rotate: -3, target: [500, 200], at: 'Cek' },
       narration: 'Jadi sebelum beli emas, jangan cuma lihat mereknya. Cek spread dan harga jual kembalinya!',
       emphasis: ['Cek spread'],
     },
@@ -171,6 +227,8 @@ const config = seriesConfig(
 export default {
   ...config,
   id: 'spread-emas-antam-comparison',
+  // HUD atas sudah menampilkan brand; watermark bawah dihapus agar tidak ganda.
+  watermark: false,
   themeOverrides: {
     colors: {
       background: '#0a0f1c',
@@ -183,6 +241,9 @@ export default {
       muted: '#9aa3b2',
       success: '#10b981',
       danger: '#ef4444',
+      // Kata aktif subtitle: putih lembut, bukan emas — emas khusus angka/kata penting.
+      highlight: 'rgba(247,243,234,0.18)',
+      onHighlight: '#ffffff',
     },
     gradient: 'linear-gradient(120deg, #f5d77a 0%, #d4af37 50%, #b8862f 100%)',
     shadow: { elevated: '0 40px 120px rgba(212,175,55,0.22)' },
