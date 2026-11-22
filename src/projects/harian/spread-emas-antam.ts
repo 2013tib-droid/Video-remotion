@@ -142,7 +142,7 @@ const config = seriesConfig(
         { target: [840, 633], text: '20 Nov · US$3.544', color: '#ef4444', at: 'delapan', side: 'left' },
         { target: [840, 412], text: 'Antam LM −1,07% (16–22 Nov)', color: '#d4af37', at: 'turun', side: 'left' },
       ],
-      stamp: { text: '−8,42%', color: '#ef4444', rotate: -4, target: [480, 735], at: 'delapan' },
+      stamp: { text: '−8,42%', color: '#ef4444', rotate: -4, target: [480, 705], at: 'delapan' },
       note: 'Sejak 16 Nov · 2 titik data · referensi',
       narration:
         'Di pasar dunia, emas juga terkoreksi sekitar delapan persen dalam sepekan. Tapi kenapa harga emas di Indonesia tidak turun sebesar itu?',
