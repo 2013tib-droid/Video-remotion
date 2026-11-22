@@ -19,8 +19,9 @@ Repo ini **framework animasi**, bukan satu video. Video baru = **satu file data*
 3. Brand baru: buat `src/projects/<brand>/series.ts` (`defineSeries`: brand, tema, penutup baku — salin dari `harian/series.ts`).
    Semua yang sama antar video (tema, suara, transisi, CTA, musik `audio: 'tenang'|'semangat'|'korporat'`,
    `watermark: true|'@kanal'`) tinggal di seri, bukan di file video.
-4. Bila ada `narasi`: `AZURE_SPEECH_KEY=proxy-injected npm run narasi -- <ID video>`, lalu commit
-   `public/narration/<ID>/` + `<video>.narration.json`. Tanpa langkah ini video bisu.
+4. Bila ada `narasi`: `npm run narasi -- <ID video>` (default Edge TTS, butuh `pip install edge-tts`), lalu commit
+   `public/narration/<ID>/` + `<video>.narration.json`. Tanpa langkah ini video bisu. Atau jalankan workflow GitHub
+   **Narasi & Render** (`.github/workflows/narasi-render.yml`) — narasi + render + MP4 di Actions.
 5. `npm run cek` (typecheck + periksa isi: highlight, aset, cue, narasi). Selesai. **Jangan render kecuali diminta.**
 
 Yang boleh diubah untuk tugas video: `src/projects/**`, `naskah/**`, `public/brands/<brand>/`. Jangan membaca `src/components`,
@@ -36,6 +37,10 @@ Yang boleh diubah untuk tugas video: `src/projects/**`, `naskah/**`, `public/bra
 - Suara default: `id-ID-Ardi:DragonHDLatestNeural`, rate `+10%` (sudah default di seri). `lexicon` untuk singkatan (PDB → "Pe De Be").
 
 ## Narasi & render di sesi cloud
+- Penyedia: env `TTS_PROVIDER=edge` (default, gratis, **tidak resmi** — bisa berubah/dibatasi; gagal 403 → `pip install -U edge-tts`)
+  atau `azure`. `TTS_FALLBACK=azure` hanya bila diminta (memakai kuota). Suara Edge dipetakan dari `voice.name`
+  (`id-ID-Ardi:…` → `id-ID-ArdiNeural`; paksa dengan `EDGE_TTS_VOICE=id-ID-GadisNeural`). Klip lama tidak dibuat ulang
+  saat ganti penyedia kecuali `--redo`. Narasi gagal → exit 1 dengan pesan jelas; jangan render video tanpa narasi.
 - Key Azure (region `southeastasia`) adalah network secret di environment cloud **video-remotion**; `proxy-injected` hanya
   placeholder. Di environment lain → 401: minta pengguna pindah environment (jangan minta key ditempel di chat).
 - ElevenLabs (opsional): `voice.name: 'elevenlabs:<voiceId>'` + `ELEVENLABS_API_KEY=proxy-injected` (key via network secret

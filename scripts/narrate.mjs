@@ -1,19 +1,32 @@
 #!/usr/bin/env node
 /**
- * Render narasi (voice-over) video jadi MP3 + waktu tiap kata
- * (Azure Speech, atau ElevenLabs bila `voice.name` diawali "elevenlabs:").
+ * Render narasi (voice-over) video jadi MP3 + waktu tiap kata.
+ *
+ * PENYEDIA SUARA — env TTS_PROVIDER:
+ *   edge  (default) Edge TTS, gratis tanpa key. ⚠ TIDAK RESMI: bisa berubah/dibatasi
+ *         sewaktu-waktu. Butuh CLI `edge-tts` (pip install edge-tts). Rincian: scripts/lib/edge-tts.mjs.
+ *         Suara dipetakan dari voice.name: "id-ID-Ardi:DragonHDLatestNeural" → "id-ID-ArdiNeural".
+ *   azure Azure Speech (berkuota/berbayar).
+ *   ElevenLabs dipakai bila `voice.name` diawali "elevenlabs:" (pilihan eksplisit di config).
+ * TTS_FALLBACK=azure → bila Edge gagal, coba Azure. TIDAK aktif kecuali diisi (agar tidak ada biaya diam-diam).
+ * Gagal → progres disimpan, pesan jelas, exit 1 (video tidak boleh dirender tanpa narasi).
+ *
+ * CACHE: klip yang teksnya + suara config tidak berubah dilewati (apa pun penyedianya;
+ * pakai --redo untuk membuat ulang dengan penyedia lain). Selain itu audio disimpan
+ * per isi di .cache/tts/ (TTS_CACHE_DIR) — dipulihkan GitHub Actions antar-run.
  *
  *   npm run narasi -- src/projects/soal-skd/bedah-analogi.ts
  *   npm run narasi -- Harian-TipsGaji          # atau cukup ID video (boleh sebagian)
  *   npm run narasi -- <config.ts> --dry-run     # lihat apa yang akan dirender
  *   npm run narasi -- <config.ts> --redo        # render ulang semua klip
- *   npm run narasi -- <config.ts> --retime      # hitung ulang waktu kata saja (tanpa Azure)
+ *   npm run narasi -- <config.ts> --retime      # hitung ulang waktu kata saja (tanpa TTS)
+ *   TTS_PROVIDER=azure npm run narasi -- <ID>   # pakai Azure (default: edge)
  *
  * Yang dibaca dari config: `id`, `voice` ({ name, rate, lexicon }) dan
  * `scene.narration` setiap scene. Hasil:
  *   - public/narration/<id>/<kunci>.mp3        (satu klip per scene)
  *   - <config>.narration.json                  (otomatis dipasang registry ke `narration`)
- * Klip yang teksnya tidak berubah dilewati (kunci = hash teks + suara).
+ * Klip yang teksnya tidak berubah dilewati (kunci = hash teks + suara config).
  *
  * KREDENSIAL: AZURE_SPEECH_KEY + AZURE_SPEECH_REGION (default southeastasia),
  * dari env atau file .env. Di sesi cloud Claude, key disuntikkan proxy:
@@ -29,9 +42,11 @@
  * lalu kata di antara jeda dibagi menurut jumlah suku kata (akurasi ±0,1–0,2 dtk).
  */
 import { spawnSync } from 'node:child_process';
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync, readdirSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { loadConfigFile, resolveTargets } from './lib/configs.mjs';
+import { edgeCommand, edgeRate, edgeVoiceFor, synthesizeEdgeOnce } from './lib/edge-tts.mjs';
 
 // fetch bawaan Node baru memakai HTTPS_PROXY bila NODE_USE_ENV_PROXY=1.
 if ((process.env.HTTPS_PROXY || process.env.https_proxy) && !process.env.NODE_USE_ENV_PROXY) {
@@ -64,6 +79,104 @@ const isEleven = (voice) => voice.name.startsWith(XI_PREFIX);
 const REGION = process.env.AZURE_SPEECH_REGION || 'southeastasia';
 /** Jeda antar permintaan: tier gratis F0 = 20 permintaan/menit. */
 const GAP_MS = Number(process.env.AZURE_TTS_GAP_MS ?? 3200);
+/** Edge: jeda sopan antar permintaan agar tidak dibatasi. */
+const EDGE_GAP_MS = Number(process.env.EDGE_TTS_GAP_MS ?? 800);
+
+const PROVIDER = (process.env.TTS_PROVIDER || 'edge').trim().toLowerCase();
+const FALLBACK = (process.env.TTS_FALLBACK || '').trim().toLowerCase();
+const CACHE_DIR = process.env.TTS_CACHE_DIR || join('.cache', 'tts');
+if (!['edge', 'azure'].includes(PROVIDER)) {
+  console.error(`TTS_PROVIDER="${PROVIDER}" tidak dikenal. Pilih: edge (default) | azure. ElevenLabs: voice.name "elevenlabs:<id>".`);
+  process.exit(1);
+}
+if (!['', 'none', 'tidak', 'azure'].includes(FALLBACK)) {
+  console.error(`TTS_FALLBACK="${FALLBACK}" tidak dikenal. Pilih: (kosong) | azure.`);
+  process.exit(1);
+}
+
+/** Penyedia utama untuk suara ini. */
+const providerFor = (voice) => (isEleven(voice) ? 'elevenlabs' : PROVIDER);
+/** Penyedia cadangan (hanya bila diminta eksplisit & key tersedia). */
+const fallbackFor = (voice) => (providerFor(voice) === 'edge' && FALLBACK === 'azure' ? 'azure' : null);
+
+/** Nama suara + rate yang benar-benar dikirim ke penyedia (untuk cache & log). */
+function spokenVoice(provider, voice) {
+  if (provider === 'edge') return `${edgeVoiceFor(voice)}|${edgeRate(voice.rate)}`;
+  return `${voice.name}|${voice.rate ?? ''}`;
+}
+
+/* ---------- Cache isi (.cache/tts) ---------- */
+
+function cachePath(provider, voice, text) {
+  const h = createHash('sha1')
+    .update(`${provider}|${spokenVoice(provider, voice)}|${applyLexicon(text, voice.lexicon)}`)
+    .digest('hex')
+    .slice(0, 20);
+  return join(CACHE_DIR, provider, `${h}.mp3`);
+}
+
+function readCache(provider, voice, text) {
+  const p = cachePath(provider, voice, text);
+  return existsSync(p) && statSync(p).size >= 500 ? readFileSync(p) : null;
+}
+
+function writeCache(provider, voice, text, buf) {
+  const p = cachePath(provider, voice, text);
+  mkdirSync(join(CACHE_DIR, provider), { recursive: true });
+  writeFileSync(p, buf);
+}
+
+/* ---------- Pemilihan penyedia + coba ulang ---------- */
+
+let lastProvider = null;
+async function pace(provider) {
+  if (lastProvider) await sleep(provider === 'edge' ? EDGE_GAP_MS : GAP_MS);
+  lastProvider = provider;
+}
+
+async function synthesizeWith(provider, text, voice) {
+  const hit = has('redo') ? null : readCache(provider, voice, text);
+  if (hit) return { buf: hit, provider, cached: true };
+  await pace(provider);
+  let buf;
+  if (provider === 'edge') {
+    // Layanan tidak resmi: gangguan sesaat cukup sering → 3 percobaan.
+    for (let attempt = 1; ; attempt++) {
+      try {
+        buf = synthesizeEdgeOnce(text, voice);
+        break;
+      } catch (e) {
+        if (attempt >= 3 || /tidak ditemukan|tidak bisa dijalankan/.test(e.message)) throw e;
+        console.log(`    ! Edge gagal (percobaan ${attempt}/3), coba lagi…`);
+        await sleep(4000 * attempt);
+      }
+    }
+  } else if (provider === 'azure') {
+    if (!KEY) throw new Error('AZURE_SPEECH_KEY belum diisi.');
+    buf = await synthesizeAzure(text, voice);
+  } else {
+    if (!XI_KEY) throw new Error('ELEVENLABS_API_KEY belum diisi.');
+    buf = await synthesizeEleven(text, voice);
+  }
+  writeCache(provider, voice, text, buf);
+  return { buf, provider, cached: false };
+}
+
+async function synthesizeClip(text, voice) {
+  const primary = providerFor(voice);
+  try {
+    return await synthesizeWith(primary, text, voice);
+  } catch (e) {
+    const fb = fallbackFor(voice);
+    if (!fb) throw e;
+    console.log(`    ! Edge gagal: ${e.message.split('\n')[0]}\n    ! TTS_FALLBACK=azure → memakai Azure (memakai kuota Azure).`);
+    try {
+      return await synthesizeWith(fb, text, voice);
+    } catch (e2) {
+      throw new Error(`${e.message}\n    Cadangan Azure juga gagal: ${e2.message}`);
+    }
+  }
+}
 
 /* ---------- Azure ---------- */
 
@@ -75,10 +188,6 @@ function applyLexicon(text, lexicon = {}) {
     out = out.replace(new RegExp(`(?<![\\p{L}\\p{N}])${word}(?![\\p{L}\\p{N}])`, 'giu'), spoken);
   }
   return out;
-}
-
-async function synthesize(text, voice) {
-  return isEleven(voice) ? synthesizeEleven(text, voice) : synthesizeAzure(text, voice);
 }
 
 /** "+10%" → 1.1, dibatasi rentang speed ElevenLabs (0,7–1,2). */
@@ -286,12 +395,40 @@ function wordTimings(words, samples, rate, lexicon) {
 
 /* ---------- Utama ---------- */
 
-let requests = 0;
 const files = await resolveTargets(targets);
 if (!files.length) {
   console.error(`Tidak ada config yang cocok dengan: ${targets.join(', ')}`);
   process.exit(1);
 }
+
+/** Hentikan dengan pesan jelas (dipakai juga oleh GitHub Actions agar render tidak jalan). */
+function fail(msg) {
+  console.error(`\n✗ NARASI GAGAL — ${msg}`);
+  console.error('  Video TIDAK boleh dirender tanpa narasi. Klip yang sudah jadi tersimpan; jalankan ulang untuk melanjutkan.');
+  console.error('  Pilihan: coba lagi nanti · `pip install -U edge-tts` · TTS_PROVIDER=azure · TTS_FALLBACK=azure (memakai kuota Azure).');
+  process.exit(1);
+}
+
+/** Cek prasyarat sekali, sebelum permintaan pertama (bukan di --dry-run/--retime). */
+let checked = false;
+function preflight(voice) {
+  if (checked) return;
+  checked = true;
+  const p = providerFor(voice);
+  console.log(`Penyedia TTS: ${p}${fallbackFor(voice) ? ' (cadangan: azure)' : ''} · suara ${spokenVoice(p, voice).replace('|', ' ')}`);
+  if (p === 'edge') {
+    console.log('  ⚠ Edge TTS adalah integrasi TIDAK RESMI: bisa berubah atau dibatasi sewaktu-waktu.');
+    if (!edgeCommand()) {
+      const msg = 'CLI `edge-tts` tidak ditemukan. Pasang: `pip install edge-tts` (atau set EDGE_TTS_BIN).';
+      if (fallbackFor(voice) && KEY) console.log(`  ! ${msg} → semua klip lewat cadangan Azure.`);
+      else fail(msg);
+    }
+  }
+  if (p === 'azure' && !KEY) fail('TTS_PROVIDER=azure tetapi AZURE_SPEECH_KEY belum diisi.');
+  if (p === 'elevenlabs' && !XI_KEY) fail('voice ElevenLabs tetapi ELEVENLABS_API_KEY belum diisi.');
+  if (fallbackFor(voice) && !KEY) console.log('  ! TTS_FALLBACK=azure diabaikan: AZURE_SPEECH_KEY kosong.');
+}
+
 for (const file of files) {
   const { configs, narrationKey, splitWords, jsonPath } = await loadConfigFile(file);
   const config = configs[0];
@@ -327,19 +464,30 @@ for (const file of files) {
       console.log(`  + ${label}`);
       continue;
     }
-    if (isEleven(config.voice) ? !XI_KEY : !KEY) {
-      console.error(`${isEleven(config.voice) ? 'ELEVENLABS_API_KEY' : 'AZURE_SPEECH_KEY'} belum diisi (lihat komentar di atas skrip).`);
-      process.exit(1);
+    preflight(config.voice);
+    let res;
+    try {
+      res = await synthesizeClip(text, config.voice);
+    } catch (e) {
+      writeFileSync(jsonPath, JSON.stringify(data, null, 1) + '\n'); // simpan progres
+      fail(`${config.id}, scene ${i + 1}/${scenes.length} ("${text.slice(0, 50)}${text.length > 50 ? '…' : ''}")\n    ${e.message}`);
     }
-    if (requests++) await sleep(GAP_MS);
-    writeFileSync(mp3, await synthesize(text, config.voice));
+    writeFileSync(mp3, res.buf);
     const { samples, rate } = decodeToSamples(mp3);
     const timing = wordTimings(splitWords(text), samples, rate, config.voice.lexicon);
-    data.clips[key] = { src: `narration/${config.id}/${key}.mp3`, ...timing };
-    console.log(`  ✓ ${label} (${timing.duration.toFixed(1)} dtk)`);
+    data.clips[key] = { src: `narration/${config.id}/${key}.mp3`, provider: res.provider, ...timing };
+    writeFileSync(jsonPath, JSON.stringify(data, null, 1) + '\n'); // progres: klip tak perlu dibuat ulang bila langkah berikut gagal
+    console.log(`  ✓ ${label} (${timing.duration.toFixed(1)} dtk, ${res.provider}${res.cached ? ', cache' : ''})`);
   }
 
   if (!has('dry-run')) {
+    // Pastikan SEMUA scene bernarasi punya audio — jangan sampai video dirender bisu.
+    const missing = scenes.filter((s) => {
+      const c = data.clips[narrationKey(s.narration.trim(), config.voice)];
+      const p = c && join('public', c.src);
+      return !p || !existsSync(p) || statSync(p).size < 500;
+    });
+    if (missing.length) fail(`${config.id}: ${missing.length} scene belum punya audio narasi.`);
     for (const key of Object.keys(data.clips)) if (!wanted.has(key)) delete data.clips[key];
     for (const f of readdirSync(outDir)) if (f.endsWith('.mp3') && !wanted.has(f.replace(/\.mp3$/, ''))) rmSync(join(outDir, f));
     writeFileSync(jsonPath, JSON.stringify(data, null, 1) + '\n');

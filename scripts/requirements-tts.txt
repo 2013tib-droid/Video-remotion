@@ -1,0 +1,3 @@
+# Edge TTS (tidak resmi) untuk `npm run narasi` — lihat scripts/lib/edge-tts.mjs.
+# Sengaja tanpa batas atas: bila Microsoft mengubah protokol, versi terbaru biasanya sudah memperbaikinya.
+edge-tts>=7.3.1

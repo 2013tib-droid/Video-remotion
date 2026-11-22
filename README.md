@@ -30,7 +30,7 @@ npm run render:list                                  # daftar semua video
 npm run render:all                                   # render semua → out/<ID>.mp4
 npm run render:all -- PriceAtlas --scale=0.5         # filter ID + pratinjau cepat
 npm run cek                                          # typecheck + periksa isi semua video
-npm run narasi -- <ID video>                         # render suara narasi (Azure)
+npm run narasi -- <ID video>                         # suara narasi (Edge TTS; TTS_PROVIDER=azure)
 ```
 
 ## Arsitektur singkat

@@ -2,6 +2,18 @@
 
 Perubahan framework yang memengaruhi semua video. Entri terbaru di atas.
 
+## 2026-11-22 — Edge TTS + workflow GitHub Actions
+
+- `npm run narasi` kini default **Edge TTS** (gratis, tanpa key) lewat CLI `edge-tts` (`pip install edge-tts`,
+  `scripts/requirements-tts.txt`). ⚠ Integrasi **tidak resmi**: bisa berubah/dibatasi kapan saja; 403 → `pip install -U edge-tts`.
+- Env `TTS_PROVIDER=edge|azure`; `TTS_FALLBACK=azure` (hanya bila diisi — tidak ada biaya diam-diam); `EDGE_TTS_VOICE`
+  (default dipetakan dari `voice.name`: `id-ID-Ardi:…` → `id-ID-ArdiNeural`); `EDGE_TTS_GAP_MS`; `TTS_CACHE_DIR`.
+- Cache isi audio `.cache/tts/<penyedia>/` (di-ignore git, dipulihkan Actions antar-run) di samping cache klip lama.
+  Kunci klip & durasi scene tidak berubah → config, template, scene, dan narasi Azure yang sudah ada tetap valid.
+- Gagal TTS → progres tersimpan, pesan jelas, exit 1; akhir skrip memastikan semua scene bernarasi punya audio.
+- Workflow baru **Narasi & Render** (`.github/workflows/narasi-render.yml`, `workflow_dispatch`): narasi → commit audio
+  ke cabang → render → MP4 sebagai artifact. Azure via secret `AZURE_SPEECH_KEY` (opsional).
+
 ## 2026-11-15 — Gaya tinta & kota dari peta (gaya R3)
 
 Sumber: bedah video referensi "SCBD jadi sirkuit F1?" (`docs/REFERENSI.md`, R3). Semua properti baru opsional.
