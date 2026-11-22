@@ -6,9 +6,10 @@
  *   npm run cek -- Harian       # ID yang mengandung "Harian" (atau path file)
  *
  * ✗ galat (exit 1): ID ganda/tidak valid, aset/musik tidak ada di public/, cue `at` tidak ada di narasi,
- *   scene bernarasi tanpa `voice`, scene data kosong, timeline gagal dihitung.
+ *   scene bernarasi tanpa `voice`, scene data kosong (juga `selisih` tanpa angka, `tren` < 2 titik, `alur`
+ *   tanpa simpul), timeline gagal dihitung.
  * ! peringatan: `highlight`/`emphasis` tidak ditemukan di teksnya, teks terlalu panjang (judul, label
- *   grafik/tabel/angka/langkah, catatan), narasi belum dirender / waktu kata basi, scene tanpa narasi di
+ *   grafik/tabel/angka/langkah, selisih, garis tren, simpul & panah alur, pembanding, catatan), narasi belum dirender / waktu kata basi, scene tanpa narasi di
  *   video bernarasi, terlalu banyak item, hook > ±3 dtk, dua scene bertipe sama berturut-turut,
  *   teks layar terlalu banyak untuk lama tampilnya.
  * Tata letak hasil render (terpotong, bertumpuk, zona UI, huruf kecil) → `npm run pratinjau -- <ID>`.
@@ -34,6 +35,14 @@ const LIMIT = {
   statLabel: 40,
   calcLabel: 30,
   note: 40,
+  // Visualisasi data (Fase 2).
+  selisihLabel: 22,
+  trenLabel: 18,
+  trenTitik: 12,
+  alurWords: 4,
+  alurText: 28,
+  alurPanah: 14,
+  pembanding: 32,
   // Hook: detik maksimal sebelum masuk isi (narasi hook / durasi scene pertama).
   hookSec: 3.5,
   // Kata layar per detik tampil (judul + isi) yang masih nyaman dibaca sambil mendengar narasi.
@@ -45,7 +54,11 @@ const CONTINUOUS = new Set(['world', 'irisan', 'words', 'statement', 'question']
 function screenText(s) {
   const parts = [s.eyebrow, s.title, s.subtitle];
   for (const f of s.features ?? []) parts.push(f.title, f.description);
-  for (const x of s.stats ?? []) parts.push(x.label);
+  for (const x of s.stats ?? []) parts.push(x.label, x.pembanding);
+  if (s.type === 'selisih') parts.push(s.a?.label, s.b?.label, s.selisihLabel ?? 'Selisih');
+  for (const sr of s.type === 'tren' ? s.seri ?? [] : []) parts.push(sr.label);
+  for (const n of s.type === 'alur' ? [...(s.simpul ?? []), ...(s.cabang ? [s.cabang] : [])] : []) parts.push(n.text, n.panah);
+  if (['selisih', 'tren', 'alur', 'stats'].includes(s.type)) parts.push(s.note);
   for (const d of s.data ?? []) parts.push(d.label);
   for (const r of s.rows ?? []) parts.push(r.label, ...(r.values ?? []).filter((v) => typeof v === 'string'));
   for (const st of s.steps ?? []) parts.push(st.title, st.description);
@@ -146,6 +159,16 @@ for (const file of files) {
       const content = { features: s.features, stats: s.stats, chart: s.data, comparison: s.rows, timeline: s.steps, calculation: s.lines, statement: s.lines }[s.type];
       if (Array.isArray(content) && content.length === 0) err.push(`${at(i, s)}: isi kosong`);
       if (s.type === 'words' && !(typeof s.words === 'string' ? s.words.trim() : s.words?.length)) err.push(`${at(i, s)}: isi kosong`);
+      if (s.type === 'selisih' && !(Number.isFinite(s.a?.value) && Number.isFinite(s.b?.value))) err.push(`${at(i, s)}: \`a\` dan \`b\` harus berisi angka`);
+      if (s.type === 'tren') {
+        if (!s.seri?.length) err.push(`${at(i, s)}: isi kosong (\`seri\`)`);
+        for (const sr of s.seri ?? []) if (!(sr.titik?.length >= 2)) err.push(`${at(i, s)}: seri "${sr.label}" butuh ≥ 2 titik data (tanpa titik rekaan)`);
+        if ((s.seri?.length ?? 0) > 3) warn.push(`${at(i, s)}: ${s.seri.length} garis (maks 3 — sisanya tidak digambar)`);
+      }
+      if (s.type === 'alur') {
+        if (!s.simpul?.length) err.push(`${at(i, s)}: isi kosong (\`simpul\`)`);
+        else if (s.simpul.length < 2 || s.simpul.length > 4) warn.push(`${at(i, s)}: ${s.simpul.length} simpul (2–4; lebih dari 4 tidak digambar)`);
+      }
 
       // Label data yang terlalu panjang untuk layar ponsel.
       const long = (label, text, max) => {
@@ -160,6 +183,21 @@ for (const file of files) {
       for (const st of s.steps ?? []) long('judul langkah', st.title, LIMIT.itemTitle);
       for (const l of s.type === 'calculation' ? s.lines : []) long('label kalkulasi', l.label, LIMIT.calcLabel);
       long('catatan', s.note, LIMIT.note);
+      for (const x of s.stats ?? []) long('pembanding', x.pembanding, LIMIT.pembanding);
+      if (s.type === 'selisih') {
+        long('label selisih', s.a?.label, LIMIT.selisihLabel);
+        long('label selisih', s.b?.label, LIMIT.selisihLabel);
+        long('label selisih', s.selisihLabel, LIMIT.selisihLabel);
+      }
+      for (const sr of s.type === 'tren' ? s.seri ?? [] : []) {
+        long('label garis', sr.label, LIMIT.trenLabel);
+        for (const p of sr.titik ?? []) long('label titik', p.label, LIMIT.trenTitik);
+      }
+      for (const n of s.type === 'alur' ? [...(s.simpul ?? []), ...(s.cabang ? [s.cabang] : [])] : []) {
+        long('simpul', n.text, LIMIT.alurText);
+        if (countWords(n.text ?? '') > LIMIT.alurWords) warn.push(`${at(i, s)}: simpul "${n.text}" > ${LIMIT.alurWords} kata`);
+        long('label panah', n.panah, LIMIT.alurPanah);
+      }
 
       // Ritme: dua scene bertipe sama berturut-turut terasa seperti slide yang diulang.
       const prev = config.scenes[i - 1];

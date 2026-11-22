@@ -1,0 +1,533 @@
+{
+ "clips": {
+  "862c3178": {
+   "src": "narration/Demo-DataViz/862c3178.mp3",
+   "provider": "edge",
+   "duration": 8.928,
+   "words": [
+    {
+     "w": "Harga",
+     "start": 0.25,
+     "end": 0.467
+    },
+    {
+     "w": "belinya",
+     "start": 0.467,
+     "end": 0.793
+    },
+    {
+     "w": "dua",
+     "start": 0.793,
+     "end": 1.01
+    },
+    {
+     "w": "juta",
+     "start": 1.01,
+     "end": 1.228
+    },
+    {
+     "w": "empat",
+     "start": 1.228,
+     "end": 1.445
+    },
+    {
+     "w": "ratus",
+     "start": 1.445,
+     "end": 1.662
+    },
+    {
+     "w": "sembilan",
+     "start": 1.662,
+     "end": 1.988
+    },
+    {
+     "w": "puluh",
+     "start": 1.988,
+     "end": 2.205
+    },
+    {
+     "w": "lima",
+     "start": 2.205,
+     "end": 2.423
+    },
+    {
+     "w": "ribu.",
+     "start": 2.423,
+     "end": 2.64
+    },
+    {
+     "w": "Harga",
+     "start": 3.6,
+     "end": 3.82
+    },
+    {
+     "w": "jual",
+     "start": 3.82,
+     "end": 4.04
+    },
+    {
+     "w": "kembalinya",
+     "start": 4.04,
+     "end": 4.48
+    },
+    {
+     "w": "cuma",
+     "start": 4.48,
+     "end": 4.7
+    },
+    {
+     "w": "dua",
+     "start": 4.7,
+     "end": 4.92
+    },
+    {
+     "w": "juta",
+     "start": 4.92,
+     "end": 5.14
+    },
+    {
+     "w": "sembilan",
+     "start": 5.14,
+     "end": 5.47
+    },
+    {
+     "w": "puluh",
+     "start": 5.47,
+     "end": 5.69
+    },
+    {
+     "w": "lima",
+     "start": 5.69,
+     "end": 5.91
+    },
+    {
+     "w": "ribu.",
+     "start": 5.91,
+     "end": 6.13
+    },
+    {
+     "w": "Selisih",
+     "start": 7.08,
+     "end": 7.44
+    },
+    {
+     "w": "inilah",
+     "start": 7.44,
+     "end": 7.8
+    },
+    {
+     "w": "spread.",
+     "start": 7.8,
+     "end": 8.04
+    }
+   ]
+  },
+  "c47e0fa4": {
+   "src": "narration/Demo-DataViz/c47e0fa4.mp3",
+   "provider": "edge",
+   "duration": 7.968,
+   "words": [
+    {
+     "w": "Spread",
+     "start": 0.21,
+     "end": 0.466
+    },
+    {
+     "w": "Antam",
+     "start": 0.466,
+     "end": 0.721
+    },
+    {
+     "w": "lebih",
+     "start": 0.721,
+     "end": 0.977
+    },
+    {
+     "w": "dari",
+     "start": 0.977,
+     "end": 1.233
+    },
+    {
+     "w": "enam",
+     "start": 1.233,
+     "end": 1.489
+    },
+    {
+     "w": "belas",
+     "start": 1.489,
+     "end": 1.744
+    },
+    {
+     "w": "persen.",
+     "start": 1.744,
+     "end": 2
+    },
+    {
+     "w": "Bandingkan",
+     "start": 2.89,
+     "end": 3.34
+    },
+    {
+     "w": "dengan",
+     "start": 3.34,
+     "end": 3.64
+    },
+    {
+     "w": "UBS",
+     "start": 3.64,
+     "end": 3.79
+    },
+    {
+     "w": "hampir",
+     "start": 3.79,
+     "end": 4.09
+    },
+    {
+     "w": "delapan",
+     "start": 4.09,
+     "end": 4.54
+    },
+    {
+     "w": "persen,",
+     "start": 4.54,
+     "end": 4.84
+    },
+    {
+     "w": "dan",
+     "start": 5.22,
+     "end": 5.349
+    },
+    {
+     "w": "Galeri24",
+     "start": 5.349,
+     "end": 6.249
+    },
+    {
+     "w": "sekitar",
+     "start": 6.249,
+     "end": 6.635
+    },
+    {
+     "w": "enam",
+     "start": 6.635,
+     "end": 6.893
+    },
+    {
+     "w": "persen.",
+     "start": 6.893,
+     "end": 7.15
+    }
+   ]
+  },
+  "cc2f688f": {
+   "src": "narration/Demo-DataViz/cc2f688f.mp3",
+   "provider": "edge",
+   "duration": 6.288,
+   "words": [
+    {
+     "w": "Emas",
+     "start": 0.21,
+     "end": 0.452
+    },
+    {
+     "w": "dunia",
+     "start": 0.452,
+     "end": 0.815
+    },
+    {
+     "w": "turun",
+     "start": 0.815,
+     "end": 1.057
+    },
+    {
+     "w": "sekitar",
+     "start": 1.057,
+     "end": 1.42
+    },
+    {
+     "w": "delapan",
+     "start": 1.42,
+     "end": 1.783
+    },
+    {
+     "w": "persen",
+     "start": 1.783,
+     "end": 2.025
+    },
+    {
+     "w": "dalam",
+     "start": 2.025,
+     "end": 2.267
+    },
+    {
+     "w": "sepekan.",
+     "start": 2.267,
+     "end": 2.63
+    },
+    {
+     "w": "Tapi",
+     "start": 3.55,
+     "end": 3.806
+    },
+    {
+     "w": "Antam",
+     "start": 3.806,
+     "end": 4.062
+    },
+    {
+     "w": "hanya",
+     "start": 4.062,
+     "end": 4.318
+    },
+    {
+     "w": "turun",
+     "start": 4.318,
+     "end": 4.574
+    },
+    {
+     "w": "sekitar",
+     "start": 4.574,
+     "end": 4.958
+    },
+    {
+     "w": "satu",
+     "start": 4.958,
+     "end": 5.214
+    },
+    {
+     "w": "persen.",
+     "start": 5.214,
+     "end": 5.47
+    }
+   ]
+  },
+  "5c355c48": {
+   "src": "narration/Demo-DataViz/5c355c48.mp3",
+   "provider": "edge",
+   "duration": 8.472,
+   "words": [
+    {
+     "w": "Harga",
+     "start": 0.25,
+     "end": 0.508
+    },
+    {
+     "w": "emas",
+     "start": 0.508,
+     "end": 0.766
+    },
+    {
+     "w": "dunia",
+     "start": 0.766,
+     "end": 1.153
+    },
+    {
+     "w": "dalam",
+     "start": 1.153,
+     "end": 1.411
+    },
+    {
+     "w": "dolar",
+     "start": 1.411,
+     "end": 1.67
+    },
+    {
+     "w": "dikonversi",
+     "start": 1.67,
+     "end": 2.186
+    },
+    {
+     "w": "dengan",
+     "start": 2.186,
+     "end": 2.444
+    },
+    {
+     "w": "kurs",
+     "start": 2.444,
+     "end": 2.573
+    },
+    {
+     "w": "rupiah.",
+     "start": 2.573,
+     "end": 2.96
+    },
+    {
+     "w": "Lalu",
+     "start": 3.9,
+     "end": 4.133
+    },
+    {
+     "w": "penjual",
+     "start": 4.133,
+     "end": 4.481
+    },
+    {
+     "w": "menambah",
+     "start": 4.481,
+     "end": 4.83
+    },
+    {
+     "w": "premi",
+     "start": 4.83,
+     "end": 5.063
+    },
+    {
+     "w": "untuk",
+     "start": 5.063,
+     "end": 5.295
+    },
+    {
+     "w": "harga",
+     "start": 5.295,
+     "end": 5.527
+    },
+    {
+     "w": "beli,",
+     "start": 5.527,
+     "end": 5.76
+    },
+    {
+     "w": "dan",
+     "start": 6.15,
+     "end": 6.277
+    },
+    {
+     "w": "menetapkan",
+     "start": 6.277,
+     "end": 6.783
+    },
+    {
+     "w": "sendiri",
+     "start": 6.783,
+     "end": 7.163
+    },
+    {
+     "w": "harga",
+     "start": 7.163,
+     "end": 7.417
+    },
+    {
+     "w": "buyback.",
+     "start": 7.417,
+     "end": 7.67
+    }
+   ]
+  },
+  "f023ae3a": {
+   "src": "narration/Demo-DataViz/f023ae3a.mp3",
+   "provider": "edge",
+   "duration": 2.736,
+   "words": [
+    {
+     "w": "Sebelum",
+     "start": 0.21,
+     "end": 0.523
+    },
+    {
+     "w": "beli",
+     "start": 0.523,
+     "end": 0.731
+    },
+    {
+     "w": "emas,",
+     "start": 0.731,
+     "end": 0.94
+    },
+    {
+     "w": "cek",
+     "start": 1.26,
+     "end": 1.423
+    },
+    {
+     "w": "spread-nya.",
+     "start": 1.423,
+     "end": 1.91
+    }
+   ]
+  },
+  "6f2af421": {
+   "src": "narration/Demo-DataViz/6f2af421.mp3",
+   "provider": "edge",
+   "duration": 3.096,
+   "words": [
+    {
+     "w": "Follow",
+     "start": 0.24,
+     "end": 0.496
+    },
+    {
+     "w": "untuk",
+     "start": 0.496,
+     "end": 0.752
+    },
+    {
+     "w": "bahasan",
+     "start": 0.752,
+     "end": 1.137
+    },
+    {
+     "w": "singkat",
+     "start": 1.137,
+     "end": 1.393
+    },
+    {
+     "w": "lainnya",
+     "start": 1.393,
+     "end": 1.649
+    },
+    {
+     "w": "setiap",
+     "start": 1.649,
+     "end": 2.034
+    },
+    {
+     "w": "hari.",
+     "start": 2.034,
+     "end": 2.29
+    }
+   ]
+  },
+  "5e58509b": {
+   "src": "narration/Demo-DataViz/5e58509b.mp3",
+   "provider": "edge",
+   "duration": 3.096,
+   "words": [
+    {
+     "w": "Jual",
+     "start": 0.19,
+     "end": 0.45
+    },
+    {
+     "w": "lagi",
+     "start": 0.45,
+     "end": 0.71
+    },
+    {
+     "w": "emas,",
+     "start": 0.71,
+     "end": 0.97
+    },
+    {
+     "w": "rugi",
+     "start": 1.29,
+     "end": 1.535
+    },
+    {
+     "w": "empat",
+     "start": 1.535,
+     "end": 1.78
+    },
+    {
+     "w": "ratus",
+     "start": 1.78,
+     "end": 2.025
+    },
+    {
+     "w": "ribu?",
+     "start": 2.025,
+     "end": 2.27
+    }
+   ]
+  }
+ }
+}

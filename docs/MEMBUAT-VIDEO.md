@@ -53,7 +53,8 @@ export default kontenHarian(harian, {
 ```
 
 Jenis isi `bagian` (tepat satu per bagian): `angka` · `poin` · `langkah` · `grafik` · `banding` · `kutipan` · `teks` · `kata` ·
-`foto` · `peta` · `hitung` · `scene` (scene mentah apa pun). Detail field: `src/templates/KontenHarian.ts`.
+`foto` · `peta` · `hitung` · `selisih` · `tren` · `alur` · `scene` (scene mentah apa pun). Visualisasi data (dua nilai, garis
+waktu, sebab-akibat): contoh `src/projects/_demos/data-viz.ts`, rincian `docs/KATALOG-SCENE.md` → *Visualisasi data*. Detail field: `src/templates/KontenHarian.ts`.
 Contoh lengkap: `src/projects/harian/tips-gaji.ts` (bernarasi), `src/projects/price-atlas/iklan.ts` (iklan).
 
 - **Bersuara**: isi `narasi` → `npm run narasi -- Harian-Inflasi-Okt26`. Subtitle & HUD otomatis.

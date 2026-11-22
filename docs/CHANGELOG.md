@@ -2,6 +2,25 @@
 
 Perubahan framework yang memengaruhi semua video. Entri terbaru di atas.
 
+## 2026-11-22 — Fase 2: visualisasi data 2D (`selisih`, `tren`, `alur`, `stats` 1 angka)
+
+Grafik yang dulu digambar manual di `irisan` (±60 baris koordinat per scene) kini ±10 baris data. Semua SVG/DOM (tanpa
+WebGL, tanpa dependensi baru), properti baru opsional; video lama identik (diverifikasi md5 still `pratinjau`).
+
+- **Scene `selisih`** — dua nilai berdampingan: batang proporsional tumbuh saat disebut, celah disorot (warna `danger`/
+  `success` menurut `arah`), selisih absolut + % dihitung otomatis, `note` sumber.
+- **Scene `tren`** — 1–3 garis dari titik data yang diberikan saja, tergambar saat cue, anotasi nilai titik akhir, `skala:
+  'absolut' | 'persen'` (perubahan % sejak titik pertama), `titik[].x` untuk rentang berbeda, `cap` % (pakai `WorldStampView`).
+- **Scene `alur`** — sebab-akibat 2–4 simpul (ikon + ≤ 4 kata), panah tergambar ke simpul berikutnya, label panah, satu `cabang`.
+- **`stats` 1 item** = angka hero layar penuh + label + `pembanding` + `note`. ⚠ Tampilan berubah untuk video yang sudah
+  memakai `stats` 1 item: Demo-AppLaunch, BPS-EkonomiQ32026, PriceAtlas-Reel20, WadahQRIS-AjakSedekah. `stats` 2–4 item tetap.
+- `kontenHarian`: kunci isi baru `selisih`, `tren`, `alur` (+ `catatan` → `note` untuk `angka`/`selisih`/`tren`/`alur`).
+- Semua ikut `motion.sync: 'auto'` (`useItemTimes`) & `legibility`; waktu di `DATAVIZ_TIMING` (`src/config/animation.ts`).
+- `WorldStampView` menerima `size?` opsional (default sama seperti sebelumnya).
+- `npm run cek`: batas label selisih/garis/titik/simpul/panah/pembanding, `tren` < 2 titik & `alur` tanpa simpul = ✗.
+- Seri `harian`: `motion: { sync: 'auto' }` + `legibility: 'mobile'`; spread emas: `note` grafik dipendekkan, cap −8,42% digeser.
+- Demo: `Demo-DataViz` (`src/projects/_demos/data-viz.ts`, bernarasi Edge TTS) — data spread emas yang sama.
+
 ## 2026-11-22 — Kualitas: QC otomatis, sinkron isi ke narasi, keterbacaan ponsel
 
 Fase 0 + 1 audit kualitas. Semua properti baru **opsional**; tanpa properti baru, video lama identik
