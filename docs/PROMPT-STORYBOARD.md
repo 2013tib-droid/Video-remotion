@@ -19,11 +19,14 @@ Pilih bentuk visual dari **maksud** informasinya, bukan dari kebiasaan. Dua bagi
 | Maksud | Isi `kontenHarian` | Tipe scene | Catatan |
 |---|---|---|---|
 | Fakta/angka mengejutkan (hook) | `kata` | `words` | angka jadi kata sorotan; ≤ 8 kata |
-| Satu angka penting | `angka` (1 item) | `stats` | ukuran display; jangan 3 angka setara berulang |
-| Perbandingan 2–6 nilai sejenis | `grafik` | `chart` | label ≤ 22 huruf; `sorot` pemenang |
+| Satu angka penting | `angka` (1 item) | `stats` (1 item) | **angka hero** layar penuh + `pembanding` + `catatan`; jangan 3 angka setara berulang |
+| Perbandingan **2 nilai** (beli vs buyback, sebelum vs sesudah, kotor vs bersih) | `selisih` | `selisih` | celah + selisih Rp & % otomatis; `arah` = arah yang buruk |
+| Perbandingan 3–6 nilai sejenis | `grafik` | `chart` | label ≤ 22 huruf; `sorot` pemenang |
+| Perubahan harga/nilai dari waktu ke waktu | `tren` | `tren` | hanya titik data nyata (≥ 2); `skala: 'persen'` untuk seri beda satuan; `cap` % |
+| Sebab → akibat (2–4 simpul, 1 cabang) | `alur` | `alur` | simpul ≤ 4 kata; label panah ≤ 14 huruf ("memicu", "menekan") |
 | Perbandingan beberapa atribut | `banding` | `comparison` | ≤ 3 kolom, sel ≤ 16 huruf |
 | Perubahan / simulasi angka | `hitung` | `calculation` | atau `scene: { type: 'irisan', panel }` untuk visual |
-| Sebab → akibat, urutan | `langkah` | `timeline` | 2–4 langkah; scene manual `relation` untuk A → B |
+| Urutan / kronologi | `langkah` | `timeline` | 2–4 langkah; scene manual `relation` untuk analogi A → B |
 | Daftar alasan / faktor | `poin` | `features` | ≤ 4 kartu |
 | Lokasi | `peta` | `map` | |
 | Kesimpulan | `kesimpulan` / `teks` | `statement` | 1–2 baris, + `stamp` di `irisan` untuk putusan |
@@ -55,7 +58,11 @@ Isian:
 - slug (untuk ID, mis. Inflasi-Okt26), topik (rubrik 1 kata, mis. "Keuangan")
 - hook (≤ 7 kata, memancing), highlight (kata di hook), hookNarasi (kalimat pembuka yang dibacakan)
 - bagian[]: tiap bagian = judul? + highlight? + narasi (1–2 kalimat yang dibacakan) + TEPAT SATU isi:
-  - angka: 1–3 angka besar {value, prefix?, suffix?, decimals?, label}
+  - angka: 1–3 angka besar {value, prefix?, suffix?, decimals?, label}; 1 angka = angka hero (+ pembanding? "vs 7,89% di UBS")
+  - selisih: dua nilai {a{label, value}, b{label, value}, prefix?, suffix?, selisihLabel?, arah?: turun-buruk|naik-buruk}
+  - tren: 1–3 garis {seri[{label, titik[{label, value, x?}]}], skala?: absolut|persen, cap?} — titik NYATA saja, ≥ 2 per garis
+  - alur: 2–4 simpul sebab-akibat [{icon?, text ≤ 4 kata, panah? (label panah masuk)}] (+ cabang?: satu simpul dari simpul lain)
+  - catatan?: sumber kecil di bawah (≤ 40 huruf) untuk angka/selisih/tren/alur
   - poin: 2–4 poin {icon (emoji), title, description?}
   - langkah: 2–4 langkah/kronologi {icon?, title, description?}
   - grafik: 2–6 batang {label, value} (+ sorot: indeks batang, sorotLabel, prefix/suffix)
@@ -111,8 +118,8 @@ Isian:
   Narasi hook ≤ 8 kata (≤ 3 detik). Pola: angka + konsekuensi · asumsi yang dibantah · kontras dua nilai · kesalahan umum.
   Tanpa clickbait: jawabannya harus ada di video.
 - Jangan pakai jenis bagian yang sama dua kali berturut-turut. Pilih jenis dari maksudnya: fakta mengejutkan → kata;
-  satu angka → angka (1 item); banding nilai sejenis → grafik; banding atribut → banding; simulasi → hitung;
-  sebab-akibat/urutan → langkah; alasan → poin; kesimpulan → teks.
+  satu angka → angka (1 item); dua nilai → selisih; banding 3+ nilai sejenis → grafik; perubahan dari waktu ke waktu → tren;
+  banding atribut → banding; simulasi → hitung; sebab-akibat → alur; urutan → langkah; alasan → poin; kesimpulan → teks.
 - Alur: hook → konteks → konflik → bukti data → penjelasan → putusan → ajakan; beri "re-hook" di tengah.
 - Di narasi bagian data, sebut label item persis seperti di layar dan berurutan (isi muncul saat labelnya diucapkan).
 - Teks layar ≤ 4 kata per detik tampil; label grafik ≤ 22 huruf, sel tabel ≤ 16 huruf, label angka ≤ 40 huruf.

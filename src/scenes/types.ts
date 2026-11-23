@@ -118,7 +118,23 @@ export interface FeaturesScene extends SceneBase, SceneHeading {
 /** Angka-angka statistik yang menghitung naik. */
 export interface StatsScene extends SceneBase, SceneHeading {
   type: 'stats';
-  stats: { value: number; prefix?: string; suffix?: string; decimals?: number; label: string; /** Muncul saat (detik / kata narasi). */ at?: Cue }[];
+  /**
+   * 1 item = **angka hero** layar penuh (label di bawah, `pembanding` opsional); 2–4 item = kisi angka.
+   * `pembanding` (mis. "vs 7,89% di UBS") hanya tampil pada varian 1 item.
+   */
+  stats: {
+    value: number;
+    prefix?: string;
+    suffix?: string;
+    decimals?: number;
+    label: string;
+    /** Muncul saat (detik / kata narasi). */
+    at?: Cue;
+    /** Konteks pembanding di bawah label (varian 1 item). */
+    pembanding?: string;
+  }[];
+  /** Catatan sumber kecil di bawah (≤ ±40 huruf). */
+  note?: string;
 }
 
 /** Grafik batang. */
@@ -781,6 +797,134 @@ export interface IrisanScene extends SceneBase, SceneHeading {
   note?: string;
 }
 
+
+/* ------------------------------------------------------------------
+ * Visualisasi data 2D: selisih, tren, alur (SVG/DOM, tanpa WebGL).
+ * ------------------------------------------------------------------ */
+
+/** Satu sisi perbandingan `selisih`. */
+export interface SelisihNilai {
+  /** Nama nilai (≤ ±22 huruf), mis. "Harga beli". */
+  label: string;
+  value: number;
+  /** Batang tumbuh saat (detik / kata narasi). Default: saat `label` diucapkan (`sync: 'auto'`) atau bergiliran. */
+  at?: Cue;
+}
+
+/**
+ * Dua nilai berdampingan (beli vs buyback, sebelum vs sesudah, kotor vs bersih): dua batang proporsional
+ * (dari nol) tumbuh saat disebut, celah di antaranya disorot, selisih absolut + % dihitung otomatis.
+ */
+export interface SelisihScene extends SceneBase, SceneHeading {
+  type: 'selisih';
+  /** Nilai acuan (kiri): harga beli, sebelum, kotor. Persen dihitung terhadap nilai ini. */
+  a: SelisihNilai;
+  /** Nilai pembanding (kanan): buyback, sesudah, bersih. */
+  b: SelisihNilai;
+  prefix?: string;
+  suffix?: string;
+  decimals?: number;
+  /** Tampilkan selisih dalam % dari `a`. Default true. */
+  persen?: boolean;
+  /** Desimal persen. Default 2. */
+  persenDecimals?: number;
+  /** Nama baris hasil. Default "Selisih". */
+  selisihLabel?: string;
+  /** Celah + angka selisih muncul saat (detik / kata narasi). Default: saat `selisihLabel` diucapkan, atau ±1 dtk setelah `b`. */
+  selisihAt?: Cue;
+  /**
+   * Arah yang BURUK (warna celah): `turun-buruk` (default) = `b` < `a` merah (`danger`), `b` > `a` hijau;
+   * `naik-buruk` = kebalikannya (biaya, utang, harga naik).
+   */
+  arah?: 'turun-buruk' | 'naik-buruk';
+  /** Tanda − / + di depan selisih. Default true. `false` = nilai mutlak (mis. "spread Rp400.000"). */
+  tanda?: boolean;
+  /** Catatan sumber kecil di bawah (≤ ±40 huruf). */
+  note?: string;
+}
+
+/** Satu titik data `tren` — hanya titik yang DIBERIKAN yang digambar (tanpa interpolasi/titik rekaan). */
+export interface TrenTitik {
+  /** Label waktu (≤ ±12 huruf), mis. "16 Nov". Titik paling awal/akhir jadi label sumbu. */
+  label?: string;
+  value: number;
+  /**
+   * Posisi waktu (angka bebas, mis. tanggal 16, 20, 22). Default = urutan titik. Isi bila seri punya rentang
+   * berbeda agar garis tidak menyesatkan (16→20 Nov lebih pendek dari 16→22 Nov).
+   */
+  x?: number;
+}
+
+/** Satu garis `tren`. */
+export interface TrenSeri {
+  /** Nama garis (≤ ±18 huruf), tampil di anotasi titik akhir. */
+  label: string;
+  /** ≥ 2 titik, urut waktu. */
+  titik: TrenTitik[];
+  /** Warna (hex / token tema). Default: primary, danger, accent bergiliran. */
+  warna?: WorldColor;
+  /** Garis tergambar saat (detik / kata narasi). Default: saat `label` diucapkan (`sync: 'auto'`) atau bergiliran. */
+  at?: Cue;
+  prefix?: string;
+  suffix?: string;
+  decimals?: number;
+}
+
+/**
+ * Perubahan nilai dari waktu ke waktu: 1–3 garis dari titik data yang diberikan, tergambar saat cue,
+ * anotasi nilai di titik akhir, cap % perubahan opsional, sumbu = label awal/akhir + garis bantu.
+ */
+export interface TrenScene extends SceneBase, SceneHeading {
+  type: 'tren';
+  seri: TrenSeri[];
+  /**
+   * `absolut` (default) = nilai apa adanya (satu satuan); `persen` = perubahan % sejak titik pertama tiap seri
+   * (garis 0% ditandai) — untuk membandingkan seri berbeda satuan/besaran (US$/oz vs Rp/gram).
+   */
+  skala?: 'absolut' | 'persen';
+  /** Format nilai (seri boleh menimpa). Mode `persen` selalu memakai %. */
+  prefix?: string;
+  suffix?: string;
+  decimals?: number;
+  /**
+   * Cap besar % perubahan (awal → akhir) sebuah seri, gaya `stamp`. `true` = seri pertama.
+   * `text` menimpa angka otomatis. Warna mengikuti `arah` (default turun = `danger`).
+   */
+  cap?: true | { seri?: number; text?: string; at?: Cue; color?: WorldColor };
+  /** Arah yang BURUK untuk warna cap. Default `turun-buruk`. */
+  arah?: 'turun-buruk' | 'naik-buruk';
+  /** Catatan sumber kecil di bawah (≤ ±40 huruf). */
+  note?: string;
+}
+
+/** Satu simpul `alur`. */
+export interface AlurSimpul {
+  /** ≤ 4 kata. */
+  text: string;
+  /** Ikon: emoji / `line:<nama>` / `draw:` / Lottie / gambar. */
+  icon?: string;
+  /** Muncul saat (detik / kata narasi). Default: saat `text` diucapkan (`sync: 'auto'`) atau bergiliran. */
+  at?: Cue;
+  /** Label kecil di panah MENUJU simpul ini (≤ ±14 huruf), mis. "memicu", "menekan". */
+  panah?: string;
+  /** Warna aksen simpul (hex / token tema: `danger`, `success`, …). Default primary. */
+  warna?: WorldColor;
+}
+
+/**
+ * Sebab-akibat 2–4 simpul berurutan (vertikal di 9:16, mendatar di 16:9): simpul muncul saat disebut,
+ * panah tergambar ke simpul berikutnya. Satu `cabang` opsional (A → B dan A → C).
+ */
+export interface AlurScene extends SceneBase, SceneHeading {
+  type: 'alur';
+  /** Rantai utama, 2–4 simpul: simpul[0] → simpul[1] → … */
+  simpul: AlurSimpul[];
+  /** Satu simpul cabang yang juga berasal dari `simpul[dari]` (default 0), tampil berdampingan dengan simpul berikutnya. */
+  cabang?: AlurSimpul & { dari?: number };
+  /** Catatan sumber kecil di bawah (≤ ±40 huruf). */
+  note?: string;
+}
+
 export type SceneConfig =
   | LogoScene
   | HeroScene
@@ -801,6 +945,9 @@ export type SceneConfig =
   | BrollScene
   | MapScene
   | WorldScene
-  | IrisanScene;
+  | IrisanScene
+  | SelisihScene
+  | TrenScene
+  | AlurScene;
 
 export type SceneType = SceneConfig['type'];

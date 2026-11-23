@@ -146,6 +146,29 @@ export const MOTION_ENERGY = {
 
 export type MotionEnergy = keyof typeof MOTION_ENERGY;
 
+/**
+ * Visualisasi data 2D (`selisih`, `tren`, `alur`, `stats` 1 item), detik.
+ * Jeda `*Gap` dipakai bila item tidak punya cue / tidak disebut narasi.
+ */
+export const DATAVIZ_TIMING = {
+  /** Batang `selisih` tumbuh. */
+  grow: 1.0,
+  /** Batang `b` menyusul `a`; celah menyusul `b`. */
+  barGap: 0.9,
+  gapAfter: 1.1,
+  /** Celah tersingkap. */
+  reveal: 0.5,
+  /** Garis `tren` tergambar; seri berikutnya menyusul. */
+  draw: 1.3,
+  seriesGap: 1.5,
+  /** Simpul `alur` berikutnya; panah mulai sebelum simpul tujuan & lama tergambar. */
+  nodeGap: 0.9,
+  arrowLead: 0.4,
+  arrow: 0.45,
+  /** Garis aksen di bawah angka hero `stats` 1 item. */
+  heroLine: 0.8,
+} as const;
+
 /** Waktu animasi keluar & idle (detik). */
 export const SCENE_MOTION_TIMING = {
   /** Lama animasi keluar satu elemen. */

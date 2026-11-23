@@ -249,7 +249,17 @@ export const WorldMeasureView: React.FC<{ measure: WorldMeasure; index: number; 
 };
 
 /** Cap putusan: kata besar miring yang menghentak masuk dari ukuran besar. */
-export const WorldStampView: React.FC<{ stamp: WorldStamp; exit: number; project: Project; color: ColorFn; W: number; H: number; start: number }> = ({
+export const WorldStampView: React.FC<{
+  stamp: WorldStamp;
+  exit: number;
+  project: Project;
+  color: ColorFn;
+  W: number;
+  H: number;
+  start: number;
+  /** Ukuran huruf (px). Default: sebesar mungkin (≤ 190 basis 1080) tanpa keluar layar. */
+  size?: number;
+}> = ({
   stamp,
   exit,
   project,
@@ -257,6 +267,7 @@ export const WorldStampView: React.FC<{ stamp: WorldStamp; exit: number; project
   W,
   H,
   start,
+  size: fixedSize,
 }) => {
   const { theme, px } = useTheme();
   const cue = useCue();
@@ -264,7 +275,7 @@ export const WorldStampView: React.FC<{ stamp: WorldStamp; exit: number; project
   if (gone || p <= 0.01) return null;
   const xy = (stamp.target ? project(stamp.target) : null) ?? { x: W / 2, y: H * 0.55 };
   // Ukuran mengecil untuk teks panjang agar tetap di dalam layar.
-  const size = Math.min(px(190), (W * 0.82) / Math.max(3, stamp.text.length * 0.62));
+  const size = fixedSize ?? Math.min(px(190), (W * 0.82) / Math.max(3, stamp.text.length * 0.62));
   return (
     <div
       style={{

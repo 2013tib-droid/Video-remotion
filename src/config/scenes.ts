@@ -20,6 +20,9 @@ export const DEFAULT_SCENE_DURATION: Record<string, number> = {
   map: 6,
   world: 8,
   irisan: 6,
+  selisih: 6,
+  tren: 6,
+  alur: 6,
 };
 
 /** Durasi minimum satu scene (detik) setelah penskalaan durasi total. */

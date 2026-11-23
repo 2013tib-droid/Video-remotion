@@ -17,6 +17,7 @@ import {
 import { Reveal, useItemTimes, useStagger } from '../motion';
 import { useTheme } from '../themes';
 import { CONTENT_DELAY, SceneLayout, SceneTitle } from './SceneLayout';
+import { DataNote, StatHeroView } from './DataVizScenes';
 import type {
   CTAScene,
   ChartScene,
@@ -86,7 +87,11 @@ export const FeaturesSceneView: React.FC<SceneProps<FeaturesScene>> = ({ scene }
   );
 };
 
-export const StatsSceneView: React.FC<SceneProps<StatsScene>> = ({ scene }) => {
+export const StatsSceneView: React.FC<SceneProps<StatsScene>> = ({ scene }) =>
+  // Satu angka = angka hero layar penuh + konteks; 2–4 angka = kisi (tampilan lama).
+  scene.stats.length === 1 ? <StatHeroView scene={scene} /> : <StatsGrid scene={scene} />;
+
+const StatsGrid: React.FC<{ scene: StatsScene }> = ({ scene }) => {
   const { isPortrait, space, px } = useTheme();
   const stagger = useStagger('relaxed');
   const delays = useItemTimes(
@@ -98,10 +103,11 @@ export const StatsSceneView: React.FC<SceneProps<StatsScene>> = ({ scene }) => {
     <SceneLayout background={scene.background}>
       <SceneTitle {...scene} />
       <div style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: space.lg, width: '100%', maxWidth: px(1600) }}>
-        {scene.stats.map(({ at: _at, ...s }, i) => (
+        {scene.stats.map(({ at: _at, pembanding: _p, ...s }, i) => (
           <CounterAnimation key={i} {...s} size={cols > 2 ? 'h2' : 'display'} delay={delays?.[i] ?? stagger(i, CONTENT_DELAY)} />
         ))}
       </div>
+      {scene.note ? <DataNote text={scene.note} delay={CONTENT_DELAY + 0.3} /> : null}
     </SceneLayout>
   );
 };

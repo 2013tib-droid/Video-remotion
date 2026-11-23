@@ -1,10 +1,28 @@
 import type { VideoConfig } from '../core/types';
-import type { ChartDatum, ComparisonRow, Feature, MapPoint, MapRegion, SceneConfig, StatsScene, TimelineStep } from '../scenes/types';
+import type {
+  AlurScene,
+  AlurSimpul,
+  ChartDatum,
+  ComparisonRow,
+  Feature,
+  MapPoint,
+  MapRegion,
+  SceneBase,
+  SceneConfig,
+  SceneHeading,
+  SelisihScene,
+  StatsScene,
+  TimelineStep,
+  TrenScene,
+} from '../scenes/types';
 import { outroScene, seriesConfig, type Series, type SeriesOutro, type SeriesVideoBase } from './series';
+
+/** Isi scene tanpa properti dasar/judul (judul diambil dari `judul`/`label`/`keterangan` bagian). */
+type Isi<S> = Omit<S, 'type' | keyof SceneBase | keyof SceneHeading>;
 
 /**
  * Satu bagian isi. Isi TEPAT SATU kunci konten (`angka`, `poin`, `langkah`, `grafik`, `banding`,
- * `kutipan`, `teks`, `kata`, `foto`, `peta`, `hitung`, atau `scene`); sisanya opsional.
+ * `kutipan`, `teks`, `kata`, `foto`, `peta`, `hitung`, `selisih`, `tren`, `alur`, atau `scene`); sisanya opsional.
  */
 export interface Bagian {
   /** Judul bagian (≤ ±8 kata). */
@@ -20,7 +38,10 @@ export interface Bagian {
   /** Kata/frasa narasi yang disorot di subtitle. */
   emphasis?: string[];
 
-  /** Angka besar menghitung naik (1–3 angka). → scene `stats` */
+  /** Catatan sumber kecil di bawah (≤ ±40 huruf) untuk `angka`, `selisih`, `tren`, `alur`. */
+  catatan?: string;
+
+  /** Angka besar menghitung naik. 1 angka = angka hero layar penuh (+ `pembanding`); 2–3 angka = kisi. → scene `stats` */
   angka?: StatsScene['stats'];
   /** Daftar poin berikon (maks 4). String = judul saja. → scene `features` */
   poin?: (Feature | string)[];
@@ -48,6 +69,12 @@ export interface Bagian {
   wilayah?: MapRegion;
   /** Kalkulasi: baris nilai lalu total. → scene `calculation` */
   hitung?: { baris: { label: string; value: number; negative?: boolean }[]; total: { label: string; value: number }; catatan?: string };
+  /** Dua nilai berdampingan (beli vs buyback, sebelum vs sesudah) + selisih & % otomatis. → scene `selisih` */
+  selisih?: Isi<SelisihScene>;
+  /** Perubahan dari waktu ke waktu: 1–3 garis dari titik data yang diberikan. → scene `tren` */
+  tren?: Isi<TrenScene>;
+  /** Sebab-akibat 2–4 simpul (string = teks saja), atau `{ simpul, cabang? }`. → scene `alur` */
+  alur?: (AlurSimpul | string)[] | Isi<AlurScene>;
   /** Jalan keluar: scene mentah apa pun dari `src/scenes/types.ts`. */
   scene?: SceneConfig;
 }
@@ -73,7 +100,7 @@ export interface KontenHarianProps extends SeriesVideoBase {
   penutup?: Partial<SeriesOutro> | false;
 }
 
-const CONTENT_KEYS = ['angka', 'poin', 'langkah', 'grafik', 'banding', 'kutipan', 'teks', 'kata', 'foto', 'peta', 'hitung', 'scene'] as const;
+const CONTENT_KEYS = ['angka', 'poin', 'langkah', 'grafik', 'banding', 'kutipan', 'teks', 'kata', 'foto', 'peta', 'hitung', 'selisih', 'tren', 'alur', 'scene'] as const;
 
 function bagianScene(b: Bagian, i: number, id: string): SceneConfig {
   const used = CONTENT_KEYS.filter((k) => b[k] !== undefined);
@@ -83,7 +110,14 @@ function bagianScene(b: Bagian, i: number, id: string): SceneConfig {
   const head = { eyebrow: b.label, title: b.judul, highlight: b.highlight, subtitle: b.keterangan };
   const base = { narration: b.narasi, emphasis: b.emphasis };
   if (b.scene) return { ...b.scene, narration: b.scene.narration ?? b.narasi, emphasis: b.scene.emphasis ?? b.emphasis };
-  if (b.angka) return { type: 'stats', ...head, ...base, stats: b.angka };
+  if (b.angka) return { type: 'stats', ...head, ...base, stats: b.angka, note: b.catatan };
+  if (b.selisih) return { type: 'selisih', ...head, ...base, note: b.catatan, ...b.selisih };
+  if (b.tren) return { type: 'tren', ...head, ...base, note: b.catatan, ...b.tren };
+  if (b.alur) {
+    const isi = Array.isArray(b.alur) ? { simpul: b.alur } : b.alur;
+    const simpul = isi.simpul.map((n) => (typeof n === 'string' ? { text: n } : n));
+    return { type: 'alur', ...head, ...base, note: b.catatan, ...isi, simpul };
+  }
   if (b.poin) return { type: 'features', ...head, ...base, features: b.poin.map((f) => (typeof f === 'string' ? { title: f } : f)) };
   if (b.langkah) return { type: 'timeline', ...head, ...base, steps: b.langkah.map((s) => (typeof s === 'string' ? { title: s } : s)) };
   if (b.grafik) {

@@ -22,7 +22,7 @@ Sebagian besar scene juga menerima **judul standar**: `eyebrow`, `title`, `highl
 | `hero` | `title` `button?` `illustration?` | Judul besar pembuka / hook |
 | `mascot` | `mascot` `speech?` `name?` | Karakter + balon ucapan |
 | `features` | `features[] {icon,title,description}` `columns?` | Daftar/grid fitur, kartu belajar |
-| `stats` | `stats[] {value,prefix,suffix,decimals,label}` | Angka menghitung naik |
+| `stats` | `stats[] {value,prefix,suffix,decimals,label,pembanding?}` `note?` | Angka menghitung naik. **1 item = angka hero** layar penuh (label di bawah, `pembanding` di pil, garis aksen); 2–4 item = kisi |
 | `chart` | `data[] {label,value}` `highlightBar?` `highlightLabel?` `orientation?` `prefix?` `suffix?` | Perbandingan harga, pertumbuhan |
 | `comparison` | `columns[]` `rows[] {label, values[]}` `highlightColumn?` | Tabel ✓/✕ vs kompetitor |
 | `timeline` | `steps[] {icon?,title,description?}` | Cara kerja, roadmap |
@@ -37,6 +37,9 @@ Sebagian besar scene juga menerima **judul standar**: `eyebrow`, `title`, `highl
 | `broll` | `src` atau `shots[] {src, move?, focus?, caption?, duration?, startFrom?}` `move?` `textPosition?` `dim?` `volume?` + judul standar | **Foto/video b-roll layar penuh** dengan gerak kamera Ken Burns: `zoomIn` `zoomOut` `panLeft` `panRight` `panUp` `panDown` `none` atau `auto` (bergiliran). `focus: [x, y]` (0..1) = titik pusat zoom. Beberapa `shots` = montase dengan crossfade + swipe. Judul putih di atas scrim gelap (`dim` 0..1, `textPosition` `bottom`/`center`/`top`); `caption` = label lokasi kiri atas. Video (mp4/webm/mov) senyap kecuali `volume`. |
 | `map` | `region?` `points[] {place? \| lat+lon, label?, value?, icon?, at?}` `routes[] {from, to, at?}` `countries?[]` `zoomToPoints?` + judul standar | **Peta beranimasi** (Natural Earth): daratan tersingkap melingkar, kamera terbang ke area pin, pin jatuh memantul + denyut, label (anti-tabrakan) dengan nilai, rute melengkung tergambar + titik mengalir. `region`: `indonesia` (default) `sumatra` `jawa` `kalimantan` `sulawesi` `bali-nusra` `maluku` `papua` `asean` `asia` `world` atau bbox `[barat, selatan, timur, utara]`. `place` = kota bawaan (±100: semua ibu kota provinsi & kota besar Indonesia, ASEAN, kota dunia — `src/components/map/places.ts`). `countries` = negara diwarnai (nama Inggris, mis. `'Malaysia'`); wilayah Indonesia otomatis menyorot Indonesia. |
 | `irisan` | `parts[]` `size?` `shots?[]` `labels?[]` `badge?` `cards?[]` `readout?` `panel?` `meters?[]` `stamp?` `latar?` `note?` | **Irisan teknis 2D** (cutaway gaya buku teknik): bagian berwarna per bahan dengan aksir, bergerak saat kata narasi, label menempel, HUD sama dengan `world`. Lihat bagian *Irisan teknis* di bawah. |
+| `selisih` | `a {label,value,at?}` `b {label,value,at?}` `prefix?` `suffix?` `decimals?` `persen?` `persenDecimals?` `selisihLabel?` `selisihAt?` `arah?` `tanda?` `note?` + judul standar | **Dua nilai** (beli vs buyback, sebelum vs sesudah): dua batang proporsional dari nol tumbuh saat disebut, celah disorot (aksir + garis acuan + kurung), baris hasil selisih + % menghitung. Lihat *Visualisasi data* |
+| `tren` | `seri[] {label, titik[] {label?,value,x?}, warna?, at?}` `skala?: 'absolut' \| 'persen'` `cap?` `arah?` `note?` + judul standar | **Perubahan dari waktu ke waktu**: 1–3 garis dari titik data yang diberikan, tergambar saat disebut, anotasi nilai di titik akhir, cap % opsional. Lihat *Visualisasi data* |
+| `alur` | `simpul[] {text, icon?, at?, panah?, warna?}` `cabang?` `note?` + judul standar | **Sebab-akibat** 2–4 simpul (vertikal di 9:16), panah tergambar ke simpul berikutnya, label panah, satu cabang. Lihat *Visualisasi data* |
 | `world` | `objects[]` `views?` `shots[]` `labels?[]` `cards?[]` `readout?` `meters?[]` `measures?[]` `stamp?` `ground?` `sky?` `note?` + judul standar | **Dunia 3D** (WebGL): objek nyata + kamera yang terbang antar sudut pandang, tembus pandang ke dalam objek, bagian bergerak, label menempel. Lihat bagian *Dunia 3D* di bawah. |
 
 Semua scene juga menerima `narration` (teks voice-over), `emphasis[]` (kata disorot di subtitle) dan `chapter {label?, title, highlight?}` (header bab). `at` = detik **atau kata narasi** (mis. `'higrometer'`, `'alat#2'`). Lihat `docs/EXPLAINER.md`.
@@ -55,7 +58,7 @@ Semua scene juga menerima `narration` (teks voice-over), `emphasis[]` (kata diso
 `notifications[]`: `{ icon?, app?, title, body?, time? }` — muncul berurutan di atas perangkat.
 
 ## Durasi default (detik)
-logo 3 · hero 4 · mascot 4 · features 5 · stats 4 · chart 5 · comparison 5 · timeline 5 · device 5 · calculation 5 · testimonial 4.5 · cta 4 · question 5 · relation 5 · statement 5 · words 4 · broll 5 · map 6 · world 8 · irisan 6 (scene bernarasi: mengikuti panjang suara)
+logo 3 · hero 4 · mascot 4 · features 5 · stats 4 · chart 5 · comparison 5 · timeline 5 · device 5 · calculation 5 · testimonial 4.5 · cta 4 · question 5 · relation 5 · statement 5 · words 4 · broll 5 · map 6 · world 8 · irisan 6 · selisih 6 · tren 6 · alur 6 (scene bernarasi: mengikuti panjang suara)
 
 ## Efek suara (SFX)
 Semua video otomatis punya efek suara halus (file sintetis di `public/sfx/`, dibuat `node scripts/build-sfx.mjs`):
@@ -101,7 +104,7 @@ Opsional — tanpa ini video tampil seperti dulu. Disarankan untuk video bernara
 `motion: { sync: 'auto' }, legibility: 'mobile'`.
 
 - **Sinkron isi ke narasi** (`motion.sync: 'auto'` di video/seri, atau `sync` per scene): kartu `features`, angka `stats`,
-  batang `chart`, baris `comparison`, langkah `timeline`, baris `calculation` muncul **saat labelnya diucapkan**
+  batang `chart`, baris `comparison`, langkah `timeline`, baris `calculation`, batang `selisih`, garis `tren`, simpul `alur` muncul **saat labelnya diucapkan**
   (0,15 dtk lebih awal), berurutan maju. Dicocokkan per kata (≥ 3 huruf, bukan kata umum; awalan ≥ 4 huruf: "premi" ↔
   "preminya"). Item yang labelnya tidak disebut menyusul 0,35 dtk setelah item sebelumnya.
   Per item **`at`** (detik atau kata narasi, mis. `{ label: 'UBS', value: 7.89, at: 'UBS' }`) selalu menang, juga tanpa `sync`.
@@ -124,6 +127,33 @@ Hasil pratinjau: `out/pratinjau/<ID>/` (jpg per scene, `laporan.md`, `index.html
 Tetap perlu mata manusia: daya tarik hook, kejelasan cerita, ritme, warna, kealamian suara, kebenaran data.
 Pemeriksa: `src/core/QualityCheck.tsx` (aktif hanya dengan input props `qc: true`; lapisan `data-qc="overlay"` —
 HUD, subtitle, watermark — tidak diperiksa zona UI/huruf kecil).
+
+## Visualisasi data (`selisih`, `tren`, `alur`, `stats` 1 item)
+2D (SVG/DOM, tanpa WebGL) — secepat scene biasa di `pratinjau`. Ditulis sebagai **data**, bukan koordinat: yang dulu ±60 baris
+`irisan` per grafik kini ±10 baris. Ukuran grafik mengisi sisa area aman setelah judul (ikut `overlay`/HUD + subtitle).
+Waktu: `DATAVIZ_TIMING` (`src/config/animation.ts`). Contoh lengkap bernarasi: `src/projects/_demos/data-viz.ts` (`Demo-DataViz`).
+Di `kontenHarian`: kunci `selisih`, `tren`, `alur` (+ `catatan` = `note`); `angka` 1 item = angka hero.
+
+- **`selisih`** — `a` = nilai acuan (kiri, dasar %), `b` = pembanding (kanan). Batang proporsional **dari nol** (jujur: selisih
+  2% memang tampak tipis — angkanya ada di baris hasil). Label + nilai (menghitung) di bawah batang. Celah = bagian batang
+  pendek yang hilang/bertambah: aksir + garis acuan + kurung, muncul saat `selisihAt` (default: saat `selisihLabel` diucapkan,
+  atau ±1 dtk setelah `b`). Baris hasil: `selisihLabel` (default "Selisih") · selisih menghitung · pil %.
+  Warna: `arah: 'turun-buruk'` (default: `b < a` = `danger`, `b > a` = `success`) / `'naik-buruk'` (biaya, utang).
+  `tanda: false` = tanpa −/+ (mis. "Spread Rp400.000"). `persen: false` = tanpa %. Format `prefix`/`suffix`/`decimals` seperti `stats`.
+- **`tren`** — hanya titik yang diberikan yang digambar (garis lurus antar titik data, tanpa interpolasi/titik rekaan; tiap titik
+  diberi bulatan). `titik[].x` = posisi waktu (mis. tanggal) bila seri beda rentang (16→20 vs 16→22 Nov). `skala: 'persen'` =
+  perubahan % sejak titik pertama tiap seri (garis 0% putus-putus) agar seri beda satuan bisa dibandingkan; `absolut` = nilai
+  apa adanya (satu satuan). Sumbu = label titik awal/akhir tiap seri + 3 garis bantu (tanpa angka sumbu: nilai ada di anotasi
+  titik akhir "Label · nilai", di bawah garis yang turun / di atas yang naik, tidak saling menimpa). Garis tergambar saat
+  `at` / labelnya diucapkan. `cap: true | { seri?, text?, at?, color? }` = cap % perubahan awal → akhir (gaya `stamp`), warna
+  dari `arah`; posisinya dipilih otomatis di area yang tidak menimpa teks (bila tidak ada, cap mengecil).
+- **`alur`** — `simpul` 2–4 (≤ 4 kata, ikon opsional) muncul saat disebut; panah tergambar dari simpul sebelumnya tepat sebelum
+  simpul tujuan muncul; `panah` di simpul = label kecil miring di panah masuknya. `cabang: { dari?, text, … }` = satu simpul
+  tambahan dari `simpul[dari]` (default 0), tampil berdampingan dengan simpul berikutnya (A → B dan A → C). 16:9 = mendatar.
+  `warna` per simpul (token tema, mis. `danger`).
+- **`stats` 1 item** — angka hero sebesar mungkin di area aman (gradien, menghitung, garis aksen), label di bawah, `pembanding`
+  opsional (pil), `note` opsional. `stats` 2–4 item tidak berubah (`note` opsional juga tampil di bawah kisi).
+- Catatan `note` (semua tipe di atas): pil kecil huruf mesin tik di bawah konten, ≤ 40 huruf (dicek `npm run cek`).
 
 ## Gerak sepanjang scene
 Semua video otomatis punya: **kamera** (zoom/geser pelan + background parallax), **idle** (kartu, ikon, angka, badge "bernapas" setelah muncul) dan **keluar** (elemen memudar ke atas bergiliran sebelum transisi).

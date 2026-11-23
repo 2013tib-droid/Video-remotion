@@ -21,6 +21,7 @@ import { BrollSceneView } from './BrollScene';
 import { MapSceneView } from './MapScene';
 import { WorldSceneView } from './WorldScene';
 import { IrisanSceneView } from './IrisanScene';
+import { AlurSceneView, SelisihSceneView, TrenSceneView } from './DataVizScenes';
 import type { SceneProps } from './registry-types';
 import type { SceneConfig, SceneType } from './types';
 
@@ -49,6 +50,9 @@ const REGISTRY: { [T in SceneType]: React.FC<SceneProps<Extract<SceneConfig, { t
   map: MapSceneView,
   world: WorldSceneView,
   irisan: IrisanSceneView,
+  selisih: SelisihSceneView,
+  tren: TrenSceneView,
+  alur: AlurSceneView,
 };
 
 export const SceneRenderer: React.FC<SceneProps> = ({ scene, brand }) => {

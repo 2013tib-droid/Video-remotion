@@ -64,7 +64,8 @@ Yang boleh diubah untuk tugas video: `src/projects/**`, `naskah/**`, `public/bra
 
 ## Mengubah framework (hanya bila diminta animasi/efek/scene/template baru)
 Framework sudah punya: kamera + idle + animasi keluar, tipografi kinetik, 15 transisi + `mix`, ikon tergambar/Lottie, SFX otomatis, musik latar, watermark,
-20 tipe scene (termasuk `world` = dunia 3D: kamera terbang, tembus pandang, label menempel, model `.glb`, HUD data: strip angka
+23 tipe scene (termasuk visualisasi data 2D `selisih` (dua nilai + celah), `tren` (garis dari titik data nyata),
+`alur` (sebab-akibat), `stats` 1 item = angka hero; `world` = dunia 3D: kamera terbang, tembus pandang, label menempel, model `.glb`, HUD data: strip angka
 bersumber, panel batang, panel layar gelap, penanda ukuran, cap putusan, kartu putusan; dan `irisan` = irisan teknis 2D beraksir
 per bahan), narasi + subtitle, sinkron isi ke narasi (`sync`/`at`), keterbacaan ponsel (`legibility`), QC otomatis (`cek`,
 `pratinjau`). Sebelum menambah apa pun baca `docs/KATALOG-SCENE.md` (apa yang ada) dan `docs/MEMPERLUAS.md` (cara menambah).
