@@ -14,6 +14,9 @@ import { LEGIBILITY, SAFE_AREA, type FormatName } from '../config';
  *   ! aman      teks konten di zona UI platform (SAFE_AREA; lapisan HUD/watermark dikecualikan)
  *   ! kecil     ukuran huruf < LEGIBILITY.minFontQc (px basis 1080)
  * Elemen yang sedang memudar (opasitas < 0,6) dilewati: pilih frame saat isi sudah tampil penuh.
+ *
+ * Juga dilaporkan `texts`: teks konten terbesar (ukuran baris px basis 1080 + opasitas efektif, termasuk yang
+ * belum tampil) — dipakai `pratinjau` untuk memeriksa apakah elemen utama hook sudah tampil penuh pada 0,6 dtk.
  */
 export interface QcIssue {
   kind: 'tepi' | 'wadah' | 'tumpuk' | 'aman' | 'kecil';
@@ -81,6 +84,41 @@ function collect(root: HTMLElement): TextBox[] {
     out.push(box);
   }
   return out;
+}
+
+/** Teks konten (bukan HUD/subtitle/watermark) + ukuran baris (px basis 1080) + opasitas efektif. */
+export interface QcText {
+  t: string;
+  s: number;
+  o: number;
+}
+
+/** Teks konten terbesar di frame, termasuk yang masih transparan (maks `limit`). */
+export function scanTexts(root: HTMLElement, width: number, height: number, limit = 16): QcText[] {
+  const k = Math.min(width, height) / 1080;
+  const byEl = new Map<Element, QcText>();
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+    const text = n.textContent ?? '';
+    const el = n.parentElement;
+    if (!el || !/[\p{L}\p{N}]/u.test(text) || el.closest('[data-qc="overlay"]')) continue;
+    const range = document.createRange();
+    range.selectNodeContents(n);
+    const rects = Array.from(range.getClientRects()).filter((r) => r.width > 0 && r.height > 0);
+    if (!rects.length) continue;
+    const size = Math.max(...rects.map((r) => r.height)) / k;
+    const prev = byEl.get(el);
+    if (prev) {
+      prev.t += text;
+      prev.s = Math.max(prev.s, size);
+      continue;
+    }
+    byEl.set(el, { t: text, s: size, o: effectiveOpacity(el, root) });
+  }
+  return [...byEl.values()]
+    .map((x) => ({ t: snippet(x.t), s: Math.round(x.s), o: Math.round(x.o * 100) / 100 }))
+    .sort((a, b) => b.s - a.s)
+    .slice(0, limit);
 }
 
 export function scanLayout(root: HTMLElement, width: number, height: number, format: FormatName): QcIssue[] {
@@ -196,7 +234,7 @@ export const QualityCheck: React.FC<{ format: FormatName }> = ({ format }) => {
           style.textContent = '*{pointer-events:auto!important}';
           document.head.appendChild(style);
           try {
-            console.log(`QC|${JSON.stringify({ frame, issues: scanLayout(root, width, height, format) })}`);
+            console.log(`QC|${JSON.stringify({ frame, issues: scanLayout(root, width, height, format), texts: scanTexts(root, width, height) })}`);
           } finally {
             style.remove();
             finish();

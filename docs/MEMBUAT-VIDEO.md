@@ -40,21 +40,28 @@ import { harian } from './series';
 export default kontenHarian(harian, {
   slug: 'Inflasi-Okt26',
   topik: 'Ekonomi',
-  hook: 'Harga naik lagi?',
-  highlight: 'naik lagi',
+  // Pola hook: elemen utama tampil ≤ 0,5 dtk, narasi hook dibangkitkan dari isinya.
+  hook: { pola: 'pertanyaan', teks: 'Harga naik lagi?', highlight: 'naik lagi' },
   bagian: [
-    { judul: 'Inflasi Oktober', angka: [{ value: 0, suffix: '%', decimals: 2, label: 'yoy' }], narasi: '...' },
-    { judul: 'Penyumbang terbesar', poin: [{ icon: '🍚', title: 'Beras' }, { icon: '⛽', title: 'BBM' }], narasi: '...' },
-    { teks: ['Dampaknya ke', 'dompet kamu?'], narasi: '...' },
+    // Tulis MAKSUD + data; template memilih visualnya (angka hero, selisih, grafik, tren, alur, …).
+    { maksud: 'satu-angka', judul: 'Inflasi Oktober', data: { value: 0, suffix: '%', decimals: 2, label: 'yoy' }, narasi: '...' },
+    { maksud: 'dua-nilai', judul: 'Harga beras', data: { a: { label: 'Bulan lalu', value: 0 }, b: { label: 'Kini', value: 0 }, prefix: 'Rp', arah: 'naik-buruk' }, narasi: '...' },
+    { maksud: 'sebab-akibat', judul: 'Kenapa naik?', data: ['Panen mundur', 'Pasokan turun', 'Harga naik'], narasi: '...' },
+    { maksud: 'kesimpulan', data: ['Dampaknya ke', 'dompet kamu?'], narasi: '...' },
   ],
-  kesimpulan: 'Pantau terus harganya.',
   sumber: 'BPS',
 });
 ```
 
-Jenis isi `bagian` (tepat satu per bagian): `angka` · `poin` · `langkah` · `grafik` · `banding` · `kutipan` · `teks` · `kata` ·
-`foto` · `peta` · `hitung` · `selisih` · `tren` · `alur` · `scene` (scene mentah apa pun). Visualisasi data (dua nilai, garis
-waktu, sebab-akibat): contoh `src/projects/_demos/data-viz.ts`, rincian `docs/KATALOG-SCENE.md` → *Visualisasi data*. Detail field: `src/templates/KontenHarian.ts`.
+**Maksud** (`maksud` + `data`, tabel lengkap: `docs/PROMPT-STORYBOARD.md` → *Komposisi*): `satu-angka` · `dua-nilai` ·
+`peringkat` · `perubahan` · `sebab-akibat` · `urutan` · `alasan` · `atribut` · `simulasi` · `kesimpulan` · `lokasi`.
+**Pola hook** (`hook: { pola, … }`): `angka-konsekuensi` · `asumsi-dibantah` · `kontras` · `kesalahan-umum` · `pertanyaan`
+(atau `hook: 'teks'` biasa). Data tidak cocok dengan maksud → galat jelas saat config dibangun. Rincian:
+`docs/KATALOG-SCENE.md` → *Maksud & hook*; contoh `src/projects/_demos/maksud.ts`, `src/projects/_demos/hook.ts`.
+
+Cara lama (kunci isi, penulis memilih tipe sendiri; tetap valid): `angka` · `poin` · `langkah` · `grafik` · `banding` ·
+`kutipan` · `teks` · `kata` · `foto` · `peta` · `hitung` · `selisih` · `tren` · `alur` · `scene` (scene mentah apa pun).
+Detail field: `src/templates/KontenHarian.ts`.
 Contoh lengkap: `src/projects/harian/tips-gaji.ts` (bernarasi), `src/projects/price-atlas/iklan.ts` (iklan).
 
 - **Bersuara**: isi `narasi` → `npm run narasi -- Harian-Inflasi-Okt26`. Subtitle & HUD otomatis.

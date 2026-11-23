@@ -16,6 +16,8 @@ export interface SceneText {
   emphasis: string[];
   /** Jumlah kata sorotan di scene-scene sebelumnya → giliran coretan tetap sama tiap render. */
   accentBase: number;
+  /** `scene.masuk === 'cepat'`: jeda antar kata judul dimampatkan (lihat `MASUK_CEPAT`). */
+  cepat?: boolean;
 }
 
 const DEFAULT_SCENE_TEXT: SceneText = { highlightStyle: 'mix', emphasis: [], accentBase: 0 };
@@ -63,7 +65,9 @@ export function accentStroke(style: HighlightStyle, index: number): AccentStroke
 export function useTextAnimation(size: TypeSize = 'h1', override?: TextAnimation): TextAnimation {
   const ctx = useSceneText();
   const { theme } = useTheme();
-  const anim = override ?? ctx.textAnimation ?? theme.motion.text ?? 'rise';
+  const chosen = override ?? ctx.textAnimation ?? theme.motion.text ?? 'rise';
+  // `masuk: 'cepat'` (hook): gaya yang baru terbaca setelah ±0,5 dtk (kabur/memudar/mengetik) → `pop`.
+  const anim = ctx.cepat && (chosen === 'blur' || chosen === 'fade' || chosen === 'typewriter') ? 'pop' : chosen;
   const dramatic = size === 'display' || size === 'h1';
   return !dramatic && anim === 'slam' ? 'rise' : anim;
 }

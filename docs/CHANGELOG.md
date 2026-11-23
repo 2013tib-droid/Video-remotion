@@ -2,6 +2,28 @@
 
 Perubahan framework yang memengaruhi semua video. Entri terbaru di atas.
 
+## 2026-11-23 — Fase 3: komposisi dari `maksud` + preset hook
+
+Penulis cukup menulis **maksud + data** dan **pola hook**; template memilih visual. Semua properti baru opsional;
+video lama identik (md5 still `pratinjau` sebelum/sesudah: spread emas, TipsGaji, WadahQRIS-Promo, Krakatau, Demo-DataViz).
+
+- **`src/templates/maksud.ts`** (murni, tanpa React): `maksudScene` (11 maksud → scene; galat jelas per bagian),
+  `variasi` (tipe sama berturut-turut → varian `chart` orientasi / `features` kolom), `hookScene` + `narasiHook`
+  (5 pola), `bacaTeks`/`bacaNilai`/`terbilang` (angka → kata untuk narasi default).
+- `kontenHarian`: bagian `{ maksud, data, … }` (kunci isi lama tetap valid; dicampur = galat); `hook: string | { pola, … }`.
+- Scene: `SceneBase.masuk?: 'cepat'` (tanpa cue kata narasi, jeda kata ≤ `MASUK_CEPAT.spread`, `blur`/`fade`/`typewriter`
+  → `pop`, `hero` mulai 0 dtk); `selisih.ringkas?` (nilai besar tanpa hitung naik, semua tampil ≤ 0,5 dtk —
+  `DATAVIZ_TIMING.ringkas`). Default = tampilan sebelumnya.
+- `npm run cek`: config gagal dibangun = ✗ (bukan crash); saran maksud (grafik 2 batang, angka setara/kisi berulang,
+  langkah berkata sebab).
+- `npm run pratinjau`: peringatan **hook lambat** (elemen utama hook belum opasitas ≥ 0,9 pada 0,6 dtk);
+  `QualityCheck.tsx` melaporkan `texts` (ukuran + opasitas teks konten) — frame tidak berubah.
+- `npm run narasi`: file yang meng-export array video kini menarasikan semuanya (satu `.narration.json`, klip sama dipakai ulang).
+- `WadahQRIS-AjakSedekah` scene 4: notifikasi yang menimpa layar QR diganti `bullets` (0 ✗ di `pratinjau`).
+- Demo: `Demo-Maksud` (data spread emas yang sama dengan `Demo-DataViz`, hanya maksud + pola hook), `Demo-Hook-<pola>` (5).
+- Dokumen: PROMPT-STORYBOARD (Komposisi berbasis maksud, prompt & contoh), KATALOG (*Maksud & hook*), MEMBUAT-VIDEO,
+  CLAUDE.md, agen `storyboard` & `penulis-naskah`, `naskah/_template/video.md`.
+
 ## 2026-11-22 — Fase 2: visualisasi data 2D (`selisih`, `tren`, `alur`, `stats` 1 angka)
 
 Grafik yang dulu digambar manual di `irisan` (±60 baris koordinat per scene) kini ±10 baris data. Semua SVG/DOM (tanpa

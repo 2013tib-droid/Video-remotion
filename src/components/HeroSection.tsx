@@ -1,7 +1,7 @@
 import React from 'react';
 import { type TypeSize } from '../config';
-import { LINE_HEIGHT } from '../config';
-import { Reveal, useTextAnimation } from '../motion';
+import { LINE_HEIGHT, MASUK_CEPAT } from '../config';
+import { Reveal, useSceneText, useTextAnimation } from '../motion';
 import { useTheme } from '../themes';
 import { LineText, textRevealSpan, useTextLastStart } from './KineticText';
 import { Heading, Icon, Pill } from './primitives';
@@ -40,7 +40,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   // Subtitle menyusul saat judul hampir selesai (maks 1,2 dtk agar tidak menunggu lama).
   // Judul sinkron narasi: subtitle menunggu kata terakhir judul muncul.
   const lastWord = useTextLastStart(title, anim, delay + 0.15);
-  const afterTitle = Math.max(delay + 0.15 + Math.min(1.2, Math.max(0.3, textRevealSpan(title, anim) * 0.8)), lastWord + 0.25);
+  const spread = useSceneText().cepat ? MASUK_CEPAT.spread : undefined;
+  const afterTitle = Math.max(delay + 0.15 + Math.min(1.2, Math.max(0.3, textRevealSpan(title, anim, spread) * 0.8)), lastWord + 0.25);
   return (
     <div
       style={{

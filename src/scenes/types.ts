@@ -49,6 +49,11 @@ export interface SceneBase {
    * Item juga bisa diberi `at` (detik atau kata narasi) sendiri — selalu menang.
    */
   sync?: 'auto' | false;
+  /**
+   * `cepat` = teks & isi tampil penuh ≤ 0,5 dtk tanpa menunggu narasi (kata judul tidak dicocokkan ke suara,
+   * jeda antar kata dimampatkan; `MASUK_CEPAT`). Untuk hook. Default: seperti biasa.
+   */
+  masuk?: 'cepat';
 }
 
 /**
@@ -841,6 +846,11 @@ export interface SelisihScene extends SceneBase, SceneHeading {
   tanda?: boolean;
   /** Catatan sumber kecil di bawah (≤ ±40 huruf). */
   note?: string;
+  /**
+   * Versi ringkas untuk hook (`kontras`): batang, nilai (lebih besar, tanpa hitung naik) dan selisih tampil penuh
+   * ≤ 0,5 dtk, tidak menunggu narasi (`at`/`selisihAt` angka tetap dipakai). Default false = tampilan biasa.
+   */
+  ringkas?: boolean;
 }
 
 /** Satu titik data `tren` — hanya titik yang DIBERIKAN yang digambar (tanpa interpolasi/titik rekaan). */

@@ -8,6 +8,7 @@ import { continueRender, delayRender, interpolate, spring, useCurrentFrame, useV
 import {
   ACCENT_TIMING,
   EASINGS,
+  MASUK_CEPAT,
   SPRINGS,
   TEXT_ANIMATIONS,
   TYPEWRITER,
@@ -51,8 +52,12 @@ export function planWords(
   delay: number,
   cues: CueWord[] = [],
   until = Infinity,
+  /** Rentang maksimal (detik) antar mulai kata pertama–terakhir (`masuk: 'cepat'`). Default: jeda preset. */
+  spread?: number,
 ): WordPlan[] {
-  const preset: TextAnimationPreset = TEXT_ANIMATIONS[anim];
+  const base: TextAnimationPreset = TEXT_ANIMATIONS[anim];
+  const preset =
+    spread !== undefined && words.length > 1 ? { ...base, stagger: Math.min(base.stagger, spread / (words.length - 1)) } : base;
   const out: WordPlan[] = [];
   let k = 0;
   let prev: WordPlan | null = null;
@@ -81,8 +86,8 @@ export function planWords(
 }
 
 /** Lama total kata-kata muncul tanpa narasi (detik) — untuk menjadwalkan elemen sesudahnya. */
-export function textRevealSpan(text: string, anim: TextAnimation): number {
-  const plan = planWords(text.split(/\s+/).filter(Boolean), anim, 0);
+export function textRevealSpan(text: string, anim: TextAnimation, spread?: number): number {
+  const plan = planWords(text.split(/\s+/).filter(Boolean), anim, 0, [], Infinity, spread);
   return plan.length ? plan[plan.length - 1].end : 0;
 }
 
@@ -95,7 +100,8 @@ export function useTextLastStart(text: string, anim: TextAnimation, delay: numbe
   const motion = useSceneMotion();
   const { fps } = useVideoConfig();
   const until = motion ? motion.frames / fps - 1.2 : Infinity;
-  const plan = planWords(text.split(/\s+/).filter(Boolean), anim, delay, cues, until);
+  const spread = useSceneText().cepat ? MASUK_CEPAT.spread : undefined;
+  const plan = planWords(text.split(/\s+/).filter(Boolean), anim, delay, cues, until, spread);
   return plan.length ? plan[plan.length - 1].start : delay;
 }
 
@@ -136,7 +142,7 @@ export const KineticText: React.FC<KineticTextProps> = ({
   const cues = useCueWords();
   const words = text.split(/\s+/).filter(Boolean);
   const until = cueUntil ?? (motion ? motion.frames / fps - 1.2 : Infinity);
-  const plan = planWords(words, animation, delay, cues, until);
+  const plan = planWords(words, animation, delay, cues, until, sceneText.cepat ? MASUK_CEPAT.spread : undefined);
   const flags = accentFlags(text, highlight, sceneText.emphasis);
   const style_ = sceneText.highlightStyle;
   const t = frame / fps;

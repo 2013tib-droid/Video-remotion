@@ -430,17 +430,22 @@ function preflight(voice) {
 }
 
 for (const file of files) {
-  const { configs, narrationKey, splitWords, jsonPath } = await loadConfigFile(file);
-  const config = configs[0];
-  if (!config?.voice) {
+  const { configs: all, narrationKey, splitWords, jsonPath } = await loadConfigFile(file);
+  // File ber-array (mis. `_demos/hook.ts`): semua video berbagi satu `.narration.json` (kunci klip = isi teks).
+  const configs = all.filter((c) => c.voice);
+  if (!configs.length) {
     console.error(`${file}: config tidak punya \`voice\` (tidak ada scene bernarasi) — lewati.`);
     continue;
   }
   if (!existsSync(jsonPath)) writeFileSync(jsonPath, '{\n  "clips": {}\n}\n');
   const data = JSON.parse(readFileSync(jsonPath, 'utf8'));
+  const wanted = new Set();
+  const dirs = [];
+  for (const config of configs) {
   const outDir = join('public', 'narration', config.id);
   mkdirSync(outDir, { recursive: true });
-  const wanted = new Set();
+  const ownKeys = new Set();
+  dirs.push({ outDir, ownKeys });
   const scenes = config.scenes.filter((s) => s.narration);
   console.log(`\n${config.id}: ${scenes.length} klip narasi, suara ${config.voice.name} ${config.voice.rate ?? ''}`);
 
@@ -448,6 +453,7 @@ for (const file of files) {
     const text = scene.narration.trim();
     const key = narrationKey(text, config.voice);
     wanted.add(key);
+    ownKeys.add(key);
     const mp3 = join(outDir, `${key}.mp3`);
     const label = `[${i + 1}/${scenes.length}] ${text.slice(0, 60)}${text.length > 60 ? '…' : ''}`;
     if (has('retime') && existsSync(mp3)) {
@@ -456,7 +462,8 @@ for (const file of files) {
       console.log(`  ~ ${label} (waktu kata dihitung ulang)`);
       continue;
     }
-    if (!has('redo') && data.clips[key] && existsSync(mp3)) {
+    // Klip yang sudah ada dipakai ulang (juga bila dibuat untuk video lain di file yang sama).
+    if (!has('redo') && data.clips[key] && (existsSync(mp3) || existsSync(join('public', data.clips[key].src)))) {
       console.log(`  = ${label}`);
       continue;
     }
@@ -488,8 +495,14 @@ for (const file of files) {
       return !p || !existsSync(p) || statSync(p).size < 500;
     });
     if (missing.length) fail(`${config.id}: ${missing.length} scene belum punya audio narasi.`);
+  }
+  }
+  if (!has('dry-run')) {
+    // Klip yang tidak dipakai video mana pun di file ini dibuang (mp3 per folder video).
     for (const key of Object.keys(data.clips)) if (!wanted.has(key)) delete data.clips[key];
-    for (const f of readdirSync(outDir)) if (f.endsWith('.mp3') && !wanted.has(f.replace(/\.mp3$/, ''))) rmSync(join(outDir, f));
+    for (const { outDir, ownKeys } of dirs) {
+      for (const f of readdirSync(outDir)) if (f.endsWith('.mp3') && !ownKeys.has(f.replace(/\.mp3$/, ''))) rmSync(join(outDir, f));
+    }
     writeFileSync(jsonPath, JSON.stringify(data, null, 1) + '\n');
     const total = Object.values(data.clips).reduce((a, c) => a + c.duration, 0);
     console.log(`  → ${jsonPath} (${total.toFixed(1)} dtk suara)`);

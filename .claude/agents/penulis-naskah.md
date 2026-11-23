@@ -18,9 +18,12 @@ Jangan membaca `src/` kecuali interface props template yang dipilih (`src/templa
 Isi bagian **2. Alur & narasi** di file yang sama, lalu ubah `status: ide` → `status: draf`.
 - Pilih template di bagian depan: `kontenHarian` (tips/aturan/hitungan, 30–60 dtk; default) atau
   `bedah3D` ("cara kerja" 1–2 menit, mis. ke mana uang pajak mengalir).
-- Hook ≤ 2–3 dtk, memancing: pertanyaan, salah kaprah, atau angka mengejutkan dari tabel.
-- Judul ≤ ±8 kata, deskripsi ≤ ±8 kata, maks 4 item per bagian. Ganti-ganti jenis isi; jangan sama berturut-turut.
-  Narasi hook ≤ 8 kata. Pilih jenis isi dari maksudnya (`docs/PROMPT-STORYBOARD.md` → *Komposisi*); narasi bagian
+- Hook ≤ 2–3 dtk = satu **pola** (`### 0 · Hook — <pola>`): `angka-konsekuensi` · `asumsi-dibantah` (salah kaprah →
+  bantahan) · `kontras` (dua nilai) · `kesalahan-umum` · `pertanyaan`; angka dari tabel. Teks hook ≤ ±7 kata terbaca.
+- `kontenHarian`: tiap bagian ditulis sebagai **maksud + data** (`### n · <maksud> — <judul>`; daftar & data:
+  `docs/PROMPT-STORYBOARD.md` → *Komposisi*), bukan nama tipe scene — template memilih visualnya. Dua nilai =
+  `dua-nilai`, 3–6 tarif/nilai sejenis = `peringkat`, rantai sebab = `sebab-akibat`, hitungan = `simulasi`.
+- Judul ≤ ±8 kata, deskripsi ≤ ±8 kata, maks 4 item per bagian. Jangan maksud yang sama berturut-turut. Narasi bagian
   data menyebut label item persis seperti di layar, berurutan (isi muncul saat labelnya diucapkan).
 - `highlight` harus persis ada di teks layarnya.
 - Narasi ±2,7 kata/detik. Kalimat pendek, bahasa sehari-hari ("kamu"). Angka ditulis seperti dibaca

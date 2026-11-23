@@ -93,6 +93,7 @@ export const SelisihSceneView: React.FC<SceneProps<SelisihScene>> = ({ scene }) 
   const head = useHeadingHeight(scene);
 
   const label = scene.selisihLabel ?? 'Selisih';
+  const R = scene.ringkas ? T.ringkas : null;
   const times = useItemTimes(
     [
       { at: scene.a.at, text: scene.a.label },
@@ -100,9 +101,10 @@ export const SelisihSceneView: React.FC<SceneProps<SelisihScene>> = ({ scene }) 
     ],
     (i) => CONTENT_DELAY + 0.1 + i * T.barGap,
   );
-  const ta = times?.[0] ?? CONTENT_DELAY + 0.1;
-  const tb = Math.max(times?.[1] ?? ta + T.barGap, ta + 0.15);
-  const tg = scene.selisihAt !== undefined ? cue(scene.selisihAt, tb + T.gapAfter) : tb + T.gapAfter;
+  const ta = R ? cue(scene.a.at, R.a) : times?.[0] ?? CONTENT_DELAY + 0.1;
+  const tb = R ? Math.max(cue(scene.b.at, R.b), ta) : Math.max(times?.[1] ?? ta + T.barGap, ta + 0.15);
+  const tg = R ? cue(scene.selisihAt, R.gap) : scene.selisihAt !== undefined ? cue(scene.selisihAt, tb + T.gapAfter) : tb + T.gapAfter;
+  const grow = R ? R.grow : T.grow;
 
   const a = Math.max(0, scene.a.value);
   const b = Math.max(0, scene.b.value);
@@ -118,35 +120,36 @@ export const SelisihSceneView: React.FC<SceneProps<SelisihScene>> = ({ scene }) 
   const resultH = px(isPortrait ? 110 : 100);
   const noteH = scene.note ? px(60) : 0;
   // Di bawah garis dasar: label + nilai (menghitung) tiap batang — ruang di atas batang hanya untuk celah.
-  const labelH = px(isPortrait ? 130 : 110);
+  const labelH = px(R ? (isPortrait ? 170 : 150) : isPortrait ? 130 : 110);
   const Hc = Math.max(px(300), Math.min(px(isPortrait ? 720 : 520), avail - head - resultH - noteH - labelH - px(60)));
   const plotH = Hc - px(16);
   const max = Math.max(a, b, 1e-9);
   const barW = Wc * 0.32;
   const cols = [Wc * 0.12, Wc * 0.56];
-  const pA = progress(t, ta, T.grow);
-  const pB = progress(t, tb, T.grow);
+  const pA = progress(t, ta, grow);
+  const pB = progress(t, tb, grow);
   const hA = (plotH * a) / max;
   const hB = (plotH * b) / max;
   const bars = [
     { v: scene.a.value, h: hA, p: pA, x: cols[0], fill: c.primary, opacity: 1, label: scene.a.label },
     { v: scene.b.value, h: hB, p: pB, x: cols[1], fill: c.primary, opacity: 0.6, label: scene.b.label },
   ];
-  const gapP = progress(t, tg, T.reveal);
+  const gapP = progress(t, tg, R ? R.reveal : T.reveal);
   const small = hA <= hB ? 0 : 1;
   const big = 1 - small;
   const gapTop = Hc - Math.max(hA, hB);
   const gapH = Math.abs(hA - hB);
   const midX = (cols[0] + barW + cols[1]) / 2;
 
-  const diffNow = useCountUp(Math.abs(diff), { delay: tg });
+  const counted = useCountUp(Math.abs(diff), { delay: tg });
+  const diffNow = R ? Math.abs(diff) : counted;
   const diffText = `${withSign ? sign(diff) : ''}${formatValue(diffNow, fmt)}`;
   const pctText = pct === null ? null : `${withSign ? sign(pct) : ''}${formatNumber(Math.abs(pct), scene.persenDecimals ?? 2)}%`;
 
   return (
     <SceneLayout background={scene.background}>
       <SceneTitle {...scene} />
-      <Reveal delay={CONTENT_DELAY - 0.2} preset="fadeIn" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: px(24) }}>
+      <Reveal delay={R ? 0 : CONTENT_DELAY - 0.2} preset="fadeIn" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: px(24) }}>
         <div style={{ position: 'relative', width: Wc, height: Hc + labelH }}>
           {/* Garis dasar (nol). */}
           <div style={{ position: 'absolute', left: 0, right: 0, top: Hc - px(2), height: px(4), borderRadius: px(2), background: c.border }} />
@@ -172,7 +175,7 @@ export const SelisihSceneView: React.FC<SceneProps<SelisihScene>> = ({ scene }) 
                     left: bar.x + barW / 2 - Wc * 0.22,
                     width: Wc * 0.44,
                     top: Hc + px(14),
-                    opacity: interpolate(t, [i ? tb : ta, (i ? tb : ta) + 0.3], [0, 1], clamp),
+                    opacity: interpolate(t, [i ? tb : ta, (i ? tb : ta) + (R ? 0.15 : 0.3)], [0, 1], clamp),
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
@@ -187,13 +190,13 @@ export const SelisihSceneView: React.FC<SceneProps<SelisihScene>> = ({ scene }) 
                     style={{
                       fontFamily: theme.fonts.heading,
                       fontWeight: theme.fontWeights.heading,
-                      fontSize: type.subtitle,
+                      fontSize: R ? type.h2 : type.subtitle,
                       color: c.text,
                       whiteSpace: 'nowrap',
                       fontVariantNumeric: 'tabular-nums',
                     }}
                   >
-                    {formatValue(bar.v * bar.p, fmt)}
+                    {formatValue(R ? bar.v : bar.v * bar.p, fmt)}
                   </div>
                 </div>
               </React.Fragment>

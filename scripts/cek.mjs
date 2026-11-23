@@ -12,7 +12,10 @@
  *   grafik/tabel/angka/langkah, selisih, garis tren, simpul & panah alur, pembanding, catatan), narasi belum dirender / waktu kata basi, scene tanpa narasi di
  *   video bernarasi, terlalu banyak item, hook > ±3 dtk, dua scene bertipe sama berturut-turut,
  *   teks layar terlalu banyak untuk lama tampilnya.
- * Tata letak hasil render (terpotong, bertumpuk, zona UI, huruf kecil) → `npm run pratinjau -- <ID>`.
+ * Maksud (Fase 3): ✗ config gagal dibangun (mis. `maksud` tidak dikenal / data tidak cocok — pesan menyebut bagian
+ *   ke-berapa). ! kunci isi yang bertentangan dengan maksud tersirat: `grafik` 2 item → `dua-nilai`; `angka` 2–3 item
+ *   berlabel setara / kisi angka berulang → `peringkat`/`satu-angka`; `langkah` berisi kata kerja sebab → `sebab-akibat`.
+ * Tata letak hasil render (terpotong, bertumpuk, zona UI, huruf kecil, hook lambat) → `npm run pratinjau -- <ID>`.
  */
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -66,6 +69,15 @@ function screenText(s) {
   if (Array.isArray(s.columns)) parts.push(...s.columns);
   return parts.filter((p) => typeof p === 'string').join(' ');
 }
+// Kata kerja sebab-akibat: `langkah` (timeline) yang memuatnya sebenarnya rantai sebab → `alur`.
+const CAUSAL = /\b(memicu|menyebabkan|mengakibatkan|berakibat|akibatnya|sehingga|membuat|mendorong|menekan|menaikkan|menurunkan|berdampak)\b/i;
+const STOP = new Set(['dan', 'di', 'ke', 'dari', 'yang', 'per', 'untuk', 'atau', 'the', 'vs']);
+/** Label "setara": semua label berbagi satu kata yang sama (mis. "Spread Antam", "Spread UBS"). */
+function sharedWord(labels) {
+  const sets = labels.map((l) => new Set(words(l ?? '').filter((w) => w.length > 2 && !STOP.has(w) && !/^\d+$/.test(w))));
+  if (sets.length < 2) return null;
+  return [...sets[0]].find((w) => sets.every((x) => x.has(w))) ?? null;
+}
 const countWords = (t) => t.split(/\s+/).filter((w) => /[\p{L}\p{N}]/u.test(w)).length;
 const ASSET = /\.(png|jpe?g|webp|gif|svg|mp4|webm|mov|mp3|wav|m4a|json|glb)$/i;
 const norm = (w) => w.toLowerCase().replace(/[^\p{L}\p{N}]/gu, '');
@@ -93,7 +105,16 @@ let warnings = 0;
 let count = 0;
 
 for (const file of files) {
-  const { configs, narrationKey, splitWords, computeTimeline, jsonPath } = await loadConfigFile(file);
+  let loaded;
+  try {
+    loaded = await loadConfigFile(file);
+  } catch (e) {
+    // Template melempar galat saat config dibangun (maksud tidak dikenal, data tidak cocok, pola hook salah, …).
+    errors++;
+    console.log(`✗ ${file}\n    ✗ config gagal dibangun: ${String(e.message ?? e).split('\n')[0]}`);
+    continue;
+  }
+  const { configs, narrationKey, splitWords, computeTimeline, jsonPath } = loaded;
   for (const config of configs) {
     count++;
     const err = [];
@@ -199,12 +220,28 @@ for (const file of files) {
         long('label panah', n.panah, LIMIT.alurPanah);
       }
 
+      // Maksud tersirat: kunci isi yang memilih visual yang kurang tepat untuk datanya.
+      if (s.type === 'chart' && s.data?.length === 2) {
+        warn.push(`${at(i, s)}: grafik 2 batang — dua nilai lebih jelas sebagai \`maksud: 'dua-nilai'\` (selisih + % otomatis)`);
+      }
+      if (s.type === 'stats' && s.stats?.length >= 2) {
+        const w = sharedWord(s.stats.map((x) => x.label));
+        if (w) warn.push(`${at(i, s)}: ${s.stats.length} angka setara ("${w}") — banding nilai sejenis lebih jelas sebagai \`maksud: 'peringkat'\``);
+      }
+      if (s.type === 'timeline') {
+        const hit = (s.steps ?? []).map((st) => `${st.title ?? ''} ${st.description ?? ''}`).join(' ').match(CAUSAL);
+        if (hit) warn.push(`${at(i, s)}: langkah berisi kata sebab "${hit[0]}" — rantai sebab lebih jelas sebagai \`maksud: 'sebab-akibat'\``);
+      }
+
       // Ritme: dua scene bertipe sama berturut-turut terasa seperti slide yang diulang.
       const prev = config.scenes[i - 1];
       if (prev && prev.type === s.type && !CONTINUOUS.has(s.type)) {
         warn.push(`${at(i, s)}: tipe sama dengan scene sebelumnya — ganti komposisi (docs/PROMPT-STORYBOARD.md → Komposisi)`);
       }
     });
+    // Kisi angka (2–4 item) berulang dalam satu video terasa seperti slide yang sama.
+    const grids = config.scenes.map((s, i) => (s.type === 'stats' && s.stats?.length >= 2 ? i + 1 : 0)).filter(Boolean);
+    if (grids.length > 1) warn.push(`kisi angka berulang (scene ${grids.join(', ')}) — pakai \`maksud: 'satu-angka'\` / \`'peringkat'\` agar visual berganti`);
     if (missing) warn.push(`${missing} klip narasi belum dirender → npm run narasi -- ${config.id}`);
 
     // Durasi nyata (mengikuti audio bila sudah dirender): hook & waktu baca.

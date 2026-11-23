@@ -14,6 +14,7 @@ import {
   Surface,
   TimelineAnimation,
 } from '../components';
+import { MASUK_CEPAT } from '../config';
 import { Reveal, useItemTimes, useStagger } from '../motion';
 import { useTheme } from '../themes';
 import { CONTENT_DELAY, SceneLayout, SceneTitle } from './SceneLayout';
@@ -48,7 +49,7 @@ export const HeroSceneView: React.FC<SceneProps<HeroScene>> = ({ scene }) => {
         highlight={scene.highlight}
         subtitle={scene.subtitle}
         titleSize={isPortrait && scene.title.length > 28 ? 'h1' : 'display'}
-        delay={0.15}
+        delay={scene.masuk === 'cepat' ? MASUK_CEPAT.delay : 0.15}
         illustration={scene.illustration}
         illustrationSize={isPortrait ? 300 : 220}
       >

@@ -1,8 +1,8 @@
 import React from 'react';
 import { AbsoluteFill } from 'remotion';
 import { Background, Heading, LineText, Pill, textRevealSpan, useTextLastStart } from '../components';
-import { LINE_HEIGHT } from '../config';
-import { Reveal, useCamera, useTextAnimation } from '../motion';
+import { LINE_HEIGHT, MASUK_CEPAT } from '../config';
+import { Reveal, useCamera, useSceneText, useTextAnimation } from '../motion';
 import { type BackgroundKind, useTheme } from '../themes';
 import type { SceneHeading } from './types';
 
@@ -53,9 +53,10 @@ export const SceneTitle: React.FC<SceneHeading & { align?: 'left' | 'center'; de
   const { theme, type, space, px } = useTheme();
   const anim = useTextAnimation(size);
   const lastWord = useTextLastStart(title ?? '', anim, delay + 0.1);
+  const spread = useSceneText().cepat ? MASUK_CEPAT.spread : undefined;
   if (!title && !eyebrow && !subtitle) return null;
   const subDelay = Math.max(
-    delay + 0.1 + (title ? Math.min(0.9, Math.max(0.25, textRevealSpan(title, anim) * 0.7)) : 0.15),
+    delay + 0.1 + (title ? Math.min(0.9, Math.max(0.25, textRevealSpan(title, anim, spread) * 0.7)) : 0.15),
     title ? lastWord + 0.25 : 0,
   );
   return (

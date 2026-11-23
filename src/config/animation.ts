@@ -167,7 +167,15 @@ export const DATAVIZ_TIMING = {
   arrow: 0.45,
   /** Garis aksen di bawah angka hero `stats` 1 item. */
   heroLine: 0.8,
+  /** `selisih` ringkas (hook `kontras`): semua tampil penuh ≤ 0,5 dtk, nilai tanpa hitung naik. */
+  ringkas: { a: 0.05, b: 0.15, grow: 0.35, gap: 0.3, reveal: 0.25 },
 } as const;
+
+/**
+ * Masuk cepat (`masuk: 'cepat'` di scene — preset hook): elemen utama tampil penuh ≤ 0,5 dtk, tidak menunggu narasi.
+ * `delay` = mulai judul/isi; `spread` = rentang maksimal antar kata pertama–terakhir judul (jeda kata dimampatkan).
+ */
+export const MASUK_CEPAT = { delay: 0, spread: 0.15 } as const;
 
 /** Waktu animasi keluar & idle (detik). */
 export const SCENE_MOTION_TIMING = {
