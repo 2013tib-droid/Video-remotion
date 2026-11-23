@@ -8,7 +8,10 @@ Repo ini **framework animasi**, bukan satu video. Video baru = **satu file data*
 1. Pilih template, baca **hanya** interface props-nya:
    - Iklan sebuah proyek/aplikasi → `promoProyek` (`src/templates/PromoProyek.ts`), contoh `src/projects/price-atlas/iklan.ts`.
    - Konten harian topik apa pun (keuangan, politik, sosial, tips, data) → `kontenHarian` (`src/templates/KontenHarian.ts`),
-     contoh `src/projects/harian/tips-gaji.ts`.
+     contoh `src/projects/_demos/maksud.ts`. Tulis tiap bagian sebagai **`{ maksud, data }`** (template memilih visual:
+     `satu-angka` `dua-nilai` `peringkat` `perubahan` `sebab-akibat` `urutan` `alasan` `atribut` `simulasi` `kesimpulan`
+     `lokasi`) dan hook sebagai **pola** `{ pola: 'angka-konsekuensi'|'asumsi-dibantah'|'kontras'|'kesalahan-umum'|'pertanyaan', … }`
+     — data/isi tiap maksud & pola: `src/templates/maksud.ts`, tabel `docs/KATALOG-SCENE.md` → *Maksud & hook*.
    - Penjelasan "cara kerja" 1–2 menit dengan visual 3D mendekati nyata → `bedah3D` (`src/templates/Bedah3D.ts`) + kit dunia
      `src/worlds/`; acuan `src/projects/_demos/bedah3d.ts`. Satu adegan = satu kalimat ≈ 4 dtk (1 menit ≈ 15 adegan).
      Gaya yang disukai pemilik (alur, data bersumber, HUD) → baca `docs/REFERENSI.md` sebelum menulis naskahnya.
@@ -31,8 +34,8 @@ Yang boleh diubah untuk tugas video: `src/projects/**`, `naskah/**`, `public/bra
 
 ## Aturan isi
 - Bahasa Indonesia kecuali diminta lain. Kalimat pendek: judul ≤ ±8 kata, deskripsi ≤ ±8 kata, maks 4 item per scene.
-- Hook ≤ 2–3 detik dan memancing; ganti-ganti jenis bagian (jangan tipe yang sama berturut-turut). Pilih komposisi dari
-  maksud informasinya: `docs/PROMPT-STORYBOARD.md` → *Komposisi*.
+- Hook ≤ 2–3 detik dan memancing — pakai pola hook (elemen utama tampil < 0,5 dtk; `pratinjau` memperingatkan "hook lambat").
+  Jangan maksud yang sama berturut-turut. Komposisi dari maksud informasinya: `docs/PROMPT-STORYBOARD.md` → *Komposisi*.
 - Video bernarasi vertikal: pasang di seri `motion: { sync: 'auto' }` (isi muncul saat disebut — sebut label persis seperti
   di layar) dan `legibility: 'mobile'` (teks pendukung terbaca di ponsel + jeda baca).
 - Angka/fakta harus dari pengguna atau sumber yang disebut; jangan mengarang.
@@ -42,7 +45,9 @@ Yang boleh diubah untuk tugas video: `src/projects/**`, `naskah/**`, `public/bra
 - Suara default: `id-ID-Ardi:DragonHDLatestNeural`, rate `+10%` (sudah default di seri). `lexicon` untuk singkatan (PDB → "Pe De Be").
 
 ## Narasi & render di sesi cloud
-- Penyedia: env `TTS_PROVIDER=edge` (default, gratis, **tidak resmi** — bisa berubah/dibatasi; gagal 403 → `pip install -U edge-tts`)
+- Penyedia: env `TTS_PROVIDER=edge` (default, gratis, **tidak resmi** — bisa berubah/dibatasi; gagal 403 → `pip install -U edge-tts`;
+  gagal `CERTIFICATE_VERIFY_FAILED` di sesi cloud → `edge-tts` memakai bundel `certifi`, bukan CA proxy: jalankan lewat
+  pembungkus `EDGE_TTS_BIN` yang mengganti `certifi.where` ke `/root/.ccr/ca-bundle.crt`)
   atau `azure`. `TTS_FALLBACK=azure` hanya bila diminta (memakai kuota). Suara Edge dipetakan dari `voice.name`
   (`id-ID-Ardi:…` → `id-ID-ArdiNeural`; paksa dengan `EDGE_TTS_VOICE=id-ID-GadisNeural`). Klip lama tidak dibuat ulang
   saat ganti penyedia kecuali `--redo`. Narasi gagal → exit 1 dengan pesan jelas; jangan render video tanpa narasi.
@@ -64,7 +69,7 @@ Yang boleh diubah untuk tugas video: `src/projects/**`, `naskah/**`, `public/bra
 
 ## Mengubah framework (hanya bila diminta animasi/efek/scene/template baru)
 Framework sudah punya: kamera + idle + animasi keluar, tipografi kinetik, 15 transisi + `mix`, ikon tergambar/Lottie, SFX otomatis, musik latar, watermark,
-23 tipe scene (termasuk visualisasi data 2D `selisih` (dua nilai + celah), `tren` (garis dari titik data nyata),
+komposisi dari `maksud` + 5 pola hook (`src/templates/maksud.ts`), 23 tipe scene (termasuk visualisasi data 2D `selisih` (dua nilai + celah), `tren` (garis dari titik data nyata),
 `alur` (sebab-akibat), `stats` 1 item = angka hero; `world` = dunia 3D: kamera terbang, tembus pandang, label menempel, model `.glb`, HUD data: strip angka
 bersumber, panel batang, panel layar gelap, penanda ukuran, cap putusan, kartu putusan; dan `irisan` = irisan teknis 2D beraksir
 per bahan), narasi + subtitle, sinkron isi ke narasi (`sync`/`at`), keterbacaan ponsel (`legibility`), QC otomatis (`cek`,

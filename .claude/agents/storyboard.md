@@ -19,7 +19,8 @@ tidak membuat narasi audio, dan tidak riset web: semua fakta hanya dari naskah/b
 2. `src/projects/<brand>/series.ts` (nada, tema, `idPrefix`, penutup baku, lexicon yang sudah ada) dan
    `naskah/<brand>/README.md` bila ada (aturan khusus brand). Satu naskah lain di folder brand yang sama
    boleh dibaca sebagai acuan gaya.
-3. Interface props template yang dipilih saja: `src/templates/KontenHarian.ts`, `PromoProyek.ts`, atau `Bedah3D.ts`.
+3. Interface props template yang dipilih saja: `kontenHarian` → `src/templates/maksud.ts` (maksud + pola hook) dan
+   tabel *Komposisi* di `docs/PROMPT-STORYBOARD.md`; `PromoProyek.ts`; atau `Bedah3D.ts`.
 4. Hanya untuk `bedah3D`: `docs/REFERENSI.md`, `docs/PUSTAKA-VISUAL.md` (benda, irisan, resep adegan yang sudah jadi),
    dan bagian TEMPLATE C di `docs/PROMPT-STORYBOARD.md`.
 Jangan membaca `src/components`, `src/scenes/*Scene*`, `src/core`, `src/motion`.
@@ -34,12 +35,18 @@ tulis sebagai catatan `💡 butuh fitur: …` di *Catatan revisi*, dan pakai alt
 
 ## Tugas
 Isi bagian **2. Alur & narasi** (format blok persis seperti template), lalu `status: ide` → `status: draf`.
-- Hook ≤ 2–3 dtk, memancing: pertanyaan, salah kaprah, angka mengejutkan (dari tabel), atau pernyataan berani.
-  Narasi hook ≤ 8 kata (≤ 3 dtk; dicek `npm run cek`); jawabannya harus ada di video (tanpa clickbait).
-- Judul ≤ ±8 kata, deskripsi ≤ ±8 kata, maks 4 item per bagian. Jangan jenis isi yang sama berturut-turut.
-  Pilih jenis isi dari maksud informasinya (tabel *Komposisi* di `docs/PROMPT-STORYBOARD.md`); alur hook → konteks →
-  konflik → bukti → penjelasan → putusan, dengan "re-hook" di tengah. Teks layar ≤ 4 kata per detik tampil.
-- Narasi bagian data menyebut label item persis seperti di layar, berurutan (isi muncul saat labelnya diucapkan).
+- `kontenHarian`: tulis **maksud + data**, bukan nama tipe scene/kunci isi. Judul blok `### n · <maksud> — <judul>`
+  (`satu-angka` · `dua-nilai` · `peringkat` · `perubahan` · `sebab-akibat` · `urutan` · `alasan` · `atribut` ·
+  `simulasi` · `kesimpulan` · `lokasi`); template memilih visualnya. Dua nilai = `dua-nilai` (bukan grafik 2 batang),
+  3–6 nilai sejenis = `peringkat` (+ terbaik tinggi/rendah), rantai "memicu/menyebabkan" = `sebab-akibat`.
+- Hook = satu **pola** (`### 0 · Hook — <pola>`): `angka-konsekuensi` {angka, akibat} · `asumsi-dibantah` {asumsi,
+  bantahan} · `kontras` {a, b} · `kesalahan-umum` {kesalahan, koreksi?} · `pertanyaan` {teks}. Angka dari tabel saja.
+  Teks hook ≤ ±7 kata terbaca (≤ 3 dtk; dicek `npm run cek`); narasi hook boleh dikosongkan (dibuat dari isinya).
+  Jawabannya harus ada di video (tanpa clickbait).
+- Judul ≤ ±8 kata, deskripsi ≤ ±8 kata, maks 4 item per bagian. Jangan maksud yang sama berturut-turut.
+  Alur hook → konteks → konflik → bukti → penjelasan → putusan, dengan "re-hook" di tengah. Teks layar ≤ 4 kata per detik tampil.
+- Narasi bagian data menyebut label item persis seperti di layar, berurutan (isi muncul saat labelnya diucapkan);
+  `peringkat` diurutkan dari yang terbaik → sebut dari yang terbaik.
 - `highlight` harus persis ada di teks layarnya.
 - Narasi ±2,7 kata/dtk; cocokkan jumlah kata dengan `durasi`. Kalimat pendek, bahasa sehari-hari, sesuai nada seri.
   Angka ditulis seperti dibaca ("lima koma empat tujuh persen").

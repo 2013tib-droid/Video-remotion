@@ -25,16 +25,14 @@ export default kontenHarian(wadahQris, {
       narasi: 'Cari masjidnya di WadahQRIS, lalu scan pakai e-wallet atau m-banking apa saja.',
     },
     {
-      // Mockup HP: QRIS terpindai, lalu notifikasi berhasil muncul.
+      // Mockup HP: QRIS masjid + poin di bawahnya. (Notifikasi di atas layar dulu menimpa judul & nama
+      // masjid — ✗ teks bertumpuk di `pratinjau`; isinya dipindah ke `bullets`.)
       scene: {
         type: 'device',
         title: 'Isi semampumu.',
         highlight: 'semampumu',
         screen: { kind: 'qr', title: 'Sedekah', merchant: 'Masjid terdekatmu', caption: 'Nominal bebas, sesuai niat' },
-        notifications: [
-          { icon: '✅', title: 'Sedekah terkirim', body: 'Langsung ke rekening masjid' },
-          { icon: '🧾', title: 'Bukti tersimpan', body: 'Cek kapan saja di riwayat' },
-        ],
+        bullets: ['Langsung ke rekening masjid', 'Bukti tersimpan di riwayat'],
         textAnimation: 'pop',
       },
       narasi: 'Isi semampumu, dan sedekahmu langsung terkirim.',

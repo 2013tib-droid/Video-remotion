@@ -29,19 +29,19 @@ Angka hanya dari sini. Belum ada → tulis `[ISI ANGKA]`, jangan mengarang.
 
 ## 2. Alur & narasi
 Satu blok per bagian (kontenHarian/promoProyek) atau per adegan (bedah3D: 1 kalimat ≈ 4 dtk, 1 menit ≈ 15 adegan).
-Jenis isi yang boleh dipakai: lihat *Contekan* di bawah. Jangan jenis yang sama berturut-turut.
+Maksud bagian & pola hook yang boleh dipakai: lihat *Contekan* di bawah. Jangan maksud yang sama berturut-turut.
 
-### 0 · Hook (≤ 2–3 dtk)
+### 0 · Hook — <pola> (≤ 2–3 dtk)
 - **Layar:** … _(highlight: …)_
 - **Narasi:** …
 
-### 1 · <jenis> — <judul ≤ 8 kata>
+### 1 · <maksud> — <judul ≤ 8 kata>
 - **Layar:** … _(highlight: …)_
 - **Isi:** (maks 4 item) …
 - **Narasi:** …
 - **Visual/kamera (bedah3D):** …
 
-### 2 · <jenis> — …
+### 2 · <maksud> — …
 - **Layar:** …
 - **Narasi:** …
 
@@ -57,9 +57,13 @@ Jenis isi yang boleh dipakai: lihat *Contekan* di bawah. Jangan jenis yang sama 
 ---
 <details><summary>Contekan jenis isi</summary>
 
-- **kontenHarian** — bagian berisi tepat satu: `angka` (1–3) · `poin` (2–4, ikon emoji) · `langkah` (2–4) · `grafik` (2–6 batang)
-  · `banding` (tabel) · `kutipan` · `teks` (1–3 baris ≤ 25 huruf) · `kata` (≤ 8 kata) · `peta` · `hitung` · `foto`.
-  Alur: hook → 3–6 bagian → kesimpulan → penutup seri. Detail: `src/templates/KontenHarian.ts`.
+- **kontenHarian** — hook = satu **pola**: `angka-konsekuensi` (angka + akibat) · `asumsi-dibantah` (asumsi → bantahan)
+  · `kontras` (dua nilai) · `kesalahan-umum` (kesalahan + koreksi) · `pertanyaan`. Tiap bagian = **maksud** + data
+  (visual dipilih template): `satu-angka` · `dua-nilai` · `peringkat` (2–6 nilai sejenis, terbaik tinggi/rendah)
+  · `perubahan` (titik waktu nyata) · `sebab-akibat` (2–4 simpul) · `urutan` (2–4 langkah) · `alasan` (2–4 poin)
+  · `atribut` (tabel) · `simulasi` (hitungan) · `kesimpulan` · `lokasi`. Khusus: `kutipan` · `kata` · `foto`.
+  Alur: hook → 3–6 bagian → kesimpulan → penutup seri. Tabel: `docs/PROMPT-STORYBOARD.md` → *Komposisi*; detail:
+  `src/templates/maksud.ts`.
 - **promoProyek** — hook (masalah) → keluhan (2–3, ≤ 4 kata) → solusi + tagline → layar (1–3 screenshot) → fitur (3–4)
   → bukti (angka nyata/testimoni, opsional) → CTA. Detail: `src/templates/PromoProyek.ts`.
 - **bedah3D** — per adegan: narasi 1 kalimat + `bab` · `kamera` · `xray` · `label` · `data` (sumber + tone) · `meter` · `ukur`

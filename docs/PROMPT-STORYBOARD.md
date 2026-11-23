@@ -13,28 +13,42 @@ Atau simpan naskahnya di repo: tempel `naskah/_template/video.md` sebagai BRIEF,
 (status `final`), lalu cukup bilang ke Claude Code "buat video dari naskah itu" (lihat `naskah/README.md`).
 
 ## Komposisi
-Pilih bentuk visual dari **maksud** informasinya, bukan dari kebiasaan. Dua bagian berturut-turut bertipe sama →
-`npm run cek` memberi peringatan (kecuali scene bersambung: `world` `irisan` `words` `statement` `question`).
+Tulis **maksud** informasinya + datanya — template `kontenHarian` memilih visualnya (`src/templates/maksud.ts`).
+Nama tipe scene tidak perlu diketahui. Dua bagian berturut-turut dengan tipe hasil sama → varian otomatis bila ada
+(`chart` vertikal ⇄ horizontal, `features` 1 ⇄ 2 kolom); tanpa varian → peringatan `npm run cek`.
 
-| Maksud | Isi `kontenHarian` | Tipe scene | Catatan |
+| Maksud (`maksud:`) | `data` | Visual yang dipilih | Catatan |
 |---|---|---|---|
-| Fakta/angka mengejutkan (hook) | `kata` | `words` | angka jadi kata sorotan; ≤ 8 kata |
-| Satu angka penting | `angka` (1 item) | `stats` (1 item) | **angka hero** layar penuh + `pembanding` + `catatan`; jangan 3 angka setara berulang |
-| Perbandingan **2 nilai** (beli vs buyback, sebelum vs sesudah, kotor vs bersih) | `selisih` | `selisih` | celah + selisih Rp & % otomatis; `arah` = arah yang buruk |
-| Perbandingan 3–6 nilai sejenis | `grafik` | `chart` | label ≤ 22 huruf; `sorot` pemenang |
-| Perubahan harga/nilai dari waktu ke waktu | `tren` | `tren` | hanya titik data nyata (≥ 2); `skala: 'persen'` untuk seri beda satuan; `cap` % |
-| Sebab → akibat (2–4 simpul, 1 cabang) | `alur` | `alur` | simpul ≤ 4 kata; label panah ≤ 14 huruf ("memicu", "menekan") |
-| Perbandingan beberapa atribut | `banding` | `comparison` | ≤ 3 kolom, sel ≤ 16 huruf |
-| Perubahan / simulasi angka | `hitung` | `calculation` | atau `scene: { type: 'irisan', panel }` untuk visual |
-| Urutan / kronologi | `langkah` | `timeline` | 2–4 langkah; scene manual `relation` untuk analogi A → B |
-| Daftar alasan / faktor | `poin` | `features` | ≤ 4 kartu |
-| Lokasi | `peta` | `map` | |
-| Kesimpulan | `kesimpulan` / `teks` | `statement` | 1–2 baris, + `stamp` di `irisan` untuk putusan |
-| Ajakan | penutup seri | `cta` | |
+| `satu-angka` — satu angka penting | `{ value, label, prefix?, suffix?, decimals?, pembanding? }` | `stats` 1 item (angka hero) | + `catatan` sumber; jangan 3 angka setara berulang |
+| `dua-nilai` — beli vs buyback, sebelum vs sesudah | `{ a: {label,value}, b: {label,value}, prefix?, selisihLabel?, arah?, tanda? }` | `selisih` | celah + selisih & % otomatis; `arah` = arah yang buruk |
+| `peringkat` — 2–6 nilai sejenis | `[{label,value}]` atau `{ item, terbaik?: 'tinggi'\|'rendah', sorotLabel?, prefix?, suffix? }` | 2 item → `selisih`; 3–6 → `chart` horizontal, urut dari yang terbaik, terbaik disorot | `sorotLabel` default "Terbaik" / "Terendah"; narasi sebut label **urut dari atas** |
+| `perubahan` — nilai dari waktu ke waktu | `{ seri: [{label, titik}], skala?, cap? }` atau `{ titik: [...], label? }` | `tren` | titik nyata saja (≥ 2/garis; 2 titik = garis lurus, tanpa titik tengah rekaan) |
+| `sebab-akibat` — A memicu B | `[simpul…]` atau `{ simpul, cabang? }` | `alur` | 2–4 simpul ≤ 4 kata; label panah ≤ 14 huruf |
+| `urutan` — langkah / kronologi | `[langkah…]` | `timeline` | 2–4 langkah |
+| `alasan` — daftar alasan / faktor | `[poin…]` atau `{ poin, kolom? }` | `features` | ≤ 4 kartu |
+| `atribut` — banding beberapa atribut | `{ kolom, baris, sorot? }` | `comparison` | ≤ 3 kolom, sel ≤ 16 huruf |
+| `simulasi` — hitungan | `{ baris, total, catatan?, prefix? }` | `calculation` | |
+| `kesimpulan` — putusan | `"teks"` atau `["baris 1", "baris 2"]` | `statement` | `highlight` = kata di barisnya |
+| `lokasi` — tempat | `[{place, label?}]` atau `{ titik, wilayah? }` | `map` | |
+| Ajakan | penutup seri | `cta` | otomatis |
 
-**Hook (≤ 3 dtk narasi, dicek otomatis)**: angka + konsekuensi ("Rp400 ribu hilang sehari"), asumsi yang dibantah
-("Emas dunia turun 8%. Kok di sini tidak?"), kontras dua nilai, atau kesalahan umum. Visual utama tampil < 0,5 dtk;
-janji jawabannya harus dibayar di video (tanpa clickbait).
+Data yang tidak cocok dengan maksudnya (mis. `dua-nilai` tanpa `b`) → galat jelas saat config dibangun, menyebut bagian
+ke-berapa. Kunci isi lama (`angka`, `grafik`, `langkah`, …) tetap valid; `cek` menyarankan `maksud` bila pilihannya
+bertentangan (grafik 2 batang, angka setara berulang, langkah berisi "memicu/menyebabkan").
+
+**Hook — pakai pola** (`hook: { pola, … }`; elemen utama tampil penuh ≤ 0,5 dtk tanpa menunggu narasi, narasi default
+dibangkitkan dari isinya bila `hookNarasi` kosong; tetap ≤ ±3 dtk — dicek `cek`, "hook lambat" dicek `pratinjau`):
+
+| Pola | Isi | Visual | Contoh |
+|---|---|---|---|
+| `angka-konsekuensi` | `{ angka, akibat }` | `statement`: angka besar disorot + akibat | "Rp400.000" + "hilang saat dijual lagi" |
+| `asumsi-dibantah` | `{ asumsi, bantahan, highlight? }` | `statement` 2 baris | "Emas dunia turun 8%" → "Antam cuma 1%" |
+| `kontras` | `{ a:{label,value}, b:{label,value}, prefix?, suffix?, decimals?, judul? }` | `selisih` ringkas | Antam 16% vs UBS 8% |
+| `kesalahan-umum` | `{ kesalahan, koreksi?, highlight? }` | `hero` + label "Kesalahan umum" | "Emas buat untung cepat" / "Rugi di spread" |
+| `pertanyaan` | `{ teks, highlight? }` | `hero` | "Kenapa Antam cuma turun 1%?" |
+
+Teks hook singkat: Edge TTS menambah ±0,8 dtk hening di akhir klip, jadi ucapan ±2,5 dtk (≤ ±7 kata terbaca).
+Janji hook harus dibayar di video (tanpa clickbait). `hook: 'teks'` lama tetap valid (judul besar biasa).
 
 **Alur cerita**: hook → konteks → konflik → bukti data → penjelasan → putusan → ajakan. Taruh "re-hook" di ±40%
 durasi ("Tapi ada yang aneh…"). Ganti tipe visual tiap ±5–8 dtk, tetapi jangan lebih cepat dari waktu baca
@@ -56,23 +70,26 @@ Video adalah motion graphic (teks, ikon, angka, grafik, mockup aplikasi) dengan 
 Alur: Hook → 3–6 bagian → Kesimpulan → Penutup (otomatis dari seri).
 Isian:
 - slug (untuk ID, mis. Inflasi-Okt26), topik (rubrik 1 kata, mis. "Keuangan")
-- hook (≤ 7 kata, memancing), highlight (kata di hook), hookNarasi (kalimat pembuka yang dibacakan)
-- bagian[]: tiap bagian = judul? + highlight? + narasi (1–2 kalimat yang dibacakan) + TEPAT SATU isi:
-  - angka: 1–3 angka besar {value, prefix?, suffix?, decimals?, label}; 1 angka = angka hero (+ pembanding? "vs 7,89% di UBS")
-  - selisih: dua nilai {a{label, value}, b{label, value}, prefix?, suffix?, selisihLabel?, arah?: turun-buruk|naik-buruk}
-  - tren: 1–3 garis {seri[{label, titik[{label, value, x?}]}], skala?: absolut|persen, cap?} — titik NYATA saja, ≥ 2 per garis
-  - alur: 2–4 simpul sebab-akibat [{icon?, text ≤ 4 kata, panah? (label panah masuk)}] (+ cabang?: satu simpul dari simpul lain)
-  - catatan?: sumber kecil di bawah (≤ 40 huruf) untuk angka/selisih/tren/alur
-  - poin: 2–4 poin {icon (emoji), title, description?}
-  - langkah: 2–4 langkah/kronologi {icon?, title, description?}
-  - grafik: 2–6 batang {label, value} (+ sorot: indeks batang, sorotLabel, prefix/suffix)
-  - banding: tabel {kolom[], baris[{label, values[]}]} (+ sorot: indeks kolom)
-  - kutipan: {teks, oleh, jabatan?}
-  - teks: 1–3 baris teks besar (tiap baris ≤ ±25 huruf)
-  - kata: satu kalimat ≤ 8 kata, tampil satu kata per ketukan
-  - peta: pin kota Indonesia/dunia [{place, label?, value?}]
-  - hitung: {baris[{label, value, negative?}], total{label, value}}
-  - foto: nama file foto/video yang akan saya siapkan
+- hook = SATU pola (elemen utamanya langsung tampil; narasi dibuat otomatis dari isinya, atau tulis hookNarasi):
+  - angka-konsekuensi: {angka, akibat} — "Rp400.000" + "hilang saat dijual lagi"
+  - asumsi-dibantah: {asumsi, bantahan} — "Emas dunia turun 8%" → "Antam cuma 1%"
+  - kontras: {a{label, value}, b{label, value}, prefix?, suffix?, judul?} — dua nilai berhadapan
+  - kesalahan-umum: {kesalahan, koreksi?} — "Emas buat untung cepat" / "Rugi di spread"
+  - pertanyaan: {teks, highlight?} — "Kenapa Antam cuma turun 1%?"
+- bagian[]: tiap bagian = maksud + data + judul? + highlight? + label? + catatan? (sumber ≤ 40 huruf) + narasi (1–2 kalimat).
+  JANGAN memilih jenis visual — cukup maksudnya:
+  - satu-angka: {value, label, prefix?, suffix?, decimals?, pembanding? ("vs 7,89% di UBS")}
+  - dua-nilai: {a{label, value}, b{label, value}, prefix?, selisihLabel?, arah?: turun-buruk|naik-buruk}
+  - peringkat: 2–6 nilai sejenis [{label, value}] + terbaik?: tinggi|rendah (urut & sorot otomatis)
+  - perubahan: titik waktu NYATA saja, ≥ 2 per garis: {seri[{label, titik[{label, value, x?}]}], skala?: absolut|persen, cap?}
+  - sebab-akibat: 2–4 simpul [{icon?, text ≤ 4 kata, panah? (label panah masuk)}] (+ cabang?)
+  - urutan: 2–4 langkah {icon?, title, description?}
+  - alasan: 2–4 poin {icon (emoji), title, description?}
+  - atribut: tabel {kolom[], baris[{label, values[]}]} (+ sorot: indeks kolom)
+  - simulasi: {baris[{label, value, negative?}], total{label, value}}
+  - kesimpulan: 1–2 baris teks besar
+  - lokasi: pin kota [{place, label?, value?}]
+  (Bentuk khusus bila perlu: kutipan {teks, oleh}, kata (satu kata per ketukan), foto (file yang akan saya siapkan).)
 - kesimpulan: 1–2 baris teks besar + narasi
 - sumber (bila ada data)
 
@@ -114,12 +131,10 @@ Isian:
 
 === ATURAN ===
 - Bahasa Indonesia sehari-hari, kalimat pendek. Judul ≤ ±8 kata, deskripsi ≤ ±8 kata.
-- Hook harus menghentikan scroll dalam 2 detik: pertanyaan, angka mengejutkan, atau pernyataan berani.
-  Narasi hook ≤ 8 kata (≤ 3 detik). Pola: angka + konsekuensi · asumsi yang dibantah · kontras dua nilai · kesalahan umum.
-  Tanpa clickbait: jawabannya harus ada di video.
-- Jangan pakai jenis bagian yang sama dua kali berturut-turut. Pilih jenis dari maksudnya: fakta mengejutkan → kata;
-  satu angka → angka (1 item); dua nilai → selisih; banding 3+ nilai sejenis → grafik; perubahan dari waktu ke waktu → tren;
-  banding atribut → banding; simulasi → hitung; sebab-akibat → alur; urutan → langkah; alasan → poin; kesimpulan → teks.
+- Hook harus menghentikan scroll dalam 2 detik: pilih SATU pola hook (angka-konsekuensi · asumsi-dibantah · kontras ·
+  kesalahan-umum · pertanyaan). Teksnya ≤ 7 kata terbaca (≤ 3 detik). Tanpa clickbait: jawabannya harus ada di video.
+- Tulis maksud tiap bagian, bukan jenis visualnya. Dua nilai = dua-nilai (bukan grafik 2 batang); 3–6 nilai sejenis =
+  peringkat; rantai "memicu/menyebabkan" = sebab-akibat (bukan urutan). Jangan maksud yang sama dua kali berturut-turut.
 - Alur: hook → konteks → konflik → bukti data → penjelasan → putusan → ajakan; beri "re-hook" di tengah.
 - Di narasi bagian data, sebut label item persis seperti di layar dan berurutan (isi muncul saat labelnya diucapkan).
 - Teks layar ≤ 4 kata per detik tampil; label grafik ≤ 22 huruf, sel tabel ≤ 16 huruf, label angka ≤ 40 huruf.
@@ -133,7 +148,7 @@ Isian:
   Tampilan (R2): dunia netral krem, warna kuat hanya untuk yang dibahas; detail lewat bagian kecil benda yang dikenal.
 
 === CARA KERJA ===
-1. Tulis storyboard ringkas untuk saya review: tabel No | Jenis bagian | Teks di layar | Narasi.
+1. Tulis storyboard ringkas untuk saya review: tabel No | Maksud (atau pola hook) | Teks di layar | Narasi.
 2. Setelah saya bilang "FINAL", keluarkan HANYA satu blok kode berjudul "HASIL UNTUK CLAUDE CODE":
 
 Pakai Motion Studio (baca CLAUDE.md). Buat video:
@@ -166,17 +181,23 @@ Pakai Motion Studio (baca CLAUDE.md). Buat video:
 - Template: kontenHarian
 - Seri: src/projects/harian/series.ts
 - Isi:
-  - slug: TipsGaji
-  - topik: Keuangan
-  - hook: Gaji selalu numpang lewat? (highlight: numpang lewat)
-  - hookNarasi: Gaji kamu selalu cuma numpang lewat? Coba tiga kebiasaan kecil ini.
-  - bagian 1 (langkah) "Pisahkan di hari gajian": 💰 Gaji masuk; 🏦 Langsung sisihkan tabungan; 🛒 Sisanya baru dipakai
-    narasi: Pertama, begitu gaji masuk, langsung sisihkan tabungan. Sisanya, baru kamu pakai.
-  - bagian 2 (teks): Catat pengeluaran. / Sekecil apa pun.
-    narasi: Kedua, catat semua pengeluaran, sekecil apa pun.
-  - kesimpulan: Kecil, / tapi konsisten. — narasi: Kecil, tapi konsisten. Itu kuncinya.
+  - slug: SpreadEmas · topik: Emas
+  - hook: angka-konsekuensi — angka "Rp400.000", akibat "hilang saat dijual lagi"
+  - bagian 1 (dua-nilai) "Harga beli vs buyback" (highlight: buyback), label "Antam LM · 1 gram · 22 Nov 2026":
+    a Harga beli 2.495.000 · b Buyback 2.095.000 · prefix Rp · selisihLabel Spread · catatan "Data referensi · perlu verifikasi"
+    narasi: Harga belinya dua juta empat ratus sembilan puluh lima ribu. Harga jual kembalinya cuma dua juta sembilan puluh lima ribu. Selisih inilah spread.
+  - bagian 2 (peringkat, terbaik: rendah, suffix %) "Spread 1 gram, 22 Nov": Antam LM 16,03 · UBS 7,89 · Hartadinata 6,02 · Galeri24 5,96
+    narasi: Spread terendah Galeri24, lalu Hartadinata, UBS hampir delapan persen, dan Antam LM lebih dari enam belas persen.
+  - bagian 3 (perubahan, skala persen) "Emas dunia terkoreksi": Emas dunia 16 Nov 3.869,30 → 20 Nov 3.543,60;
+    Antam LM 16 Nov 2.522.000 → 22 Nov 2.495.000 · cap saat "delapan"
+    narasi: Emas dunia turun sekitar delapan persen dalam sepekan. Tapi Antam hanya turun sekitar satu persen.
+  - bagian 4 (sebab-akibat) "Kenapa harga lokal beda?": 🌍 Emas dunia (US$) → 💱 Harga dalam rupiah (panah: kurs)
+    → 🏷️ Harga beli lokal (panah: + premi); cabang dari simpul 2: 💰 Harga buyback (panah: kebijakan)
+  - bagian 5 (kesimpulan): Sebelum beli emas, / cek spread-nya.
+- lexicon: Galeri24 = Galeri dua empat, UBS = U B S
 Tulis satu file config, render narasi, jalankan npm run cek. Jangan render video.
 ```
+Hasilnya di repo: `src/projects/_demos/maksud.ts` (`Demo-Maksud`).
 
 > Bila menambah template/jenis bagian di repo, perbarui prompt ini
 > (sumber kebenaran: `src/templates/KontenHarian.ts`, `src/templates/PromoProyek.ts`).

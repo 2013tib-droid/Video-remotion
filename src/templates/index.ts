@@ -6,6 +6,7 @@ export * from './EducationalProductPromo';
 export * from './SocialMediaShort';
 export * from './series';
 export * from './KontenHarian';
+export * from './maksud';
 export * from './PromoProyek';
 export * from './components';
 export * from './Bedah3D';

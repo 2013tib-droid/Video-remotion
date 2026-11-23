@@ -15,16 +15,23 @@ import type {
   TimelineStep,
   TrenScene,
 } from '../scenes/types';
+import { hookScene, maksudScene, variasi, type BagianMaksud, type HookPola } from './maksud';
 import { outroScene, seriesConfig, type Series, type SeriesOutro, type SeriesVideoBase } from './series';
 
 /** Isi scene tanpa properti dasar/judul (judul diambil dari `judul`/`label`/`keterangan` bagian). */
 type Isi<S> = Omit<S, 'type' | keyof SceneBase | keyof SceneHeading>;
 
 /**
- * Satu bagian isi. Isi TEPAT SATU kunci konten (`angka`, `poin`, `langkah`, `grafik`, `banding`,
- * `kutipan`, `teks`, `kata`, `foto`, `peta`, `hitung`, `selisih`, `tren`, `alur`, atau `scene`); sisanya opsional.
+ * Satu bagian isi. Cara yang disarankan: **`{ maksud, data, … }`** (lihat `BagianMaksud` di `./maksud.ts`) —
+ * template memilih visualnya. Cara lama tetap valid: isi TEPAT SATU kunci konten (`angka`, `poin`, `langkah`,
+ * `grafik`, `banding`, `kutipan`, `teks`, `kata`, `foto`, `peta`, `hitung`, `selisih`, `tren`, `alur`, atau `scene`).
  */
-export interface Bagian {
+export type Bagian = BagianIsi | BagianMaksud;
+
+/** Bagian dengan kunci isi (cara lama: penulis memilih tipe visualnya sendiri). */
+export interface BagianIsi {
+  /** Tidak dipakai bersama kunci isi — pakai `{ maksud, data }` saja. */
+  maksud?: never;
   /** Judul bagian (≤ ±8 kata). */
   judul?: string;
   /** Kata di `judul` yang disorot. */
@@ -82,13 +89,17 @@ export interface Bagian {
 export interface KontenHarianProps extends SeriesVideoBase {
   /** Rubrik/topik singkat, mis. "Keuangan" — tampil di HUD & di atas hook. */
   topik?: string;
-  /** Kalimat pembuka (2 detik pertama menentukan). Pendek & memancing. */
-  hook: string;
-  /** Kata di hook yang disorot. */
+  /**
+   * Pembuka (2 detik pertama menentukan). Teks pendek & memancing (judul besar), atau **pola hook**
+   * `{ pola: 'angka-konsekuensi' | 'asumsi-dibantah' | 'kontras' | 'kesalahan-umum' | 'pertanyaan', … }`
+   * (lihat `HookPola` di `./maksud.ts`): elemen utama tampil penuh ≤ 0,5 dtk, narasi default dari isinya.
+   */
+  hook: string | HookPola;
+  /** Kata di hook (teks) yang disorot. */
   highlight?: string;
   /** Teks kecil di bawah hook. */
   subjudul?: string;
-  /** Narasi hook. Default = teks hook (bila video bernarasi). */
+  /** Narasi hook. Default = teks hook / dibangkitkan dari pola hook (bila video bernarasi). */
   hookNarasi?: string;
   /** Isi video, 3–6 bagian. Ganti-ganti jenis agar visual tidak monoton. */
   bagian: Bagian[];
@@ -102,7 +113,13 @@ export interface KontenHarianProps extends SeriesVideoBase {
 
 const CONTENT_KEYS = ['angka', 'poin', 'langkah', 'grafik', 'banding', 'kutipan', 'teks', 'kata', 'foto', 'peta', 'hitung', 'selisih', 'tren', 'alur', 'scene'] as const;
 
-function bagianScene(b: Bagian, i: number, id: string): SceneConfig {
+function bagianScene(bagian: Bagian, i: number, id: string): SceneConfig {
+  if (bagian.maksud !== undefined) {
+    const extra = CONTENT_KEYS.filter((k) => (bagian as unknown as Record<string, unknown>)[k] !== undefined);
+    if (extra.length) throw new Error(`[${id}] bagian ke-${i + 1}: pakai \`maksud\` ATAU kunci isi, bukan keduanya (ditemukan: ${extra.join(', ')}).`);
+    return maksudScene(bagian, i, id);
+  }
+  const b = bagian;
   const used = CONTENT_KEYS.filter((k) => b[k] !== undefined);
   if (used.length !== 1) {
     throw new Error(`[${id}] bagian ke-${i + 1} harus punya tepat satu isi (${CONTENT_KEYS.join(' | ')}), ditemukan: ${used.join(', ') || 'tidak ada'}.`);
@@ -145,24 +162,35 @@ function bagianScene(b: Bagian, i: number, id: string): SceneConfig {
  * Bila ada `narasi` di bagian mana pun, video otomatis bersuara + subtitle (jalankan `npm run narasi`).
  */
 export function kontenHarian(series: Series, p: KontenHarianProps): VideoConfig {
-  const narrated = p.bagian.some((b) => b.narasi || b.scene?.narration) || Boolean(p.hookNarasi);
+  const narrated = p.bagian.some((b) => b.narasi || (b.maksud === undefined && b.scene?.narration)) || Boolean(p.hookNarasi);
   const k = typeof p.kesimpulan === 'string' ? { teks: p.kesimpulan } : p.kesimpulan;
   const kLines = k ? (Array.isArray(k.teks) ? k.teks : [k.teks]) : [];
+  // Video bernarasi sudah menampilkan topik di HUD.
+  const eyebrow = narrated && series.overlay !== false ? undefined : p.topik;
+  const subjudul = p.subjudul ?? (p.sumber ? `Sumber: ${p.sumber}` : undefined);
+  const hook: SceneConfig =
+    typeof p.hook === 'string'
+      ? {
+          type: 'hero',
+          eyebrow,
+          title: p.hook,
+          highlight: p.highlight,
+          subtitle: subjudul,
+          duration: 3,
+          narration: narrated ? p.hookNarasi ?? p.hook : undefined,
+        }
+      : hookScene(p.hook, { narrated, narasi: p.hookNarasi, subjudul, eyebrow, id: p.slug });
+  // Bagian dari `maksud`: tipe sama berturut-turut (termasuk dengan hook) diberi varian bila ada.
+  const isi = variasi(
+    [hook, ...p.bagian.map((b, i) => bagianScene(b, i, p.slug))],
+    [false, ...p.bagian.map((b) => b.maksud !== undefined)],
+    ['vertical', 'portrait'].includes(p.format ?? series.format ?? 'vertical'),
+  );
   return seriesConfig(
     series,
     p,
     [
-      {
-        type: 'hero',
-        // Video bernarasi sudah menampilkan topik di HUD.
-        eyebrow: narrated && series.overlay !== false ? undefined : p.topik,
-        title: p.hook,
-        highlight: p.highlight,
-        subtitle: p.subjudul ?? (p.sumber ? `Sumber: ${p.sumber}` : undefined),
-        duration: 3,
-        narration: narrated ? p.hookNarasi ?? p.hook : undefined,
-      },
-      ...p.bagian.map((b, i) => bagianScene(b, i, p.slug)),
+      ...isi,
       k
         ? {
             type: 'statement',

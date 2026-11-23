@@ -104,6 +104,7 @@ export const MotionVideo: React.FC<MotionVideoProps> = ({ config }) => {
         highlightStyle: scene.highlightStyle ?? 'mix',
         emphasis: scene.emphasis ?? [],
         accentBase: base,
+        cepat: scene.masuk === 'cepat' || undefined,
       };
       base += sceneAccentCount(scene);
       return value;
@@ -144,7 +145,7 @@ export const MotionVideo: React.FC<MotionVideoProps> = ({ config }) => {
                   <SfxProvider value={scene.sfx === false ? { ...sfx, elements: false, counters: false } : sfx}>
                   <SceneMotionProvider value={sceneMotion[i]}>
                     <SceneTextProvider value={sceneText[i]}>
-                      <CueProvider words={(clips[i]?.words ?? []).map((w) => ({ ...w, start: w.start + NARRATION_LEAD, end: w.end + NARRATION_LEAD }))}>
+                      <CueProvider words={scene.masuk === 'cepat' ? [] : (clips[i]?.words ?? []).map((w) => ({ ...w, start: w.start + NARRATION_LEAD, end: w.end + NARRATION_LEAD }))}>
                         <SceneRenderer scene={scene} brand={config.brand} />
                       </CueProvider>
                     </SceneTextProvider>

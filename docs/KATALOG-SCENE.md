@@ -13,6 +13,7 @@ Sumber kebenaran: `src/scenes/types.ts`. Semua scene menerima properti dasar:
 | `highlightStyle` | aksen kata sorotan: `mix` (default) `marker` `underline` `circle` `punch` `none` |
 | `sfx` | `false` = scene ini tanpa efek suara elemen (pop/ting/tick/dentum). Whoosh transisi diatur `sfx` di config video |
 | `sync` | `'auto'` = isi scene data muncul saat labelnya diucapkan narasi; `false` = jeda bergiliran. Default dari `motion.sync` video. Lihat *Sinkron isi & keterbacaan* |
+| `masuk` | `'cepat'` = teks & isi tampil penuh ≤ 0,5 dtk tanpa menunggu narasi (kata judul tidak dicocokkan ke suara, jeda kata dimampatkan, gaya `blur`/`fade`/`typewriter` → `pop`; `MASUK_CEPAT`). Dipasang otomatis oleh pola hook. Default: seperti biasa |
 
 Sebagian besar scene juga menerima **judul standar**: `eyebrow`, `title`, `highlight` (kata bergradien), `subtitle`.
 
@@ -37,7 +38,7 @@ Sebagian besar scene juga menerima **judul standar**: `eyebrow`, `title`, `highl
 | `broll` | `src` atau `shots[] {src, move?, focus?, caption?, duration?, startFrom?}` `move?` `textPosition?` `dim?` `volume?` + judul standar | **Foto/video b-roll layar penuh** dengan gerak kamera Ken Burns: `zoomIn` `zoomOut` `panLeft` `panRight` `panUp` `panDown` `none` atau `auto` (bergiliran). `focus: [x, y]` (0..1) = titik pusat zoom. Beberapa `shots` = montase dengan crossfade + swipe. Judul putih di atas scrim gelap (`dim` 0..1, `textPosition` `bottom`/`center`/`top`); `caption` = label lokasi kiri atas. Video (mp4/webm/mov) senyap kecuali `volume`. |
 | `map` | `region?` `points[] {place? \| lat+lon, label?, value?, icon?, at?}` `routes[] {from, to, at?}` `countries?[]` `zoomToPoints?` + judul standar | **Peta beranimasi** (Natural Earth): daratan tersingkap melingkar, kamera terbang ke area pin, pin jatuh memantul + denyut, label (anti-tabrakan) dengan nilai, rute melengkung tergambar + titik mengalir. `region`: `indonesia` (default) `sumatra` `jawa` `kalimantan` `sulawesi` `bali-nusra` `maluku` `papua` `asean` `asia` `world` atau bbox `[barat, selatan, timur, utara]`. `place` = kota bawaan (±100: semua ibu kota provinsi & kota besar Indonesia, ASEAN, kota dunia — `src/components/map/places.ts`). `countries` = negara diwarnai (nama Inggris, mis. `'Malaysia'`); wilayah Indonesia otomatis menyorot Indonesia. |
 | `irisan` | `parts[]` `size?` `shots?[]` `labels?[]` `badge?` `cards?[]` `readout?` `panel?` `meters?[]` `stamp?` `latar?` `note?` | **Irisan teknis 2D** (cutaway gaya buku teknik): bagian berwarna per bahan dengan aksir, bergerak saat kata narasi, label menempel, HUD sama dengan `world`. Lihat bagian *Irisan teknis* di bawah. |
-| `selisih` | `a {label,value,at?}` `b {label,value,at?}` `prefix?` `suffix?` `decimals?` `persen?` `persenDecimals?` `selisihLabel?` `selisihAt?` `arah?` `tanda?` `note?` + judul standar | **Dua nilai** (beli vs buyback, sebelum vs sesudah): dua batang proporsional dari nol tumbuh saat disebut, celah disorot (aksir + garis acuan + kurung), baris hasil selisih + % menghitung. Lihat *Visualisasi data* |
+| `selisih` | `a {label,value,at?}` `b {label,value,at?}` `prefix?` `suffix?` `decimals?` `persen?` `persenDecimals?` `selisihLabel?` `selisihAt?` `arah?` `tanda?` `note?` `ringkas?` + judul standar | **Dua nilai** (beli vs buyback, sebelum vs sesudah): dua batang proporsional dari nol tumbuh saat disebut, celah disorot (aksir + garis acuan + kurung), baris hasil selisih + % menghitung. Lihat *Visualisasi data* |
 | `tren` | `seri[] {label, titik[] {label?,value,x?}, warna?, at?}` `skala?: 'absolut' \| 'persen'` `cap?` `arah?` `note?` + judul standar | **Perubahan dari waktu ke waktu**: 1–3 garis dari titik data yang diberikan, tergambar saat disebut, anotasi nilai di titik akhir, cap % opsional. Lihat *Visualisasi data* |
 | `alur` | `simpul[] {text, icon?, at?, panah?, warna?}` `cabang?` `note?` + judul standar | **Sebab-akibat** 2–4 simpul (vertikal di 9:16), panah tergambar ke simpul berikutnya, label panah, satu cabang. Lihat *Visualisasi data* |
 | `world` | `objects[]` `views?` `shots[]` `labels?[]` `cards?[]` `readout?` `meters?[]` `measures?[]` `stamp?` `ground?` `sky?` `note?` + judul standar | **Dunia 3D** (WebGL): objek nyata + kamera yang terbang antar sudut pandang, tembus pandang ke dalam objek, bagian bergerak, label menempel. Lihat bagian *Dunia 3D* di bawah. |
@@ -119,8 +120,8 @@ Opsional — tanpa ini video tampil seperti dulu. Disarankan untuk video bernara
 ## QC otomatis
 | Perintah | Memeriksa | Biaya |
 |---|---|---|
-| `npm run cek` | config: aset, cue, highlight, panjang teks & label data, scene kosong, hook > 3,5 dtk, tipe sama berturut-turut, teks layar > 4 kata/dtk, narasi basi | detik |
-| `npm run pratinjau -- <ID>` | hasil render (still hook + per scene, skala 0,5): ✗ keluar frame · terpotong wadah · teks bertumpuk; ! zona UI platform (`SAFE_AREA`) · huruf < 30 px; resolusi/rasio | ±10–20 dtk per video 2D (`world` ber-`.glb` jauh lebih lama) |
+| `npm run cek` | config: aset, cue, highlight, panjang teks & label data, scene kosong, hook > 3,5 dtk, tipe sama berturut-turut, teks layar > 4 kata/dtk, narasi basi; config gagal dibangun (maksud/pola tak dikenal, data tak cocok) = ✗; kunci isi vs maksud tersirat | detik |
+| `npm run pratinjau -- <ID>` | hasil render (still hook + per scene, skala 0,5): ✗ keluar frame · terpotong wadah · teks bertumpuk; ! zona UI platform (`SAFE_AREA`) · huruf < 30 px · **hook lambat**; resolusi/rasio | ±10–20 dtk per video 2D (`world` ber-`.glb` jauh lebih lama) |
 
 Hasil pratinjau: `out/pratinjau/<ID>/` (jpg per scene, `laporan.md`, `index.html` lembar kontak). Exit 1 bila ada ✗
 (`--ketat`: juga peringatan). Di GitHub Actions otomatis (input `pratinjau`) → artifact + ringkasan run.
@@ -154,6 +155,56 @@ Di `kontenHarian`: kunci `selisih`, `tren`, `alur` (+ `catatan` = `note`); `angk
 - **`stats` 1 item** — angka hero sebesar mungkin di area aman (gradien, menghitung, garis aksen), label di bawah, `pembanding`
   opsional (pil), `note` opsional. `stats` 2–4 item tidak berubah (`note` opsional juga tampil di bawah kisi).
 - Catatan `note` (semua tipe di atas): pil kecil huruf mesin tik di bawah konten, ≤ 40 huruf (dicek `npm run cek`).
+
+## Maksud & hook
+Penulis menulis **maksud + data** dan **pola hook**; template memilih visualnya. Logika murni (tanpa React) di
+`src/templates/maksud.ts` (`maksudScene`, `variasi`, `hookScene`, `narasiHook`, `bacaTeks`) — dipakai `kontenHarian`,
+siap dipakai template lain. Contoh: `src/projects/_demos/maksud.ts` (`Demo-Maksud`), `src/projects/_demos/hook.ts`
+(`Demo-Hook-<pola>`). Tabel untuk penulis naskah: `docs/PROMPT-STORYBOARD.md` → *Komposisi*.
+
+| `maksud` | `data` | Scene yang dipilih |
+|---|---|---|
+| `satu-angka` | `{value, label, prefix?, suffix?, decimals?, pembanding?, at?}` | `stats` 1 item (angka hero) |
+| `dua-nilai` | `{a, b, prefix?, suffix?, decimals?, persen?, selisihLabel?, selisihAt?, arah?, tanda?}` | `selisih` |
+| `peringkat` | `[{label, value, at?}]` atau `{item, terbaik?, sorotLabel?, prefix?, suffix?, decimals?}` | 2 item → `selisih` (`arah` dari `terbaik`); 3–6 → `chart` horizontal, urut dari yang terbaik, `highlightBar: 0`, `highlightLabel` "Terbaik"/"Terendah" |
+| `perubahan` | `{seri, skala?, cap?, arah?, …}` atau `{titik, label?, warna?, …}` | `tren` (≥ 3 titik / > 1 seri / 1 seri 2 titik — tanpa titik rekaan) |
+| `sebab-akibat` | `[simpul]` atau `{simpul, cabang?}` (2–4) | `alur` |
+| `urutan` | `[langkah]` (≥ 2) | `timeline` |
+| `alasan` | `[poin]` atau `{poin, kolom?}` | `features` |
+| `atribut` | `{kolom, baris, sorot?}` | `comparison` |
+| `simulasi` | `{baris, total, catatan?, prefix?, suffix?}` | `calculation` |
+| `kesimpulan` | `string \| string[]` | `statement` |
+| `lokasi` | `[MapPoint]` atau `{titik, wilayah?}` | `map` |
+
+- Kepala bagian sama untuk semua maksud: `judul? highlight? label? keterangan? catatan? narasi? emphasis?`.
+- **Variasi**: bagian maksud yang menghasilkan tipe sama dengan scene sebelumnya → `chart` ganti orientasi (vertikal ⇄
+  horizontal), `features` ganti kolom (1 ⇄ 2). Tanpa varian → dibiarkan, `cek` memberi peringatan "tipe sama".
+- **Galat jelas** saat config dibangun bila data tidak cocok (mis. `[ID] bagian ke-2 (maksud 'dua-nilai'): butuh …`),
+  maksud tidak dikenal, atau `maksud` dicampur kunci isi lama. `npm run cek` melaporkannya sebagai ✗.
+- Kunci isi lama tetap valid & tidak berubah. `cek` menyarankan maksud bila bertentangan: `grafik`/`chart` 2 batang →
+  `dua-nilai`; `angka` 2–3 berlabel setara → `peringkat`; kisi angka berulang di satu video; `langkah` berisi kata
+  sebab ("memicu", "menyebabkan", "sehingga", …) → `sebab-akibat`.
+
+**Pola hook** (`hook: { pola, … }`; `hook: 'teks'` tetap = `hero` biasa). Semua memakai `masuk: 'cepat'`: elemen utama
+terlihat penuh ≤ 0,5 dtk (tidak menunggu narasi). Narasi default dari isinya (angka dibaca: "Rp400.000" → "empat ratus
+ribu rupiah") bila `hookNarasi` kosong. Durasi mengikuti narasi (tanpa narasi 3 dtk).
+
+| `pola` | Isi | Scene |
+|---|---|---|
+| `angka-konsekuensi` | `{angka, akibat, highlight?}` | `statement`: angka (disorot) + akibat, baris ke-2 pada 0,1 dtk |
+| `asumsi-dibantah` | `{asumsi, bantahan, highlight?}` | `statement` 2 baris; sorotan default = angka di bantahan |
+| `kontras` | `{a:{label,value}, b:{label,value}, prefix?, suffix?, decimals?, judul?, highlight?, selisihLabel?, arah?, persen?, tanda?}` | `selisih` `ringkas: true` (nilai besar tanpa hitung naik, batang + celah ≤ 0,5 dtk) |
+| `kesalahan-umum` | `{kesalahan, koreksi?, highlight?}` | `hero` + label "Kesalahan umum" + ikon ❌; koreksi jadi subjudul "✓ …" |
+| `pertanyaan` | `{teks, highlight?}` | `hero` |
+
+Narasi default: angka-konsekuensi "‹angka› ‹akibat›." · asumsi-dibantah "‹asumsi›, ‹bantahan›." · kontras "‹a› ‹nilai›,
+‹b› ‹nilai› ‹satuan›." · kesalahan-umum "‹kesalahan›? ‹koreksi›." · pertanyaan = teksnya. Edge TTS menambah ±0,8 dtk
+hening di akhir klip → jaga ucapan ±2,5 dtk agar lolos batas hook `cek` (3,5 dtk).
+
+**Hook lambat** (`pratinjau`): elemen utama = teks konten ≥ 85% ukuran teks terbesar di still akhir scene 1; pada still
+0,6 dtk semuanya harus beropasitas ≥ 0,9 (angka yang masih menghitung dianggap sama). Bila tidak → peringatan
+"hook lambat" (judul yang menunggu kata narasi, `words` yang menunggu suara, dsb.). Data dari `QualityCheck.tsx`
+(`texts`: ukuran + opasitas teks konten, hanya dengan `qc: true`). Opasitas saja: blur/gerak tidak diukur — lihat stillnya.
 
 ## Gerak sepanjang scene
 Semua video otomatis punya: **kamera** (zoom/geser pelan + background parallax), **idle** (kartu, ikon, angka, badge "bernapas" setelah muncul) dan **keluar** (elemen memudar ke atas bergiliran sebelum transisi).

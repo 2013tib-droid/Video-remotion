@@ -1,0 +1,388 @@
+{
+ "clips": {
+  "93572630": {
+   "src": "narration/Demo-Hook-asumsi-dibantah/93572630.mp3",
+   "provider": "edge",
+   "duration": 3.864,
+   "words": [
+    {
+     "w": "Emas",
+     "start": 0.18,
+     "end": 0.415
+    },
+    {
+     "w": "dunia",
+     "start": 0.415,
+     "end": 0.768
+    },
+    {
+     "w": "turun",
+     "start": 0.768,
+     "end": 1.003
+    },
+    {
+     "w": "delapan",
+     "start": 1.003,
+     "end": 1.355
+    },
+    {
+     "w": "persen,",
+     "start": 1.355,
+     "end": 1.59
+    },
+    {
+     "w": "Antam",
+     "start": 1.95,
+     "end": 2.223
+    },
+    {
+     "w": "cuma",
+     "start": 2.223,
+     "end": 2.495
+    },
+    {
+     "w": "satu",
+     "start": 2.495,
+     "end": 2.768
+    },
+    {
+     "w": "persen.",
+     "start": 2.768,
+     "end": 3.04
+    }
+   ]
+  },
+  "59496ffd": {
+   "src": "narration/Demo-Hook-angka-konsekuensi/59496ffd.mp3",
+   "provider": "edge",
+   "duration": 3.096,
+   "words": [
+    {
+     "w": "Empat",
+     "start": 0.21,
+     "end": 0.439
+    },
+    {
+     "w": "ratus",
+     "start": 0.439,
+     "end": 0.668
+    },
+    {
+     "w": "ribu",
+     "start": 0.668,
+     "end": 0.897
+    },
+    {
+     "w": "rupiah",
+     "start": 0.897,
+     "end": 1.24
+    },
+    {
+     "w": "hilang",
+     "start": 1.24,
+     "end": 1.469
+    },
+    {
+     "w": "saat",
+     "start": 1.469,
+     "end": 1.698
+    },
+    {
+     "w": "dijual",
+     "start": 1.698,
+     "end": 2.041
+    },
+    {
+     "w": "lagi.",
+     "start": 2.041,
+     "end": 2.27
+    }
+   ]
+  },
+  "22a1b39c": {
+   "src": "narration/Demo-Hook-angka-konsekuensi/22a1b39c.mp3",
+   "provider": "edge",
+   "duration": 5.208,
+   "words": [
+    {
+     "w": "Harga",
+     "start": 0.21,
+     "end": 0.413
+    },
+    {
+     "w": "beli",
+     "start": 0.413,
+     "end": 0.616
+    },
+    {
+     "w": "dua",
+     "start": 0.616,
+     "end": 0.819
+    },
+    {
+     "w": "juta",
+     "start": 0.819,
+     "end": 1.021
+    },
+    {
+     "w": "empat",
+     "start": 1.021,
+     "end": 1.224
+    },
+    {
+     "w": "ratus",
+     "start": 1.224,
+     "end": 1.427
+    },
+    {
+     "w": "sembilan",
+     "start": 1.427,
+     "end": 1.731
+    },
+    {
+     "w": "puluh",
+     "start": 1.731,
+     "end": 1.934
+    },
+    {
+     "w": "lima",
+     "start": 1.934,
+     "end": 2.137
+    },
+    {
+     "w": "ribu,",
+     "start": 2.137,
+     "end": 2.34
+    },
+    {
+     "w": "buyback",
+     "start": 2.71,
+     "end": 2.937
+    },
+    {
+     "w": "dua",
+     "start": 2.937,
+     "end": 3.163
+    },
+    {
+     "w": "juta",
+     "start": 3.163,
+     "end": 3.39
+    },
+    {
+     "w": "sembilan",
+     "start": 3.39,
+     "end": 3.73
+    },
+    {
+     "w": "puluh",
+     "start": 3.73,
+     "end": 3.957
+    },
+    {
+     "w": "lima",
+     "start": 3.957,
+     "end": 4.183
+    },
+    {
+     "w": "ribu.",
+     "start": 4.183,
+     "end": 4.41
+    }
+   ]
+  },
+  "588c2701": {
+   "src": "narration/Demo-Hook-kontras/588c2701.mp3",
+   "provider": "edge",
+   "duration": 3.288,
+   "words": [
+    {
+     "w": "Antam",
+     "start": 0.21,
+     "end": 0.463
+    },
+    {
+     "w": "enam",
+     "start": 0.463,
+     "end": 0.717
+    },
+    {
+     "w": "belas,",
+     "start": 0.717,
+     "end": 0.97
+    },
+    {
+     "w": "UBS",
+     "start": 1.32,
+     "end": 1.513
+    },
+    {
+     "w": "delapan",
+     "start": 1.513,
+     "end": 2.093
+    },
+    {
+     "w": "persen.",
+     "start": 2.093,
+     "end": 2.48
+    }
+   ]
+  },
+  "bab7fd3e": {
+   "src": "narration/Demo-Hook-kontras/bab7fd3e.mp3",
+   "provider": "edge",
+   "duration": 6.168,
+   "words": [
+    {
+     "w": "Galeri24",
+     "start": 0.17,
+     "end": 1.02
+    },
+    {
+     "w": "sekitar",
+     "start": 1.02,
+     "end": 1.384
+    },
+    {
+     "w": "enam",
+     "start": 1.384,
+     "end": 1.627
+    },
+    {
+     "w": "persen,",
+     "start": 1.627,
+     "end": 1.87
+    },
+    {
+     "w": "UBS",
+     "start": 2.21,
+     "end": 2.388
+    },
+    {
+     "w": "hampir",
+     "start": 2.388,
+     "end": 2.745
+    },
+    {
+     "w": "delapan,",
+     "start": 2.745,
+     "end": 3.28
+    },
+    {
+     "w": "Antam",
+     "start": 3.64,
+     "end": 3.905
+    },
+    {
+     "w": "LM",
+     "start": 3.905,
+     "end": 4.037
+    },
+    {
+     "w": "lebih",
+     "start": 4.037,
+     "end": 4.302
+    },
+    {
+     "w": "dari",
+     "start": 4.302,
+     "end": 4.566
+    },
+    {
+     "w": "enam",
+     "start": 4.566,
+     "end": 4.831
+    },
+    {
+     "w": "belas",
+     "start": 4.831,
+     "end": 5.095
+    },
+    {
+     "w": "persen.",
+     "start": 5.095,
+     "end": 5.36
+    }
+   ]
+  },
+  "5d73d55a": {
+   "src": "narration/Demo-Hook-kesalahan-umum/5d73d55a.mp3",
+   "provider": "edge",
+   "duration": 3.84,
+   "words": [
+    {
+     "w": "Emas",
+     "start": 0.23,
+     "end": 0.455
+    },
+    {
+     "w": "buat",
+     "start": 0.455,
+     "end": 0.68
+    },
+    {
+     "w": "untung",
+     "start": 0.68,
+     "end": 0.905
+    },
+    {
+     "w": "cepat?",
+     "start": 0.905,
+     "end": 1.13
+    },
+    {
+     "w": "Rugi",
+     "start": 2.19,
+     "end": 2.486
+    },
+    {
+     "w": "di",
+     "start": 2.486,
+     "end": 2.634
+    },
+    {
+     "w": "spread.",
+     "start": 2.634,
+     "end": 2.93
+    }
+   ]
+  },
+  "bd44a434": {
+   "src": "narration/Demo-Hook-pertanyaan/bd44a434.mp3",
+   "provider": "edge",
+   "duration": 2.616,
+   "words": [
+    {
+     "w": "Kenapa",
+     "start": 0.22,
+     "end": 0.587
+    },
+    {
+     "w": "Antam",
+     "start": 0.587,
+     "end": 0.832
+    },
+    {
+     "w": "cuma",
+     "start": 0.832,
+     "end": 1.076
+    },
+    {
+     "w": "turun",
+     "start": 1.076,
+     "end": 1.321
+    },
+    {
+     "w": "satu",
+     "start": 1.321,
+     "end": 1.565
+    },
+    {
+     "w": "persen?",
+     "start": 1.565,
+     "end": 1.81
+    }
+   ]
+  }
+ }
+}

@@ -11,7 +11,8 @@
  * `src/core/QualityCheck.tsx` mengukur setiap teks yang terlihat:
  *   ✗ tepi (keluar frame) · wadah (terpotong) · tumpuk (teks saling menimpa)      → exit 1
  *   ! aman (zona UI Reels/TikTok/Shorts) · kecil (huruf < LEGIBILITY.minFontQc)    → peringatan
- * Juga memeriksa resolusi/rasio (vertikal harus 1080×1920 pada skala render 1).
+ * Juga memeriksa resolusi/rasio (vertikal harus 1080×1920 pada skala render 1), dan HOOK LAMBAT: elemen utama
+ * hook (teks konten terbesar di akhir scene 1) harus sudah tampil penuh (opasitas ≥ 0,9) pada still 0,6 dtk → peringatan.
  *
  * Hasil: out/pratinjau/<ID>/  — NN-<tipe>.jpg, laporan.md, index.html (lembar kontak).
  * Browser: REMOTION_BROWSER_EXECUTABLE (sesi cloud: /opt/pw-browsers/chromium).
@@ -45,7 +46,29 @@ const LABEL = {
   tumpuk: 'teks bertumpuk',
   aman: 'di zona UI platform',
   kecil: 'teks kecil',
+  lambat: 'hook lambat',
 };
+/** Elemen utama hook: teks ≥ 85% ukuran teks terbesar di akhir scene 1; harus tampil (opasitas ≥ 0,9) pada 0,6 dtk. */
+const HOOK_MAIN = 0.85;
+const HOOK_OPACITY = 0.9;
+// Angka yang sedang menghitung naik ("Rp123.456" → "Rp400.000") dianggap teks yang sama.
+const hookKey = (t) => t.toLowerCase().replace(/[\d.,\s]+/g, '#');
+function slowHook(hookTexts, endTexts) {
+  const visible = endTexts.filter((x) => x.o >= HOOK_OPACITY);
+  if (!visible.length) return [];
+  const max = Math.max(...visible.map((x) => x.s));
+  const main = visible.filter((x) => x.s >= max * HOOK_MAIN);
+  const late = [];
+  for (const m of main) {
+    const o = Math.max(0, ...hookTexts.filter((x) => hookKey(x.t) === hookKey(m.t)).map((x) => x.o));
+    if (o < HOOK_OPACITY) late.push({ t: m.t, o });
+  }
+  if (!late.length) return [];
+  // Satu temuan per video (judul kinetik = satu elemen per kata).
+  const text = late.map((x) => x.t).join(' ').slice(0, 60);
+  const o = Math.min(...late.map((x) => x.o));
+  return [{ kind: 'lambat', text, detail: `${late.length}/${main.length} teks utama belum tampil penuh pada 0,6 dtk (opasitas terendah ${o.toFixed(2)}) — pakai pola hook / masuk: 'cepat'` }];
+}
 
 // 1) Video yang diminta + frame yang dipotret (dari timeline yang sama dengan mesin).
 const jobs = [];
@@ -95,6 +118,7 @@ try {
     for (const [k, shot] of shots.entries()) {
       const file = `${pad(k)}-${shot.name}.jpg`;
       let issues = [];
+      let texts = [];
       await renderStill({
         composition,
         serveUrl,
@@ -110,7 +134,9 @@ try {
           const i = text.indexOf('QC|');
           if (i >= 0) {
             try {
-              issues = JSON.parse(text.slice(i + 3)).issues;
+              const qc = JSON.parse(text.slice(i + 3));
+              issues = qc.issues;
+              texts = qc.texts ?? [];
             } catch {
               /* abaikan log rusak */
             }
@@ -138,7 +164,17 @@ try {
       const t = (shot.frame / tl.fps).toFixed(1);
       console.log(`  ${mark} ${file}  (dtk ${t})`);
       for (const x of [...errs, ...warns]) console.log(`      ${ERROR_KINDS.has(x.kind) ? '✗' : '!'} ${LABEL[x.kind]}: "${x.text}" — ${x.detail}`);
-      rows.push({ file, shot, t, issues, mark });
+      rows.push({ file, shot, t, issues, mark, texts });
+    }
+    // Hook lambat: bandingkan still 0,6 dtk dengan still akhir scene 1 (elemen utama sudah tampil penuh di sana).
+    if (rows.length > 1) {
+      const slow = slowHook(rows[0].texts, rows[1].texts);
+      if (slow.length) {
+        rows[0].issues.push(...slow);
+        if (rows[0].mark === '✓') rows[0].mark = '!';
+        totalWarnings += slow.length;
+        for (const x of slow) console.log(`  ! ${rows[0].file} → ${LABEL.lambat}: "${x.text}" — ${x.detail}`);
+      }
     }
     for (const r of res) console.log(`  ✗ ${r}`);
     totalErrors += res.length;
