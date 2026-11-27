@@ -42,36 +42,46 @@ const config = seriesConfig(
       narration: 'Rupiah tembus delapan belas ribu empat ratus per dolar!',
       emphasis: ['delapan belas ribu empat ratus'],
     },
-    // 2 — PENYEBAB (konteks): 4 faktor muncul saat disebut; rantai dolar → rupiah di subjudul.
+    // 2 — PENYEBAB (konteks): peta dunia — pin Jakarta & New York, rute "modal keluar" tergambar + titik mengalir.
     {
-      type: 'features',
+      type: 'map',
       transition: 'slideLeft',
       eyebrow: 'Konteks · TKM BI November 2026',
       title: 'Kenapa rupiah melemah?',
       highlight: 'melemah?',
-      features: [
-        { icon: '🌍', title: 'Ketidakpastian geopolitik' },
-        { icon: '🛢️', title: 'Harga minyak tinggi' },
-        { icon: '🏦', title: 'Bunga AS diprediksi naik' },
-        { icon: '💸', title: 'Modal asing keluar', at: 'Modal' },
+      subtitle: 'Geopolitik & minyak mahal → dolar diburu',
+      region: 'world',
+      countries: ['Indonesia', 'United States of America'],
+      points: [
+        { place: 'Jakarta', label: 'Rupiah', value: 'tertekan', icon: '📉', at: 0.4 },
+        { place: 'New York', label: 'Bunga AS', value: 'diprediksi naik', icon: '🏦', at: 'bunga' },
       ],
-      subtitle: 'Dolar diburu → rupiah tertekan',
+      routes: [{ from: 0, to: 1, at: 'Modal' }],
       narration:
         'Geopolitik tak pasti, minyak mahal, bunga Amerika diprediksi naik. Modal asing keluar, rupiah tertekan.',
       emphasis: ['rupiah tertekan.'],
     },
-    // 3 — RESPONS BI (fakta): kisi 2 angka. "Sejak 18 November" = keputusan SEBELUM kurs menyentuh Rp18.400.
+    // 3 — RESPONS BI (fakta): garis BI-Rate 5,75% → 6,00% tergambar saat disebut.
+    // "Sejak 18 November" = keputusan SEBELUM kurs menyentuh Rp18.400. Hanya 2 titik data nyata (tanpa titik rekaan).
     {
-      type: 'stats',
+      type: 'tren',
       transition: 'wipeUp',
       eyebrow: 'Fakta · RDG BI 18 November 2026',
       title: 'BI naikkan suku bunga',
       highlight: 'suku bunga',
-      stats: [
-        { value: 6, decimals: 2, suffix: '%', label: 'BI-Rate, dari 5,75%', at: 'enam persen' },
-        { value: 25, suffix: ' bps', label: 'Kenaikan', at: 'intervensi' },
+      subtitle: 'Naik 25 bps · plus intervensi valas',
+      seri: [
+        {
+          label: 'BI-Rate',
+          titik: [
+            { label: 'Sebelum', value: 5.75 },
+            { label: '18 Nov', value: 6 },
+          ],
+          at: 'BI-Rate',
+        },
       ],
-      subtitle: 'Plus intervensi pasar valas',
+      suffix: '%',
+      decimals: 2,
       note: 'Sumber: Bank Indonesia, 18 Nov 2026',
       narration:
         'Sejak delapan belas November, BI-Rate sudah naik ke enam persen, plus intervensi valas.',
@@ -97,21 +107,59 @@ const config = seriesConfig(
         'Barang impor seratus dolar: dari satu koma enam juta, jadi satu koma delapan empat juta. Lima belas persen lebih mahal, menekan daya beli.',
       emphasis: ['Lima belas persen'],
     },
-    // 5 — KREDIT vs SIMPANAN (potensi): dua sisi berdampingan; bunga tetap disebut tidak langsung terdampak.
+    // 5 — KREDIT vs SIMPANAN (potensi): ilustrasi rumah (peminjam) vs tumpukan koin (penabung);
+    // panah naik merah/hijau muncul saat disebut. Bunga tetap disebut tidak langsung terdampak.
     {
-      type: 'comparison',
+      type: 'irisan',
       transition: 'slideUp',
       eyebrow: 'Potensi dampak',
       title: 'Cicilan vs simpanan',
       highlight: 'simpanan',
-      columns: ['Peminjam', 'Penabung'],
-      rows: [
-        { label: 'Bunga', values: ['Berpotensi naik', 'Berpotensi naik'], at: 'kredit' },
-        { label: 'Terdampak', values: ['KPR floating', 'Deposito baru'], at: 'deposito' },
-      ],
       subtitle: 'Bunga tetap: tidak langsung naik',
-      narration:
-        'Bunga kredit mengambang berpotensi naik, bunga deposito bisa lebih menarik.',
+      size: [1000, 900],
+      parts: [
+        { shape: 'rect', x: 60, y: 820, w: 880, h: 6, r: 3, fill: '#CBD5E1', stroke: false },
+        // Rumah (peminjam / KPR)
+        { shape: 'rect', x: 150, y: 620, w: 240, h: 200, r: 6, fill: '#F1F5F9', stroke: '#0B1220', strokeWidth: 6, hatch: false },
+        { shape: 'poly', points: [[120, 630], [270, 500], [420, 630]], fill: '#475569', stroke: '#0B1220', strokeWidth: 6, hatch: false },
+        { shape: 'rect', x: 240, y: 710, w: 60, h: 110, r: 4, fill: '#D97706', stroke: '#0B1220', strokeWidth: 5, hatch: false },
+        { shape: 'rect', x: 175, y: 660, w: 45, h: 40, r: 4, fill: '#BFDBFE', stroke: '#0B1220', strokeWidth: 4, hatch: false },
+        { shape: 'rect', x: 320, y: 660, w: 45, h: 40, r: 4, fill: '#BFDBFE', stroke: '#0B1220', strokeWidth: 4, hatch: false },
+        {
+          id: 'panah-kredit', shape: 'poly',
+          points: [[245, 470], [295, 470], [295, 350], [335, 350], [270, 260], [205, 350], [245, 350]],
+          fill: 'danger', stroke: false, hatch: false, origin: [270, 470],
+          motion: [
+            { type: 'scale', to: 0.01, at: 0, duration: 0.01 },
+            { type: 'scale', to: 1, at: 'mengambang', duration: 0.6 },
+            { type: 'bob', amount: 8, period: 1.6 },
+          ],
+        },
+        // Tumpukan koin (penabung / deposito)
+        { shape: 'ellipse', x: 740, y: 800, rx: 110, ry: 26, fill: '#F59E0B', stroke: '#B45309', strokeWidth: 5, hatch: false },
+        { shape: 'ellipse', x: 740, y: 765, rx: 110, ry: 26, fill: '#F59E0B', stroke: '#B45309', strokeWidth: 5, hatch: false },
+        { shape: 'ellipse', x: 740, y: 730, rx: 110, ry: 26, fill: '#FBBF24', stroke: '#B45309', strokeWidth: 5, hatch: false },
+        {
+          shape: 'ellipse', x: 740, y: 695, rx: 110, ry: 26, fill: '#FBBF24', stroke: '#B45309', strokeWidth: 5, hatch: false,
+          hidden: true, showAt: 'deposito', origin: [740, 695],
+          motion: [{ type: 'move', to: [0, -60], at: 0, duration: 0.01 }, { type: 'move', to: [0, 0], at: 'deposito', duration: 0.5 }],
+        },
+        {
+          id: 'panah-deposito', shape: 'poly',
+          points: [[715, 600], [765, 600], [765, 480], [805, 480], [740, 390], [675, 480], [715, 480]],
+          fill: 'success', stroke: false, hatch: false, origin: [740, 600],
+          motion: [
+            { type: 'scale', to: 0.01, at: 0, duration: 0.01 },
+            { type: 'scale', to: 1, at: 'menarik', duration: 0.6 },
+            { type: 'bob', amount: 8, period: 1.6 },
+          ],
+        },
+      ],
+      labels: [
+        { target: [335, 400], text: 'KPR floating', color: 'danger', at: 'mengambang', side: 'right' },
+        { target: [630, 780], text: 'Deposito', color: 'success', at: 'menarik', side: 'left' },
+      ],
+      narration: 'Bunga kredit mengambang berpotensi naik, bunga deposito bisa lebih menarik.',
       emphasis: ['berpotensi naik'],
     },
     // 6 — BISNIS (potensi): satu sebab bercabang dua — hijau berpotensi untung, merah tertekan.

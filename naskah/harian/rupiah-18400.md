@@ -43,14 +43,16 @@ Cek hitungan: 18.400 − 16.000 = 2.400 × 100 = 240.000; 240.000 / 1.600.000 = 
 9. **Aksen merah di hook:** angka hero `stats` memakai gradien tema (amber), karena warnanya tidak bisa diatur per scene tanpa mengubah framework.
    Merah dipakai di celah biaya (scene 4) dan simpul tertekan (scene 6).
 
+- (27 Nov) Revisi pengguna: latar putih; scene 2, 3, 5 diganti visual beranimasi (peta, grafik garis, ilustrasi) agar tidak penuh tulisan. Narasi tidak berubah.
+
 ## 3. Alur & narasi (final, sumber kebenaran = file .ts)
 | # | Visual | Narasi |
 |---|---|---|
 | 1 | `stats` hero Rp18.400 · pil "Ditutup Rp18.364" · sumber IDX | Rupiah tembus delapan belas ribu empat ratus per dolar! |
-| 2 | `features` 4 faktor (muncul saat disebut) | Geopolitik tak pasti, minyak mahal, bunga Amerika diprediksi naik. Modal asing keluar, rupiah tertekan. |
-| 3 | `stats` 6,00% · 25 bps · sumber BI | Sejak delapan belas November, BI-Rate sudah naik ke enam persen, plus intervensi valas. |
+| 2 | `map` dunia: pin Jakarta (rupiah tertekan) & New York (bunga AS), rute "modal keluar" tergambar | Geopolitik tak pasti, minyak mahal, bunga Amerika diprediksi naik. Modal asing keluar, rupiah tertekan. |
+| 3 | `tren` BI-Rate 5,75% → 6,00% (2 titik nyata), subjudul "Naik 25 bps" · sumber BI | Sejak delapan belas November, BI-Rate sudah naik ke enam persen, plus intervensi valas. |
 | 4 | `selisih` Rp1,6 jt vs Rp1,84 jt · +Rp240.000 · +15% | Barang impor seratus dolar: dari satu koma enam juta, jadi satu koma delapan empat juta. Lima belas persen lebih mahal, menekan daya beli. |
-| 5 | `comparison` Peminjam vs Penabung | Bunga kredit mengambang berpotensi naik, bunga deposito bisa lebih menarik. |
+| 5 | `irisan` rumah (KPR) vs tumpukan koin (deposito), panah naik merah/hijau muncul saat disebut | Bunga kredit mengambang berpotensi naik, bunga deposito bisa lebih menarik. |
 | 6 | `alur` bercabang: Eksportir (hijau) / Importir & utang dolar (merah) | Eksportir berpotensi untung. Importir dan perusahaan berutang dolar tanpa lindung nilai, tertekan biaya. |
 | 7 | `features` Saham · SBN · Emas | Saham bergejolak. Harga SBN lama bisa turun saat imbal hasil naik. Emas rupiah ikut terdorong. |
 | 8 | `timeline` 3 langkah | Jangan panik. Jaga arus kas, siapkan dana darurat, kelola risiko investasi dan utang. |
