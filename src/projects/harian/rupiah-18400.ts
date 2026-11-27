@@ -26,7 +26,6 @@ const config = seriesConfig(
       type: 'stats',
       masuk: 'cepat',
       transition: 'fade',
-      background: 'gradient',
       eyebrow: 'Kurs · 26 November 2026',
       title: 'Rupiah tembus',
       highlight: 'tembus',
@@ -176,33 +175,39 @@ const config = seriesConfig(
   { hudLabel: 'Ekonomi' },
 );
 
-/** Palet editorial finansial (brief): navy gelap, teks putih, amber = sorotan, merah = pelemahan, hijau = positif. */
+/**
+ * Palet editorial finansial TERANG (permintaan pengguna: latar putih). Teks navy #0B1220; amber digelapkan (#D97706)
+ * agar angka & sorotan terbaca di putih; merah = pelemahan/biaya, hijau = positif.
+ */
 export default {
   ...config,
+  // Latar polos putih di semua scene (gradien/pola seri memberi rona amber/krem).
+  scenes: config.scenes.map((s) => ({ ...s, background: 'solid' as const })),
   // HUD atas sudah menampilkan brand; watermark bawah dihapus agar tidak ganda.
   watermark: false,
   themeOverrides: {
+    mode: 'light' as const,
     colors: {
-      background: '#0B1220',
-      backgroundAlt: '#111827',
-      surface: '#111827',
-      surfaceAlt: '#1A2333',
-      border: '#243044',
-      primary: '#FBBF24',
+      background: '#FFFFFF',
+      backgroundAlt: '#F1F5F9',
+      surface: '#FFFFFF',
+      surfaceAlt: '#F8FAFC',
+      border: '#E2E8F0',
+      primary: '#D97706',
       secondary: '#F59E0B',
-      accent: '#FBBF24',
-      text: '#F8FAFC',
-      onPrimary: '#0B1220',
-      muted: '#94A3B8',
-      success: '#22C55E',
-      danger: '#EF4444',
-      // Kata aktif subtitle: putih lembut, bukan amber — amber khusus angka/kata penting.
-      highlight: 'rgba(248,250,252,0.18)',
-      onHighlight: '#ffffff',
+      accent: '#D97706',
+      text: '#0B1220',
+      onPrimary: '#FFFFFF',
+      muted: '#475569',
+      success: '#16A34A',
+      danger: '#DC2626',
+      // Kata aktif subtitle: sorotan amber muda, teks tetap navy.
+      highlight: 'rgba(251,191,36,0.35)',
+      onHighlight: '#0B1220',
     },
-    gradient: 'linear-gradient(120deg, #FDE68A 0%, #FBBF24 55%, #F59E0B 100%)',
-    shadow: { card: '0 12px 40px rgba(0,0,0,0.45)', elevated: '0 30px 90px rgba(251,191,36,0.16)' },
+    gradient: 'linear-gradient(120deg, #F59E0B 0%, #D97706 55%, #B45309 100%)',
+    shadow: { card: '0 10px 30px rgba(11,18,32,0.08)', elevated: '0 24px 60px rgba(217,119,6,0.14)' },
     // Editorial: judul naik dari balik garis (bukan menghentak), energi sedang.
-    motion: { text: 'rise' },
+    motion: { text: 'rise' as const },
   },
 };

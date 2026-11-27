@@ -13,7 +13,7 @@ durasi: ±62 dtk (mengikuti suara Edge TTS)
 - **Tujuan:** penonton paham kenapa rupiah melemah, apa respons BI, dan dampaknya ke dompet, kredit, bisnis, investasi; tanpa panik.
 - **Penonton:** masyarakat umum & investor ritel.
 - **Pesan utama:** rupiah lemah berdampak nyata, tetapi sebagian besar dampaknya berupa *potensi*. Siapkan strategi, jangan panik.
-- **Gaya:** editorial finansial premium. Navy #0B1220/#111827, teks #F8FAFC, amber #FBBF24 = sorotan, merah #EF4444 = negatif, hijau #22C55E = positif.
+- **Gaya:** editorial finansial premium, **latar putih** (revisi pengguna; awalnya navy gelap). Teks navy #0B1220, amber #D97706 = sorotan (digelapkan dari #FBBF24 agar terbaca di putih), merah #DC2626 = negatif, hijau #16A34A = positif.
 
 ### Data & sumber
 ⚠ Situs sumber tidak bisa dibuka dari sesi cloud (DNS diblokir). Angka diambil dari brief pengguna dan **belum diverifikasi independen**.
