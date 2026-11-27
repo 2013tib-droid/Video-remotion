@@ -7,6 +7,7 @@
  *   npm run render:all -- --scale=0.5        # pratinjau cepat setengah resolusi
  *   npm run render:all -- --list             # tampilkan daftar saja, tanpa render
  *   npm run render:all -- --skip-demos       # lewati folder Demo-*
+ *   npm run render:all -- --concurrency=2    # tab paralel (default 1: >1 bisa membuat grafik berkedip)
  *
  * Output: out/<ID>.mp4
  * Browser kustom (opsional): REMOTION_BROWSER_EXECUTABLE=/path/ke/chrome
@@ -27,6 +28,8 @@ const scale = Number(flagValue('scale') ?? 1);
 const listOnly = Boolean(flag('list'));
 const skipDemos = Boolean(flag('skip-demos'));
 const browserExecutable = process.env.REMOTION_BROWSER_EXECUTABLE || undefined;
+// Default 1 tab: dengan tab paralel di resolusi penuh, Chromium kadang memotret frame sebelum grafik selesai digambar (kedip).
+const concurrency = Number(flagValue('concurrency') ?? 1);
 
 const outDir = path.join(root, 'out');
 mkdirSync(outDir, { recursive: true });
@@ -62,6 +65,7 @@ for (const [i, composition] of selected.entries()) {
       codec: 'h264',
       outputLocation: output,
       scale,
+      concurrency,
       browserExecutable,
       chromiumOptions: { gl: process.env.REMOTION_GL ?? 'swangle' },
       onProgress: ({ progress }) => {

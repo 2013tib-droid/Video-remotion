@@ -90,7 +90,7 @@ const config = seriesConfig(
     // 4 — SIMULASI (hitungan kami): dua batang dari nol, celah merah = biaya tambahan.
     {
       type: 'selisih',
-      transition: 'pushCut',
+      transition: 'slideLeft',
       eyebrow: 'Simulasi · bukan data historis',
       title: 'Dampak ke dompet',
       highlight: 'dompet',
@@ -165,7 +165,7 @@ const config = seriesConfig(
     // 6 — BISNIS (potensi): satu sebab bercabang dua — hijau berpotensi untung, merah tertekan.
     {
       type: 'alur',
-      transition: 'zoom',
+      transition: 'fade',
       eyebrow: 'Potensi dampak',
       title: 'Siapa untung, siapa tertekan?',
       highlight: 'tertekan?',
