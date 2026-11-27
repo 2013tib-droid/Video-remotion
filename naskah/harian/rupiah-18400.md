@@ -43,7 +43,7 @@ Cek hitungan: 18.400 − 16.000 = 2.400 × 100 = 240.000; 240.000 / 1.600.000 = 
 9. **Aksen merah di hook:** angka hero `stats` memakai gradien tema (amber), karena warnanya tidak bisa diatur per scene tanpa mengubah framework.
    Merah dipakai di celah biaya (scene 4) dan simpul tertekan (scene 6).
 
-- (27 Nov) Revisi pengguna: latar putih; scene 2, 3, 5 diganti visual beranimasi (peta, grafik garis, ilustrasi) agar tidak penuh tulisan. Narasi tidak berubah.
+- (27 Nov) Revisi pengguna: latar putih; scene 2, 3, 5, 7 diganti visual beranimasi (peta, grafik garis, ilustrasi) agar tidak penuh tulisan. Narasi tidak berubah.
 
 ## 3. Alur & narasi (final, sumber kebenaran = file .ts)
 | # | Visual | Narasi |
@@ -54,7 +54,7 @@ Cek hitungan: 18.400 − 16.000 = 2.400 × 100 = 240.000; 240.000 / 1.600.000 = 
 | 4 | `selisih` Rp1,6 jt vs Rp1,84 jt · +Rp240.000 · +15% | Barang impor seratus dolar: dari satu koma enam juta, jadi satu koma delapan empat juta. Lima belas persen lebih mahal, menekan daya beli. |
 | 5 | `irisan` rumah (KPR) vs tumpukan koin (deposito), panah naik merah/hijau muncul saat disebut | Bunga kredit mengambang berpotensi naik, bunga deposito bisa lebih menarik. |
 | 6 | `alur` bercabang: Eksportir (hijau) / Importir & utang dolar (merah) | Eksportir berpotensi untung. Importir dan perusahaan berutang dolar tanpa lindung nilai, tertekan biaya. |
-| 7 | `features` Saham · SBN · Emas | Saham bergejolak. Harga SBN lama bisa turun saat imbal hasil naik. Emas rupiah ikut terdorong. |
+| 7 | `irisan` 3 baris: candlestick bergetar (saham) · jungkat-jungkit yield ↑ harga ↓ (SBN) · emas + panah naik | Saham bergejolak. Harga SBN lama bisa turun saat imbal hasil naik. Emas rupiah ikut terdorong. |
 | 8 | `timeline` 3 langkah | Jangan panik. Jaga arus kas, siapkan dana darurat, kelola risiko investasi dan utang. |
 | 9 | `cta` Pahami ekonomi, bukan sekadar berita. | Pahami ekonomi, bukan sekadar berita. |
 

@@ -179,21 +179,71 @@ const config = seriesConfig(
         'Eksportir berpotensi untung. Importir dan perusahaan berutang dolar tanpa lindung nilai, tertekan biaya.',
       emphasis: ['tertekan biaya.'],
     },
-    // 7 — INVESTASI (potensi): tiga kartu bergantian; tanpa sinyal beli/jual.
+    // 7 — INVESTASI (potensi): tiga baris ilustrasi bergerak saat disebut; tanpa sinyal beli/jual.
+    //   Saham = candlestick bergetar · SBN = jungkat-jungkit (yield ↑, harga lama ↓) · Emas = batang emas + panah naik.
     {
-      type: 'features',
+      type: 'irisan',
       transition: 'slideRight',
       eyebrow: 'Potensi dampak · bukan ajakan beli/jual',
       title: 'Bagaimana dengan investasi?',
       highlight: 'investasi?',
-      columns: 1,
-      features: [
-        { icon: '📈', title: 'Saham', description: 'Volatilitas & biaya modal naik' },
-        { icon: '🏛️', title: 'SBN', description: 'Yield naik, harga seri lama turun' },
-        { icon: '🥇', title: 'Emas', description: 'Harga rupiah terdorong kurs' },
+      size: [1000, 1400],
+      parts: [
+        // Pemisah baris
+        { shape: 'rect', x: 80, y: 785, w: 840, h: 3, fill: '#E2E8F0', stroke: false },
+        { shape: 'rect', x: 80, y: 1100, w: 840, h: 3, fill: '#E2E8F0', stroke: false },
+        // SAHAM — candlestick bergetar saat "bergejolak"
+        {
+          shape: 'group',
+          origin: [250, 650],
+          motion: [{ type: 'shake', amount: 7, at: 'bergejolak', stopAt: 'SBN' }],
+          children: [
+            { shape: 'rect', x: 108, y: 630, w: 4, h: 110, fill: '#16A34A', stroke: false },
+            { shape: 'rect', x: 95, y: 650, w: 30, h: 70, r: 4, fill: '#16A34A', stroke: false },
+            { shape: 'rect', x: 178, y: 600, w: 4, h: 130, fill: '#DC2626', stroke: false },
+            { shape: 'rect', x: 165, y: 620, w: 30, h: 90, r: 4, fill: '#DC2626', stroke: false },
+            { shape: 'rect', x: 248, y: 560, w: 4, h: 150, fill: '#16A34A', stroke: false },
+            { shape: 'rect', x: 235, y: 580, w: 30, h: 110, r: 4, fill: '#16A34A', stroke: false },
+            { shape: 'rect', x: 318, y: 610, w: 4, h: 140, fill: '#DC2626', stroke: false },
+            { shape: 'rect', x: 305, y: 635, w: 30, h: 90, r: 4, fill: '#DC2626', stroke: false },
+            { shape: 'rect', x: 388, y: 550, w: 4, h: 160, fill: '#16A34A', stroke: false },
+            { shape: 'rect', x: 375, y: 570, w: 30, h: 115, r: 4, fill: '#16A34A', stroke: false },
+          ],
+        },
+        // SBN — jungkat-jungkit: sisi yield (kiri) naik, sisi harga (kanan) turun saat "turun"
+        { shape: 'poly', points: [[250, 970], [210, 1045], [290, 1045]], fill: '#475569', stroke: '#0B1220', strokeWidth: 4, hatch: false },
+        {
+          shape: 'group',
+          origin: [250, 965],
+          motion: [{ type: 'turn', to: 14, at: 'turun', duration: 0.8 }],
+          children: [
+            { shape: 'rect', x: 70, y: 958, w: 360, h: 14, r: 7, fill: '#0B1220', stroke: false },
+            { id: 'sbn-yield', shape: 'rect', x: 80, y: 898, w: 70, h: 60, r: 8, fill: '#D97706', stroke: '#0B1220', strokeWidth: 4, hatch: false },
+            { id: 'sbn-harga', shape: 'rect', x: 350, y: 898, w: 70, h: 60, r: 8, fill: '#DC2626', stroke: '#0B1220', strokeWidth: 4, hatch: false },
+          ],
+        },
+        // EMAS — batang emas bergoyang pelan + panah naik saat "terdorong"
+        {
+          shape: 'poly', points: [[90, 1360], [350, 1360], [310, 1260], [130, 1260]], fill: '#F59E0B', stroke: '#B45309', strokeWidth: 6, hatch: false,
+          motion: [{ type: 'bob', amount: 5, period: 2.4 }],
+        },
+        { shape: 'poly', points: [[150, 1280], [290, 1280], [280, 1268], [160, 1268]], fill: '#FDE68A', stroke: false, opacity: 0.9, motion: [{ type: 'bob', amount: 5, period: 2.4 }] },
+        {
+          shape: 'poly', points: [[385, 1360], [425, 1360], [425, 1250], [460, 1250], [405, 1160], [350, 1250], [385, 1250]],
+          fill: 'success', stroke: false, hatch: false, origin: [405, 1360],
+          motion: [
+            { type: 'scale', to: 0.01, at: 0, duration: 0.01 },
+            { type: 'scale', to: 1, at: 'terdorong', duration: 0.6 },
+            { type: 'bob', amount: 8, period: 1.6 },
+          ],
+        },
       ],
-      narration:
-        'Saham bergejolak. Harga SBN lama bisa turun saat imbal hasil naik. Emas rupiah ikut terdorong.',
+      labels: [
+        { target: [440, 650], text: 'Saham: volatil', at: 'Saham', side: 'right' },
+        { target: [450, 940], text: 'SBN lama: harga ↓', color: 'danger', at: 'turun', side: 'right' },
+        { target: [480, 1290], text: 'Emas rupiah ↑', color: 'success', at: 'terdorong', side: 'right' },
+      ],
+      narration: 'Saham bergejolak. Harga SBN lama bisa turun saat imbal hasil naik. Emas rupiah ikut terdorong.',
       emphasis: ['bisa turun'],
     },
     // 8 — STRATEGI: tiga langkah berurutan.
