@@ -1,0 +1,642 @@
+{
+ "clips": {
+  "d95b7b47": {
+   "src": "narration/Harian-Rupiah18400/d95b7b47.mp3",
+   "provider": "edge",
+   "duration": 3.264,
+   "words": [
+    {
+     "w": "Rupiah",
+     "start": 0.23,
+     "end": 0.581
+    },
+    {
+     "w": "tembus",
+     "start": 0.581,
+     "end": 0.814
+    },
+    {
+     "w": "delapan",
+     "start": 0.814,
+     "end": 1.165
+    },
+    {
+     "w": "belas",
+     "start": 1.165,
+     "end": 1.398
+    },
+    {
+     "w": "ribu",
+     "start": 1.398,
+     "end": 1.632
+    },
+    {
+     "w": "empat",
+     "start": 1.632,
+     "end": 1.866
+    },
+    {
+     "w": "ratus",
+     "start": 1.866,
+     "end": 2.099
+    },
+    {
+     "w": "per",
+     "start": 2.099,
+     "end": 2.216
+    },
+    {
+     "w": "dolar!",
+     "start": 2.216,
+     "end": 2.45
+    }
+   ]
+  },
+  "5b5429ab": {
+   "src": "narration/Harian-Rupiah18400/5b5429ab.mp3",
+   "provider": "edge",
+   "duration": 3.24,
+   "words": [
+    {
+     "w": "Pahami",
+     "start": 0.18,
+     "end": 0.531
+    },
+    {
+     "w": "ekonomi,",
+     "start": 0.531,
+     "end": 1
+    },
+    {
+     "w": "bukan",
+     "start": 1.35,
+     "end": 1.618
+    },
+    {
+     "w": "sekadar",
+     "start": 1.618,
+     "end": 2.019
+    },
+    {
+     "w": "berita.",
+     "start": 2.019,
+     "end": 2.42
+    }
+   ]
+  },
+  "05a46a4e": {
+   "src": "narration/Harian-Rupiah18400/05a46a4e.mp3",
+   "provider": "edge",
+   "duration": 5.304,
+   "words": [
+    {
+     "w": "Sejak",
+     "start": 0.18,
+     "end": 0.422
+    },
+    {
+     "w": "delapan",
+     "start": 0.422,
+     "end": 0.785
+    },
+    {
+     "w": "belas",
+     "start": 0.785,
+     "end": 1.027
+    },
+    {
+     "w": "November,",
+     "start": 1.027,
+     "end": 1.39
+    },
+    {
+     "w": "BI-Rate",
+     "start": 1.75,
+     "end": 2.113
+    },
+    {
+     "w": "sudah",
+     "start": 2.113,
+     "end": 2.355
+    },
+    {
+     "w": "naik",
+     "start": 2.355,
+     "end": 2.475
+    },
+    {
+     "w": "ke",
+     "start": 2.475,
+     "end": 2.596
+    },
+    {
+     "w": "enam",
+     "start": 2.596,
+     "end": 2.838
+    },
+    {
+     "w": "persen,",
+     "start": 2.838,
+     "end": 3.08
+    },
+    {
+     "w": "plus",
+     "start": 3.42,
+     "end": 3.57
+    },
+    {
+     "w": "intervensi",
+     "start": 3.57,
+     "end": 4.17
+    },
+    {
+     "w": "valas.",
+     "start": 4.17,
+     "end": 4.47
+    }
+   ]
+  },
+  "396e9b0c": {
+   "src": "narration/Harian-Rupiah18400/396e9b0c.mp3",
+   "provider": "edge",
+   "duration": 9,
+   "words": [
+    {
+     "w": "Barang",
+     "start": 0.17,
+     "end": 0.437
+    },
+    {
+     "w": "impor",
+     "start": 0.437,
+     "end": 0.703
+    },
+    {
+     "w": "seratus",
+     "start": 0.703,
+     "end": 1.103
+    },
+    {
+     "w": "dolar:",
+     "start": 1.103,
+     "end": 1.37
+    },
+    {
+     "w": "dari",
+     "start": 1.72,
+     "end": 1.958
+    },
+    {
+     "w": "satu",
+     "start": 1.958,
+     "end": 2.196
+    },
+    {
+     "w": "koma",
+     "start": 2.196,
+     "end": 2.434
+    },
+    {
+     "w": "enam",
+     "start": 2.434,
+     "end": 2.672
+    },
+    {
+     "w": "juta,",
+     "start": 2.672,
+     "end": 2.91
+    },
+    {
+     "w": "jadi",
+     "start": 3.29,
+     "end": 3.536
+    },
+    {
+     "w": "satu",
+     "start": 3.536,
+     "end": 3.782
+    },
+    {
+     "w": "koma",
+     "start": 3.782,
+     "end": 4.028
+    },
+    {
+     "w": "delapan",
+     "start": 4.028,
+     "end": 4.398
+    },
+    {
+     "w": "empat",
+     "start": 4.398,
+     "end": 4.644
+    },
+    {
+     "w": "juta.",
+     "start": 4.644,
+     "end": 4.89
+    },
+    {
+     "w": "Lima",
+     "start": 5.79,
+     "end": 6.038
+    },
+    {
+     "w": "belas",
+     "start": 6.038,
+     "end": 6.286
+    },
+    {
+     "w": "persen",
+     "start": 6.286,
+     "end": 6.534
+    },
+    {
+     "w": "lebih",
+     "start": 6.534,
+     "end": 6.782
+    },
+    {
+     "w": "mahal,",
+     "start": 6.782,
+     "end": 7.03
+    },
+    {
+     "w": "menekan",
+     "start": 7.35,
+     "end": 7.706
+    },
+    {
+     "w": "daya",
+     "start": 7.706,
+     "end": 7.943
+    },
+    {
+     "w": "beli.",
+     "start": 7.943,
+     "end": 8.18
+    }
+   ]
+  },
+  "f1501a5d": {
+   "src": "narration/Harian-Rupiah18400/f1501a5d.mp3",
+   "provider": "edge",
+   "duration": 4.416,
+   "words": [
+    {
+     "w": "Bunga",
+     "start": 0.19,
+     "end": 0.453
+    },
+    {
+     "w": "kredit",
+     "start": 0.453,
+     "end": 0.717
+    },
+    {
+     "w": "mengambang",
+     "start": 0.717,
+     "end": 1.112
+    },
+    {
+     "w": "berpotensi",
+     "start": 1.112,
+     "end": 1.638
+    },
+    {
+     "w": "naik,",
+     "start": 1.638,
+     "end": 1.77
+    },
+    {
+     "w": "bunga",
+     "start": 2.19,
+     "end": 2.401
+    },
+    {
+     "w": "deposito",
+     "start": 2.401,
+     "end": 2.822
+    },
+    {
+     "w": "bisa",
+     "start": 2.822,
+     "end": 3.033
+    },
+    {
+     "w": "lebih",
+     "start": 3.033,
+     "end": 3.244
+    },
+    {
+     "w": "menarik.",
+     "start": 3.244,
+     "end": 3.56
+    }
+   ]
+  },
+  "725a6aba": {
+   "src": "narration/Harian-Rupiah18400/725a6aba.mp3",
+   "provider": "edge",
+   "duration": 7.008,
+   "words": [
+    {
+     "w": "Eksportir",
+     "start": 0.2,
+     "end": 0.697
+    },
+    {
+     "w": "berpotensi",
+     "start": 0.697,
+     "end": 1.359
+    },
+    {
+     "w": "untung.",
+     "start": 1.359,
+     "end": 1.69
+    },
+    {
+     "w": "Importir",
+     "start": 2.57,
+     "end": 2.945
+    },
+    {
+     "w": "dan",
+     "start": 2.945,
+     "end": 3.07
+    },
+    {
+     "w": "perusahaan",
+     "start": 3.07,
+     "end": 3.695
+    },
+    {
+     "w": "berutang",
+     "start": 3.695,
+     "end": 4.07
+    },
+    {
+     "w": "dolar",
+     "start": 4.07,
+     "end": 4.32
+    },
+    {
+     "w": "tanpa",
+     "start": 4.32,
+     "end": 4.57
+    },
+    {
+     "w": "lindung",
+     "start": 4.57,
+     "end": 4.82
+    },
+    {
+     "w": "nilai,",
+     "start": 4.82,
+     "end": 5.07
+    },
+    {
+     "w": "tertekan",
+     "start": 5.43,
+     "end": 5.815
+    },
+    {
+     "w": "biaya.",
+     "start": 5.815,
+     "end": 6.2
+    }
+   ]
+  },
+  "5c2eec70": {
+   "src": "narration/Harian-Rupiah18400/5c2eec70.mp3",
+   "provider": "edge",
+   "duration": 7.608,
+   "words": [
+    {
+     "w": "Saham",
+     "start": 0.24,
+     "end": 0.52
+    },
+    {
+     "w": "bergejolak.",
+     "start": 0.52,
+     "end": 1.08
+    },
+    {
+     "w": "Harga",
+     "start": 2.15,
+     "end": 2.408
+    },
+    {
+     "w": "SBN",
+     "start": 2.408,
+     "end": 2.794
+    },
+    {
+     "w": "lama",
+     "start": 2.794,
+     "end": 3.052
+    },
+    {
+     "w": "bisa",
+     "start": 3.052,
+     "end": 3.31
+    },
+    {
+     "w": "turun",
+     "start": 3.31,
+     "end": 3.568
+    },
+    {
+     "w": "saat",
+     "start": 3.568,
+     "end": 3.826
+    },
+    {
+     "w": "imbal",
+     "start": 3.826,
+     "end": 4.083
+    },
+    {
+     "w": "hasil",
+     "start": 4.083,
+     "end": 4.341
+    },
+    {
+     "w": "naik.",
+     "start": 4.341,
+     "end": 4.47
+    },
+    {
+     "w": "Emas",
+     "start": 5.49,
+     "end": 5.752
+    },
+    {
+     "w": "rupiah",
+     "start": 5.752,
+     "end": 6.145
+    },
+    {
+     "w": "ikut",
+     "start": 6.145,
+     "end": 6.407
+    },
+    {
+     "w": "terdorong.",
+     "start": 6.407,
+     "end": 6.8
+    }
+   ]
+  },
+  "30dafb04": {
+   "src": "narration/Harian-Rupiah18400/30dafb04.mp3",
+   "provider": "edge",
+   "duration": 6.672,
+   "words": [
+    {
+     "w": "Jangan",
+     "start": 0.22,
+     "end": 0.555
+    },
+    {
+     "w": "panik.",
+     "start": 0.555,
+     "end": 0.89
+    },
+    {
+     "w": "Jaga",
+     "start": 1.91,
+     "end": 2.226
+    },
+    {
+     "w": "arus",
+     "start": 2.226,
+     "end": 2.542
+    },
+    {
+     "w": "kas,",
+     "start": 2.542,
+     "end": 2.7
+    },
+    {
+     "w": "siapkan",
+     "start": 3.03,
+     "end": 3.356
+    },
+    {
+     "w": "dana",
+     "start": 3.356,
+     "end": 3.574
+    },
+    {
+     "w": "darurat,",
+     "start": 3.574,
+     "end": 3.9
+    },
+    {
+     "w": "kelola",
+     "start": 4.3,
+     "end": 4.658
+    },
+    {
+     "w": "risiko",
+     "start": 4.658,
+     "end": 5.015
+    },
+    {
+     "w": "investasi",
+     "start": 5.015,
+     "end": 5.492
+    },
+    {
+     "w": "dan",
+     "start": 5.492,
+     "end": 5.612
+    },
+    {
+     "w": "utang.",
+     "start": 5.612,
+     "end": 5.85
+    }
+   ]
+  },
+  "cbd794b4": {
+   "src": "narration/Harian-Rupiah18400/cbd794b4.mp3",
+   "provider": "edge",
+   "duration": 7.584,
+   "words": [
+    {
+     "w": "Geopolitik",
+     "start": 0.19,
+     "end": 0.834
+    },
+    {
+     "w": "tak",
+     "start": 0.834,
+     "end": 0.963
+    },
+    {
+     "w": "pasti,",
+     "start": 0.963,
+     "end": 1.22
+    },
+    {
+     "w": "minyak",
+     "start": 1.58,
+     "end": 1.895
+    },
+    {
+     "w": "mahal,",
+     "start": 1.895,
+     "end": 2.21
+    },
+    {
+     "w": "bunga",
+     "start": 2.52,
+     "end": 2.744
+    },
+    {
+     "w": "Amerika",
+     "start": 2.744,
+     "end": 3.191
+    },
+    {
+     "w": "diprediksi",
+     "start": 3.191,
+     "end": 3.638
+    },
+    {
+     "w": "naik.",
+     "start": 3.638,
+     "end": 3.75
+    },
+    {
+     "w": "Modal",
+     "start": 4.73,
+     "end": 4.979
+    },
+    {
+     "w": "asing",
+     "start": 4.979,
+     "end": 5.227
+    },
+    {
+     "w": "keluar,",
+     "start": 5.227,
+     "end": 5.6
+    },
+    {
+     "w": "rupiah",
+     "start": 5.94,
+     "end": 6.36
+    },
+    {
+     "w": "tertekan.",
+     "start": 6.36,
+     "end": 6.78
+    }
+   ]
+  }
+ }
+}
